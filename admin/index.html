@@ -1,0 +1,161 @@
+<html>
+
+<link rel="stylesheet" type="text/css" href="../../lib/css/themes/jquery-ui/redmond/jquery-ui.min.css"/>
+<link rel="stylesheet" type="text/css" href="../../lib/css/jqGrid/ui.jqgrid-4.5.4.css"/>
+<script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+<script type="text/javascript" src="../../lib/js/jqGrid/jquery.jqGrid-4.5.4.min.js"></script>
+<script type="text/javascript" src="../../lib/js/jqGrid/grid.locale-all.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+<script type="text/javascript">
+    systemDictionary = {
+        "iCal adapter settings": {
+            "de": "iCal Einstellungen",
+            "ru": "iCal Настройки"
+        },
+        "Language:": {"en": "Language:", "de": "Sprache:", "ru": "Язык:"},
+        "Preview days:": {"en": "Preview days:", "de": "Tagesvorschau:", "ru": "На сколько дней:"},
+        "Colorize HTML:": {"en": "Colorize HTML:", "de": "Benutze Fraben für HTML:", "ru": "Раскрашивать HTML:"},
+        "Default color for HTML:": {"en": "Default color for HTML:", "de": "Default-Farbe für HTML:", "ru": "Цвет по умолчанию для HTML:"},
+        "Padding date with '0':": {"en": "Padding date with '0':", "de": "Padding date with '0':", "ru": "Padding date with '0':"},
+        "Replace dates with words:": {"en": "Replace dates with words:", "de": "Ersetze Datum mit Worten:", "ru": "Заменять даты на слова:"},
+        "Every calendar has own color:": {"en": "Every calendar has own color:", "de": "Jeder Kalendar hat eigene Farbe:", "ru": "Каждый календарь в свой цвет:"},
+        "name": {"en": "Name", "de": "Name", "ru": "Имя"},
+        "url": {"en": "Calendar URL", "de": "Kalender URL", "ru": "URL календаря"},
+        "color": {"en": "Color", "de": "Farbe", "ru": "Цвет"},
+        "Calendars": {"en": "Calendars", "de": "Kalendar", "ru": "Календари"},
+        "enabled": {"en": "enabled", "de": "aktiviert", "ru": "активно"},
+        "display": {"en": "display", "de": "anzeigen", "ru": "показать в списке"},
+        "Events": {"en": "Events", "de": "Ereignise", "ru": "События"},
+        "Use by full day:": {"en": "Replace 00:00 with:", "de": "Ersetze 00:00 mit:", "ru": "Заменять 00:00 на:"}
+    };
+
+    var calendars = [];
+    var events = [];
+
+    // the function loadSettings has to exist ...
+    function load(settings, onChange) {
+        if (!settings) return;
+
+        for (var key in settings) {
+            // example: select elements with id=key and class=value and insert value
+            if ($('#' + key + '.value').attr('type') == 'checkbox') {
+                $('#' + key + '.value').prop('checked', settings[key]).change(function() {
+                    if ($('#auth').prop('checked')) {
+                        $('#secure').prop('checked', true);
+                    }
+                    onChange();
+                    showHideSettings();
+                });
+            } else {
+                $('#' + key + '.value').val(settings[key]).change(function() {
+                    onChange();
+                }).keyup(function() {
+                    onChange();
+                });
+            }
+        }
+        // Set default language
+        if (!settings.language) {
+            settings.language = systemLang || 'en';
+            $('#language').val(settings.language).trigger('change');
+        }
+
+        calendars = settings.calendars || [];
+        events    = settings.events    || [];
+
+        editTable({
+            tabId: 'calendars',
+            cols:   [{name: 'name', width: '60'},  {name: 'url',     width: '260'}, {name: 'color',   width: '60'}],
+            values: calendars,
+            top:    400,
+            title:  'Calendars'
+        });
+        editTable({
+            tabId: 'events',
+            cols:   [{name: 'name', width: '200'}, {name: 'enabled', width: '60', checkbox: true},  {name: 'display', width: '120', checkbox: true}],
+            values: events,
+            top:    350,
+            title:  'Events'
+        });
+
+        onChange(false);
+    }
+
+    // ... and the function save has to exist.
+    // you have to make sure the callback is called with the settings object as first param!
+    function save(callback) {
+        // example: select elements with class=value and build settings object
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            if ($this.attr('type') == 'checkbox') {
+                obj[$this.attr('id')] = $this.prop('checked');
+            } else {
+                obj[$this.attr('id')] = $this.val();
+            }
+        });
+
+        // Get edited table
+        obj.calenders = getTableResult('calendars', ['name', 'url',     'color']);
+        obj.events    = getTableResult('events',    ['name', 'enabled', 'display']);
+
+        callback(obj);
+    }
+</script>
+
+<!-- you have to put your config page in a div with id adapter-container -->
+<div id="adapter-container">
+
+    <table><tr><td><img src="ical.png"></td><td><h3 class="translate">iCal adapter settings</h3></td></tr></table>
+
+    <table>
+        <thead>
+            <colgroup>
+                <col span="1" style="width: 30%">
+                <col span="1" style="width: 18%">
+                <col span="1" style="width: 5%">
+                <col span="1" style="width: 30%">
+                <col span="1" style="width: 18%">
+            </colgroup>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="translate">Language:</td><td>
+                    <select class="value" id="language">
+                        <option value="en">english</option>
+                        <option value="de">deutsch</option>
+                        <option value="ru">русский</option>
+                    </select>
+                </td>
+            <td></td>
+            <td class="translate">Preview days:</td><td><input class="value" id="daysPreview" maxlength="2"  style="width: 30px"/></td>
+            </tr>
+            <tr>
+                <td class="translate">Colorize HTML:</td><td> <input  class="value" id="colorize" type="checkbox"/></td>
+                <td></td>
+                <td class="translate">Default color for HTML:</td><td><input class="value" id="defColor" maxlength="10" style="width: 100px"></td>
+            </tr>
+            <tr>
+                <td class="translate">Padding date with '0':</td><td><input class="value" id="dataPaddingWithZeros" type="checkbox"></td>
+                <td></td>
+                <td class="translate">Replace dates with words:</td><td><input class="value" id="replaceDates" type="checkbox"></td>
+            </tr>
+            <tr>
+                <td class="translate">Every calendar has own color:</td><td><input class="value" id="everyCalOneColor" type="checkbox"></td>
+                <td></td>
+                <td class="translate">Use by full day:</td><td><input class="value" id="fulltime" maxlength="10" style="width: 100px"/></td>
+            </tr>
+        </tbody>
+    </table>
+    <table id="calendars"></table><div id="pager-calendars"></div>
+    <div style="padding: 10px"></div>
+    <table id="events"></table><div id="pager-events"></div>
+
+</div>
+</html>

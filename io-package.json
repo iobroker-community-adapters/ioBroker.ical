@@ -1,0 +1,110 @@
+{
+    "common": {
+        "name":                     "ical",
+        "version":                  "0.0.1",
+        "title":                    "iCal Adapter",
+        "desc":                     {
+            "en": "This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal)",
+            "de": "iCal liest Kalender Files im .ics Format von einer URL (Google Calendar oder iCal)",
+            "ru": "iCal читает файлы в формате .ics по URL адресу (Google Calendar или iCal)"
+        },
+        "authors": [
+            "bluefox <bluefox@ccu.io>"
+        ],
+        "license":                  "MIT",
+        "platform":                 "Javascript/Node.js",
+        "mode":                     "schedule",
+        "schedule":                 "0,30 * * * *",
+        "loglevel":                 "info",
+        "readme":                   "https://raw.githubusercontent.com/ioBroker/ioBroker.ical/master/README.md",
+        "icon":                     "ical.png",
+        "keywords":                 ["web", "iCal", "calendar"],
+        "allowInit":                true,
+        "subscribe":                "ical.<INSTANCE>.trigger",
+        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.ical/master/admin/ical.png"
+    },
+    "native": {
+        "daysPreview": 7,
+        "colorize": true,
+        "defColor": "white",
+        "fulltime": " ",
+        "dataPaddingWithZeros": true,
+        "replaceDates": true,
+        "language": "",
+        "everyCalOneColor": false,
+        "calendars": [
+            {
+                "name":  "calendar1",
+                "url":   "http://11111.ics",
+                "color": "red"
+            }
+        ],
+        "events": [
+            {
+                "name":    "Vacation",
+                "enabled": true,
+                "display": false
+            }
+        ]
+    },
+    "instanceObjects": [
+        {
+            "_id": "events",
+            "type": "channel",
+            "common": {
+                "name":  "User events controlled from calendar"
+            },
+            "native": {}
+        },
+        {
+            "_id": "data.trigger",
+            "type": "state",
+            "common": {
+                "name":  "Commands to iCal",
+                "desc":  "Commands: read [url], check [reason]",
+                "type":  "string",
+                "read":  true,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id": "data.count",
+            "type": "state",
+            "common": {
+                "name":  "Count of events for today",
+                "type":  "number",
+                "role":  "indicator",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "data.table",
+            "type": "state",
+            "common": {
+                "name":  "JS iCal table",
+                "desc":  "JS table: []",
+                "type":  "object",
+                "role":  "table",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "data.html",
+            "type": "state",
+            "common": {
+                "name":  "HTML iCal table",
+                "desc":  "HTML table with events",
+                "type":  "string",
+                "role":  "html",
+                "read":  true,
+                "write": false
+            },
+            "native": {}
+        }
+    ]
+}

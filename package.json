@@ -1,0 +1,43 @@
+{
+  "name": "iobroker.ical",
+  "version": "0.0.1",
+  "description": "Allows read information from google calender and from iCal.",
+  "author": {
+    "name": "bluefox",
+    "email": "bluefox@ccu.io"
+  },
+  "homepage": "https://github.com/ioBroker/ioBroker.ical",
+  "readme": "https://github.com/ioBroker/ioBroker.ical/blob/master/README.md",
+  "keywords": [
+    "ioBroker",
+    "calendar",
+    "iCal"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ioBroker/ioBroker.ical"
+  },
+  "dependencies": {
+      "ical": "~0.3.1",
+      "rrule": "~2.1.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-replace": "~0.7.6",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-jscs": "~0.6.1",
+    "grunt-http": "~1.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-compress": "~0.8.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-exec": "~0.4.5"
+  },
+  "bugs": {
+    "url": "https://github.com/ioBroker/ioBroker.ical/issues"
+  },
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT"
+}
