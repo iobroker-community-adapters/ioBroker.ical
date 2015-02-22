@@ -64,7 +64,7 @@ adapter.on('stateChange', function (id, state) {
 
     if (id == adapter.namespace + '.trigger') {
         var content = state.val.split(' ');
-        //One time read all calenders
+        //One time read all calendars
         switch (content[0]) {
             case 'read':
                 if (content[1]) {
@@ -115,7 +115,9 @@ Date.prototype.compare = function(b) {
 function checkiCal(url, calName, cb) {
     // Call library function
     ical.fromURL(url, {}, function (err, data) {
-        if (err) adapter.log.warn("Error Reading from URL: " + err.toString());
+        if (err) {
+            adapter.log.warn('Error reading from URL "' + url + '": ' + ((err && err.code == "ENOTFOUND") ? 'address not found!' : err.toString()));
+        }
 
         /*if (!data) {
             data = ical.parseFile(__dirname + '/demo.isc');
@@ -435,8 +437,8 @@ function syncUserEvents(callback) {
                             "enabled": adapter.config.events[j].enabled,
                             "display": adapter.config.events[j].display
                         }
-                    }, function (id) {
-                        adapter.log.info(id.id + ' created');
+                    }, function (err, id) {
+                        adapter.log.info('Event "' + (id ? id.id : 'object') + '" created');
                     });
                     break;
                 }

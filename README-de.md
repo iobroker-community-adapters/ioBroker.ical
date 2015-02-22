@@ -105,6 +105,7 @@ Dazu mit der rechten Maustaste auf dem Kalender in der Kalender App klicken und 
 Zum Einbinden eines Google Kalenders muss die Kalendereinstellung des Google Kalenders aufgerufen werden (mit der Maus auf "runter Pfeil" neben dem Kalender klicken). Die URL des Kalenders bekommt man durch klicken auf das "ICAL" Symbol neben dem Feld "Privatadresse". Diese URL dann entweder in den Settings bei defaultURL eintragen, oder sie bei "read URL" angeben, also z.B. "readURL https://www.google.com/calendar/ical/xxxxxxxx/basic.ics".
 Known BUGS: Probleme mit gleichen UUIDs von iCal Einträgen (bedingt durch Bibliothek); sich wiederholende Termine, in welchen einzelne Termine ausgenommen werden funktionieren nicht. Die Bibliothek verarbeitet keine EXDATES.
 
-![Logo](doc/google1.png)
+![Logo](doc/google-de1.png)
 
-![Logo](doc/google2.png)
+Danach das Link hier kopieren:
+![Logo](doc/google-de2.png)

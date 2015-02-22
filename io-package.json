@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "ical",
-        "version":                  "0.0.1",
+        "version":                  "0.0.2",
         "title":                    "iCal Adapter",
         "desc":                     {
             "en": "This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal)",

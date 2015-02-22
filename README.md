@@ -3,12 +3,7 @@ ioBroker socket.io adapter
 =================
 This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal).
 
-Sehe deustche [Version](README-de.md).
-
-## Changelog
-### 0.0.1 (2015-02-17)
-* (bluefox) initial commit
-
+Sehe deustche [Version hier](README-de.md).
 
 ## Install
 
@@ -60,3 +55,11 @@ Dazu mit der rechten Maustaste auf dem Kalender in der Kalender App klicken und 
 #### Google Kalender
 Zum Einbinden eines Google Kalenders muss die Kalendereinstellung des Google Kalenders aufgerufen werden (mit der Maus auf "runter Pfeil" neben dem Kalender klicken). Die URL des Kalenders bekommt man durch klicken auf das "ICAL" Symbol neben dem Feld "Privatadresse". Diese URL dann entweder in den Settings bei defaultURL eintragen, oder sie bei "read URL" angeben, also z.B. "readURL https://www.google.com/calendar/ical/xxxxxxxx/basic.ics".
 Known BUGS: Probleme mit gleichen UUIDs von iCal Einträgen (bedingt durch Bibliothek); sich wiederholende Termine, in welchen einzelne Termine ausgenommen werden funktionieren nicht. Die Bibliothek verarbeitet keine EXDATES.
+
+## Changelog
+### 0.0.2 (2015-02-22)
+* (bluefox) fix error with configuration 
+* (bluefox) fix error with event object creation 
+
+### 0.0.1 (2015-02-17)
+* (bluefox) initial commit
