@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "ical",
-        "version":                  "0.0.2",
+        "version":                  "0.1.0",
         "title":                    "iCal Adapter",
         "desc":                     {
             "en": "This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal)",
@@ -21,7 +21,8 @@
         "keywords":                 ["web", "iCal", "calendar"],
         "allowInit":                true,
         "subscribe":                "ical.<INSTANCE>.trigger",
-        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.ical/master/admin/ical.png"
+        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.ical/master/admin/ical.png",
+		"type":                     "schedule"
     },
     "native": {
         "daysPreview": 7,
