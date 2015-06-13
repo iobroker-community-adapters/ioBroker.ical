@@ -228,10 +228,18 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                 insertSorted(datesArray, {
                     date:     date.text,
                     event:    reason,
-                    _class:  'ical_' + calName + ' ' + date._class,
+                    _class:   'ical_' + calName + ' ' + date._class,
                     _date:    new Date(ev.start.getTime()),
+                    // add additional Objects, so iobroker.occ can use it
+                    _end:     new Date(ev.end.getTime()),
+                    _section: ev.description,
+                    _IDID:    ev.uid,
+                    _allDay:  false,
+                    _rule:    rule,
+                    // add additional Objects, so iobroker.occ can use it
                     _calName: calName
                 });
+
                 adapter.log.debug("Event (full day) added : " + JSON.stringify(rule) + " " + reason + " at " + date.text);
             } else {
                 adapter.log.debug("Event (full day) does not displayed, because belongs to hidden user events: " + reason);
@@ -253,9 +261,15 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     event:    reason,
                     _class:   'ical_' + calName + ' ' + date._class,
                     _date:    new Date(ev.start.getTime()),
+                    // add additional Objects, so iobroker.occ can use it
+                    _end:     new Date(ev.end.getTime()),
+                    _section: ev.description,
+                    _IDID:    ev.uid,
+                    _allDay:  false,
+                    _rule:    rule,
+                    // add additional Objects, so iobroker.occ can use it
                     _calName: calName
                 });
-
                 adapter.log.debug("Event with time added: " + JSON.stringify(rule) + " " + reason + " at " + date.text);
             } else {
                 adapter.log.debug("Event does not displayed, because belongs to hidden user events: " + reason);
