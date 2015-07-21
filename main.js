@@ -636,9 +636,9 @@ function displayDates() {
             count++;
             events[j].state = false;
             // Set to false
-            adapter.setState('events.' + events[j].name, {val: events[j].event, ack: true}, function () {
+            adapter.setState('events.' + events[j].name, {val: events[j].state, ack: true}, function () {
                 if (!--count) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         adapter.stop();
                     }, 5000);
                 }
