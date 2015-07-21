@@ -15,9 +15,10 @@
 /*jslint node: true */
 "use strict";
 
-var utils  = require(__dirname + '/lib/utils'); // Get common adapter utils
-var RRule  = require('rrule').RRule;
-var ical   = require('ical');
+var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
+var RRule   = require('rrule').RRule;
+var ical    = require('ical');
+var request = require('request');
 
 var adapter = utils.adapter({
     name: 'ical',
@@ -114,10 +115,18 @@ Date.prototype.compare = function(b) {
 
 function checkiCal(url, calName, cb) {
     // Call library function
-    ical.fromURL(url, {}, function (err, data) {
-        if (err) {
+    request(url, {}, function(err, r, _data){
+        if (err || !_data) {
             adapter.log.warn('Error reading from URL "' + url + '": ' + ((err && err.code == "ENOTFOUND") ? 'address not found!' : err.toString()));
+            return;
         }
+        // Remove from file empty lines
+        var lines = _data.split(/[\n\r]/g);
+        for (var t = lines.length - 1; t >= 0; t--) {
+            if (!lines[t]) lines.splice(t, 1);
+        }
+
+        var data = ical.parseICS(lines.join('\r\n'));
 
         /*if (!data) {
             data = ical.parseFile(__dirname + '/demo.isc');
