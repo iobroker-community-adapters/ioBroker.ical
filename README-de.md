@@ -1,5 +1,5 @@
 ![Logo](admin/ical.png)
-ioBroker socket.io adapter
+ioBroker iCal adapter
 =================
 iCal liest Kalender Files im .ics Format von einer URL (Google Calendar oder iCal).
 
