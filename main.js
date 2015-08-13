@@ -113,9 +113,26 @@ Date.prototype.compare = function(b) {
     );
 };
 
-function checkiCal(url, calName, cb) {
-    // Call library function
-    request(url, {}, function(err, r, _data){
+function checkiCal(url, user, pass, sslignore, calName, cb) {
+    // Find out whether SSL certificate errors shall be ignored
+    var rejectValue;
+    rejectValue = false
+    if(sslignore === 'ignore') {
+        rejectValue = true
+    }
+
+    // Call library function with the "auth object" and credentials provided
+    request({   uri: url,
+                rejectUnauthorized: rejectValue,
+                'auth': {
+                    'user': user,
+                    'pass': pass,
+                    'sendImmediately': true
+                }
+            }, function(err, r, _data)
+
+
+            {
         if (err || !_data) {
             adapter.log.warn('Error reading from URL "' + url + '": ' + ((err && err.code == "ENOTFOUND") ? 'address not found!' : err.toString()));
             return;
@@ -505,7 +522,7 @@ function readAll() {
             if (adapter.config.calendars[i].url) {
                 count++;
                 adapter.log.debug("reading calendar from URL: " + adapter.config.calendars[i].url + ", color: " + adapter.config.calendars[i].url.color);
-                checkiCal(adapter.config.calendars[i].url, adapter.config.calendars[i].name, function () {
+                checkiCal(adapter.config.calendars[i].url, adapter.config.calendars[i].user, adapter.config.calendars[i].pass, adapter.config.calendars[i].sslignore, adapter.config.calendars[i].name, function () {
                     count--;
                     // If all calendars are processed
                     if (!count) {
