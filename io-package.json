@@ -37,6 +37,9 @@
             {
                 "name":  "calendar1",
                 "url":   "http://11111.ics",
+                "user":   "username",
+                "pass":   "password",
+                "sslignore": "ignore",
                 "color": "red"
             }
         ],
