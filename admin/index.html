@@ -27,6 +27,9 @@
         "Every calendar has own color:":    {"en": "Every calendar has own color:", "de": "Jeder Kalendar hat eigene Farbe:", "ru": "Каждый календарь в свой цвет:"},
         "name":                             {"en": "Name",                      "de": "Name",                       "ru": "Имя"},
         "url":                              {"en": "Calendar URL",              "de": "Kalender URL",               "ru": "URL календаря"},
+        "user":                             {"en": "Username",                  "de": "Benutzername",               "ru": "URL календаря"},
+        "pass":                             {"en": "Password",                  "de": "Passwort",                   "ru": "URL календаря"},
+        "sslignore":                        {"en": "Ignore Certificate errors", "de": "Zertifikatfehler ignorieren","ru": "URL календаря"},
         "color":                            {"en": "Color",                     "de": "Farbe",                      "ru": "Цвет"},
         "Calendars":                        {"en": "Calendars",                 "de": "Kalendar",                   "ru": "Календари"},
         "enabled":                          {"en": "enabled",                   "de": "aktiviert",                  "ru": "активно"},
@@ -71,7 +74,7 @@
 
         editTable({
             tabId: 'calendars',
-            cols:   [{name: 'name', width: '60'},  {name: 'url',     width: '260'}, {name: 'color',   width: '60'}],
+            cols:   [{name: 'name', width: '60'},  {name: 'url',     width: '260'}, {name: 'user',   width: '60'}, {name: 'pass',   width: '60'}, {name: 'sslignore', width : '40'}, {name: 'color',   width: '60'}],
             values: calendars,
             top:    400,
             title:  'Calendars'
@@ -102,7 +105,7 @@
         });
 
         // Get edited table
-        obj.calendars = getTableResult('calendars', ['name', 'url',     'color']);
+        obj.calendars = getTableResult('calendars', ['name', 'url', 'user', 'pass', 'sslignore', 'color']);
         obj.events    = getTableResult('events',    ['name', 'enabled', 'display']);
 
         callback(obj);
