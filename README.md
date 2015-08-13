@@ -57,6 +57,9 @@ Zum Einbinden eines Google Kalenders muss die Kalendereinstellung des Google Kal
 Known BUGS: Probleme mit gleichen UUIDs von iCal Einträgen (bedingt durch Bibliothek); sich wiederholende Termine, in welchen einzelne Termine ausgenommen werden funktionieren nicht. Die Bibliothek verarbeitet keine EXDATES.
 
 ## Changelog
+### 1.1.0 (2015-08-13)
+* (elmars) Added ability to provide username/password to authenticate against protected ics files. Tested with owncloud.
+
 ### 1.0.2 (2015-07-21)
 * (bluefox) fix error if ICS file has empty lines
 
