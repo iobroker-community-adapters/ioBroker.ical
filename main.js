@@ -117,22 +117,20 @@ function checkiCal(url, user, pass, sslignore, calName, cb) {
     // Find out whether SSL certificate errors shall be ignored
     var rejectValue;
     rejectValue = true;
-    if(sslignore === 'ignore') {
+    if (sslignore === 'ignore') {
         rejectValue = false;
     }
 
     // Call library function with the "auth object" and credentials provided
-    request({   uri: url,
-                rejectUnauthorized: rejectValue,
-                'auth': {
-                    'user': user,
-                    'pass': pass,
-                    'sendImmediately': true
-                }
-            }, function(err, r, _data)
-
-
-            {
+    request({   
+		uri: url,
+        rejectUnauthorized: rejectValue,
+        auth: {
+            user: user,
+            pass: pass,
+            sendImmediately: true
+        }
+    }, function (err, r, _data) {
         if (err || !_data) {
             adapter.log.warn('Error reading from URL "' + url + '": ' + ((err && err.code == "ENOTFOUND") ? 'address not found!' : err.toString()));
             return;
