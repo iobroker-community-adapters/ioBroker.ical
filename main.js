@@ -18,6 +18,7 @@
 var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
 var RRule   = require('rrule').RRule;
 var ical    = require('ical');
+var ce      = require('cloneextend');
 var request = require('request');
 
 var adapter = utils.adapter({
@@ -181,24 +182,28 @@ function checkiCal(url, user, pass, sslignore, calName, cb) {
                         // event innerhalb des Zeitfensters
                         if (dates.length > 0) {
                             for (var i = 0; i < dates.length; i++) {
+                                // ein deep-copy clone anlegen da ansonsten das setDate&co
+                                // die daten eines anderes Eintrages überschreiben
+                                var ev2 = ce.clone(ev);
+
                                 // Datum ersetzen für jeden einzelnen Termin in RRule
                                 // TODO: funktioniert nur mit Terminen innerhalb eines Tages, da auch das EndDate ersetzt wird
-                                ev.start.setDate(dates[i].getDate());
-                                ev.start.setMonth(dates[i].getMonth());
-                                ev.start.setFullYear(dates[i].getFullYear());
+                                ev2.start.setDate(dates[i].getDate());
+                                ev2.start.setMonth(dates[i].getMonth());
+                                ev2.start.setFullYear(dates[i].getFullYear());
 
-                                ev.end.setDate(dates[i].getDate());
-                                ev.end.setMonth(dates[i].getMonth());
-                                ev.end.setFullYear(dates[i].getFullYear());
+                                ev2.end.setDate(dates[i].getDate());
+                                ev2.end.setMonth(dates[i].getMonth());
+                                ev2.end.setFullYear(dates[i].getFullYear());
 
                                 // process event
-                                if (ev.exdate) {
+                                if (ev2.exdate) {
                                     // Wenn es exdate
-                                    if (ev.exdate != today) {
-                                        checkDates(ev, endpreview, today, realnow, " rrule ", calName);
+                                    if (ev2.exdate != today) {
+                                        checkDates(ev2, endpreview, today, realnow, " rrule ", calName);
                                     }
                                 } else {
-                                    checkDates(ev, endpreview, today, realnow, " rrule ", calName);
+                                    checkDates(ev2, endpreview, today, realnow, " rrule ", calName);
                                 }
                             }
                         } else {
