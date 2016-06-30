@@ -41,7 +41,7 @@ var datesArray       = [];
 var events           = [];
 var dictionary       = {
     'today':    {'en': 'Today',    'de': 'Heute',  'ru': 'Сегодня'},
-    'tomorrow': {'en': 'Tomorrow', 'de': 'Morgen', 'ru': 'Завтра'}
+    'tomorrow': {'en': 'Tomorrow', 'de': 'Morgen', 'ru': 'Завтра'},
     'dayafter': {'en': 'Day After Tomorrow', 'de': 'Übermorgen', 'ru': 'послеза́втра'}
 };
 
