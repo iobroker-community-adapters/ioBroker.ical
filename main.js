@@ -34,12 +34,15 @@ var warn             = '<span style="font-weight: bold; color:red"><span class="
 var warn2            = '</span></span><span style="font-weight: normal; color:red"><span class="icalWarn2">';
 var prewarn          = '<span style="font-weight: bold; color:orange"><span class="icalPreWarn">';
 var prewarn2         = '</span></span><span style="font-weight: normal; color:orange"><span class="icalPreWarn2">';
+var preprewarn       = prewarn;
+var preprewarn2      = prewarn2;
         
 var datesArray       = [];
 var events           = [];
 var dictionary       = {
     'today':    {'en': 'Today',    'de': 'Heute',  'ru': 'Сегодня'},
     'tomorrow': {'en': 'Tomorrow', 'de': 'Morgen', 'ru': 'Завтра'}
+    'dayafter': {'en': 'Day After Tomorrow', 'de': 'Übermorgen', 'ru': 'послеза́втра'}
 };
 
 function _(text) {
@@ -313,7 +316,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
     }
 }
 
-function colorizeDates(date, today, tomorrow, col) {
+function colorizeDates(date, today, tomorrow, dayafter, col) {
     var result = {
         prefix: normal,
         suffix: normal2
@@ -331,6 +334,11 @@ function colorizeDates(date, today, tomorrow, col) {
         if (date.compare(tomorrow) == 0) {
             result.prefix = prewarn;
             result.suffix = prewarn2;
+        } else
+        // day after tomorrow
+        if (date.compare(dayafter) == 0) {
+            result.prefix = preprewarn;
+            result.suffix = preprewarn2;
         } else
         // start time is in the past
         if (date.compare(today) == -1) {
@@ -596,9 +604,18 @@ function formatDate(_date, withTime) {
         _class = 'ical_tomorrow';
     }
 
+    d.setDate(d.getDate() + 1);
+
+    if (day   == d.getDate() &&
+        month == (d.getMonth() + 1) &&
+        year  == d.getFullYear()) {
+        _class = 'ical_dayafter';
+    }
+
     if (adapter.config.replaceDates) {
         if (_class == 'ical_today')    return {text: _('today')    + _time, _class: _class};
         if (_class == 'ical_tomorrow') return {text: _('tomorrow') + _time, _class: _class};
+        if (_class == 'ical_dayafter') return {text: _('dayafter') + _time, _class: _class};
     }
 
     if (adapter.config.dataPaddingWithZeros) {
@@ -715,9 +732,12 @@ function brSeparatedList(arr) {
     var text     = '';
     var today    = new Date();
     var tomorrow = new Date();
+    var dayafter = new Date();
     today.setHours(0,0,0,0);
     tomorrow.setDate(today.getDate() + 1);
     tomorrow.setHours(0,0,0,0);
+    dayafter.setDate(tomorrow.getDate() + 1);
+    dayafter.setHours(0,0,0,0);
 
     for (var i = 0; i < datesArray.length; i++) {
         var date = formatDate(datesArray[i]._date, true);
@@ -729,7 +749,7 @@ function brSeparatedList(arr) {
             }
         }
 
-        var xfix = colorizeDates(datesArray[i]._date, today, tomorrow, color);
+        var xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayafter, color);
 
         if (text) text += '<br/>\n';
         text += xfix.prefix + date.text + xfix.suffix + ' ' + datesArray[i].event + '</span></span>';
