@@ -29,13 +29,9 @@ var adapter = utils.adapter({
 });
 
 var normal           = ''; // set when ready
-var normal2          = ''; // set when ready
 var warn             = '<span style="font-weight: bold; color:red"><span class="icalWarn">';
-var warn2            = '</span></span><span style="font-weight: normal; color:red"><span class="icalWarn2">';
 var prewarn          = '<span style="font-weight: bold; color:orange"><span class="icalPreWarn">';
-var prewarn2         = '</span></span><span style="font-weight: normal; color:orange"><span class="icalPreWarn2">';
 var preprewarn       = prewarn;
-var preprewarn2      = prewarn2;
         
 var datesArray       = [];
 var events           = [];
@@ -319,7 +315,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
 function colorizeDates(date, today, tomorrow, dayafter, col) {
     var result = {
         prefix: normal,
-        suffix: normal2
+        suffix: "</span></span>"
     };
     date.setHours(0,0,0,0);
 
@@ -328,29 +324,55 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
         // today
         if (date.compare(today) == 0) {
             result.prefix = warn;
-            result.suffix = warn2;
+            // If configured every calendar has own color
+            if (adapter.config.everyCalOneColor) {
+                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">'; 
+            } else {
+                result.suffix = '<span style=\"font-weight:normal;color:red\">';
+            }
+            result.suffix += "<span class='icalWarn2'>";
         } else
         // tomorrow
         if (date.compare(tomorrow) == 0) {
             result.prefix = prewarn;
-            result.suffix = prewarn2;
+            // If configured every calendar has own color
+            if (adapter.config.everyCalOneColor) {
+                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">'; 
+            } else {
+                result.suffix = '<span style=\"font-weight:normal;color:orange\">';
+            }
+            result.suffix += "<span class='icalPreWarn2'>";
         } else
         // day after tomorrow
         if (date.compare(dayafter) == 0) {
             result.prefix = preprewarn;
-            result.suffix = preprewarn2;
+            // If configured every calendar has own color
+            if (adapter.config.everyCalOneColor) {
+                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
+            } else {
+                result.suffix = '<span style=\"font-weight:normal;color:orange\">';
+            }
+            result.suffix += "<span class='icalPrePreWarn2'>";
         } else
         // start time is in the past
         if (date.compare(today) == -1) {
             result.prefix = normal;
-            result.suffix = normal2;
-        }
-    } else {
-        // If configured every calendar has own color
-        if (adapter.config.everyCalOneColor) {
-            result.prefix = '<span style=\"font-weight:bold;color:' + col + '\">' + "<span class='icalNormal'>";
-            result.suffix = "</span></span>" + '<span style=\"font-weight:normal;color:' + col + '\">' + "<span class='icalNormal2'>";
-        }
+            // If configured every calendar has own color
+            if (adapter.config.everyCalOneColor) {
+                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
+            } else {
+                result.suffix = '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+            }
+            result.suffix += "<span class='icalNormal2'>";
+        } else {
+          // If configured every calendar has own color
+          if (adapter.config.everyCalOneColor) {
+              result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
+          } else {
+              result.suffix = '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+          }
+          result.suffix += "<span class='icalNormal2'>";
+       }
     }
     return result;
 }
@@ -760,7 +782,6 @@ function brSeparatedList(arr) {
 
 function main() {
     normal  = '<span style="font-weight: bold; color:' + adapter.config.defColor + '"><span class="icalNormal">';
-    normal2 = '</span></span><span style="font-weight: normal; color:' + adapter.config.defColor + '"><span class="icalNormal2">';
     
     adapter.config.language = adapter.config.language || 'en';
 
