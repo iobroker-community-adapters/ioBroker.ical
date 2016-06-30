@@ -31,14 +31,19 @@ var adapter = utils.adapter({
 var normal           = ''; // set when ready
 var warn             = '<span style="font-weight: bold; color:red"><span class="icalWarn">';
 var prewarn          = '<span style="font-weight: bold; color:orange"><span class="icalPreWarn">';
-var preprewarn       = prewarn;
+var preprewarn       = '<span style="font-weight: bold; color:yellow"><span class="icalPrePreWarn">';
         
 var datesArray       = [];
 var events           = [];
 var dictionary       = {
     'today':    {'en': 'Today',    'de': 'Heute',  'ru': 'Сегодня'},
     'tomorrow': {'en': 'Tomorrow', 'de': 'Morgen', 'ru': 'Завтра'},
-    'dayafter': {'en': 'Day After Tomorrow', 'de': 'Übermorgen', 'ru': 'послеза́втра'}
+    'dayafter': {'en': 'Day After Tomorrow', 'de': 'Übermorgen', 'ru': 'послеза́втра'},
+    '3days': {'en': 'In 3 days', 'de': 'In 3 Tagen', 'ru': 'Через 2 дня'},
+    '4days': {'en': 'In 4 days', 'de': 'In 4 Tagen', 'ru': 'Через 3 дня'},
+    '5days': {'en': 'In 5 days', 'de': 'In 5 Tagen', 'ru': 'Через 4 дня'},
+    '6days': {'en': 'In 6 days', 'de': 'In 6 Tagen', 'ru': 'Через 5 дней'},
+    'oneweek': {'en': 'In one week', 'de': 'In einer Woche', 'ru': 'Через неделю'}
 };
 
 function _(text) {
@@ -254,7 +259,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         if ((ev.start < endpreview && ev.start >= today) || (ev.end > today && ev.end <= endpreview)) {
             // check only full day events
             if (checkForEvents(reason, today, ev, true, realnow)) {
-                date = formatDate(ev.start, true);
+                date = formatDate(ev.start, ev.end, true);
 
                 insertSorted(datesArray, {
                     date:     date.text,
@@ -285,7 +290,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         if ((ev.start >= today && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) ) {
             // Add to list only if not hidden
             if (checkForEvents(reason, today, ev, false, realnow)) {
-                date = formatDate(ev.start, true);
+                date = formatDate(ev.start, ev.end, true);
 
                 insertSorted(datesArray, {
                     date:     date.text,
@@ -350,7 +355,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             if (adapter.config.everyCalOneColor) {
                 result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix = '<span style=\"font-weight:normal;color:orange\">';
+                result.suffix = '<span style=\"font-weight:normal;color:yellow\">';
             }
             result.suffix += "<span class='icalPrePreWarn2'>";
         } else
@@ -592,7 +597,7 @@ function readOne(url) {
     });
 }
 
-function formatDate(_date, withTime) {
+function formatDate(_date, _end, withTime) {
     var day   = _date.getDate();
     var month = _date.getMonth() + 1;
     var year  = _date.getFullYear();
@@ -608,6 +613,14 @@ function formatDate(_date, withTime) {
             if (hours < 10)   hours   = '0' + hours.toString();
             if (minutes < 10) minutes = '0' + minutes.toString();
             _time = ' ' + hours + ':' + minutes;
+
+            if (_end.getHours() > _date.getHours() || (_end.getHours() == _date.getHours() && _end.getMinutes() > _date.getMinutes())) {
+              var endhours = _end.getHours();
+              var endminutes = _end.getMinutes();
+              if (endhours < 10)   endhours   = '0' + endhours.toString();
+              if (endminutes < 10) endminutes = '0' + endminutes.toString();
+              _time += '-' + endhours + ':' + endminutes;
+           }
         }
     }
     var _class = '';
@@ -619,7 +632,6 @@ function formatDate(_date, withTime) {
     }
 
     d.setDate(d.getDate() + 1);
-
     if (day   == d.getDate() &&
         month == (d.getMonth() + 1) &&
         year  == d.getFullYear()) {
@@ -627,17 +639,56 @@ function formatDate(_date, withTime) {
     }
 
     d.setDate(d.getDate() + 1);
-
     if (day   == d.getDate() &&
         month == (d.getMonth() + 1) &&
         year  == d.getFullYear()) {
         _class = 'ical_dayafter';
     }
 
+    d.setDate(d.getDate() + 1);
+    if (day   == d.getDate() &&
+        month == (d.getMonth() + 1) &&
+        year  == d.getFullYear()) {
+        _class = 'ical_3days';
+    }
+
+    d.setDate(d.getDate() + 1);
+    if (day   == d.getDate() &&
+        month == (d.getMonth() + 1) &&
+        year  == d.getFullYear()) {
+        _class = 'ical_4days';
+    }
+
+    d.setDate(d.getDate() + 1);
+    if (day   == d.getDate() &&
+        month == (d.getMonth() + 1) &&
+        year  == d.getFullYear()) {
+        _class = 'ical_5days';
+    }
+
+    d.setDate(d.getDate() + 1);
+    if (day   == d.getDate() &&
+        month == (d.getMonth() + 1) &&
+        year  == d.getFullYear()) {
+        _class = 'ical_6days';
+    }
+
+    d.setDate(d.getDate() + 1);
+    if (day   == d.getDate() &&
+        month == (d.getMonth() + 1) &&
+        year  == d.getFullYear()) {
+        _class = 'ical_oneweek';
+    }
+
     if (adapter.config.replaceDates) {
         if (_class == 'ical_today')    return {text: _('today')    + _time, _class: _class};
         if (_class == 'ical_tomorrow') return {text: _('tomorrow') + _time, _class: _class};
         if (_class == 'ical_dayafter') return {text: _('dayafter') + _time, _class: _class};
+        if (_class == 'ical_3days')    return {text: _('3days') + _time, _class: _class};
+        if (_class == 'ical_4days')    return {text: _('4days') + _time, _class: _class};
+        if (_class == 'ical_5days')    return {text: _('5days') + _time, _class: _class};
+        if (_class == 'ical_6days')    return {text: _('6days') + _time, _class: _class};
+        if (_class == 'ical_oneweek')  return {text: _('oneweek') + _time, _class: _class};
     }
 
     if (adapter.config.dataPaddingWithZeros) {
@@ -758,11 +809,11 @@ function brSeparatedList(arr) {
     today.setHours(0,0,0,0);
     tomorrow.setDate(today.getDate() + 1);
     tomorrow.setHours(0,0,0,0);
-    dayafter.setDate(tomorrow.getDate() + 1);
+    dayafter.setDate(today.getDate() + 2);
     dayafter.setHours(0,0,0,0);
 
     for (var i = 0; i < datesArray.length; i++) {
-        var date = formatDate(datesArray[i]._date, true);
+        var date = formatDate(datesArray[i]._date, datesArray[i]._end, true);
         var color = adapter.config.defColor;
         for (var j = 0; j < adapter.config.calendars.length; j++) {
             if (adapter.config.calendars[j].name == datesArray[i]._calName) {
