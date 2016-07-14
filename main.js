@@ -36,14 +36,14 @@ var preprewarn       = '<span style="font-weight: bold; color:yellow"><span clas
 var datesArray       = [];
 var events           = [];
 var dictionary       = {
-    'today':    {'en': 'Today',    'de': 'Heute',  'ru': 'Сегодня'},
-    'tomorrow': {'en': 'Tomorrow', 'de': 'Morgen', 'ru': 'Завтра'},
-    'dayafter': {'en': 'Day After Tomorrow', 'de': 'Übermorgen', 'ru': 'послеза́втра'},
-    '3days': {'en': 'In 3 days', 'de': 'In 3 Tagen', 'ru': 'Через 2 дня'},
-    '4days': {'en': 'In 4 days', 'de': 'In 4 Tagen', 'ru': 'Через 3 дня'},
-    '5days': {'en': 'In 5 days', 'de': 'In 5 Tagen', 'ru': 'Через 4 дня'},
-    '6days': {'en': 'In 6 days', 'de': 'In 6 Tagen', 'ru': 'Через 5 дней'},
-    'oneweek': {'en': 'In one week', 'de': 'In einer Woche', 'ru': 'Через неделю'}
+    'today':    {'en': 'Today',             'de': 'Heute',          'ru': 'Сегодня'},
+    'tomorrow': {'en': 'Tomorrow',          'de': 'Morgen',         'ru': 'Завтра'},
+    'dayafter': {'en': 'Day After Tomorrow', 'de': 'Übermorgen',    'ru': 'Послезавтра'},
+    '3days':    {'en': 'In 3 days',          'de': 'In 3 Tagen',    'ru': 'Через 2 дня'},
+    '4days':    {'en': 'In 4 days',         'de': 'In 4 Tagen',     'ru': 'Через 3 дня'},
+    '5days':    {'en': 'In 5 days',         'de': 'In 5 Tagen',     'ru': 'Через 4 дня'},
+    '6days':    {'en': 'In 6 days',         'de': 'In 6 Tagen',     'ru': 'Через 5 дней'},
+    'oneweek':  {'en': 'In one week',       'de': 'In einer Woche', 'ru': 'Через неделю'}
 };
 
 function _(text) {
