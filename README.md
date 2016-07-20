@@ -1,6 +1,11 @@
 ![Logo](admin/ical.png)
 ioBroker iCal adapter
 =================
+[![NPM version](http://img.shields.io/npm/v/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
+
+[![NPM](https://nodei.co/npm/iobroker.ical.png?downloads=true)](https://nodei.co/npm/iobroker.ical/)
+
 This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal).
 
 Sehe deustche [Version hier](README-de.md).
@@ -57,6 +62,16 @@ Zum Einbinden eines Google Kalenders muss die Kalendereinstellung des Google Kal
 Known BUGS: Probleme mit gleichen UUIDs von iCal Einträgen (bedingt durch Bibliothek); sich wiederholende Termine, in welchen einzelne Termine ausgenommen werden funktionieren nicht. Die Bibliothek verarbeitet keine EXDATES.
 
 ## Changelog
+### 1.1.3 (2016-07-19)
+* (bluefox) fix error if entry is invalid
+* (bluefox) use newer ical packet version
+
+### 1.1.2 (2015-06-30)
+* (jens-maus) implemented some more text replacement terms
+* (jens-maus) we only colorize the date+time for imminent appointments
+* (jens-maus) added cloneextend dependency definition and fix for dayafter mods
+* (jens-maus) ported the "dayafter" change of the ccu.io ical adapter to the iobroker
+
 ### 1.1.1 (2015-08-16)
 * (bluefox) enable auth only if user set.
 

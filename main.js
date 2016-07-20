@@ -1,6 +1,6 @@
 /**
  *      ioBroker.iCal
- *      Copyright 2015, bluefox <bluefox@gmail.com>
+ *      Copyright 2015-2016, bluefox <dogafox@gmail.com>
  *
  *      Based on ccu.io vader722 adapter.
  *      https://github.com/hobbyquaker/ccu.io/tree/master/adapter/ical
@@ -13,7 +13,7 @@
 /*global RRule */
 /*global __dirname */
 /*jslint node: true */
-"use strict";
+'use strict';
 
 var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
 var RRule   = require('rrule').RRule;
@@ -39,7 +39,7 @@ var dictionary       = {
     'today':    {'en': 'Today',             'de': 'Heute',          'ru': 'Сегодня'},
     'tomorrow': {'en': 'Tomorrow',          'de': 'Morgen',         'ru': 'Завтра'},
     'dayafter': {'en': 'Day After Tomorrow', 'de': 'Übermorgen',    'ru': 'Послезавтра'},
-    '3days':    {'en': 'In 3 days',          'de': 'In 3 Tagen',    'ru': 'Через 2 дня'},
+    '3days':    {'en': 'In 3 days',         'de': 'In 3 Tagen',     'ru': 'Через 2 дня'},
     '4days':    {'en': 'In 4 days',         'de': 'In 4 Tagen',     'ru': 'Через 3 дня'},
     '5days':    {'en': 'In 5 days',         'de': 'In 5 Tagen',     'ru': 'Через 4 дня'},
     '6days':    {'en': 'In 6 days',         'de': 'In 6 Tagen',     'ru': 'Через 5 дней'},
@@ -110,7 +110,7 @@ adapter.on('stateChange', function (id, state) {
  */
 Date.prototype.compare = function(b) {
     if (b.constructor !== Date) {
-        throw "invalid_date";
+        throw 'invalid_date';
     }
 
     return (isFinite(this.valueOf()) && isFinite(b.valueOf()) ?
@@ -140,7 +140,7 @@ function checkiCal(url, user, pass, sslignore, calName, cb) {
     // Call library function with the "auth object" and credentials provided
     request(options, function (err, r, _data) {
         if (err || !_data) {
-            adapter.log.warn('Error reading from URL "' + url + '": ' + ((err && err.code == "ENOTFOUND") ? 'address not found!' : err));
+            adapter.log.warn('Error reading from URL "' + url + '": ' + ((err && err.code === 'ENOTFOUND') ? 'address not found!' : err));
             return;
         }
         // Remove from file empty lines
@@ -156,7 +156,7 @@ function checkiCal(url, user, pass, sslignore, calName, cb) {
         }*/
         
         if (data) {
-            adapter.log.info("processing URL: " + calName + " " + url);
+            adapter.log.info('processing URL: ' + calName + ' ' + url);
             var realnow    = new Date();
             var today      = new Date();
             today.setHours(0,0,0,0);
@@ -165,8 +165,10 @@ function checkiCal(url, user, pass, sslignore, calName, cb) {
 
             // Now2 1 Sekunde  zurück für Vergleich von ganztägigen Terminen in RRule
             var now2 = new Date();
+            
             // Uhzeit nullen
-            now2.setHours(0,0,0,0);
+            now2.setHours(0, 0, 0, 0);
+            
             // Datum 1 Sec zurück wegen Ganztätigen Terminen um 00:00 Uhr
             now2.setSeconds(now2.getSeconds() - 1);
 
@@ -174,13 +176,13 @@ function checkiCal(url, user, pass, sslignore, calName, cb) {
                 var ev = data[k];
 
                 // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
-                if ((ev.summary != undefined) && (ev.type == "VEVENT")) {
+                if ((ev.summary != undefined) && (ev.type === 'VEVENT')) {
                     // aha, it is RRULE in the event --> process it
                     if (ev.rrule != undefined) {
                         var options = RRule.parseString(ev.rrule.toString());
                         options.dtstart = ev.start;
                         var rule = new RRule(options);
-                        adapter.log.debug("RRule event:" + ev.summary + " " + ev.start.toString() + " " + endpreview.toString() + " now:" + today + " now2:" + now2 +  " " + rule.toText());
+                        adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 +  ' ' + rule.toText());
                         var dates = rule.between(now2, endpreview);
 
                         // event innerhalb des Zeitfensters
@@ -204,18 +206,18 @@ function checkiCal(url, user, pass, sslignore, calName, cb) {
                                 if (ev2.exdate) {
                                     // Wenn es exdate
                                     if (ev2.exdate != today) {
-                                        checkDates(ev2, endpreview, today, realnow, " rrule ", calName);
+                                        checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
                                     }
                                 } else {
-                                    checkDates(ev2, endpreview, today, realnow, " rrule ", calName);
+                                    checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
                                 }
                             }
                         } else {
-                            adapter.log.debug("no RRule events inside the time interval");
+                            adapter.log.debug('no RRule events inside the time interval');
                         }
                     } else {
                         // No RRule event
-                        checkDates(ev, endpreview, today, realnow, " ", calName);
+                        checkDates(ev, endpreview, today, realnow, ' ', calName);
                     }
                 }
             }
@@ -241,15 +243,18 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
     }
 
     // If not start point => ignore it
-    if (ev.start == undefined) return;
+    if (!ev.start) return;
+
+    // If not end point => ignore it
+    if (!ev.end) return;
 
     // If full day
-    if (ev.start.getHours()   == "0" &&
-        ev.start.getMinutes() == "0" &&
-        ev.start.getSeconds() == "0" &&
-        ev.end.getHours()     == "0" &&
-        ev.end.getMinutes()   == "0" &&
-        ev.end.getSeconds()   == "0" ) {
+    if (!ev.start.getHours()   &&
+        !ev.start.getMinutes() &&
+        !ev.start.getSeconds() &&
+        !ev.end.getHours()     &&
+        !ev.end.getMinutes()   &&
+        !ev.end.getSeconds()) {
         fullday = true;
     }
     
@@ -276,13 +281,13 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _calName: calName
                 });
 
-                adapter.log.debug("Event (full day) added : " + JSON.stringify(rule) + " " + reason + " at " + date.text);
+                adapter.log.debug('Event (full day) added : ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
             } else {
-                adapter.log.debug("Event (full day) does not displayed, because belongs to hidden user events: " + reason);
+                adapter.log.debug('Event (full day) does not displayed, because belongs to hidden user events: ' + reason);
             }
         } else {
             // filtered out, because does not belongs to specified time interval
-            adapter.log.debug("Event (full day) " + JSON.stringify(rule) + ' ' +  reason + " at " + ev.start.toString() + " filtered out, because does not belongs to specified time interval");
+            adapter.log.debug('Event (full day) ' + JSON.stringify(rule) + ' ' +  reason + ' at ' + ev.start.toString() + ' filtered out, because does not belongs to specified time interval');
         }
     } else {
         // Event with time
@@ -306,13 +311,13 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName
                 });
-                adapter.log.debug("Event with time added: " + JSON.stringify(rule) + " " + reason + " at " + date.text);
+                adapter.log.debug('Event with time added: ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
             } else {
-                adapter.log.debug("Event does not displayed, because belongs to hidden user events: " + reason);
+                adapter.log.debug('Event does not displayed, because belongs to hidden user events: ' + reason);
             }
         } else {
             // filtered out, because does not belongs to specified time interval
-            adapter.log.debug("Event " + JSON.stringify(rule) + ' ' + reason + " at " + ev.start.toString() + " filtered out, because does not belongs to specified time interval");
+            adapter.log.debug('Event ' + JSON.stringify(rule) + ' ' + reason + ' at ' + ev.start.toString() + ' filtered out, because does not belongs to specified time interval');
         }
     }
 }
@@ -398,9 +403,9 @@ function checkForEvents(reason, today, event, fullday, realnow) {
             if ((fullday  && (event.start <= today)   && (today   <= event.end)) || // full day
                 (!fullday && (event.start <= realnow) && (realnow <= event.end))) { // with time
                 if (fullday) {
-                    adapter.log.debug('Event (full day): ' + event.start + " " + today   + " " + event.end);
+                    adapter.log.debug('Event (full day): ' + event.start + ' ' + today   + ' ' + event.end);
                 } else {
-                    adapter.log.debug('Event with time: '  + event.start + " " + realnow + " " + event.end);
+                    adapter.log.debug('Event with time: '  + event.start + ' ' + realnow + ' ' + event.end);
                 }
 
                 // If yet processed
@@ -515,8 +520,8 @@ function syncUserEvents(callback) {
                             role: 'indicator'
                         },
                         native: {
-                            "enabled": adapter.config.events[j].enabled,
-                            "display": adapter.config.events[j].display
+                            enabled: adapter.config.events[j].enabled,
+                            display: adapter.config.events[j].display
                         }
                     }, function (err, id) {
                         adapter.log.info('Event "' + (id ? id.id : 'object') + '" created');
@@ -583,7 +588,7 @@ function readAll() {
 
     // If nothing to process => show it
     if (!count) {
-        adapter.log.debug("displaying dates");
+        adapter.log.debug('displaying dates');
         displayDates();
     }
 
