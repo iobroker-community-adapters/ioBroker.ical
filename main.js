@@ -19,7 +19,8 @@ var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
 var RRule   = require('rrule').RRule;
 var ical    = require('ical');
 var ce      = require('cloneextend');
-var request = require('request');
+var request;
+var fs;
 
 var adapter = utils.adapter({
     name: 'ical',
@@ -29,10 +30,10 @@ var adapter = utils.adapter({
 });
 
 var normal           = ''; // set when ready
-var warn             = '<span style="font-weight: bold; color:red"><span class="icalWarn">';
-var prewarn          = '<span style="font-weight: bold; color:orange"><span class="icalPreWarn">';
-var preprewarn       = '<span style="font-weight: bold; color:yellow"><span class="icalPrePreWarn">';
-        
+var warn             = '<span style="font-weight: bold; color: red"><span class="icalWarn">';
+var prewarn          = '<span style="font-weight: bold; color: orange"><span class="icalPreWarn">';
+var preprewarn       = '<span style="font-weight: bold; color: yellow"><span class="icalPrePreWarn">';
+
 var datesArray       = [];
 var events           = [];
 var dictionary       = {
@@ -77,7 +78,7 @@ adapter.on('stateChange', function (id, state) {
                     adapter.log.info('reading iCal from URL: "' + content[1] + '"');
                     readOne(content[1]);
                 } else {
-                    adapter.log.info('reading one time from all callenders');
+                    adapter.log.info('reading one time from all calendars');
                     readAll();
                 }
                 break;
@@ -118,31 +119,54 @@ Date.prototype.compare = function(b) {
     );
 };
 
-function checkiCal(url, user, pass, sslignore, calName, cb) {
-    // Find out whether SSL certificate errors shall be ignored
-    var rejectValue;
-    rejectValue = true;
-
-    var options = {
-        uri: url
-    };
-
-    if (sslignore === 'ignore') options.rejectUnauthorized = false;
-
-    if (user) {
-        options.auth = {
-            user: user,
-            pass: pass,
-            sendImmediately: true
-        };
-    }
-
-    // Call library function with the "auth object" and credentials provided
-    request(options, function (err, r, _data) {
-        if (err || !_data) {
-            adapter.log.warn('Error reading from URL "' + url + '": ' + ((err && err.code === 'ENOTFOUND') ? 'address not found!' : err));
-            return;
+function getiCal(urlOrFile, user, pass, sslignore, calName, cb) {
+    // Is it file or URL
+    if (!urlOrFile.match(/^https?:\/\//)) {
+        fs = fs || require('fs');
+        if (!fs.existsSync(urlOrFile)) {
+            cb && cb('File does not exist: "' + urlOrFile + '"');
+        } else {
+            try {
+                var data = fs.readFileSync(urlOrFile);
+                cb && cb(null, data.toString());
+            } catch (e) {
+                cb && cb('Cannot read file "' + urlOrFile + '": ' + e);
+            }
         }
+
+    } else {
+        request = request || require('request');
+        // Find out whether SSL certificate errors shall be ignored
+        var options = {
+            uri: urlOrFile
+        };
+
+        if (sslignore === 'ignore') options.rejectUnauthorized = false;
+
+        if (user) {
+            options.auth = {
+                user: user,
+                pass: pass,
+                sendImmediately: true
+            };
+        }
+
+        // Call library function with the "auth object" and credentials provided
+        request(options, function (err, r, _data) {
+            if (err || !_data) {
+                adapter.log.warn('Error reading from URL "' + urlOrFile + '": ' + ((err && err.code === 'ENOTFOUND') ? 'address not found!' : err));
+                cb && cb(err || 'Cannot read URL: "' + urlOrFile + '"');
+            } else {
+                cb && cb(null, _data);
+            }
+        });
+    }
+}
+
+function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
+    getiCal(urlOrFile, user, pass, sslignore, calName, function (err, _data) {
+        if (err || !_data) return;
+
         // Remove from file empty lines
         var lines = _data.split(/[\n\r]/g);
         for (var t = lines.length - 1; t >= 0; t--) {
@@ -152,23 +176,23 @@ function checkiCal(url, user, pass, sslignore, calName, cb) {
         var data = ical.parseICS(lines.join('\r\n'));
 
         /*if (!data) {
-            data = ical.parseFile(__dirname + '/demo.isc');
-        }*/
-        
+         data = ical.parseFile(__dirname + '/demo.isc');
+         }*/
+
         if (data) {
-            adapter.log.info('processing URL: ' + calName + ' ' + url);
+            adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
             var realnow    = new Date();
             var today      = new Date();
-            today.setHours(0,0,0,0);
+            today.setHours(0, 0, 0, 0);
             var endpreview = new Date();
             endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
 
             // Now2 1 Sekunde  zurück für Vergleich von ganztägigen Terminen in RRule
             var now2 = new Date();
-            
+
             // Uhzeit nullen
             now2.setHours(0, 0, 0, 0);
-            
+
             // Datum 1 Sec zurück wegen Ganztätigen Terminen um 00:00 Uhr
             now2.setSeconds(now2.getSeconds() - 1);
 
@@ -257,7 +281,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         !ev.end.getSeconds()) {
         fullday = true;
     }
-    
+
     // Full day
     if (fullday) {
         //Terminstart >= today  && < previewzeit  oder endzeitpunkt > today && < previewzeit ---> anzeigen
@@ -275,7 +299,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _end:     new Date(ev.end.getTime()),
                     _section: ev.description,
                     _IDID:    ev.uid,
-                    _allDay:  false,
+                    _allDay:  true,
                     _rule:    rule,
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName
@@ -336,7 +360,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.prefix = warn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">'; 
+                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
                 result.suffix = '<span style=\"font-weight:normal;color:red\">';
             }
@@ -347,7 +371,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.prefix = prewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">'; 
+                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
                 result.suffix = '<span style=\"font-weight:normal;color:orange\">';
             }
@@ -375,14 +399,14 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             }
             result.suffix += "<span class='icalNormal2'>";
         } else {
-          // If configured every calendar has own color
-          if (adapter.config.everyCalOneColor) {
-              result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
-          } else {
-              result.suffix = '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
-          }
-          result.suffix += "<span class='icalNormal2'>";
-       }
+            // If configured every calendar has own color
+            if (adapter.config.everyCalOneColor) {
+                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
+            } else {
+                result.suffix = '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+            }
+            result.suffix += "<span class='icalNormal2'>";
+        }
     }
     return result;
 }
@@ -530,7 +554,7 @@ function syncUserEvents(callback) {
                 }
             }
         }
-        
+
         // Remove states
         for (i = 0; i < toDel.length; i++) {
             adapter.delObject('events.' + toDel[i]);
@@ -567,7 +591,7 @@ function readAll() {
         for (var i = 0; i < adapter.config.calendars.length; i++) {
             if (adapter.config.calendars[i].url) {
                 count++;
-                adapter.log.debug("reading calendar from URL: " + adapter.config.calendars[i].url + ", color: " + adapter.config.calendars[i].url.color);
+                adapter.log.debug('reading calendar from URL: ' + adapter.config.calendars[i].url + ', color: ' + adapter.config.calendars[i].url.color);
                 checkiCal(
                     adapter.config.calendars[i].url,
                     adapter.config.calendars[i].user,
@@ -575,13 +599,13 @@ function readAll() {
                     adapter.config.calendars[i].sslignore,
                     adapter.config.calendars[i].name,
                     function () {
-                    count--;
-                    // If all calendars are processed
-                    if (!count) {
-                        adapter.log.debug("displaying dates because of callback");
-                        displayDates();
-                    }
-                });
+                        count--;
+                        // If all calendars are processed
+                        if (!count) {
+                            adapter.log.debug('displaying dates because of callback');
+                            displayDates();
+                        }
+                    });
             }
         }
     }
@@ -620,12 +644,12 @@ function formatDate(_date, _end, withTime) {
             _time = ' ' + hours + ':' + minutes;
 
             if (_end.getHours() > _date.getHours() || (_end.getHours() == _date.getHours() && _end.getMinutes() > _date.getMinutes())) {
-              var endhours = _end.getHours();
-              var endminutes = _end.getMinutes();
-              if (endhours < 10)   endhours   = '0' + endhours.toString();
-              if (endminutes < 10) endminutes = '0' + endminutes.toString();
-              _time += '-' + endhours + ':' + endminutes;
-           }
+                var endhours = _end.getHours();
+                var endminutes = _end.getMinutes();
+                if (endhours < 10)   endhours   = '0' + endhours.toString();
+                if (endminutes < 10) endminutes = '0' + endminutes.toString();
+                _time += '-' + endhours + ':' + endminutes;
+            }
         }
     }
     var _class = '';
@@ -838,7 +862,7 @@ function brSeparatedList(arr) {
 
 function main() {
     normal  = '<span style="font-weight: bold; color:' + adapter.config.defColor + '"><span class="icalNormal">';
-    
+
     adapter.config.language = adapter.config.language || 'en';
 
     syncUserEvents(readAll);

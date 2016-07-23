@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "ical",
-        "version":                  "1.1.3",
+        "version":                  "1.2.0",
         "news": {
+            "1.2.0": {
+                "en": "allow read from files",
+                "de": "allow read from files",
+                "ru": "allow read from files"
+            },
             "1.1.3": {
                 "en": "fix error if entry is invalid\nuse newer ical packet version",
                 "de": "fix error if entry is invalid\nuse newer ical packet version",

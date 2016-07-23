@@ -62,6 +62,11 @@ Zum Einbinden eines Google Kalenders muss die Kalendereinstellung des Google Kal
 Known BUGS: Probleme mit gleichen UUIDs von iCal Einträgen (bedingt durch Bibliothek); sich wiederholende Termine, in welchen einzelne Termine ausgenommen werden funktionieren nicht. Die Bibliothek verarbeitet keine EXDATES.
 
 ## Changelog
+### 1.2.0 (2016-07-23)
+* (bluefox) allow read from files
+* (bluefox) add tests
+* (bluefox) fix all day indication
+
 ### 1.1.3 (2016-07-19)
 * (bluefox) fix error if entry is invalid
 * (bluefox) use newer ical packet version
