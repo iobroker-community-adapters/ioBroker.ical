@@ -1,0 +1,4 @@
+node_modules
+.idea
+tmp
+/test/data/germany_holidays_today.ics
