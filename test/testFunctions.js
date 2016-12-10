@@ -72,14 +72,14 @@ describe('Test iCal', function() {
     });
 
     it('Test iCal: check count of events', function (done) {
-        this.timeout(2000);
+        this.timeout(5000);
         setTimeout(function () {
             states.getState('ical.0.data.count', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val).to.be.above(0);
                 done();
             });
-        }, 1000);
+        }, 3000);
     });
 
     it('Test iCal: data.table', function (done) {
