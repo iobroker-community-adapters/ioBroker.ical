@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "ical",
-        "version":                  "1.2.0",
+        "version":                  "1.2.1",
         "news": {
+            "1.2.1": {
+                "en": "fix for ics files returning date strings",
+                "de": "fix for ics files returning date strings",
+                "ru": "fix for ics files returning date strings"
+            },
             "1.2.0": {
                 "en": "allow read from files",
                 "de": "allow read from files",
@@ -21,7 +26,8 @@
             "ru": "iCal читает файлы в формате .ics по URL адресу (Google Calendar или iCal)"
         },
         "authors": [
-            "bluefox <dogafox@gmail.com>"
+            "bluefox <dogafox@gmail.com>",
+            "Jens Maus <mail@jens-maus.de>"
         ],
         "license":                  "MIT",
         "platform":                 "Javascript/Node.js",
