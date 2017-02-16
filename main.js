@@ -37,14 +37,23 @@ var preprewarn       = '<span style="font-weight: bold; color: yellow"><span cla
 var datesArray       = [];
 var events           = [];
 var dictionary       = {
-    'today':    {'en': 'Today',             'de': 'Heute',          'ru': 'Сегодня'},
-    'tomorrow': {'en': 'Tomorrow',          'de': 'Morgen',         'ru': 'Завтра'},
-    'dayafter': {'en': 'Day After Tomorrow', 'de': 'Übermorgen',    'ru': 'Послезавтра'},
-    '3days':    {'en': 'In 3 days',         'de': 'In 3 Tagen',     'ru': 'Через 2 дня'},
-    '4days':    {'en': 'In 4 days',         'de': 'In 4 Tagen',     'ru': 'Через 3 дня'},
-    '5days':    {'en': 'In 5 days',         'de': 'In 5 Tagen',     'ru': 'Через 4 дня'},
-    '6days':    {'en': 'In 6 days',         'de': 'In 6 Tagen',     'ru': 'Через 5 дней'},
-    'oneweek':  {'en': 'In one week',       'de': 'In einer Woche', 'ru': 'Через неделю'}
+    'today':     {'en': 'Today',             'de': 'Heute',            'ru': 'Сегодня'},
+    'tomorrow':  {'en': 'Tomorrow',          'de': 'Morgen',           'ru': 'Завтра'},
+    'dayafter':  {'en': 'Day After Tomorrow','de': 'Übermorgen',       'ru': 'Послезавтра'},
+    '3days':     {'en': 'In 3 days',         'de': 'In 3 Tagen',       'ru': 'Через 2 дня'},
+    '4days':     {'en': 'In 4 days',         'de': 'In 4 Tagen',       'ru': 'Через 3 дня'},
+    '5days':     {'en': 'In 5 days',         'de': 'In 5 Tagen',       'ru': 'Через 4 дня'},
+    '6days':     {'en': 'In 6 days',         'de': 'In 6 Tagen',       'ru': 'Через 5 дней'},
+    'oneweek':   {'en': 'In one week',       'de': 'In einer Woche',   'ru': 'Через неделю'},
+    '1week_left':{'en': 'One week left',     'de': 'Noch eine Woche',  'ru': 'One week left'},
+    '2week_left':{'en': 'Two weeks left',    'de': 'Noch zwei Wochen', 'ru': 'Two weeks left'},
+    '3week_left':{'en': 'Three weeks left',  'de': 'Noch drei Wochen', 'ru': 'Three weeks left'},
+    '4week_left':{'en': 'Four weeks left',   'de': 'Noch vier Wochen', 'ru': 'Four weeks left'},
+    '5week_left':{'en': 'Five weeks left',   'de': 'Noch fünf Wochen', 'ru': 'Five weeks left'},
+    '6week_left':{'en': 'Six weeks left',    'de': 'Noch sechs Wochen','ru': 'Six weeks left'},
+    'left':      {'en': 'left',              'de': ' ',                'ru': 'left'},
+    'still':     {'en': ' ',                 'de': 'Noch',             'ru': ' '},
+    'days':      {'en': 'days',              'de': 'Tage',             'ru': 'days'}
 };
 
 function _(text) {
@@ -744,6 +753,44 @@ function formatDate(_date, _end, withTime) {
         if (_class == 'ical_5days')    return {text: _('5days') + _time, _class: _class};
         if (_class == 'ical_6days')    return {text: _('6days') + _time, _class: _class};
         if (_class == 'ical_oneweek')  return {text: _('oneweek') + _time, _class: _class};
+    }
+
+    // check if date is in the past and if so we show the end time instead
+    if(_date < new Date()) {
+      var daysleft = Math.round((_end - new Date())/(1000*60*60*24)) + 1;
+
+      if(adapter.config.replaceDates) {
+
+        var text;
+        if(daysleft == 42)
+          text = _('6week_left');
+        else if(daysleft == 35)
+          text = _('5week_left');
+        else if(daysleft == 28)
+          text = _('4week_left');
+        else if(daysleft == 21)
+          text = _('3week_left');
+        else if(daysleft == 14)
+          text = _('2week_left');
+        else if(daysleft == 7)
+          text = _('1week_left');
+        else
+          text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft + ' ' + _('days') + (_('left') !== ' ' ? ' ' + _('left') : '');
+      } else {
+
+        day = _end.getDate();
+        month = _end.getMonth() + 1;
+        year = _end.getFullYear();
+
+        if (adapter.config.dataPaddingWithZeros) {
+            if (day < 10)   day   = '0' + day.toString();
+            if (month < 10) month = '0' + month.toString();
+        }
+
+        text = '&#8594; ' + day + '.' + month + '.' + year;
+      }
+
+      return { text: text, _class: _class };
     }
 
     if (adapter.config.dataPaddingWithZeros) {
