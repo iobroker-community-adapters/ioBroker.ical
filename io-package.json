@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "ical",
-        "version":                  "1.2.1",
+        "version":                  "1.2.2",
         "news": {
+            "1.2.2": {
+                "en": "full days with start in the past supported",
+                "de": "full days with start in the past supported",
+                "ru": "full days with start in the past supported"
+            },
             "1.2.1": {
                 "en": "fix for ics files returning date strings",
                 "de": "fix for ics files returning date strings",
