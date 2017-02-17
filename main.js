@@ -17,7 +17,7 @@
 
 var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
 var RRule   = require('rrule').RRule;
-var ical    = require('ical');
+var ical    = require('node-ical');
 var ce      = require('cloneextend');
 var request;
 var fs;
