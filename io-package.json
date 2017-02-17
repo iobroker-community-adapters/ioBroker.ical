@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "ical",
-        "version":                  "1.2.2",
+        "version":                  "1.3.0",
         "news": {
+            "1.3.0": {
+                "en": "switch to node-ical for better compatibility",
+                "de": "switch to node-ical for better compatibility",
+                "ru": "switch to node-ical for better compatibility"
+            },
             "1.2.2": {
                 "en": "full days with start in the past supported",
                 "de": "full days with start in the past supported",
