@@ -17,7 +17,7 @@
 
 var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
 var RRule   = require('rrule').RRule;
-var ical    = require('ical');
+var ical    = require('node-ical');
 var ce      = require('cloneextend');
 var request;
 var fs;
@@ -210,31 +210,6 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
 
                 // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
                 if ((ev.summary != undefined) && (ev.type === 'VEVENT')) {
-
-                    // check if ev.start is a string and if so we have to convert it
-                    // into a correct Date object
-                    if(typeof(ev.start) === 'string') {
-                      var comps = /^(\d{4})(\d{2})(\d{2})$/.exec(ev.start);
-                      if(comps !== null) {
-                        // No TZ info - assume same timezone as this computer
-                        ev.start = new Date(
-                          comps[1],
-                          parseInt(comps[2], 10)-1,
-                          comps[3]
-                        );
-                      }
-                    }
-                    if(typeof(ev.end) === 'string') {
-                      var comps = /^(\d{4})(\d{2})(\d{2})$/.exec(ev.end);
-                      if(comps !== null) {
-                        // No TZ info - assume same timezone as this computer
-                        ev.end = new Date(
-                          comps[1],
-                          parseInt(comps[2], 10)-1,
-                          comps[3]
-                        );
-                      }
-                    }
 
                     // aha, it is RRULE in the event --> process it
                     if (ev.rrule != undefined) {
