@@ -62,6 +62,9 @@ Zum Einbinden eines Google Kalenders muss die Kalendereinstellung des Google Kal
 Known BUGS: Probleme mit gleichen UUIDs von iCal Einträgen (bedingt durch Bibliothek); sich wiederholende Termine, in welchen einzelne Termine ausgenommen werden funktionieren nicht. Die Bibliothek verarbeitet keine EXDATES.
 
 ## Changelog
+### 1.2.2 (2017-02-17)
+* (jens-maus) added changes to show "Noch X Tage" for fullday events (e.g. school holidays)
+
 ### 1.2.1 (2017-02-11)
 * (jens-maus) applied workaround of ics files with TZID before DATE in DTSTART/DTEND
 
