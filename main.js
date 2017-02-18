@@ -732,7 +732,7 @@ function formatDate(_date, _end, withTime) {
 
     // check if date is in the past and if so we show the end time instead
     if(_date < new Date()) {
-      var daysleft = Math.round((_end - new Date())/(1000*60*60*24)) + 1;
+      var daysleft = Math.round((_end - new Date().setHours(0,0,0,0))/(1000*60*60*24));
 
       if(adapter.config.replaceDates) {
 
