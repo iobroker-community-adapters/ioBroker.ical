@@ -64,6 +64,8 @@ Known BUGS: Probleme mit gleichen UUIDs von iCal Einträgen (bedingt durch Bibli
 ## Changelog
 ### 1.3.0 (2017-02-17)
 * (jens-maus) switched ical module to use 'node-ical' which should improve ics format compatibility
+
+### 1.2.2 (2017-02-17)
 * (jens-maus) added changes to show "Noch X Tage" for fullday events (e.g. school holidays)
 
 ### 1.2.1 (2017-02-11)
