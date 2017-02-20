@@ -236,9 +236,9 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                 ev2.end.setMonth(dates[i].getMonth());
                                 ev2.end.setFullYear(dates[i].getFullYear());
 
-																// we have to check if there is an exdate array
-																// which defines dates that - if matched - should
-																// be excluded.
+                                // we have to check if there is an exdate array
+                                // which defines dates that - if matched - should
+                                // be excluded.
                                 var checkDate = true;
                                 if(ev2.exdate) {
                                     var found = false;
