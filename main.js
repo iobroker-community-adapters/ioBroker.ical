@@ -236,15 +236,24 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                 ev2.end.setMonth(dates[i].getMonth());
                                 ev2.end.setFullYear(dates[i].getFullYear());
 
-                                // process event
-                                if (ev2.exdate) {
-                                    // Wenn es exdate
-                                    if (ev2.exdate != today) {
-                                        checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
+                                // we have to check if there is an exdate array
+                                // which defines dates that - if matched - should
+                                // be excluded.
+                                var checkDate = true;
+                                if(ev2.exdate) {
+                                    var found = false;
+                                    for(var d in ev2.exdate) {
+                                        d = new Date(d);
+                                        if(d.getTime() === ev2.start.getTime())
+                                        {
+                                            checkDate = false;
+                                            break;
+                                        }
                                     }
-                                } else {
-                                    checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
                                 }
+
+                                if(checkDate === true)
+                                  checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
                             }
                         } else {
                             adapter.log.debug('no RRule events inside the time interval');

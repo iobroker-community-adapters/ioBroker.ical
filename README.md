@@ -62,6 +62,8 @@ Zum Einbinden eines Google Kalenders muss die Kalendereinstellung des Google Kal
 Known BUGS: Probleme mit gleichen UUIDs von iCal Einträgen (bedingt durch Bibliothek); sich wiederholende Termine, in welchen einzelne Termine ausgenommen werden funktionieren nicht. Die Bibliothek verarbeitet keine EXDATES.
 
 ## Changelog
+### 1.3.1 (2017-02-20)
+* (jens-maus) implemented support for date excludes for recurring events
 
 ### 1.3.0 (2017-02-17)
 * (jens-maus) switched ical module to use 'node-ical' which should improve ics format compatibility
