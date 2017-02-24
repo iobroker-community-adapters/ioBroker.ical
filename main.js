@@ -53,7 +53,8 @@ var dictionary       = {
     '6week_left':{'en': 'Six weeks left',    'de': 'Noch sechs Wochen','ru': 'Six weeks left'},
     'left':      {'en': 'left',              'de': ' ',                'ru': 'left'},
     'still':     {'en': ' ',                 'de': 'Noch',             'ru': ' '},
-    'days':      {'en': 'days',              'de': 'Tage',             'ru': 'days'}
+    'days':      {'en': 'days',              'de': 'Tage',             'ru': 'days'},
+    'day':       {'en': 'day',               'de': 'Tag',              'ru': 'day'}
 };
 
 function _(text) {
@@ -759,7 +760,7 @@ function formatDate(_date, _end, withTime) {
         else if(daysleft == 7)
           text = _('1week_left');
         else
-          text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft + ' ' + _('days') + (_('left') !== ' ' ? ' ' + _('left') : '');
+          text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft + ' ' + (daysleft === 1 ? _('day') : _('days')) + (_('left') !== ' ' ? ' ' + _('left') : '');
       } else {
 
         day = _end.getDate();
