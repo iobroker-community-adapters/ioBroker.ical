@@ -67,6 +67,9 @@ Zum Einbinden eines Google Kalenders muss die Kalendereinstellung des Google Kal
 Zum Einbinden von gesharten Kalendern einer OwnCloud muss man dort in der Kalenderansicht in OwnCloud diesen Kalender als gesharten Kalender freigeben und dort den Link zum Kalender anzeigen lassen und diese URL (https://owncloud.xxxxxx.de/remote.php/dav/calendars/USER/xxxxxxx_shared_by_xxxxxx?export) entsprechend in den ioBroker.ical Adapter mit Nutzername und Passwort angeben.
 
 ## ChangeLog
+### 1.3.2 (2017-02-24)
+* (jens-maus) added singular form for 'days'
+
 ### 1.3.1 (2017-02-20)
 * (jens-maus) implemented support for date excludes for recurring events
 

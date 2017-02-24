@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "ical",
-        "version":                  "1.3.1",
+        "version":                  "1.3.2",
         "news": {
+            "1.3.2": {
+                "en": "added singular form for 'days'",
+                "de": "added singular form for 'days'",
+                "ru": "added singular form for 'days'"
+            },
             "1.3.1": {
                 "en": "implemented support for date excludes for recurring events",
                 "de": "implemented support for date excludes for recurring events",
