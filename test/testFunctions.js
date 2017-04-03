@@ -57,7 +57,7 @@ describe('Test iCal', function() {
 
             setup.setAdapterConfig(config.common, config.native);
 
-            setup.startController(false, function (id, obj) {
+            setup.startController(true, function (id, obj) {
                     if (onObjectChanged) onObjectChanged(id, obj);
                 }, function (id, state) {
                     if (onStateChanged) onStateChanged(id, state);
