@@ -64,7 +64,7 @@ function _(text) {
         var newText = dictionary[text][adapter.config.language];
         if (newText) {
             return newText;
-        } else if (adapter.config.language != 'en') {
+        } else if (adapter.config.language !== 'en') {
             newText = dictionary[text].en;
             if (newText) {
                 return newText;
@@ -79,7 +79,7 @@ function _(text) {
 adapter.on('stateChange', function (id, state) {
     if (!id || !state || state.ack || !state.val) return;
 
-    if (id == adapter.namespace + '.trigger') {
+    if (id === adapter.namespace + '.trigger') {
         var content = state.val.split(' ');
         //One time read all calendars
         switch (content[0]) {
@@ -183,7 +183,12 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
             if (!lines[t]) lines.splice(t, 1);
         }
 
-        var data = ical.parseICS(lines.join('\r\n'));
+        var data;
+        try {
+            data = ical.parseICS(lines.join('\r\n'));
+        } catch (e) {
+            adapter.log.error('Cannot parse ics file: ' + e);
+        }
 
         /*if (!data) {
          data = ical.parseFile(__dirname + '/demo.isc');
@@ -210,10 +215,10 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                 var ev = data[k];
 
                 // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
-                if ((ev.summary != undefined) && (ev.type === 'VEVENT')) {
+                if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
 
                     // aha, it is RRULE in the event --> process it
-                    if (ev.rrule != undefined) {
+                    if (ev.rrule !== undefined) {
                         var options = RRule.parseString(ev.rrule.toString());
                         options.dtstart = ev.start;
                         var rule = new RRule(options);
@@ -376,7 +381,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
     // Colorieren wenn gewünscht
     if (adapter.config.colorize) {
         // today
-        if (date.compare(today) == 0) {
+        if (date.compare(today) === 0) {
             result.prefix = warn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
@@ -387,7 +392,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.suffix += "<span class='icalWarn2'>";
         } else
         // tomorrow
-        if (date.compare(tomorrow) == 0) {
+        if (date.compare(tomorrow) === 0) {
             result.prefix = prewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
@@ -398,7 +403,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.suffix += "<span class='icalPreWarn2'>";
         } else
         // day after tomorrow
-        if (date.compare(dayafter) == 0) {
+        if (date.compare(dayafter) === 0) {
             result.prefix = preprewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
@@ -409,7 +414,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.suffix += "<span class='icalPrePreWarn2'>";
         } else
         // start time is in the past
-        if (date.compare(today) == -1) {
+        if (date.compare(today) === -1) {
             result.prefix = normal;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
@@ -437,7 +442,7 @@ function checkForEvents(reason, today, event, fullday, realnow) {
 
     // Schauen ob es ein Event in der Tabelle gibt
     for (var i = 0; i < events.length; i++) {
-        if (reason.indexOf(events[i].name) != -1) {
+        if (reason.indexOf(events[i].name) !== -1) {
             // auslesen ob das Event angezeigt werden soll
             result = events[i].display;
             adapter.log.debug('found event in table: ' + events[i].name);
@@ -517,10 +522,10 @@ function syncUserEvents(callback) {
         if (states) {
             for (j = 0; j < states.length; j++) {
                 for (i = 0; i < adapter.config.events.length; i++) {
-                    if (states[j].common.name == adapter.config.events[i].name) {
+                    if (states[j].common.name === adapter.config.events[i].name) {
                         // remove it from "toDel"
                         var pos = toDel.indexOf(adapter.config.events[i].name);
-                        if (pos != -1) toDel.splice(pos, 1);
+                        if (pos !== -1) toDel.splice(pos, 1);
                         break;
                     }
                 }
@@ -528,7 +533,7 @@ function syncUserEvents(callback) {
 
             for (i = 0; i < adapter.config.events.length; i++) {
                 for (j = 0; j < states.length; j++) {
-                    if (states[j].common.name == adapter.config.events[i].name) {
+                    if (states[j].common.name === adapter.config.events[i].name) {
                         if (adapter.config.events[i].enabled === 'true')  adapter.config.events[i].enabled = true;
                         if (adapter.config.events[i].enabled === 'false') adapter.config.events[i].enabled = false;
                         if (adapter.config.events[i].display === 'true')  adapter.config.events[i].display = true;
@@ -539,7 +544,7 @@ function syncUserEvents(callback) {
                             states[j].native.display == adapter.config.events[i].display) {
                             // remove it from "toAdd"
                             var pos_ = toAdd.indexOf(adapter.config.events[i].name);
-                            if (pos_ != -1) toAdd.splice(pos_, 1);
+                            if (pos_ !== -1) toAdd.splice(pos_, 1);
                         }
                     }
                 }
@@ -549,7 +554,7 @@ function syncUserEvents(callback) {
         // Add states
         for (i = 0; i < toAdd.length; i++) {
             for (j = 0; j < adapter.config.events.length; j++) {
-                if (adapter.config.events[j].name == toAdd[i]) {
+                if (adapter.config.events[j].name === toAdd[i]) {
                     if (adapter.config.events[j].enabled === 'true')  adapter.config.events[j].enabled = true;
                     if (adapter.config.events[j].enabled === 'false') adapter.config.events[j].enabled = false;
                     if (adapter.config.events[j].display === 'true')  adapter.config.events[j].display = true;
@@ -619,9 +624,8 @@ function readAll() {
                     adapter.config.calendars[i].sslignore,
                     adapter.config.calendars[i].name,
                     function () {
-                        count--;
                         // If all calendars are processed
-                        if (!count) {
+                        if (!--count) {
                             adapter.log.debug('displaying dates because of callback');
                             displayDates();
                         }
@@ -663,7 +667,7 @@ function formatDate(_date, _end, withTime) {
             if (minutes < 10) minutes = '0' + minutes.toString();
             _time = ' ' + hours + ':' + minutes;
 
-            if (_end.getHours() > _date.getHours() || (_end.getHours() == _date.getHours() && _end.getMinutes() > _date.getMinutes())) {
+            if (_end.getHours() > _date.getHours() || (_end.getHours() === _date.getHours() && _end.getMinutes() > _date.getMinutes())) {
                 var endhours = _end.getHours();
                 var endminutes = _end.getMinutes();
                 if (endhours < 10)   endhours   = '0' + endhours.toString();
@@ -674,70 +678,70 @@ function formatDate(_date, _end, withTime) {
     }
     var _class = '';
     var d = new Date();
-    if (day   == d.getDate() &&
-        month == (d.getMonth() + 1) &&
-        year  == d.getFullYear()) {
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
         _class = 'ical_today';
     }
 
     d.setDate(d.getDate() + 1);
-    if (day   == d.getDate() &&
-        month == (d.getMonth() + 1) &&
-        year  == d.getFullYear()) {
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
         _class = 'ical_tomorrow';
     }
 
     d.setDate(d.getDate() + 1);
-    if (day   == d.getDate() &&
-        month == (d.getMonth() + 1) &&
-        year  == d.getFullYear()) {
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
         _class = 'ical_dayafter';
     }
 
     d.setDate(d.getDate() + 1);
-    if (day   == d.getDate() &&
-        month == (d.getMonth() + 1) &&
-        year  == d.getFullYear()) {
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
         _class = 'ical_3days';
     }
 
     d.setDate(d.getDate() + 1);
-    if (day   == d.getDate() &&
-        month == (d.getMonth() + 1) &&
-        year  == d.getFullYear()) {
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
         _class = 'ical_4days';
     }
 
     d.setDate(d.getDate() + 1);
-    if (day   == d.getDate() &&
-        month == (d.getMonth() + 1) &&
-        year  == d.getFullYear()) {
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
         _class = 'ical_5days';
     }
 
     d.setDate(d.getDate() + 1);
-    if (day   == d.getDate() &&
-        month == (d.getMonth() + 1) &&
-        year  == d.getFullYear()) {
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
         _class = 'ical_6days';
     }
 
     d.setDate(d.getDate() + 1);
-    if (day   == d.getDate() &&
-        month == (d.getMonth() + 1) &&
-        year  == d.getFullYear()) {
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
         _class = 'ical_oneweek';
     }
 
     if (adapter.config.replaceDates) {
-        if (_class == 'ical_today')    return {text: _('today')    + _time, _class: _class};
-        if (_class == 'ical_tomorrow') return {text: _('tomorrow') + _time, _class: _class};
-        if (_class == 'ical_dayafter') return {text: _('dayafter') + _time, _class: _class};
-        if (_class == 'ical_3days')    return {text: _('3days') + _time, _class: _class};
-        if (_class == 'ical_4days')    return {text: _('4days') + _time, _class: _class};
-        if (_class == 'ical_5days')    return {text: _('5days') + _time, _class: _class};
-        if (_class == 'ical_6days')    return {text: _('6days') + _time, _class: _class};
-        if (_class == 'ical_oneweek')  return {text: _('oneweek') + _time, _class: _class};
+        if (_class === 'ical_today')    return {text: _('today')    + _time, _class: _class};
+        if (_class === 'ical_tomorrow') return {text: _('tomorrow') + _time, _class: _class};
+        if (_class === 'ical_dayafter') return {text: _('dayafter') + _time, _class: _class};
+        if (_class === 'ical_3days')    return {text: _('3days') + _time, _class: _class};
+        if (_class === 'ical_4days')    return {text: _('4days') + _time, _class: _class};
+        if (_class === 'ical_5days')    return {text: _('5days') + _time, _class: _class};
+        if (_class === 'ical_6days')    return {text: _('6days') + _time, _class: _class};
+        if (_class === 'ical_oneweek')  return {text: _('oneweek') + _time, _class: _class};
     }
 
     // check if date is in the past and if so we show the end time instead
@@ -747,17 +751,17 @@ function formatDate(_date, _end, withTime) {
       if(adapter.config.replaceDates) {
 
         var text;
-        if(daysleft == 42)
+        if(daysleft === 42)
           text = _('6week_left');
-        else if(daysleft == 35)
+        else if(daysleft === 35)
           text = _('5week_left');
-        else if(daysleft == 28)
+        else if(daysleft === 28)
           text = _('4week_left');
-        else if(daysleft == 21)
+        else if(daysleft === 21)
           text = _('3week_left');
-        else if(daysleft == 14)
+        else if(daysleft === 14)
           text = _('2week_left');
-        else if(daysleft == 7)
+        else if(daysleft === 7)
           text = _('1week_left');
         else
           text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft + ' ' + (daysleft === 1 ? _('day') : _('days')) + (_('left') !== ' ' ? ' ' + _('left') : '');
@@ -795,7 +799,7 @@ function displayDates() {
     if (datesArray.length) {
         var todayEventcounter = 0;
         for (var t = 0; t < datesArray.length; t++) {
-            if (datesArray[t]._class.indexOf('ical_today') != -1) todayEventcounter++;
+            if (datesArray[t]._class.indexOf('ical_today') !== -1) todayEventcounter++;
         }
 
         count += 3;
@@ -871,7 +875,7 @@ function insertSorted(arr, element) {
         } else if (arr[arr.length - 1]._date < element._date) {
             arr.push(element);
         } else {
-            if (arr.length == 1) {
+            if (arr.length === 1) {
                 arr.push(element);
             } else {
                 for (var i = 0; i < arr.length - 1; i++){
@@ -903,7 +907,7 @@ function brSeparatedList(arr) {
         var date = formatDate(datesArray[i]._date, datesArray[i]._end, true);
         var color = adapter.config.defColor;
         for (var j = 0; j < adapter.config.calendars.length; j++) {
-            if (adapter.config.calendars[j].name == datesArray[i]._calName) {
+            if (adapter.config.calendars[j].name === datesArray[i]._calName) {
                 color = adapter.config.calendars[j].color;
                 break;
             }

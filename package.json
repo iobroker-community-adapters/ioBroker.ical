@@ -19,8 +19,8 @@
   },
   "dependencies": {
       "node-ical": "^0.5.4",
-      "rrule": "^2.1.0",
-      "request": "^2.73.0",
+      "rrule": "^2.2.0",
+      "request": "^2.81.0",
       "cloneextend": "^0.0.3"
   },
   "devDependencies": {
