@@ -306,6 +306,17 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         !ev.end.getSeconds()) {
         fullday = true;
     }
+    
+    // If force Fullday is set
+	if (adapter.config.forceFullday) {
+		fullday = true;
+		ev.start.setMinutes(0);
+		ev.start.setSeconds(0);
+		ev.start.setHours(0);
+		ev.end.setHours(0);
+		ev.end.setMinutes(0);
+		ev.end.setSeconds(0);
+	}
 
     // Full day
     if (fullday) {

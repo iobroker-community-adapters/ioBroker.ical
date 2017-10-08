@@ -35,7 +35,8 @@
         "enabled":                          {"en": "enabled",                   "de": "aktiviert",                  "ru": "активно"},
         "display":                          {"en": "display",                   "de": "anzeigen",                   "ru": "показать в списке"},
         "Events":                           {"en": "Events",                    "de": "Ereignise",                  "ru": "События"},
-        "Use by full day:":                 {"en": "Replace 00:00 with:",       "de": "Ersetze 00:00 mit:",         "ru": "Заменять 00:00 на:"}
+        "Use by full day:":                 {"en": "Replace 00:00 with:",       "de": "Ersetze 00:00 mit:",         "ru": "Заменять 00:00 на:"},
+        "Hide Start-End of events:":	   	{"en": "Hide Start-End of events:",	"de": "Start-Endzeiten verbergen:", "ru": "Hide Start-End of events:"}
     };
 
     var calendars = [];
@@ -153,6 +154,11 @@
                 <td class="translate">Every calendar has own color:</td><td><input class="value" id="everyCalOneColor" type="checkbox"></td>
                 <td></td>
                 <td class="translate">Use by full day:</td><td><input class="value" id="fulltime" maxlength="10" style="width: 100px"/></td>
+            </tr>
+            <tr>
+                <td class="translate">Hide Start-End of events:</td><td><input class="value" id="forceFullday" type="checkbox"></td>
+                <td></td>
+                <td></td>
             </tr>
         </tbody>
     </table>
