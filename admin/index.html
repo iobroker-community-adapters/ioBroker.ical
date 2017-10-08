@@ -38,14 +38,11 @@
         "Events":                           {"en": "Events",                    "de": "Ereignise",                  "ru": "События",									"nl": "Gebeurtenissen"},
         "Use by full day:":                 {"en": "Replace 00:00 with:",       "de": "Ersetze 00:00 mit:",         "ru": "Заменять 00:00 на:",							"nl": "Vervang 00:00 met:"}
     };
-
     var calendars = [];
     var events = [];
-
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
         if (!settings) return;
-
         for (var key in settings) {
             // example: select elements with id=key and class=value and insert value
             if ($('#' + key + '.value').attr('type') == 'checkbox') {
@@ -69,10 +66,8 @@
             settings.language = systemLang || 'en';
             $('#language').val(settings.language).trigger('change');
         }
-
         calendars = settings.calendars || [];
         events    = settings.events    || [];
-
         editTable({
             tabId: 'calendars',
             cols:   [{name: 'name', width: '60'},  {name: 'url',     width: '260'}, {name: 'user',   width: '60'}, {name: 'pass',   width: '60'}, {name: 'sslignore', width : '40'}, {name: 'color',   width: '60'}],
@@ -87,10 +82,8 @@
             top:    350,
             title:  'Events'
         });
-
         onChange(false);
     }
-
     // ... and the function save has to exist.
     // you have to make sure the callback is called with the settings object as first param!
     function save(callback) {
@@ -104,11 +97,9 @@
                 obj[$this.attr('id')] = $this.val();
             }
         });
-
         // Get edited table
         obj.calendars = getTableResult('calendars', ['name', 'url', 'user', 'pass', 'sslignore', 'color']);
         obj.events    = getTableResult('events',    ['name', 'enabled', 'display']);
-
         callback(obj);
     }
 </script>
