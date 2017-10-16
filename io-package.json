@@ -1,7 +1,7 @@
 {
     "common": {
-        "name":                     "ical",
-        "version":                  "1.3.2",
+        "name": "ical",
+        "version": "1.3.2",
         "news": {
             "1.3.2": {
                 "en": "added singular form for 'days'",
@@ -39,8 +39,8 @@
                 "ru": "fix error if entry is invalid\nuse newer ical packet version"
             }
         },
-        "title":                    "iCal Adapter",
-        "desc":                     {
+        "title": "iCal Adapter",
+        "desc": {
             "en": "This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal)",
             "de": "iCal liest Kalender Files im .ics Format von einer URL (Google Calendar oder iCal)",
             "ru": "iCal читает файлы в формате .ics по URL адресу (Google Calendar или iCal)"
@@ -49,18 +49,22 @@
             "bluefox <dogafox@gmail.com>",
             "Jens Maus <mail@jens-maus.de>"
         ],
-        "license":                  "MIT",
-        "platform":                 "Javascript/Node.js",
-        "mode":                     "schedule",
-        "schedule":                 "0,30 * * * *",
-        "loglevel":                 "info",
-        "readme":                   "https://raw.githubusercontent.com/ioBroker/ioBroker.ical/master/README.md",
-        "icon":                     "ical.png",
-        "keywords":                 ["web", "iCal", "calendar"],
-        "allowInit":                true,
-        "subscribe":                "ical.<INSTANCE>.trigger",
-        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.ical/master/admin/ical.png",
-		"type":                     "schedule"
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "mode": "schedule",
+        "schedule": "0,30 * * * *",
+        "loglevel": "info",
+        "readme": "https://raw.githubusercontent.com/ioBroker/ioBroker.ical/master/README.md",
+        "icon": "ical.png",
+        "keywords": [
+            "web",
+            "iCal",
+            "calendar"
+        ],
+        "allowInit": true,
+        "subscribe": "ical.<INSTANCE>.trigger",
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.ical/master/admin/ical.png",
+        "type": "date-and-time"
     },
     "native": {
         "daysPreview": 7,
@@ -73,17 +77,17 @@
         "everyCalOneColor": false,
         "calendars": [
             {
-                "name":  "calendar1",
-                "url":   "http://11111.ics",
-                "user":   "username",
-                "pass":   "password",
+                "name": "calendar1",
+                "url": "http://11111.ics",
+                "user": "username",
+                "pass": "password",
                 "sslignore": "ignore",
                 "color": "red"
             }
         ],
         "events": [
             {
-                "name":    "Vacation",
+                "name": "Vacation",
                 "enabled": true,
                 "display": false
             }
@@ -94,7 +98,7 @@
             "_id": "events",
             "type": "channel",
             "common": {
-                "name":  "User events controlled from calendar"
+                "name": "User events controlled from calendar"
             },
             "native": {}
         },
@@ -102,10 +106,10 @@
             "_id": "data.trigger",
             "type": "state",
             "common": {
-                "name":  "Commands to iCal",
-                "desc":  "Commands: read [url], check [reason]",
-                "type":  "string",
-                "read":  true,
+                "name": "Commands to iCal",
+                "desc": "Commands: read [url], check [reason]",
+                "type": "string",
+                "read": true,
                 "write": true
             },
             "native": {}
@@ -114,10 +118,10 @@
             "_id": "data.count",
             "type": "state",
             "common": {
-                "name":  "Count of events for today",
-                "type":  "number",
-                "role":  "indicator",
-                "read":  true,
+                "name": "Count of events for today",
+                "type": "number",
+                "role": "indicator",
+                "read": true,
                 "write": false
             },
             "native": {}
@@ -126,11 +130,11 @@
             "_id": "data.table",
             "type": "state",
             "common": {
-                "name":  "JS iCal table",
-                "desc":  "JS table: []",
-                "type":  "object",
-                "role":  "table",
-                "read":  true,
+                "name": "JS iCal table",
+                "desc": "JS table: []",
+                "type": "object",
+                "role": "table",
+                "read": true,
                 "write": false
             },
             "native": {}
@@ -139,11 +143,11 @@
             "_id": "data.html",
             "type": "state",
             "common": {
-                "name":  "HTML iCal table",
-                "desc":  "HTML table with events",
-                "type":  "string",
-                "role":  "html",
-                "read":  true,
+                "name": "HTML iCal table",
+                "desc": "HTML table with events",
+                "type": "string",
+                "role": "html",
+                "read": true,
                 "write": false
             },
             "native": {}
