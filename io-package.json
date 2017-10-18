@@ -54,7 +54,7 @@
         "mode": "schedule",
         "schedule": "0,30 * * * *",
         "loglevel": "info",
-        "readme": "https://raw.githubusercontent.com/ioBroker/ioBroker.ical/master/README.md",
+        "readme": "https://github.com/ioBroker/ioBroker.ical/blob/master/README.md",
         "icon": "ical.png",
         "keywords": [
             "web",
