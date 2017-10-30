@@ -1,5 +1,5 @@
 <html>
-
+<head>
 <link rel="stylesheet" type="text/css" href="../../lib/css/themes/jquery-ui/redmond/jquery-ui.min.css"/>
 <link rel="stylesheet" type="text/css" href="../../lib/css/jqGrid/ui.jqgrid-4.5.4.css"/>
 <script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
@@ -11,45 +11,20 @@
 <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
 <script type="text/javascript" src="../../js/translate.js"></script>
 <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+<script type="text/javascript" src="words.js"></script>
 
 <script type="text/javascript">
-    systemDictionary = {
-        "iCal adapter settings": {
-            "de": "iCal Einstellungen",
-            "ru": "iCal Настройки"
-        },
-        "Language:":                        {"en": "Language:",                 "de": "Sprache:",                   "ru": "Язык:"},
-        "Preview days:":                    {"en": "Preview days:",             "de": "Tagesvorschau:",             "ru": "На сколько дней:"},
-        "Colorize HTML:":                   {"en": "Colorize HTML:",            "de": "Benutze Farben für HTML:",   "ru": "Раскрашивать HTML:"},
-        "Default color for HTML:":          {"en": "Default color for HTML:",   "de": "Default-Farbe für HTML:",    "ru": "Цвет по умолчанию для HTML:"},
-        "Padding date with '0':":           {"en": "Padding date with '0':",    "de": "Padding date with '0':",     "ru": "Padding date with '0':"},
-        "Replace dates with words:":        {"en": "Replace dates with words:", "de": "Ersetze Datum mit Worten:",  "ru": "Заменять даты на слова:"},
-        "Every calendar has own color:":    {"en": "Every calendar has own color:", "de": "Jeder Kalendar hat eigene Farbe:", "ru": "Каждый календарь в свой цвет:"},
-        "name":                             {"en": "Name",                      "de": "Name",                       "ru": "Имя"},
-        "url":                              {"en": "Calendar URL or file name", "de": "Kalender URL oder Dateiname", "ru": "URL календаря или имя файла"},
-        "user":                             {"en": "Username",                  "de": "Benutzername",               "ru": "Имя пользователя"},
-        "pass":                             {"en": "Password",                  "de": "Passwort",                   "ru": "Пароль"},
-        "sslignore":                        {"en": "Ignore Certificate errors", "de": "Zertifikatfehler ignorieren","ru": "Игнорировать ошибки сертификата"},
-        "color":                            {"en": "Color",                     "de": "Farbe",                      "ru": "Цвет"},
-        "Calendars":                        {"en": "Calendars",                 "de": "Kalendar",                   "ru": "Календари"},
-        "enabled":                          {"en": "enabled",                   "de": "aktiviert",                  "ru": "активно"},
-        "display":                          {"en": "display",                   "de": "anzeigen",                   "ru": "показать в списке"},
-        "Events":                           {"en": "Events",                    "de": "Ereignise",                  "ru": "События"},
-        "Use by full day:":                 {"en": "Replace 00:00 with:",       "de": "Ersetze 00:00 mit:",         "ru": "Заменять 00:00 на:"},
-        "Hide Start-End of events:":	   	{"en": "Hide Start-End of events:",	"de": "Start-Endzeiten verbergen:", "ru": "Hide Start-End of events:"}
-    };
 
     var calendars = [];
     var events = [];
-
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
         if (!settings) return;
-
         for (var key in settings) {
-            // example: select elements with id=key and class=value and insert value
-            if ($('#' + key + '.value').attr('type') == 'checkbox') {
-                $('#' + key + '.value').prop('checked', settings[key]).change(function() {
+            if (!settings.hasOwnProperty(key)) continue;
+            var $value = $('#' + key + '.value');
+            if ($value.attr('type') === 'checkbox') {
+                $value.prop('checked', settings[key]).change(function() {
                     if ($('#auth').prop('checked')) {
                         $('#secure').prop('checked', true);
                     }
@@ -57,7 +32,7 @@
                     showHideSettings();
                 });
             } else {
-                $('#' + key + '.value').val(settings[key]).change(function() {
+                $value.val(settings[key]).change(function() {
                     onChange();
                 }).keyup(function() {
                     onChange();
@@ -69,10 +44,8 @@
             settings.language = systemLang || 'en';
             $('#language').val(settings.language).trigger('change');
         }
-
         calendars = settings.calendars || [];
         events    = settings.events    || [];
-
         editTable({
             tabId: 'calendars',
             cols:   [{name: 'name', width: '60'},  {name: 'url',     width: '260'}, {name: 'user',   width: '60'}, {name: 'pass',   width: '60'}, {name: 'sslignore', width : '40'}, {name: 'color',   width: '60'}],
@@ -87,32 +60,27 @@
             top:    350,
             title:  'Events'
         });
-
         onChange(false);
     }
 
-    // ... and the function save has to exist.
-    // you have to make sure the callback is called with the settings object as first param!
     function save(callback) {
-        // example: select elements with class=value and build settings object
         var obj = {};
         $('.value').each(function () {
             var $this = $(this);
-            if ($this.attr('type') == 'checkbox') {
+            if ($this.attr('type') === 'checkbox') {
                 obj[$this.attr('id')] = $this.prop('checked');
             } else {
                 obj[$this.attr('id')] = $this.val();
             }
         });
-
         // Get edited table
         obj.calendars = getTableResult('calendars', ['name', 'url', 'user', 'pass', 'sslignore', 'color']);
         obj.events    = getTableResult('events',    ['name', 'enabled', 'display']);
-
         callback(obj);
     }
 </script>
-
+</head>
+<body>
 <!-- you have to put your config page in a div with id adapter-container -->
 <div id="adapter-container">
 
@@ -130,33 +98,34 @@
         </thead>
         <tbody>
             <tr>
-                <td class="translate">Language:</td><td>
+                <td><label class="translate" for="language">Language:</label></td><td>
                     <select class="value" id="language">
                         <option value="en">english</option>
                         <option value="de">deutsch</option>
-                        <option value="ru">русский</option>
+                        <option value="nl">nederlands</option>
+						<option value="ru">русский</option>
                     </select>
                 </td>
             <td></td>
-            <td class="translate">Preview days:</td><td><input class="value" id="daysPreview" maxlength="2"  style="width: 30px"/></td>
+                <td><label class="translate" for="daysPreview">Preview days:</label></td><td><input class="value" id="daysPreview" maxlength="2"  style="width: 30px"/></td>
             </tr>
             <tr>
-                <td class="translate">Colorize HTML:</td><td> <input  class="value" id="colorize" type="checkbox"/></td>
+                <td><label class="translate" for="colorize">Colorize HTML:</label></td><td><input  class="value" id="colorize" type="checkbox"/></td>
                 <td></td>
-                <td class="translate">Default color for HTML:</td><td><input class="value" id="defColor" maxlength="10" style="width: 100px"></td>
+                <td><label class="translate" for="defColor">Default color for HTML:</label></td><td><input class="value" id="defColor" maxlength="10" style="width: 100px"></td>
             </tr>
             <tr>
-                <td class="translate">Padding date with '0':</td><td><input class="value" id="dataPaddingWithZeros" type="checkbox"></td>
+                <td><label class="translate" for="dataPaddingWithZeros">Padding date with '0':</label></td><td><input class="value" id="dataPaddingWithZeros" type="checkbox"></td>
                 <td></td>
-                <td class="translate">Replace dates with words:</td><td><input class="value" id="replaceDates" type="checkbox"></td>
+                <td><label class="translate" for="replaceDates">Replace dates with words:</label></td><td><input class="value" id="replaceDates" type="checkbox"></td>
             </tr>
             <tr>
-                <td class="translate">Every calendar has own color:</td><td><input class="value" id="everyCalOneColor" type="checkbox"></td>
+                <td><label class="translate" for="everyCalOneColor">Every calendar has own color:</label></td><td><input class="value" id="everyCalOneColor" type="checkbox"></td>
                 <td></td>
-                <td class="translate">Use by full day:</td><td><input class="value" id="fulltime" maxlength="10" style="width: 100px"/></td>
+                <td><label class="translate" for="fulltime">Use by full day:</label></td><td><input class="value" id="fulltime" maxlength="10" style="width: 100px"/></td>
             </tr>
             <tr>
-                <td class="translate">Hide Start-End of events:</td><td><input class="value" id="forceFullday" type="checkbox"></td>
+                <td><label class="translate" for="forceFullday">Hide Start-End of events:</label></td><td><input class="value" id="forceFullday" type="checkbox"></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -167,4 +136,5 @@
     <table id="events"></table><div id="pager-events"></div>
 
 </div>
+</body>
 </html>

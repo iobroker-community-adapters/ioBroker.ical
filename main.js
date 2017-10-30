@@ -22,7 +22,7 @@ var ce      = require('cloneextend');
 var request;
 var fs;
 
-var adapter = utils.adapter({
+var adapter = new utils.Adapter({
     name: 'ical',
     ready: function () {
         main();
@@ -37,24 +37,24 @@ var preprewarn       = '<span style="font-weight: bold; color: yellow"><span cla
 var datesArray       = [];
 var events           = [];
 var dictionary       = {
-    'today':     {'en': 'Today',             'de': 'Heute',            'ru': 'Сегодня'},
-    'tomorrow':  {'en': 'Tomorrow',          'de': 'Morgen',           'ru': 'Завтра'},
-    'dayafter':  {'en': 'Day After Tomorrow','de': 'Übermorgen',       'ru': 'Послезавтра'},
-    '3days':     {'en': 'In 3 days',         'de': 'In 3 Tagen',       'ru': 'Через 2 дня'},
-    '4days':     {'en': 'In 4 days',         'de': 'In 4 Tagen',       'ru': 'Через 3 дня'},
-    '5days':     {'en': 'In 5 days',         'de': 'In 5 Tagen',       'ru': 'Через 4 дня'},
-    '6days':     {'en': 'In 6 days',         'de': 'In 6 Tagen',       'ru': 'Через 5 дней'},
-    'oneweek':   {'en': 'In one week',       'de': 'In einer Woche',   'ru': 'Через неделю'},
-    '1week_left':{'en': 'One week left',     'de': 'Noch eine Woche',  'ru': 'One week left'},
-    '2week_left':{'en': 'Two weeks left',    'de': 'Noch zwei Wochen', 'ru': 'Two weeks left'},
-    '3week_left':{'en': 'Three weeks left',  'de': 'Noch drei Wochen', 'ru': 'Three weeks left'},
-    '4week_left':{'en': 'Four weeks left',   'de': 'Noch vier Wochen', 'ru': 'Four weeks left'},
-    '5week_left':{'en': 'Five weeks left',   'de': 'Noch fünf Wochen', 'ru': 'Five weeks left'},
-    '6week_left':{'en': 'Six weeks left',    'de': 'Noch sechs Wochen','ru': 'Six weeks left'},
-    'left':      {'en': 'left',              'de': ' ',                'ru': 'left'},
-    'still':     {'en': ' ',                 'de': 'Noch',             'ru': ' '},
-    'days':      {'en': 'days',              'de': 'Tage',             'ru': 'days'},
-    'day':       {'en': 'day',               'de': 'Tag',              'ru': 'day'}
+    'today':     {'en': 'Today',             'de': 'Heute',            'ru': 'Сегодня',				'nl': 'Vandaag'},
+    'tomorrow':  {'en': 'Tomorrow',          'de': 'Morgen',           'ru': 'Завтра',				'nl': 'Morgen'},
+    'dayafter':  {'en': 'Day After Tomorrow','de': 'Übermorgen',       'ru': 'Послезавтра',			'nl': 'Overmorgen'},
+    '3days':     {'en': 'In 3 days',         'de': 'In 3 Tagen',       'ru': 'Через 2 дня',			'nl': 'Over 3 dagen'},
+    '4days':     {'en': 'In 4 days',         'de': 'In 4 Tagen',       'ru': 'Через 3 дня',			'nl': 'Over 4 dagen'},
+    '5days':     {'en': 'In 5 days',         'de': 'In 5 Tagen',       'ru': 'Через 4 дня',			'nl': 'Over 5 dagen'},
+    '6days':     {'en': 'In 6 days',         'de': 'In 6 Tagen',       'ru': 'Через 5 дней',		'nl': 'Over 6 dagen'},
+    'oneweek':   {'en': 'In one week',       'de': 'In einer Woche',   'ru': 'Через неделю',		'nl': 'Binnen een week'},
+    '1week_left':{'en': 'One week left',     'de': 'Noch eine Woche',  'ru': 'One week left',		'nl': 'Over een week'},
+    '2week_left':{'en': 'Two weeks left',    'de': 'Noch zwei Wochen', 'ru': 'Two weeks left',		'nl': 'Over twee weken'},
+    '3week_left':{'en': 'Three weeks left',  'de': 'Noch drei Wochen', 'ru': 'Three weeks left',	'nl': 'Over drie weken'},
+    '4week_left':{'en': 'Four weeks left',   'de': 'Noch vier Wochen', 'ru': 'Four weeks left',		'nl': 'Over vier weken'},
+    '5week_left':{'en': 'Five weeks left',   'de': 'Noch fünf Wochen', 'ru': 'Five weeks left',		'nl': 'Over vijf weken'},
+    '6week_left':{'en': 'Six weeks left',    'de': 'Noch sechs Wochen','ru': 'Six weeks left',		'nl': 'Over zes weken'},
+    'left':      {'en': 'left',              'de': ' ',                'ru': 'left',				'nl': 'over'},
+    'still':     {'en': ' ',                 'de': 'Noch',             'ru': ' ',					'nl': 'nog'},
+    'days':      {'en': 'days',              'de': 'Tage',             'ru': 'days',				'nl': 'dagen'},
+    'day':       {'en': 'day',               'de': 'Tag',              'ru': 'day',					'nl': 'dag'}
 };
 
 function _(text) {
