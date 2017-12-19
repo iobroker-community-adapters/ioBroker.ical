@@ -306,7 +306,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         !ev.end.getSeconds()) {
         fullday = true;
     }
-    
+
     // If force Fullday is set
 	if (adapter.config.forceFullday) {
 		fullday = true;
@@ -321,7 +321,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
     // Full day
     if (fullday) {
         //Terminstart >= today  && < previewzeit  oder endzeitpunkt > today && < previewzeit ---> anzeigen
-        if ((ev.start < endpreview && ev.start >= today) || (ev.end > today && ev.end <= endpreview)) {
+        if ((ev.start < endpreview && ev.start >= today) || (ev.end > today && ev.end <= endpreview) || (ev.start < today && ev.end > today)) {
             // check only full day events
             if (checkForEvents(reason, today, ev, true, realnow)) {
                 date = formatDate(ev.start, ev.end, true);
@@ -352,7 +352,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
     } else {
         // Event with time
         // Start time >= today && Start time < preview time && End time >= now
-        if ((ev.start >= today && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) ) {
+        if ((ev.start >= today && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // Add to list only if not hidden
             if (checkForEvents(reason, today, ev, false, realnow)) {
                 date = formatDate(ev.start, ev.end, true);
@@ -482,7 +482,7 @@ function checkForEvents(reason, today, event, fullday, realnow) {
                     }
                 }
             }
-            break;
+            //break;
         }
     }
     return result;
