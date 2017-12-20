@@ -462,13 +462,13 @@ function startAdapter(objects, states, callback) {
         try {
             if (debug) {
                 // start controller
-                pid = child_process.exec('node node_modules/' + pkg.name + '/' + pkg.main + ' --console silly', {
+                pid = child_process.exec('node node_modules/' + pkg.name + '/' + pkg.main + ' --console silly --logs', {
                     cwd: rootDir + 'tmp',
                     stdio: [0, 1, 2]
                 });
             } else {
                 // start controller
-                pid = child_process.fork('node_modules/' + pkg.name + '/' + pkg.main, ['--console', 'silly'], {
+                pid = child_process.fork('node_modules/' + pkg.name + '/' + pkg.main, ['--console', 'silly', '--logs'], {
                     cwd:   rootDir + 'tmp',
                     stdio: [0, 1, 2, 'ipc']
                 });
