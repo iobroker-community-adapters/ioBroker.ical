@@ -136,7 +136,7 @@ function setupIcsFiles() {
         data += 'LOCATION:\n';
         data += 'SEQUENCE:0\n';
         data += 'STATUS:CONFIRMED\n';
-        data += "SUMMARY:MyEvent MyTestEvent\n";
+        data += "SUMMARY:MyEvent BlaEvent\n";
         data += 'TRANSP:TRANSPARENT\n';
         data += 'END:VEVENT\n';
 
@@ -206,7 +206,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                 "display": true
             };
             config.native.events[3] = {
-                "name": "MyTestEvent",
+                "name": "BlaEvent",
                 "enabled": false,
                 "display": false
             };
@@ -258,7 +258,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val[0].event).to.be.equal('today event');
+                expect(state.val[0].event).to.be.equal('TestEvent');
                 expect(state.val[0]._section).to.be.equal('TestEvent');
                 expect(state.val[0]._allDay).to.be.true;
                 done();
