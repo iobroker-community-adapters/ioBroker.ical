@@ -8,9 +8,9 @@ ioBroker iCal adapter
 
 [![NPM](https://nodei.co/npm/iobroker.ical.png?downloads=true)](https://nodei.co/npm/iobroker.ical/)
 
-This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal).
+This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal). Alternatively it is possible to use a local .ics file (use absolute path to the file instead of URL)
 
-Sehe deustche [Version hier](README-de.md).
+Siehe deustche [Version hier](README-de.md).
 
 ## Install
 ```
@@ -21,10 +21,9 @@ node iobroker.js add ical
 Based on iCal Adapter for (CCU.IO)[https://github.com/hobbyquaker/ccu.io/tree/master/adapter/ical] from vader722
 
 ### Adapter iCal
-iCal adapter for ioBroker reads calendar files in ".ics" format from specified URL and writes events, that situated in the predefined time interval into ioBroker variable.
+iCal adapter for ioBroker reads calendar files in ".ics" format from specified URL and writes events, that situated in the predefined time interval into ioBroker variable. Alternatively it is possible to use a local .ics file (use absolute path to the file instead of URL).
+They can shown in VIS using "basic html - String (unescaped)" widget.
 
-Der Adapter iCal für CCU.IO liest Kalender Files im .ics Format von einer URL ein und schreibt Termine, welche in einem definierbaren Zeitraum liegen in eine CCU.IO Variable. Die Termine werden zeilenweise durch ein 
-Tag voneinander getrennt und können z.B. mit dem DashUI Widget "basic hm_val - String (unescaped)" in DashUI Angezeigt werden.
 
 Es werden 2 Variablen angelegt
 
@@ -67,6 +66,10 @@ Zum Einbinden eines Google Kalenders muss die Kalendereinstellung des Google Kal
 Zum Einbinden von gesharten Kalendern einer OwnCloud muss man dort in der Kalenderansicht in OwnCloud diesen Kalender als gesharten Kalender freigeben und dort den Link zum Kalender anzeigen lassen und diese URL (https://owncloud.xxxxxx.de/remote.php/dav/calendars/USER/xxxxxxx_shared_by_xxxxxx?export) entsprechend in den ioBroker.ical Adapter mit Nutzername und Passwort angeben.
 
 ## ChangeLog
+### 1.3.4 (2017-12-xx)
+* allow multiple Events to be contained in one calendar entry. Make sure the names are unique enough because the search only checks for existance of the event name in the text.
+* correctly detect events that started before 0:00
+
 ### 1.3.3 (2017-10-30)
 * (DutchmanNL) Translate to Netherlands
 
@@ -122,8 +125,8 @@ Zum Einbinden von gesharten Kalendern einer OwnCloud muss man dort in der Kalend
 * (bluefox) make it compatible with new concept
 
 ### 0.0.2 (2015-02-22)
-* (bluefox) fix error with configuration 
-* (bluefox) fix error with event object creation 
+* (bluefox) fix error with configuration
+* (bluefox) fix error with event object creation
 
 ### 0.0.1 (2015-02-17)
 * (bluefox) initial commit
