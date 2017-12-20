@@ -2,6 +2,7 @@
 /*jslint node: true */
 var expect = require('chai').expect;
 var setup  = require(__dirname + '/lib/setup');
+var fs     = require('fs');
 
 var objects = null;
 var states  = null;
