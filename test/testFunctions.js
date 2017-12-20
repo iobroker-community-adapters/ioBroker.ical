@@ -59,7 +59,7 @@ if (!fs.existsSync(__dirname + '/data/today.ics')) {
     // Fullday event for 2 days with Trigger "Vacation"
     data += '\nBEGIN:VEVENT\n';
     data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
-    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day3 + '\n';
+    data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + '\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f57@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -74,12 +74,12 @@ if (!fs.existsSync(__dirname + '/data/today.ics')) {
 
     // event for over 0:00
     data += '\nBEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m0 + day0 + 'T220000\n';
+    data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m0 + day0 + 'T220000\n';
     data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T020000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
-    data += 'UID:2fb00ad3a214f7369e7a95f57@calendarlabs.com\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
-    data += 'DESCRIPTION:MyEvent MyTestEvent\n';
+    data += 'DESCRIPTION:TestEvent\n';
     data += 'LAST-MODIFIED:20111213T123901Z\n';
     data += 'LOCATION:\n';
     data += 'SEQUENCE:0\n';
@@ -100,7 +100,7 @@ describe('Test iCal', function() {
             var config = setup.getAdapterConfig();
             // enable adapter
             config.common.enabled  = true;
-            config.common.loglevel = 'debug';
+            config.common.loglevel = 'silly';
 
             config.native.calendars[0] = {
                 "name": "calendar1",
@@ -174,7 +174,7 @@ describe('Test iCal', function() {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val[0].event).to.be.equal('today event');
-                expect(state.val[0]._section).to.be.equal('today event description');
+                expect(state.val[0]._section).to.be.equal('MyEvent MyTestEvent');
                 expect(state.val[0]._allDay).to.be.true;
                 done();
             });
