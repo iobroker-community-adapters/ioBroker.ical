@@ -562,8 +562,10 @@ function startController(isStartAdapter, onObjectChange, onStateChange, callback
                     console.log(msg);
                 },
                 debug: function (msg) {
+                    console.log(msg);
                 },
                 info: function (msg) {
+                    console.log(msg);
                 },
                 warn: function (msg) {
                     console.log(msg);
