@@ -7,7 +7,14 @@ var states  = null;
 var onStateChanged = null;
 var onObjectChanged = null;
 
-if (!fs.existsSync(__dirname + '/data/germany_holidays_today.ics')) {
+if (!fs.existsSync(__dirname + '/data/today.ics')) {
+    var d0 = new Date();
+    d0.setDate(d0.getDate() - 1);
+    var m0 = (d0.getMonth() + 1);
+    if (m0 < 10) m0 = '0' + m0;
+    var day0 = d0.getDate();
+    if (day0 < 10) day0 = '0' + day0;
+
     var d1 = new Date();
     var m1 = (d1.getMonth() + 1);
     if (m1 < 10) m1 = '0' + m1;
@@ -21,17 +28,26 @@ if (!fs.existsSync(__dirname + '/data/germany_holidays_today.ics')) {
     var day2 = d2.getDate();
     if (day2 < 10) day2 = '0' + day2;
 
-    var data = fs.readFileSync(__dirname + '/data/germany_holidays.ics');
+    var d3 = new Date();
+    d3.setDate(d2.getDate() + 1);
+    var m3 = (d3.getMonth() + 1);
+    if (m3 < 10) m3 = '0' + m3;
+    var day3 = d3.getDate();
+    if (day3 < 10) day3 = '0' + day3;
+
+    var data = fs.readFileSync(__dirname + '/data/empty.ics');
     var lines = data.toString().split('\n');
     lines.splice(lines.length - 1, 1);
     data = lines.join('\n');
+
+    // Fullday event for 1 day with Trigger "Vacation"
     data += '\nBEGIN:VEVENT\n';
     data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
     data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f56@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
-    data += 'DESCRIPTION:today event description\n';
+    data += 'DESCRIPTION:Vacation\n';
     data += 'LAST-MODIFIED:20111213T123901Z\n';
     data += 'LOCATION:\n';
     data += 'SEQUENCE:0\n';
@@ -39,8 +55,41 @@ if (!fs.existsSync(__dirname + '/data/germany_holidays_today.ics')) {
     data += "SUMMARY:today event\n";
     data += 'TRANSP:TRANSPARENT\n';
     data += 'END:VEVENT\n';
+
+    // Fullday event for 2 days with Trigger "Vacation"
+    data += '\nBEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
+    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day3 + '\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f57@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:MyEvent MyTestEvent\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:today event\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
+
+    // event for over 0:00
+    data += '\nBEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m0 + day0 + 'T220000\n';
+    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T020000\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f57@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:MyEvent MyTestEvent\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:today event\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
+
     data += 'END:VCALENDAR';
-    fs.writeFileSync(__dirname + '/data/germany_holidays_today.ics', data);
+    fs.writeFileSync(__dirname + '/data/today.ics', data);
 }
 
 describe('Test iCal', function() {
@@ -53,7 +102,44 @@ describe('Test iCal', function() {
             config.common.enabled  = true;
             config.common.loglevel = 'debug';
 
-            config.native.calendars[0].url = __dirname + '/data/germany_holidays_today.ics';
+            config.native.calendars[0] = {
+                "name": "calendar1",
+                "url": __dirname + '/data/germany_holidays.ics',
+                "user": "username",
+                "pass": "password",
+                "sslignore": "ignore",
+                "color": "red"
+            };
+            config.native.calendars[1] = {
+                "name": "calendar2",
+                "url": __dirname + '/data/today.ics',
+                "user": "username",
+                "pass": "password",
+                "sslignore": "ignore",
+                "color": "red"
+            };
+
+            config.native.events[0] = {
+                "name": "Vacation",
+                "enabled": true,
+                "display": false
+            }
+            config.native.events[1] = {
+                "name": "MyEvent",
+                "enabled": true,
+                "display": false
+            }
+            config.native.events[2] = {
+                "name": "TestEvent",
+                "enabled": true,
+                "display": false
+            }
+            config.native.events[3] = {
+                "name": "MyTestEvent",
+                "enabled": false,
+                "display": false
+            }
+
 
             setup.setAdapterConfig(config.common, config.native);
 
