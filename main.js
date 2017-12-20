@@ -584,7 +584,7 @@ function syncUserEvents(callback) {
                             display: adapter.config.events[j].display
                         }
                     }, function (err, id) {
-                        adapter.log.info('Event "' + (id ? id._id : 'object') + '" created');
+                        adapter.log.info('Event "' + toAdd[i] + '" created');
                     });
                     break;
                 }
