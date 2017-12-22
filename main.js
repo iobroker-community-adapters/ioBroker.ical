@@ -303,7 +303,9 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         !ev.start.getSeconds() &&
         !ev.end.getHours()     &&
         !ev.end.getMinutes()   &&
-        !ev.end.getSeconds()) {
+        !ev.end.getSeconds()   &&
+        ev.end.getTime() !== ev.start.getTime()
+    ) {
         fullday = true;
     }
 
@@ -324,7 +326,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         if ((ev.start < endpreview && ev.start >= today) || (ev.end > today && ev.end <= endpreview) || (ev.start < today && ev.end > today)) {
             // check only full day events
             if (checkForEvents(reason, today, ev, true, realnow)) {
-                date = formatDate(ev.start, ev.end, true);
+                date = formatDate(ev.start, ev.end, true, true);
 
                 insertSorted(datesArray, {
                     date:     date.text,
@@ -338,7 +340,8 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _allDay:  true,
                     _rule:    rule,
                     // add additional Objects, so iobroker.occ can use it
-                    _calName: calName
+                    _calName: calName,
+                    _fullday: fullday
                 });
 
                 adapter.log.debug('Event (full day) added : ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
@@ -355,7 +358,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         if ((ev.start >= today && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // Add to list only if not hidden
             if (checkForEvents(reason, today, ev, false, realnow)) {
-                date = formatDate(ev.start, ev.end, true);
+                date = formatDate(ev.start, ev.end, true, false);
 
                 insertSorted(datesArray, {
                     date:     date.text,
@@ -369,7 +372,8 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _allDay:  false,
                     _rule:    rule,
                     // add additional Objects, so iobroker.occ can use it
-                    _calName: calName
+                    _calName: calName,
+                    _fullday: fullday
                 });
                 adapter.log.debug('Event with time added: ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
             } else {
@@ -661,7 +665,7 @@ function readOne(url) {
     });
 }
 
-function formatDate(_date, _end, withTime) {
+function formatDate(_date, _end, withTime, fullday) {
     var day   = _date.getDate();
     var month = _date.getMonth() + 1;
     var year  = _date.getFullYear();
@@ -671,19 +675,27 @@ function formatDate(_date, _end, withTime) {
         var hours   = _date.getHours();
         var minutes = _date.getMinutes();
 
-        if (adapter.config.fulltime && !hours && !minutes) {
+        if (adapter.config.fulltime && fullday) {
             _time = ' ' + adapter.config.fulltime;
         } else {
             if (hours < 10)   hours   = '0' + hours.toString();
             if (minutes < 10) minutes = '0' + minutes.toString();
             _time = ' ' + hours + ':' + minutes;
 
-            if (_end.getHours() > _date.getHours() || (_end.getHours() === _date.getHours() && _end.getMinutes() > _date.getMinutes())) {
+            var timeDiff = _end.getTime() - _date.getTime();
+            if (timeDiff > 0) {
                 var endhours = _end.getHours();
                 var endminutes = _end.getMinutes();
                 if (endhours < 10)   endhours   = '0' + endhours.toString();
                 if (endminutes < 10) endminutes = '0' + endminutes.toString();
                 _time += '-' + endhours + ':' + endminutes;
+
+                var dateEnd = new Date();
+                dateEnd.setDate(_end.getDate() + 1);
+                dateEnd.setHours(0,0,0,0);
+                if (_end.getTime() > dateEnd.getTime()) { // end is next day
+                    _time+='+' + Math.ceil(timeDiff / 24*60*60);
+                }
             }
         }
     }
@@ -915,7 +927,7 @@ function brSeparatedList(arr) {
     dayafter.setHours(0,0,0,0);
 
     for (var i = 0; i < datesArray.length; i++) {
-        var date = formatDate(datesArray[i]._date, datesArray[i]._end, true);
+        var date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._fullday);
         var color = adapter.config.defColor;
         for (var j = 0; j < adapter.config.calendars.length; j++) {
             if (adapter.config.calendars[j].name === datesArray[i]._calName) {
