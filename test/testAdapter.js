@@ -124,14 +124,14 @@ function setupIcsFiles() {
         data += 'TRANSP:TRANSPARENT\n';
         data += 'END:VEVENT\n';
 
-        // Fullday event for 2 days with Trigger "Vacation"
+        // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
         data += '\nBEGIN:VEVENT\n';
         data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
         data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + '\n';
         data += 'DTSTAMP:20111213T124028Z\n';
         data += 'UID:2fb00ad3a214f7369e7a95f57@calendarlabs.com\n';
         data += 'CREATED:20111213T123901Z\n';
-        data += 'DESCRIPTION:MyEvent MyTestEvent\n';
+        data += 'DESCRIPTION:MyEvent BlaEvent\n';
         data += 'LAST-MODIFIED:20111213T123901Z\n';
         data += 'LOCATION:\n';
         data += 'SEQUENCE:0\n';
@@ -156,6 +156,22 @@ function setupIcsFiles() {
         data += 'TRANSP:TRANSPARENT\n';
         data += 'END:VEVENT\n';
 
+        // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
+        data += '\nBEGIN:VEVENT\n';
+        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+        data += 'DTSTAMP:20111213T124028Z\n';
+        data += 'UID:2fb00ad3a214f7369e7a95f59@calendarlabs.com\n';
+        data += 'CREATED:20111213T123901Z\n';
+        data += 'DESCRIPTION:Reminder\n';
+        data += 'LAST-MODIFIED:20111213T123901Z\n';
+        data += 'LOCATION:\n';
+        data += 'SEQUENCE:0\n';
+        data += 'STATUS:CONFIRMED\n';
+        data += "SUMMARY:Reminder\n";
+        data += 'TRANSP:TRANSPARENT\n';
+        data += 'END:VEVENT\n';
+
         data += 'END:VCALENDAR';
         fs.writeFileSync(__dirname + '/data/today.ics', data);
     }
@@ -173,6 +189,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
             config.common.enabled  = true;
             config.common.loglevel = 'silly';
 
+            config.native.replaceDates = true;
             config.native.calendars[0] = {
                 "name": "calendar1",
                 "url": __dirname + '/data/germany_holidays.ics',
@@ -260,7 +277,10 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                 expect(err).to.be.not.ok;
                 expect(state.val[0].event).to.be.equal('TestEvent');
                 expect(state.val[0]._section).to.be.equal('TestEvent');
-                expect(state.val[0]._allDay).to.be.true;
+                expect(state.val[0]._allDay).to.be.false;
+                expect(state.val[1].event).to.be.equal('MyEvent BlaEvent');
+                expect(state.val[1]._section).to.be.equal('MyEvent BlaEvent');
+                expect(state.val[1]._allDay).to.be.true;
                 done();
             });
         }, 1000);
