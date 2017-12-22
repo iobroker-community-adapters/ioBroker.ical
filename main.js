@@ -340,8 +340,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _allDay:  true,
                     _rule:    rule,
                     // add additional Objects, so iobroker.occ can use it
-                    _calName: calName,
-                    _fullday: fullday
+                    _calName: calName
                 });
 
                 adapter.log.debug('Event (full day) added : ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
@@ -372,8 +371,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _allDay:  false,
                     _rule:    rule,
                     // add additional Objects, so iobroker.occ can use it
-                    _calName: calName,
-                    _fullday: fullday
+                    _calName: calName
                 });
                 adapter.log.debug('Event with time added: ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
             } else {
@@ -927,7 +925,7 @@ function brSeparatedList(arr) {
     dayafter.setHours(0,0,0,0);
 
     for (var i = 0; i < datesArray.length; i++) {
-        var date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._fullday);
+        var date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
         var color = adapter.config.defColor;
         for (var j = 0; j < adapter.config.calendars.length; j++) {
             if (adapter.config.calendars[j].name === datesArray[i]._calName) {

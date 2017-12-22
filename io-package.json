@@ -80,6 +80,7 @@
         "replaceDates": true,
         "language": "",
         "everyCalOneColor": false,
+        "forceFullday": false,
         "calendars": [
             {
                 "name": "calendar1",
