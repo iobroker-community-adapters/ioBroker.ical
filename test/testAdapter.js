@@ -125,7 +125,7 @@ function setupIcsFiles() {
         data += 'END:VEVENT\n';
 
         // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
-        data += '\nBEGIN:VEVENT\n';
+        data += 'BEGIN:VEVENT\n';
         data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
         data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + '\n';
         data += 'DTSTAMP:20111213T124028Z\n';
@@ -141,9 +141,25 @@ function setupIcsFiles() {
         data += 'END:VEVENT\n';
 
         // event for over 0:00
-        data += '\nBEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m1 + day1 + 'T220000\n';
-        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m3 + day3 + 'T020000\n';
+        data += 'BEGIN:VEVENT\n';
+        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T220000\n';
+        data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
+        data += 'DTSTAMP:20111213T124028Z\n';
+        data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
+        data += 'CREATED:20111213T123901Z\n';
+        data += 'DESCRIPTION:OverEvent\n';
+        data += 'LAST-MODIFIED:20111213T123901Z\n';
+        data += 'LOCATION:\n';
+        data += 'SEQUENCE:0\n';
+        data += 'STATUS:CONFIRMED\n';
+        data += "SUMMARY:OverEvent\n";
+        data += 'TRANSP:TRANSPARENT\n';
+        data += 'END:VEVENT\n';
+
+        // event for over 0:00
+        data += 'BEGIN:VEVENT\n';
+        data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m0 + day0 + 'T220000\n';
+        data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
         data += 'DTSTAMP:20111213T124028Z\n';
         data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
         data += 'CREATED:20111213T123901Z\n';
@@ -157,11 +173,11 @@ function setupIcsFiles() {
         data += 'END:VEVENT\n';
 
         // event for over 0:00
-        data += '\nBEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m2 + day2 + 'T180000\n';
+        data += 'BEGIN:VEVENT\n';
+        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
         data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
         data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
+        data += 'UID:2fb00ad3a214f7369e7a95f60@calendarlabs.com\n';
         data += 'CREATED:20111213T123901Z\n';
         data += 'DESCRIPTION:InDayEvent\n';
         data += 'LAST-MODIFIED:20111213T123901Z\n';
@@ -173,7 +189,7 @@ function setupIcsFiles() {
         data += 'END:VEVENT\n';
 
         // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
-        data += '\nBEGIN:VEVENT\n';
+        data += 'BEGIN:VEVENT\n';
         data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
         data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
         data += 'DTSTAMP:20111213T124028Z\n';
@@ -206,6 +222,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
             config.common.loglevel = 'silly';
 
             config.native.fulltime = "";
+            config.native.forceFullday = false;
             config.native.replaceDates = false;
             config.native.calendars[0] = {
                 "name": "calendar1",
