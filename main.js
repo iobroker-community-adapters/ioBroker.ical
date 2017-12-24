@@ -798,7 +798,7 @@ function formatDate(_date, _end, withTime, fullday) {
             if (month < 10) month = '0' + month.toString();
         }
 
-        text = '&#8594; ' + day + '.' + month + '.' + year;
+        text = '&#8594; ' + day + '.' + month + '.' + year + _time;
       }
 
       return { text: text, _class: _class };

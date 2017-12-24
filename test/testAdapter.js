@@ -190,8 +190,8 @@ function setupIcsFiles() {
 
         // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
         data += 'BEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
-        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
+        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
         data += 'DTSTAMP:20111213T124028Z\n';
         data += 'UID:2fb00ad3a214f7369e7a95f59@calendarlabs.com\n';
         data += 'CREATED:20111213T123901Z\n';
