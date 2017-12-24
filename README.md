@@ -69,6 +69,8 @@ Zum Einbinden von gesharten Kalendern einer OwnCloud muss man dort in der Kalend
 ### 1.4.0 (2017-12-xx)
 * allow multiple Events to be contained in one calendar entry. Make sure the names are unique enough because the search only checks for existance of the event name in the text.
 * correctly detect events that started before 0:00
+* also show events with no duration (sometimes used as reminders)
+* correctly show end times for events that are longer then 1 day (including "+x" to show day duration)
 
 ### 1.3.3 (2017-10-30)
 * (DutchmanNL) Translate to Netherlands

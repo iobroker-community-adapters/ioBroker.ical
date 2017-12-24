@@ -389,7 +389,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
         prefix: normal,
         suffix: "</span></span>"
     };
-    cmpDate = new Date(date.getTime());
+    var cmpDate = new Date(date.getTime());
     cmpDate.setHours(0,0,0,0);
 
     // Colorieren wenn gewünscht
