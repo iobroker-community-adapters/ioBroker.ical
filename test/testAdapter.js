@@ -158,8 +158,8 @@ function setupIcsFiles() {
 
         // event for over 0:00
         data += '\nBEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m1 + day1 + 'T180000\n';
-        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m1 + day1 + 'T200000\n';
+        data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m2 + day2 + 'T180000\n';
+        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
         data += 'DTSTAMP:20111213T124028Z\n';
         data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
         data += 'CREATED:20111213T123901Z\n';
