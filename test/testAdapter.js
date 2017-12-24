@@ -189,6 +189,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
             config.common.enabled  = true;
             config.common.loglevel = 'silly';
 
+            config.native.fulltime = "";
             config.native.replaceDates = false;
             config.native.calendars[0] = {
                 "name": "calendar1",
