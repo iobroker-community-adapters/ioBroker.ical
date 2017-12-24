@@ -389,12 +389,13 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
         prefix: normal,
         suffix: "</span></span>"
     };
-    date.setHours(0,0,0,0);
+    cmpDate = new Date(date.getTime());
+    cmpDate.setHours(0,0,0,0);
 
     // Colorieren wenn gewünscht
     if (adapter.config.colorize) {
         // today
-        if (date.compare(today) === 0) {
+        if (cmpDate.compare(today) === 0) {
             result.prefix = warn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
@@ -405,7 +406,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.suffix += "<span class='icalWarn2'>";
         } else
         // tomorrow
-        if (date.compare(tomorrow) === 0) {
+        if (cmpDate.compare(tomorrow) === 0) {
             result.prefix = prewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
@@ -416,7 +417,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.suffix += "<span class='icalPreWarn2'>";
         } else
         // day after tomorrow
-        if (date.compare(dayafter) === 0) {
+        if (cmpDate.compare(dayafter) === 0) {
             result.prefix = preprewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
@@ -427,7 +428,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.suffix += "<span class='icalPrePreWarn2'>";
         } else
         // start time is in the past
-        if (date.compare(today) === -1) {
+        if (cmpDate.compare(today) === -1) {
             result.prefix = normal;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
@@ -925,7 +926,7 @@ function brSeparatedList(arr) {
     dayafter.setHours(0,0,0,0);
 
     for (var i = 0; i < datesArray.length; i++) {
-        var date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
+        var date = datesArray[i].date;//formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
         var color = adapter.config.defColor;
         for (var j = 0; j < adapter.config.calendars.length; j++) {
             if (adapter.config.calendars[j].name === datesArray[i]._calName) {
