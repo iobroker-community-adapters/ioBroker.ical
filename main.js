@@ -398,9 +398,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.prefix = warn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix = '<span style=\"font-weight:normal;color:red\">';
+                result.suffix += '<span style=\"font-weight:normal;color:red\">';
             }
             result.suffix += "<span class='icalWarn2'>";
         } else
@@ -409,9 +409,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.prefix = prewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix = '<span style=\"font-weight:normal;color:orange\">';
+                result.suffix += '<span style=\"font-weight:normal;color:orange\">';
             }
             result.suffix += "<span class='icalPreWarn2'>";
         } else
@@ -420,9 +420,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.prefix = preprewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix = '<span style=\"font-weight:normal;color:yellow\">';
+                result.suffix += '<span style=\"font-weight:normal;color:yellow\">';
             }
             result.suffix += "<span class='icalPrePreWarn2'>";
         } else
@@ -431,17 +431,17 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.prefix = normal;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix = '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+                result.suffix += '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
             }
             result.suffix += "<span class='icalNormal2'>";
         } else {
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix = '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix = '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+                result.suffix += '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
             }
             result.suffix += "<span class='icalNormal2'>";
         }
@@ -688,10 +688,10 @@ function formatDate(_date, _end, withTime, fullday) {
                 if (endminutes < 10) endminutes = '0' + endminutes.toString();
                 _time += '-' + endhours + ':' + endminutes;
 
-                var dateEnd = new Date();
-                dateEnd.setDate(_end.getDate() + 1);
-                dateEnd.setHours(0,0,0,0);
-                if (_end.getTime() > dateEnd.getTime()) { // end is next day
+                var startDayEnd = new Date();
+                startDayEnd.setDate(_date.getDate() + 1);
+                startDayEnd.setHours(0,0,0,0);
+                if (_end.getTime() > startDayEnd.getTime()) { // end is next day
                     _time+='+' + Math.ceil(timeDiff / 24*60*60);
                 }
             }
