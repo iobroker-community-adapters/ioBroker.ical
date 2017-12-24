@@ -142,8 +142,8 @@ function setupIcsFiles() {
 
         // event for over 0:00
         data += '\nBEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m0 + day1 + 'T220000\n';
-        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day3 + 'T020000\n';
+        data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m1 + day1 + 'T220000\n';
+        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m3 + day3 + 'T020000\n';
         data += 'DTSTAMP:20111213T124028Z\n';
         data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
         data += 'CREATED:20111213T123901Z\n';
@@ -153,6 +153,22 @@ function setupIcsFiles() {
         data += 'SEQUENCE:0\n';
         data += 'STATUS:CONFIRMED\n';
         data += "SUMMARY:TestEvent\n";
+        data += 'TRANSP:TRANSPARENT\n';
+        data += 'END:VEVENT\n';
+
+        // event for over 0:00
+        data += '\nBEGIN:VEVENT\n';
+        data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m1 + day1 + 'T180000\n';
+        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m1 + day1 + 'T200000\n';
+        data += 'DTSTAMP:20111213T124028Z\n';
+        data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
+        data += 'CREATED:20111213T123901Z\n';
+        data += 'DESCRIPTION:InDayEvent\n';
+        data += 'LAST-MODIFIED:20111213T123901Z\n';
+        data += 'LOCATION:\n';
+        data += 'SEQUENCE:0\n';
+        data += 'STATUS:CONFIRMED\n';
+        data += "SUMMARY:InDayEvent\n";
         data += 'TRANSP:TRANSPARENT\n';
         data += 'END:VEVENT\n';
 
