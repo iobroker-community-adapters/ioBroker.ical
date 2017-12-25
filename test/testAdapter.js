@@ -124,6 +124,22 @@ function setupIcsFiles() {
         data += 'TRANSP:TRANSPARENT\n';
         data += 'END:VEVENT\n';
 
+        // Fullday event for 1 day with Trigger "Vacation"
+        data += '\nBEGIN:VEVENT\n';
+        data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
+        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+        data += 'DTSTAMP:20111213T124028Z\n';
+        data += 'UID:2fb00ad3a214f7369e7a95f56@calendarlabs.com\n';
+        data += 'CREATED:20111213T123901Z\n';
+        data += 'DESCRIPTION:Today Event\n';
+        data += 'LAST-MODIFIED:20111213T123901Z\n';
+        data += 'LOCATION:\n';
+        data += 'SEQUENCE:0\n';
+        data += 'STATUS:CONFIRMED\n';
+        data += "SUMMARY:Today Event\n";
+        data += 'TRANSP:TRANSPARENT\n';
+        data += 'END:VEVENT\n';
+
         // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
         data += 'BEGIN:VEVENT\n';
         data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
