@@ -684,7 +684,10 @@ function formatDate(_date, _end, withTime, fullday) {
             _time = ' ' + hours + ':' + minutes;
 
             var timeDiff = _end.getTime() - _date.getTime();
-            if (timeDiff > 0) {
+            if (timeDiff === 0 && hours === 0 && minutes === 0) {
+                _time = '';
+            }
+            else if (timeDiff > 0) {
                 var endhours = _end.getHours();
                 var endminutes = _end.getMinutes();
                 if (adapter.config.dataPaddingWithZeros) {
