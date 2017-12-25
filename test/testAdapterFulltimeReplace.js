@@ -10,7 +10,7 @@ var onStateChanged = null;
 var onObjectChanged = null;
 var sendToID = 1;
 
-var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
+var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1) + ' Config Fulltime Replace';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
@@ -125,11 +125,11 @@ function setupIcsFiles() {
         data += 'END:VEVENT\n';
 
         // Fullday event for 1 day with Trigger "Vacation"
-        data += '\nBEGIN:VEVENT\n';
+        data += 'BEGIN:VEVENT\n';
         data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
         data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
         data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f56@calendarlabs.com\n';
+        data += 'UID:2fb00ad3a214f7369e7a95f61@calendarlabs.com\n';
         data += 'CREATED:20111213T123901Z\n';
         data += 'DESCRIPTION:Today Event\n';
         data += 'LAST-MODIFIED:20111213T123901Z\n';
@@ -328,8 +328,8 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                 expect(state.val[0].event).to.be.equal('TestEvent');
                 expect(state.val[0]._section).to.be.equal('TestEvent');
                 expect(state.val[0]._allDay).to.be.false;
-                expect(state.val[1].event).to.be.equal('MyEvent BlaEvent');
-                expect(state.val[1]._section).to.be.equal('MyEvent BlaEvent');
+                expect(state.val[1].event).to.be.equal('Today Event');
+                expect(state.val[1]._section).to.be.equal('Today Event');
                 expect(state.val[1]._allDay).to.be.true;
                 done();
             });
