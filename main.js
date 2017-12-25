@@ -689,8 +689,8 @@ function formatDate(_date, _end, withTime, fullday) {
                 var endminutes = _end.getMinutes();
                 if (adapter.config.dataPaddingWithZeros) {
                     if (endhours < 10)   endhours   = '0' + endhours.toString();
-                    if (endminutes < 10) endminutes = '0' + endminutes.toString();
                 }
+                if (endminutes < 10) endminutes = '0' + endminutes.toString();
                 _time += '-' + endhours + ':' + endminutes;
 
                 var startDayEnd = new Date();
@@ -809,8 +809,8 @@ function formatDate(_date, _end, withTime, fullday) {
             var endminutes = _end.getMinutes();
             if (adapter.config.dataPaddingWithZeros) {
                 if (endhours < 10)   endhours   = '0' + endhours.toString();
-                if (endminutes < 10) endminutes = '0' + endminutes.toString();
             }
+            if (endminutes < 10) endminutes = '0' + endminutes.toString();
             text += ' ' + endhours + ':' + endminutes;
         }
 
