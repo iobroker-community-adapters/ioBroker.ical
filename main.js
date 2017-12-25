@@ -808,13 +808,18 @@ function formatDate(_date, _end, withTime, fullday) {
         text = '&#8594; ' + day + '.' + month + '.' + year;
 
         if (withTime) {
-            var endhours = _end.getHours();
-            var endminutes = _end.getMinutes();
-            if (adapter.config.dataPaddingWithZeros) {
-                if (endhours < 10)   endhours   = '0' + endhours.toString();
+            if (adapter.config.fulltime && fullday) {
+                text += ' ' + adapter.config.fulltime;
             }
-            if (endminutes < 10) endminutes = '0' + endminutes.toString();
-            text += ' ' + endhours + ':' + endminutes;
+            else {
+                var endhours = _end.getHours();
+                var endminutes = _end.getMinutes();
+                if (adapter.config.dataPaddingWithZeros) {
+                    if (endhours < 10)   endhours   = '0' + endhours.toString();
+                }
+                if (endminutes < 10) endminutes = '0' + endminutes.toString();
+                text += ' ' + endhours + ':' + endminutes;
+            }
         }
 
       }
