@@ -693,7 +693,7 @@ function formatDate(_date, _end, withTime, fullday) {
                 startDayEnd.setDate(_date.getDate() + 1);
                 startDayEnd.setHours(0,0,0,0);
                 if (_end.getTime() > startDayEnd.getTime()) { // end is next day
-                    _time+='+' + Math.ceil(timeDiff / 24*60*60*1000);
+                    _time+='+' + Math.ceil(timeDiff / (24*60*60*1000));
                 }
             }
         }
