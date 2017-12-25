@@ -10,7 +10,8 @@ var onStateChanged = null;
 var onObjectChanged = null;
 var sendToID = 1;
 
-var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1) + ' Config Fulltime Replace';
+var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
+var adapterShortNameLog = adapterShortName + ' Config Normal';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
@@ -161,7 +162,7 @@ function setupIcsFiles() {
         data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T220000\n';
         data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
         data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
+        data += 'UID:2fb00ad3a214f7369e7a95f62@calendarlabs.com\n';
         data += 'CREATED:20111213T123901Z\n';
         data += 'DESCRIPTION:OverEvent\n';
         data += 'LAST-MODIFIED:20111213T123901Z\n';
@@ -225,8 +226,8 @@ function setupIcsFiles() {
     }
 }
 
-describe('Test ' + adapterShortName + ' adapter', function() {
-    before('Test ' + adapterShortName + ' adapter: Start js-controller', function (_done) {
+describe('Test ' + adapterShortNameLog + ' adapter', function() {
+    before('Test ' + adapterShortNameLog + ' adapter: Start js-controller', function (_done) {
         this.timeout(600000); // because of first install from npm
 
         setupIcsFiles();
@@ -291,7 +292,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
         });
     });
 
-    it('Test ' + adapterShortName + ' adapter: Check if adapter started', function (done) {
+    it('Test ' + adapterShortNameLog + ' adapter: Check if adapter started', function (done) {
         this.timeout(60000);
         checkConnectionOfAdapter(function (res) {
             if (res) console.log(res);
@@ -309,7 +310,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
         });
     });
 
-    it('Test ' + adapterShortName + ': check count of events', function (done) {
+    it('Test ' + adapterShortNameLog + ': check count of events', function (done) {
         this.timeout(5000);
         setTimeout(function () {
             states.getState('ical.0.data.count', function (err, state) {
@@ -320,7 +321,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
         }, 3000);
     });
 
-    it('Test ' + adapterShortName + ': data.table', function (done) {
+    it('Test ' + adapterShortNameLog + ': data.table', function (done) {
         this.timeout(2000);
         setTimeout(function () {
             states.getState('ical.0.data.table', function (err, state) {
@@ -336,7 +337,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
         }, 1000);
     });
 
-    after('Test ' + adapterShortName + ' adapter: Stop js-controller', function (done) {
+    after('Test ' + adapterShortNameLog + ' adapter: Stop js-controller', function (done) {
         this.timeout(10000);
 
         setup.stopController(function (normalTerminated) {
