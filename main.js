@@ -677,16 +677,20 @@ function formatDate(_date, _end, withTime, fullday) {
         if (adapter.config.fulltime && fullday) {
             _time = ' ' + adapter.config.fulltime;
         } else {
-            if (hours < 10)   hours   = '0' + hours.toString();
-            if (minutes < 10) minutes = '0' + minutes.toString();
+            if (adapter.config.dataPaddingWithZeros) {
+                if (hours < 10)   hours   = '0' + hours.toString();
+                if (minutes < 10) minutes = '0' + minutes.toString();
+            }
             _time = ' ' + hours + ':' + minutes;
 
             var timeDiff = _end.getTime() - _date.getTime();
             if (timeDiff > 0) {
                 var endhours = _end.getHours();
                 var endminutes = _end.getMinutes();
-                if (endhours < 10)   endhours   = '0' + endhours.toString();
-                if (endminutes < 10) endminutes = '0' + endminutes.toString();
+                if (adapter.config.dataPaddingWithZeros) {
+                    if (endhours < 10)   endhours   = '0' + endhours.toString();
+                    if (endminutes < 10) endminutes = '0' + endminutes.toString();
+                }
                 _time += '-' + endhours + ':' + endminutes;
 
                 var startDayEnd = new Date();
@@ -798,7 +802,18 @@ function formatDate(_date, _end, withTime, fullday) {
             if (month < 10) month = '0' + month.toString();
         }
 
-        text = '&#8594; ' + day + '.' + month + '.' + year + _time;
+        text = '&#8594; ' + day + '.' + month + '.' + year;
+
+        if (withTime) {
+            var endhours = _end.getHours();
+            var endminutes = _end.getMinutes();
+            if (adapter.config.dataPaddingWithZeros) {
+                if (endhours < 10)   endhours   = '0' + endhours.toString();
+                if (endminutes < 10) endminutes = '0' + endminutes.toString();
+            }
+            _time += ' ' + endhours + ':' + endminutes;
+        }
+
       }
 
       return { text: text, _class: _class };
