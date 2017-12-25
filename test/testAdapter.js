@@ -274,7 +274,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 "display": true
             };
             config.native.events[3] = {
-                "name": "BlaEvent",
+                "name": "InDayEvent",
                 "enabled": true,
                 "display": false
             };
@@ -354,10 +354,10 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         }, 3000);
     });
 
-    it('Test ' + adapterShortNameLog + ': event BlaEvent', function (done) {
+    it('Test ' + adapterShortNameLog + ': event InDayEvent', function (done) {
         this.timeout(5000);
         setTimeout(function () {
-            states.getState('ical.0.events.BlaEvent', function (err, state) {
+            states.getState('ical.0.events.InDayEvent', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val).to.be.false;
                 done();
@@ -402,7 +402,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[1].event).to.be.equal('OverEvent');
                 expect(state.val[1]._section).to.be.equal('OverEvent');
                 expect(state.val[1]._allDay).to.be.false;
-                
+
                 done();
             });
         }, 1000);
