@@ -775,6 +775,7 @@ function formatDate(_date, _end, withTime, fullday) {
 
     // check if date is in the past and if so we show the end time instead
     if(_date < new Date()) {
+      _class = 'ical_today';
       var daysleft = Math.round((_end - new Date().setHours(0,0,0,0))/(1000*60*60*24));
 
       if(adapter.config.replaceDates) {
