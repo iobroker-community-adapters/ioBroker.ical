@@ -811,7 +811,7 @@ function formatDate(_date, _end, withTime, fullday) {
                 if (endhours < 10)   endhours   = '0' + endhours.toString();
                 if (endminutes < 10) endminutes = '0' + endminutes.toString();
             }
-            _time += ' ' + endhours + ':' + endminutes;
+            text += ' ' + endhours + ':' + endminutes;
         }
 
       }
