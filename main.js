@@ -678,9 +678,9 @@ function formatDate(_date, _end, withTime, fullday) {
             _time = ' ' + adapter.config.fulltime;
         } else {
             if (adapter.config.dataPaddingWithZeros) {
-                if (hours < 10)   hours   = '0' + hours.toString();
-                if (minutes < 10) minutes = '0' + minutes.toString();
+                if (hours < 10) hours   = '0' + hours.toString();
             }
+            if (minutes < 10) minutes = '0' + minutes.toString();
             _time = ' ' + hours + ':' + minutes;
 
             var timeDiff = _end.getTime() - _date.getTime();
@@ -691,7 +691,7 @@ function formatDate(_date, _end, withTime, fullday) {
                 var endhours = _end.getHours();
                 var endminutes = _end.getMinutes();
                 if (adapter.config.dataPaddingWithZeros) {
-                    if (endhours < 10)   endhours   = '0' + endhours.toString();
+                    if (endhours < 10) endhours   = '0' + endhours.toString();
                 }
                 if (endminutes < 10) endminutes = '0' + endminutes.toString();
                 _time += '-' + endhours + ':' + endminutes;
@@ -707,12 +707,17 @@ function formatDate(_date, _end, withTime, fullday) {
     }
     var _class = '';
     var d = new Date();
+    d.setHours(0,0,0,0);
+
+    var minsLeft = (_end.getTime() - d.getTime()) / 1000 / 60;
+
     if (day   === d.getDate() &&
         month === (d.getMonth() + 1) &&
         year  === d.getFullYear()) {
         _class = 'ical_today';
     }
-    
+    if (_date < new Date() && minsLeft )
+
     d.setDate(d.getDate() + 1);
     if (day   === d.getDate() &&
         month === (d.getMonth() + 1) &&

@@ -257,6 +257,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.native.fulltime = " ";
             config.native.forceFullday = false;
             config.native.replaceDates = false;
+            config.native.dataPaddingWithZeros = false;
             config.native.calendars[0] = {
                 "name": "calendar1",
                 "url": __dirname + '/data/germany_holidays.ics',
@@ -414,7 +415,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[4]._section).to.be.equal('InDay2');
                 expect(state.val[4]._allDay).to.be.false;
 
-                expect(state.val[5].date.indexOf(' 22:00-02:00+1')).to.be.equal(10);
+                expect(state.val[5].date.indexOf(' 22:00-2:00+1')).to.be.equal(10);
                 expect(state.val[5].event).to.be.equal('OverEvent');
                 expect(state.val[5]._section).to.be.equal('OverEvent');
                 expect(state.val[5]._allDay).to.be.false;
