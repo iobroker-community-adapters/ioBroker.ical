@@ -704,9 +704,10 @@ function formatDate(_date, _end, withTime, fullday) {
                 startDayEnd.setDate(_date.getDate() + 1);
                 startDayEnd.setHours(0,0,0,0);
                 if (_end > startDayEnd) { // end is next day
-                    var startCurrentDay = new Date();
-                    startCurrentDay.setHours(0,0,0,0);
-                    timeDiff = _end.getTime() - startCurrentDay.getTime();
+                    var start = new Date();
+                    if (!alreadyStarted) start.setDate(_date.getDate());
+                    start.setHours(0,0,0,0);
+                    timeDiff = _end.getTime() - start.getTime();
                     _time+='+' + Math.ceil(timeDiff / (24*60*60*1000));
                 }
             }

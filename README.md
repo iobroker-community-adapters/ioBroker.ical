@@ -32,12 +32,12 @@ iCalEvents
 Die Variable iCalReadTrigger dient zum Triggern des Einlesevorgangs. In den Settings können mehrere URLs hinterlegt werden, von welchen der Kalender eingelesen wird. Die Kalender werden dann nacheinander eingelesen und das Ergebnis zusammengefasst. Alternativ kann dem Lesebefehl auch eine URL mitgegeben werden, um z.B. zeitweilig einen anderen Kalender einzulesen.
 
 zum Einlesen von den defaultURLs muss der String "read" in die Variable iCalReadTrigger geschrieben werden.
-zum Einlesen von einer beliebigen URL muss der String "readURL " in die Variable iCalReadTrigger geschrieben werden.
+zum Einlesen von einer beliebigen URL muss der String "read https://..." in die Variable iCalReadTrigger geschrieben werden.
 Das Ergebnis liefert der iCal Adapter in die Variable iCalEvents.
 
-Alternativ kann der Adapter auch automatisch in einem definierbaren Intervall die Kalender abfragen (nur mit der defaultURL). Dazu in den Settings mit der Variablen runEveryMinutes das Abfrageintervall (in Minuten) einstellen.
+Durch schreiben von "check" in iCalReadTrigger wird der Check-Vorgang auf Events auf die gelesenen Daten ohne erneutes einlesen der Daten ausgelöst.
 
-Das automatische Einlesen kann durch schreiben des Strings "stop" on die Variable iCalReadTrigger gestoppt und mit "start" wieder gestartet werden.
+Alternativ kann der Adapter auch automatisch in einem definierbaren Intervall die Kalender abfragen (nur mit der defaultURL). Dazu in den Settings mit der Variablen runEveryMinutes das Abfrageintervall (in Minuten) einstellen.
 
 Bedeutung der Optionen im Konfigfile:
 
@@ -71,6 +71,9 @@ Zum Einbinden von gesharten Kalendern einer OwnCloud muss man dort in der Kalend
 * correctly detect events that started before 0:00
 * also show events with no duration (sometimes used as reminders)
 * correctly show end times for events that are longer then 1 day (including "+x" to show day duration)
+* many enhancements and optimizations in formatting the infos (especially when event has already started but not ended)
+* add option to hide year numbers
+
 
 ### 1.3.3 (2017-10-30)
 * (DutchmanNL) Translate to Netherlands
