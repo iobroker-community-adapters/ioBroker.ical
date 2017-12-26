@@ -87,6 +87,7 @@
         "language": "",
         "everyCalOneColor": false,
         "forceFullday": false,
+        "hideYear": false,
         "calendars": [
             {
                 "name": "calendar1",

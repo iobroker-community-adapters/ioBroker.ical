@@ -22,5 +22,6 @@ systemDictionary = {
     "display":                          {"en": "display",                   "de": "anzeigen",                   "ru": "показать в списке",							"nl": "weergeven"},
     "Events":                           {"en": "Events",                    "de": "Ereignise",                  "ru": "События",									"nl": "Gebeurtenissen"},
     "Use by full day:":                 {"en": "Replace 00:00 with:",       "de": "Ersetze 00:00 mit:",         "ru": "Заменять 00:00 на:",							"nl": "Vervang 00:00 met:"},
+    "Hide Year:":                       {"en": "Hide Year:",                "de": "Jahr verbergen:",            "ru": "Hide Year:",							"nl": "Vervang 00:00 met:"},
     "Hide Start-End of events:":	   	{"en": "Hide Start-End of events:",	"de": "Start-Endzeiten verbergen:", "ru": "Hide Start-End of events:",                  "nl": "Verberg begin-einde van evenementen:"}
 };

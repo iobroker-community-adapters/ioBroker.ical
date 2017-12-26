@@ -286,6 +286,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.native.fulltime = "";
             config.native.forceFullday = false;
             config.native.replaceDates = false;
+            config.native.hideYear = true;
             config.native.calendars[0] = {
                 "name": "calendar1",
                 "url": __dirname + '/data/germany_holidays.ics',

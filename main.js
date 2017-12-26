@@ -813,7 +813,10 @@ function formatDate(_date, _end, withTime, fullday) {
             if (month < 10) month = '0' + month.toString();
         }
 
-        text = '&#8594; ' + day + '.' + month + '.' + year;
+        text = '&#8594; ' + day + '.' + month;
+        if (!adapter.config.hideYear) {
+            text += '.' + year;
+        }
 
         if (withTime) {
             if (adapter.config.fulltime && fullday) {
@@ -841,7 +844,7 @@ function formatDate(_date, _end, withTime, fullday) {
     }
 
     return {
-        text:   day + '.' + month + '.' + year + _time,
+        text:   day + '.' + month + ((adapter.config.hideYear)?'':'.' + year) + _time,
         _class: _class
     };
 }
