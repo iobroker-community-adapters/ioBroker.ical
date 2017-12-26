@@ -175,6 +175,22 @@ function setupIcsFiles() {
 
         // event for over 0:00
         data += 'BEGIN:VEVENT\n';
+        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+        data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + '\n';
+        data += 'DTSTAMP:20111213T124028Z\n';
+        data += 'UID:2fb00ad3a214f7369e7a95f65@calendarlabs.com\n';
+        data += 'CREATED:20111213T123901Z\n';
+        data += 'DESCRIPTION:MorgenVoll\n';
+        data += 'LAST-MODIFIED:20111213T123901Z\n';
+        data += 'LOCATION:\n';
+        data += 'SEQUENCE:0\n';
+        data += 'STATUS:CONFIRMED\n';
+        data += "SUMMARY:MorgenVoll\n";
+        data += 'TRANSP:TRANSPARENT\n';
+        data += 'END:VEVENT\n';
+
+        // event for over 0:00
+        data += 'BEGIN:VEVENT\n';
         data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m0 + day0 + 'T220000\n';
         data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
         data += 'DTSTAMP:20111213T124028Z\n';
@@ -254,7 +270,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.common.enabled  = true;
             config.common.loglevel = 'silly';
 
-            config.native.fulltime = " ";
+            config.native.fulltime = " ganzer Tag";
             config.native.forceFullday = false;
             config.native.replaceDates = false;
             config.native.dataPaddingWithZeros = false;
@@ -394,31 +410,36 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[0]._allDay).to.be.false;
 
                 expect(state.val[1].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[1].date.indexOf('  ')).to.be.equal(18);
+                expect(state.val[1].date.indexOf(' ganzer Tag')).to.be.equal(18);
                 expect(state.val[1].event).to.be.equal('Today Event');
                 expect(state.val[1]._section).to.be.equal('Today Event');
                 expect(state.val[1]._allDay).to.be.true;
 
                 expect(state.val[2].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[2].date.indexOf('  ')).to.be.equal(18);
+                expect(state.val[2].date.indexOf(' ganzer Tag')).to.be.equal(18);
                 expect(state.val[2].event).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._section).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._allDay).to.be.true;
 
-                expect(state.val[3].date.indexOf(' 10:00')).to.be.equal(10);
-                expect(state.val[3].event).to.be.equal('Reminder');
-                expect(state.val[3]._section).to.be.equal('Reminder');
-                expect(state.val[3]._allDay).to.be.false;
+                expect(state.val[3].date.indexOf(' ganzer Tag')).to.be.equal(10);
+                expect(state.val[3].event).to.be.equal('MorgenVoll');
+                expect(state.val[3]._section).to.be.equal('MorgenVoll');
+                expect(state.val[3]._allDay).to.be.true;
 
-                expect(state.val[4].date.indexOf(' 18:00-20:00')).to.be.equal(10);
-                expect(state.val[4].event).to.be.equal('InDay2');
-                expect(state.val[4]._section).to.be.equal('InDay2');
+                expect(state.val[4].date.indexOf(' 10:00')).to.be.equal(10);
+                expect(state.val[4].event).to.be.equal('Reminder');
+                expect(state.val[4]._section).to.be.equal('Reminder');
                 expect(state.val[4]._allDay).to.be.false;
 
-                expect(state.val[5].date.indexOf(' 22:00-2:00+1')).to.be.equal(10);
-                expect(state.val[5].event).to.be.equal('OverEvent');
-                expect(state.val[5]._section).to.be.equal('OverEvent');
+                expect(state.val[5].date.indexOf(' 18:00-20:00')).to.be.equal(10);
+                expect(state.val[5].event).to.be.equal('InDay2');
+                expect(state.val[5]._section).to.be.equal('InDay2');
                 expect(state.val[5]._allDay).to.be.false;
+
+                expect(state.val[6].date.indexOf(' 22:00-2:00+1')).to.be.equal(10);
+                expect(state.val[6].event).to.be.equal('OverEvent');
+                expect(state.val[6]._section).to.be.equal('OverEvent');
+                expect(state.val[6]._allDay).to.be.false;
 
                 done();
             });
