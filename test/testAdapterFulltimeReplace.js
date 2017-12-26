@@ -410,13 +410,13 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[0]._allDay).to.be.false;
 
                 expect(state.val[1].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[1].date.indexOf(' ganzer Tag')).to.be.equal(18);
+                expect(state.val[1].date.indexOf('  ganzer Tag')).to.be.equal(18);
                 expect(state.val[1].event).to.be.equal('Today Event');
                 expect(state.val[1]._section).to.be.equal('Today Event');
                 expect(state.val[1]._allDay).to.be.true;
 
                 expect(state.val[2].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[2].date.indexOf(' ganzer Tag')).to.be.equal(18);
+                expect(state.val[2].date.indexOf('  ganzer Tag')).to.be.equal(18);
                 expect(state.val[2].event).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._section).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._allDay).to.be.true;

@@ -669,6 +669,7 @@ function formatDate(_date, _end, withTime, fullday) {
     var month = _date.getMonth() + 1;
     var year  = _date.getFullYear();
     var _time = '';
+    var alreadyStarted = (_date < new Date());
 
     if (withTime) {
         var hours   = _date.getHours();
@@ -677,24 +678,27 @@ function formatDate(_date, _end, withTime, fullday) {
         if (adapter.config.fulltime && fullday) {
             _time = ' ' + adapter.config.fulltime;
         } else {
-            if (adapter.config.dataPaddingWithZeros) {
-                if (hours < 10) hours   = '0' + hours.toString();
+            if (alreadyStarted) {
+                if (adapter.config.dataPaddingWithZeros) {
+                    if (hours < 10) hours   = '0' + hours.toString();
+                }
+                if (minutes < 10) minutes = '0' + minutes.toString();
+                _time = ' ' + hours + ':' + minutes;
             }
-            if (minutes < 10) minutes = '0' + minutes.toString();
-            _time = ' ' + hours + ':' + minutes;
-
             var timeDiff = _end.getTime() - _date.getTime();
             if (timeDiff === 0 && hours === 0 && minutes === 0) {
                 _time = '';
             }
             else if (timeDiff > 0) {
+                if (!alreadyStarted) _time += '-';
+
                 var endhours = _end.getHours();
                 var endminutes = _end.getMinutes();
                 if (adapter.config.dataPaddingWithZeros) {
                     if (endhours < 10) endhours   = '0' + endhours.toString();
                 }
                 if (endminutes < 10) endminutes = '0' + endminutes.toString();
-                _time += '-' + endhours + ':' + endminutes;
+                _time += endhours + ':' + endminutes;
 
                 var startDayEnd = new Date();
                 startDayEnd.setDate(_date.getDate() + 1);
@@ -773,18 +777,18 @@ function formatDate(_date, _end, withTime, fullday) {
     }
 
     if (adapter.config.replaceDates) {
-        if (_class === 'ical_today')    return {text: _('today')    + _time, _class: _class};
-        if (_class === 'ical_tomorrow') return {text: _('tomorrow') + _time, _class: _class};
-        if (_class === 'ical_dayafter') return {text: _('dayafter') + _time, _class: _class};
-        if (_class === 'ical_3days')    return {text: _('3days') + _time, _class: _class};
-        if (_class === 'ical_4days')    return {text: _('4days') + _time, _class: _class};
-        if (_class === 'ical_5days')    return {text: _('5days') + _time, _class: _class};
-        if (_class === 'ical_6days')    return {text: _('6days') + _time, _class: _class};
-        if (_class === 'ical_oneweek')  return {text: _('oneweek') + _time, _class: _class};
+        if (_class === 'ical_today')    return {text: (alreadyStarted?'&#8594; ':'') + _('today')    + _time, _class: _class};
+        if (_class === 'ical_tomorrow') return {text: (alreadyStarted?'&#8594; ':'') + _('tomorrow') + _time, _class: _class};
+        if (_class === 'ical_dayafter') return {text: (alreadyStarted?'&#8594; ':'') + _('dayafter') + _time, _class: _class};
+        if (_class === 'ical_3days')    return {text: (alreadyStarted?'&#8594; ':'') + _('3days') + _time, _class: _class};
+        if (_class === 'ical_4days')    return {text: (alreadyStarted?'&#8594; ':'') + _('4days') + _time, _class: _class};
+        if (_class === 'ical_5days')    return {text: (alreadyStarted?'&#8594; ':'') + _('5days') + _time, _class: _class};
+        if (_class === 'ical_6days')    return {text: (alreadyStarted?'&#8594; ':'') + _('6days') + _time, _class: _class};
+        if (_class === 'ical_oneweek')  return {text: (alreadyStarted?'&#8594; ':'') + _('oneweek') + _time, _class: _class};
     }
 
     // check if date is in the past and if so we show the end time instead
-    if(_date < new Date()) {
+    if (alreadyStarted) {
       _class = 'ical_today';
       var daysleft = Math.round((_end - new Date().setHours(0,0,0,0))/(1000*60*60*24));
 
@@ -816,9 +820,9 @@ function formatDate(_date, _end, withTime, fullday) {
             if (month < 10) month = '0' + month.toString();
         }
 
-        text = '&#8594; ' + day + '.' + month;
+        text = '&#8594; ' + day + '.' + month + '.';
         if (!adapter.config.hideYear) {
-            text += '.' + year;
+            text += year;
         }
 
         if (withTime) {
@@ -847,7 +851,7 @@ function formatDate(_date, _end, withTime, fullday) {
     }
 
     return {
-        text:   day + '.' + month + ((adapter.config.hideYear)?'':'.' + year) + _time,
+        text:   day + '.' + month + ((adapter.config.hideYear)?'.' : '.' + year) + _time,
         _class: _class
     };
 }
