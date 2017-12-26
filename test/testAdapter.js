@@ -409,7 +409,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[3]._section).to.be.equal('Reminder');
                 expect(state.val[3]._allDay).to.be.false;
 
-                expect(state.val[4].date.indexOf('  18:00-20:00')).to.be.equal(10);
+                expect(state.val[4].date.indexOf(' 18:00-20:00')).to.be.equal(10);
                 expect(state.val[4].event).to.be.equal('InDay2');
                 expect(state.val[4]._section).to.be.equal('InDay2');
                 expect(state.val[4]._allDay).to.be.false;

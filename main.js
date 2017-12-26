@@ -709,7 +709,7 @@ function formatDate(_date, _end, withTime, fullday) {
     var d = new Date();
     if (day   === d.getDate() &&
         month === (d.getMonth() + 1) &&
-        year  === d.getFullYear()) {
+        year  === d.getFullYear() &&  _date > d) {
         _class = 'ical_today';
     }
 

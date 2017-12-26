@@ -386,35 +386,31 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val[0].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[0].date.indexOf(' 02:00')).to.be.equal(18);
+                expect(state.val[0].date).to.be.equal(' 2 days left');
                 expect(state.val[0].event).to.be.equal('TestEvent');
                 expect(state.val[0]._section).to.be.equal('TestEvent');
                 expect(state.val[0]._allDay).to.be.false;
 
-                expect(state.val[1].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[1].date.indexOf(' 00:00')).to.be.equal(18);
+                expect(state.val[1].date).to.be.equal('Today 00:00-00:00');
                 expect(state.val[1].event).to.be.equal('Today Event');
                 expect(state.val[1]._section).to.be.equal('Today Event');
                 expect(state.val[1]._allDay).to.be.true;
 
-                expect(state.val[2].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[2].date.indexOf(' 00:00')).to.be.equal(18);
+                expect(state.val[2].date).to.be.equal(' 2 days left');
                 expect(state.val[2].event).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._section).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._allDay).to.be.true;
 
-                expect(state.val[3].date.indexOf(' 10:00')).to.be.equal(10);
-                expect(state.val[3].event).to.be.equal('Reminder');
+                expect(state.val[3].date).to.be.equal('Tomorrow 10:00');
                 expect(state.val[3]._section).to.be.equal('Reminder');
                 expect(state.val[3]._allDay).to.be.false;
 
-                expect(state.val[4].date.indexOf('  18:00-20:00')).to.be.equal(10);
+                expect(state.val[4].date).to.be.equal('Tomorrow 18:00-20:00');
                 expect(state.val[4].event).to.be.equal('InDay2');
                 expect(state.val[4]._section).to.be.equal('InDay2');
                 expect(state.val[4]._allDay).to.be.false;
 
-                expect(state.val[5].date.indexOf(' 22:00-02:00+1')).to.be.equal(10);
+                expect(state.val[5].date).to.be.equal('Tomorrow 22:00-02:00+1');
                 expect(state.val[5].event).to.be.equal('OverEvent');
                 expect(state.val[5]._section).to.be.equal('OverEvent');
                 expect(state.val[5]._allDay).to.be.false;
