@@ -678,7 +678,7 @@ function formatDate(_date, _end, withTime, fullday) {
         if (adapter.config.fulltime && fullday) {
             _time = ' ' + adapter.config.fulltime;
         } else {
-            if (alreadyStarted) {
+            if (!alreadyStarted) {
                 if (adapter.config.dataPaddingWithZeros) {
                     if (hours < 10) hours   = '0' + hours.toString();
                 }
