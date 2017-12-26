@@ -706,9 +706,9 @@ function formatDate(_date, _end, withTime, fullday) {
                 if (_end > startDayEnd) { // end is next day
                     var start = new Date();
                     if (!alreadyStarted) start.setDate(_date.getDate());
-                    start.setHours(0,0,0,0);
+                    start.setHours(0,0,1,0);
                     timeDiff = _end.getTime() - start.getTime();
-                    adapter.log.debug('    time differnce: ' + timeDiff + ' --> ' + (timeDiff / (24*60*60*1000)));
+                    adapter.log.debug('    time difference: ' + timeDiff + ' --> ' + (timeDiff / (24*60*60*1000)));
                     _time+='+' + Math.ceil(timeDiff / (24*60*60*1000));
                 }
             }
