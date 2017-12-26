@@ -258,7 +258,8 @@ function setupIcsFiles() {
         data += 'LAST-MODIFIED:20171114T171736Z\n';
         data += 'DTSTAMP:20171114T171736Z\n';
         data += 'UID:7defc9a5-a1c8-419d-a05c-58cf98e83cdb\n';
-        data += 'SUMMARY:Roest\n';
+        data += 'DESCRIPTION:TestUserEvent1\n';
+        data += 'SUMMARY:TestUserEvent1\n';
         data += 'DTSTART;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T193000\n';
         data += 'DTEND;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T203000\n';
         data += 'TRANSP:OPAQUE\n';
@@ -450,8 +451,8 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[5]._allDay).to.be.false;
 
                 expect(state.val[6].date.indexOf('. 19:30-20:30')).to.be.equal(5);
-                expect(state.val[6].event).to.be.equal('Roest');
-                expect(state.val[6]._section).to.be.equal('Roest');
+                expect(state.val[6].event).to.be.equal('TestUserEvent1');
+                expect(state.val[6]._section).to.be.equal('TestUserEvent1');
                 expect(state.val[6]._allDay).to.be.false;
 
                 expect(state.val[7].date.indexOf('. 22:00-02:00+1')).to.be.equal(5);
