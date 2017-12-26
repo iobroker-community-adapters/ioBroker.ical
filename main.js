@@ -716,7 +716,9 @@ function formatDate(_date, _end, withTime, fullday) {
         year  === d.getFullYear()) {
         _class = 'ical_today';
     }
-    if (_date < new Date() && minsLeft )
+    if (_date < new Date() && minsLeft <= 24*60) { // Termin has already started and runs out today
+        _class = 'ical_today';
+    }
 
     d.setDate(d.getDate() + 1);
     if (day   === d.getDate() &&

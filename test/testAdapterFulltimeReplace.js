@@ -388,7 +388,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val[0].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[0].date.indexOf(' 02:00')).to.be.equal(18);
+                expect(state.val[0].date.indexOf(' 2:00')).to.be.equal(18);
                 expect(state.val[0].event).to.be.equal('TestEvent');
                 expect(state.val[0]._section).to.be.equal('TestEvent');
                 expect(state.val[0]._allDay).to.be.false;
