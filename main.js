@@ -732,7 +732,7 @@ function formatDate(_date, _end, withTime, fullday) {
                     adapter.log.debug('    time difference: ' + timeDiff + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
                     _time += '+' + Math.floor(timeDiff / (24*60*60*1000));
                 }
-                else if (adapter.config.replaceDates && endhours === 0 && endminutes === 0) {
+                else if (adapter.config.replaceDates && _end.getHours() === 0 && _end.getMinutes() === 0) {
                     _time = ' ';
                 }
             }
