@@ -801,6 +801,7 @@ function formatDate(_date, _end, withTime, fullday) {
             if (_class === 'ical_oneweek')  return {text: (alreadyStarted?'&#8594; ':'') + _('oneweek') + _time, _class: _class};
         }
     // check if date is in the past and if so we show the end time instead
+    }
     else {
       _class = 'ical_today';
       var daysleft = Math.round((_end - new Date().setHours(0,0,1,0))/(1000*60*60*24));
