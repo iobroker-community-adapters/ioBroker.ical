@@ -670,6 +670,9 @@ function formatDate(_date, _end, withTime, fullday) {
     var day   = _date.getDate();
     var month = _date.getMonth() + 1;
     var year  = _date.getFullYear();
+    var endday   = _end.getDate();
+    var endmonth = _end.getMonth() + 1;
+    var endyear  = _end.getFullYear();
     var _time = '';
     var alreadyStarted = (_date < new Date());
 
@@ -730,61 +733,118 @@ function formatDate(_date, _end, withTime, fullday) {
 
     var minsLeft = (_end.getTime() - d.getTime()) / 1000 / 60;
 
-    if (day   === d.getDate() &&
-        month === (d.getMonth() + 1) &&
-        year  === d.getFullYear()) {
-        _class = 'ical_today';
-    }
+    if (alreadyStarted) {
+        if (endday   === d.getDate() &&
+            endmonth === (d.getMonth() + 1) &&
+            endyear  === d.getFullYear()) {
+            _class = 'ical_today';
+        }
 
-    d.setDate(d.getDate() + 1);
-    if (day   === d.getDate() &&
-        month === (d.getMonth() + 1) &&
-        year  === d.getFullYear()) {
-        _class = 'ical_tomorrow';
-    }
+        d.setDate(d.getDate() + 1);
+        if (endday   === d.getDate() &&
+            endmonth === (d.getMonth() + 1) &&
+            endyear  === d.getFullYear()) {
+            _class = 'ical_tomorrow';
+        }
 
-    d.setDate(d.getDate() + 1);
-    if (day   === d.getDate() &&
-        month === (d.getMonth() + 1) &&
-        year  === d.getFullYear()) {
-        _class = 'ical_dayafter';
-    }
+        d.setDate(d.getDate() + 1);
+        if (endday   === d.getDate() &&
+            endmonth === (d.getMonth() + 1) &&
+            endyear  === d.getFullYear()) {
+            _class = 'ical_dayafter';
+        }
 
-    d.setDate(d.getDate() + 1);
-    if (day   === d.getDate() &&
-        month === (d.getMonth() + 1) &&
-        year  === d.getFullYear()) {
-        _class = 'ical_3days';
-    }
+        d.setDate(d.getDate() + 1);
+        if (endday   === d.getDate() &&
+            endmonth === (d.getMonth() + 1) &&
+            endyear  === d.getFullYear()) {
+            _class = 'ical_3days';
+        }
 
-    d.setDate(d.getDate() + 1);
-    if (day   === d.getDate() &&
-        month === (d.getMonth() + 1) &&
-        year  === d.getFullYear()) {
-        _class = 'ical_4days';
-    }
+        d.setDate(d.getDate() + 1);
+        if (endday   === d.getDate() &&
+            endmonth === (d.getMonth() + 1) &&
+            endyear  === d.getFullYear()) {
+            _class = 'ical_4days';
+        }
 
-    d.setDate(d.getDate() + 1);
-    if (day   === d.getDate() &&
-        month === (d.getMonth() + 1) &&
-        year  === d.getFullYear()) {
-        _class = 'ical_5days';
-    }
+        d.setDate(d.getDate() + 1);
+        if (endday   === d.getDate() &&
+            endmonth === (d.getMonth() + 1) &&
+            endyear  === d.getFullYear()) {
+            _class = 'ical_5days';
+        }
 
-    d.setDate(d.getDate() + 1);
-    if (day   === d.getDate() &&
-        month === (d.getMonth() + 1) &&
-        year  === d.getFullYear()) {
-        _class = 'ical_6days';
-    }
+        d.setDate(d.getDate() + 1);
+        if (endday   === d.getDate() &&
+            endmonth === (d.getMonth() + 1) &&
+            endyear  === d.getFullYear()) {
+            _class = 'ical_6days';
+        }
 
-    d.setDate(d.getDate() + 1);
-    if (day   === d.getDate() &&
-        month === (d.getMonth() + 1) &&
-        year  === d.getFullYear()) {
-        _class = 'ical_oneweek';
+        d.setDate(d.getDate() + 1);
+        if (endday   === d.getDate() &&
+            endmonth === (d.getMonth() + 1) &&
+            endyear  === d.getFullYear()) {
+            _class = 'ical_oneweek';
+        }
     }
+    else {
+        if (day   === d.getDate() &&
+            month === (d.getMonth() + 1) &&
+            year  === d.getFullYear()) {
+            _class = 'ical_today';
+        }
 
+        d.setDate(d.getDate() + 1);
+        if (day   === d.getDate() &&
+            month === (d.getMonth() + 1) &&
+            year  === d.getFullYear()) {
+            _class = 'ical_tomorrow';
+        }
+
+        d.setDate(d.getDate() + 1);
+        if (day   === d.getDate() &&
+            month === (d.getMonth() + 1) &&
+            year  === d.getFullYear()) {
+            _class = 'ical_dayafter';
+        }
+
+        d.setDate(d.getDate() + 1);
+        if (day   === d.getDate() &&
+            month === (d.getMonth() + 1) &&
+            year  === d.getFullYear()) {
+            _class = 'ical_3days';
+        }
+
+        d.setDate(d.getDate() + 1);
+        if (day   === d.getDate() &&
+            month === (d.getMonth() + 1) &&
+            year  === d.getFullYear()) {
+            _class = 'ical_4days';
+        }
+
+        d.setDate(d.getDate() + 1);
+        if (day   === d.getDate() &&
+            month === (d.getMonth() + 1) &&
+            year  === d.getFullYear()) {
+            _class = 'ical_5days';
+        }
+
+        d.setDate(d.getDate() + 1);
+        if (day   === d.getDate() &&
+            month === (d.getMonth() + 1) &&
+            year  === d.getFullYear()) {
+            _class = 'ical_6days';
+        }
+
+        d.setDate(d.getDate() + 1);
+        if (day   === d.getDate() &&
+            month === (d.getMonth() + 1) &&
+            year  === d.getFullYear()) {
+            _class = 'ical_oneweek';
+        }
+    }
     if (adapter.config.replaceDates) {
         if (_class === 'ical_today')    return {text: (alreadyStarted?'&#8594; ':'') + _('today')    + _time, _class: _class};
         if (_class === 'ical_tomorrow') return {text: (alreadyStarted?'&#8594; ':'') + _('tomorrow') + _time, _class: _class};
