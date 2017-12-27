@@ -18,7 +18,7 @@
     "url": "https://github.com/ioBroker/ioBroker.ical"
   },
   "dependencies": {
-    "node-ical-improved": "^0.6.0",
+    "node-ical": "^0.5.4",
     "rrule": "^2.2.0",
     "request": "^2.81.0",
     "cloneextend": "^0.0.3"

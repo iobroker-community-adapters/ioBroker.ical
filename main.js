@@ -17,7 +17,7 @@
 
 var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
 var RRule   = require('rrule').RRule;
-var ical    = require('node-ical-improved');
+var ical    = require('node-ical');
 var ce      = require('cloneextend');
 var request;
 var fs;
@@ -226,6 +226,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                         var rule = new RRule(options);
                         adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 +  ' ' + rule.toText());
                         var dates = rule.between(now2, endpreview);
+                        adapter.log.info(JSON.stringify(options));
                         adapter.log.info(JSON.stringify(ev));
                         adapter.log.info(JSON.stringify(dates));
                         // event innerhalb des Zeitfensters
@@ -721,7 +722,7 @@ function formatDate(_date, _end, withTime, fullday) {
                     if (!alreadyStarted) start.setDate(_date.getDate());
                     start.setHours(0,0,1,0);
                     timeDiff = _end.getTime() - start.getTime();
-                    //adapter.log.debug('    time difference: ' + timeDiff + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
+                    adapter.log.debug('    time difference: ' + timeDiff + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
                     _time += '+' + Math.floor(timeDiff / (24*60*60*1000));
                 }
                 else if (adapter.config.replaceDates && endhours === 0 && endminutes === 0) {
