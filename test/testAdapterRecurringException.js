@@ -121,7 +121,7 @@ function setupIcsFiles() {
         data += 'X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n';
         data += 'END:VEVENT\n';
 
-        data += '\nBEGIN:VEVENT\n';
+        data += 'BEGIN:VEVENT\n';
         data += 'DTSTART;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T150000\n';
         data += 'DTEND;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T160000\n';
         data += 'DTSTAMP:20171227T110728Z\n';
