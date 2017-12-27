@@ -11,7 +11,7 @@ var onObjectChanged = null;
 var sendToID = 1;
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Config Normal';
+var adapterShortNameLog = adapterShortName + ' Config Replace Fulltime';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;

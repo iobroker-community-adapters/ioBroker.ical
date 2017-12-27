@@ -687,10 +687,15 @@ function formatDate(_date, _end, withTime, fullday) {
             }
             var timeDiff = _end.getTime() - _date.getTime();
             if (timeDiff === 0 && hours === 0 && minutes === 0) {
-                _time = '';
+                _time = ' ';
             }
             else if (timeDiff > 0) {
-                if (!alreadyStarted) _time += '-';
+                if (!alreadyStarted) {
+                    _time += '-';
+                }
+                else {
+                    _time += ' ';
+                }
 
                 var endhours = _end.getHours();
                 var endminutes = _end.getMinutes();
