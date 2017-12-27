@@ -226,7 +226,8 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                         var rule = new RRule(options);
                         adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 +  ' ' + rule.toText());
                         var dates = rule.between(now2, endpreview);
-
+                        adapter.log.info(JSON.stringify(ev));
+                        adapter.log.info(JSON.stringify(dates));
                         // event innerhalb des Zeitfensters
                         if (dates.length > 0) {
                             for (var i = 0; i < dates.length; i++) {
@@ -721,7 +722,7 @@ function formatDate(_date, _end, withTime, fullday) {
                     //adapter.log.debug('    time difference: ' + timeDiff + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
                     _time += '+' + Math.floor(timeDiff / (24*60*60*1000));
                 }
-                else if (adapter.config.replaceDates && endhours === 0 && endminutes === 0 && _time.indexOf('+') === -1) {
+                else if (adapter.config.replaceDates && endhours === 0 && endminutes === 0) {
                     _time = ' ';
                 }
             }
@@ -733,117 +734,59 @@ function formatDate(_date, _end, withTime, fullday) {
 
     var minsLeft = (_end.getTime() - d.getTime()) / 1000 / 60;
 
-    if (alreadyStarted) {
-        if (endday   === d.getDate() &&
-            endmonth === (d.getMonth() + 1) &&
-            endyear  === d.getFullYear()) {
-            _class = 'ical_today';
-        }
-
-        d.setDate(d.getDate() + 1);
-        if (endday   === d.getDate() &&
-            endmonth === (d.getMonth() + 1) &&
-            endyear  === d.getFullYear()) {
-            _class = 'ical_tomorrow';
-        }
-
-        d.setDate(d.getDate() + 1);
-        if (endday   === d.getDate() &&
-            endmonth === (d.getMonth() + 1) &&
-            endyear  === d.getFullYear()) {
-            _class = 'ical_dayafter';
-        }
-
-        d.setDate(d.getDate() + 1);
-        if (endday   === d.getDate() &&
-            endmonth === (d.getMonth() + 1) &&
-            endyear  === d.getFullYear()) {
-            _class = 'ical_3days';
-        }
-
-        d.setDate(d.getDate() + 1);
-        if (endday   === d.getDate() &&
-            endmonth === (d.getMonth() + 1) &&
-            endyear  === d.getFullYear()) {
-            _class = 'ical_4days';
-        }
-
-        d.setDate(d.getDate() + 1);
-        if (endday   === d.getDate() &&
-            endmonth === (d.getMonth() + 1) &&
-            endyear  === d.getFullYear()) {
-            _class = 'ical_5days';
-        }
-
-        d.setDate(d.getDate() + 1);
-        if (endday   === d.getDate() &&
-            endmonth === (d.getMonth() + 1) &&
-            endyear  === d.getFullYear()) {
-            _class = 'ical_6days';
-        }
-
-        d.setDate(d.getDate() + 1);
-        if (endday   === d.getDate() &&
-            endmonth === (d.getMonth() + 1) &&
-            endyear  === d.getFullYear()) {
-            _class = 'ical_oneweek';
-        }
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
+        _class = 'ical_today';
     }
-    else {
-        if (day   === d.getDate() &&
-            month === (d.getMonth() + 1) &&
-            year  === d.getFullYear()) {
-            _class = 'ical_today';
-        }
 
-        d.setDate(d.getDate() + 1);
-        if (day   === d.getDate() &&
-            month === (d.getMonth() + 1) &&
-            year  === d.getFullYear()) {
-            _class = 'ical_tomorrow';
-        }
+    d.setDate(d.getDate() + 1);
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
+        _class = 'ical_tomorrow';
+    }
 
-        d.setDate(d.getDate() + 1);
-        if (day   === d.getDate() &&
-            month === (d.getMonth() + 1) &&
-            year  === d.getFullYear()) {
-            _class = 'ical_dayafter';
-        }
+    d.setDate(d.getDate() + 1);
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
+        _class = 'ical_dayafter';
+    }
 
-        d.setDate(d.getDate() + 1);
-        if (day   === d.getDate() &&
-            month === (d.getMonth() + 1) &&
-            year  === d.getFullYear()) {
-            _class = 'ical_3days';
-        }
+    d.setDate(d.getDate() + 1);
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
+        _class = 'ical_3days';
+    }
 
-        d.setDate(d.getDate() + 1);
-        if (day   === d.getDate() &&
-            month === (d.getMonth() + 1) &&
-            year  === d.getFullYear()) {
-            _class = 'ical_4days';
-        }
+    d.setDate(d.getDate() + 1);
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
+        _class = 'ical_4days';
+    }
 
-        d.setDate(d.getDate() + 1);
-        if (day   === d.getDate() &&
-            month === (d.getMonth() + 1) &&
-            year  === d.getFullYear()) {
-            _class = 'ical_5days';
-        }
+    d.setDate(d.getDate() + 1);
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
+        _class = 'ical_5days';
+    }
 
-        d.setDate(d.getDate() + 1);
-        if (day   === d.getDate() &&
-            month === (d.getMonth() + 1) &&
-            year  === d.getFullYear()) {
-            _class = 'ical_6days';
-        }
+    d.setDate(d.getDate() + 1);
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
+        _class = 'ical_6days';
+    }
 
-        d.setDate(d.getDate() + 1);
-        if (day   === d.getDate() &&
-            month === (d.getMonth() + 1) &&
-            year  === d.getFullYear()) {
-            _class = 'ical_oneweek';
-        }
+    d.setDate(d.getDate() + 1);
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear()) {
+        _class = 'ical_oneweek';
     }
     if (adapter.config.replaceDates) {
         if (_class === 'ical_today')    return {text: (alreadyStarted?'&#8594; ':'') + _('today')    + _time, _class: _class};
@@ -859,7 +802,7 @@ function formatDate(_date, _end, withTime, fullday) {
     // check if date is in the past and if so we show the end time instead
     if (alreadyStarted) {
       _class = 'ical_today';
-      var daysleft = Math.round((_end - new Date().setHours(0,0,0,0))/(1000*60*60*24));
+      var daysleft = Math.round((_end - new Date().setHours(0,0,1,0))/(1000*60*60*24));
       var hoursleft = Math.round((_end - new Date())/(1000*60*60));
 
       if(adapter.config.replaceDates) {
