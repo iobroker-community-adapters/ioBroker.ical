@@ -246,7 +246,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                 ev2.end.setMonth(dates[i].getMonth());
                                 ev2.end.setFullYear(dates[i].getFullYear());
 
-                                adapter.log.debug('   ' + i + ': Event:' + ev2.start.toString() + ' ' + ev2.end.toString());
+                                adapter.log.debug('   ' + i + ': Event (' + ev2.exdate + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
 
                                 // we have to check if there is an exdate array
                                 // which defines dates that - if matched - should
@@ -259,6 +259,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                         if(d.getTime() === ev2.start.getTime())
                                         {
                                             checkDate = false;
+                                            adapter.log.debug('   ' + i + ': sort out');
                                             break;
                                         }
                                     }
@@ -715,11 +716,17 @@ function formatDate(_date, _end, withTime, fullday) {
                 _time += endhours + ':' + endminutes;
 
                 var startDayEnd = new Date();
+                startDayEnd.setYear(_date.getYear());
+                startDayEnd.setMonth(_date.getMonth());
                 startDayEnd.setDate(_date.getDate() + 1);
                 startDayEnd.setHours(0,0,0,0);
                 if (_end > startDayEnd) { // end is next day
                     var start = new Date();
-                    if (!alreadyStarted) start.setDate(_date.getDate());
+                    if (!alreadyStarted) {
+                        start.setDate(_date.getDate());
+                        start.setMonth(_date.getMonth());
+                        start.setYear(_date.getYear());
+                    }
                     start.setHours(0,0,1,0);
                     timeDiff = _end.getTime() - start.getTime();
                     adapter.log.debug('    time difference: ' + timeDiff + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
