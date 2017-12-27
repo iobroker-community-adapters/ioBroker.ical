@@ -245,6 +245,8 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                 ev2.end.setMonth(dates[i].getMonth());
                                 ev2.end.setFullYear(dates[i].getFullYear());
 
+                                adapter.log.debug('   ' + i + ': Event:' + ev2.start.toString() + ' ' + ev2.end.toString());
+
                                 // we have to check if there is an exdate array
                                 // which defines dates that - if matched - should
                                 // be excluded.
@@ -806,6 +808,7 @@ function formatDate(_date, _end, withTime, fullday) {
       _class = 'ical_today';
       var daysleft = Math.round((_end - new Date().setHours(0,0,1,0))/(1000*60*60*24));
       var hoursleft = Math.round((_end - new Date())/(1000*60*60));
+      adapter.log.debug('    time difference: ' + daysleft + '/' + hoursleft + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
 
       if(adapter.config.replaceDates) {
         var text;
