@@ -246,7 +246,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                 ev2.end.setMonth(dates[i].getMonth());
                                 ev2.end.setFullYear(dates[i].getFullYear());
 
-                                adapter.log.debug('   ' + i + ': Event (' + ev2.exdate + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
+                                adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
 
                                 // we have to check if there is an exdate array
                                 // which defines dates that - if matched - should
