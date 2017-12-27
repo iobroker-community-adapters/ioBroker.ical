@@ -450,7 +450,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[5]._section).to.be.equal('InDay2');
                 expect(state.val[5]._allDay).to.be.false;
 
-                expect(state.val[6].date.indexOf('. 19:30-20:30')).to.be.equal(5);
+                expect(state.val[6].date.indexOf(' 19:30-20:30')).to.be.equal(10);
                 expect(state.val[6].event).to.be.equal('TestUserEvent1');
                 expect(state.val[6]._section).to.be.equal('TestUserEvent1');
                 expect(state.val[6]._allDay).to.be.false;

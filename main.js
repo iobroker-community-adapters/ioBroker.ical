@@ -54,7 +54,9 @@ var dictionary       = {
     'left':      {'en': 'left',              'de': ' ',                'ru': 'left',				'nl': 'over'},
     'still':     {'en': ' ',                 'de': 'Noch',             'ru': ' ',					'nl': 'nog'},
     'days':      {'en': 'days',              'de': 'Tage',             'ru': 'days',				'nl': 'dagen'},
-    'day':       {'en': 'day',               'de': 'Tag',              'ru': 'day',					'nl': 'dag'}
+    'day':       {'en': 'day',               'de': 'Tag',              'ru': 'day',					'nl': 'dag'},
+    'hours':     {'en': 'hours',             'de': 'Stunden',          'ru': 'hours',				'nl': 'hours'},
+    'hour':      {'en': 'hour',              'de': 'Stunde',           'ru': 'hour',		        'nl': 'hour'}
 };
 
 function _(text) {
@@ -730,9 +732,6 @@ function formatDate(_date, _end, withTime, fullday) {
         year  === d.getFullYear()) {
         _class = 'ical_today';
     }
-    if (_date < new Date() && minsLeft <= 24*60) { // Termin has already started and runs out today
-        _class = 'ical_today';
-    }
 
     d.setDate(d.getDate() + 1);
     if (day   === d.getDate() &&
@@ -798,9 +797,9 @@ function formatDate(_date, _end, withTime, fullday) {
     if (alreadyStarted) {
       _class = 'ical_today';
       var daysleft = Math.round((_end - new Date().setHours(0,0,0,0))/(1000*60*60*24));
+      var hoursleft = Math.round((_end - new Date())/(1000*60*60));
 
       if(adapter.config.replaceDates) {
-
         var text;
         if(daysleft === 42)
           text = _('6week_left');
@@ -814,8 +813,10 @@ function formatDate(_date, _end, withTime, fullday) {
           text = _('2week_left');
         else if(daysleft === 7)
           text = _('1week_left');
-        else
+        else if (daysleft >= 1)
           text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft + ' ' + (daysleft === 1 ? _('day') : _('days')) + (_('left') !== ' ' ? ' ' + _('left') : '');
+        else
+          text = (_('still') !== ' ' ? _('still') : '') + ' ' + hoursleft + ' ' + (hoursleft === 1 ? _('hour') : _('hours')) + (_('left') !== ' ' ? ' ' + _('left') : '');
       } else {
 
         day = _end.getDate();
