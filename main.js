@@ -716,7 +716,7 @@ function formatDate(_date, _end, withTime, fullday) {
                 _time += endhours + ':' + endminutes;
 
                 var startDayEnd = new Date();
-                startDayEnd.setYear(_date.getYear());
+                startDayEnd.setFullYear(_date.getFullYear());
                 startDayEnd.setMonth(_date.getMonth());
                 startDayEnd.setDate(_date.getDate() + 1);
                 startDayEnd.setHours(0,0,0,0);
@@ -725,7 +725,7 @@ function formatDate(_date, _end, withTime, fullday) {
                     if (!alreadyStarted) {
                         start.setDate(_date.getDate());
                         start.setMonth(_date.getMonth());
-                        start.setYear(_date.getYear());
+                        start.setFullYear(_date.getFullYear());
                     }
                     start.setHours(0,0,1,0);
                     timeDiff = _end.getTime() - start.getTime();
@@ -814,7 +814,7 @@ function formatDate(_date, _end, withTime, fullday) {
     }
     else {
       _class = 'ical_today';
-      var daysleft = Math.round((_end - new Date().setHours(0,0,1,0))/(1000*60*60*24));
+      var daysleft = Math.round((_end - new Date())/(1000*60*60*24));
       var hoursleft = Math.round((_end - new Date())/(1000*60*60));
       adapter.log.debug('    time difference: ' + daysleft + '/' + hoursleft + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
 
