@@ -226,9 +226,10 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                         var rule = new RRule(options);
                         adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 +  ' ' + rule.toText());
                         var dates = rule.between(now2, endpreview);
-                        adapter.log.info(JSON.stringify(options));
-                        adapter.log.info(JSON.stringify(ev));
-                        adapter.log.info(JSON.stringify(dates));
+                        adapter.log.debug(JSON.stringify(options));
+                        adapter.log.debug(JSON.stringify(ev));
+                        adapter.log.debug(JSON.stringify(dates));
+                        var eventLength = ev.end.getTime() - ev.start.getTime();
                         // event innerhalb des Zeitfensters
                         if (dates.length > 0) {
                             for (var i = 0; i < dates.length; i++) {
@@ -242,9 +243,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                 ev2.start.setMonth(dates[i].getMonth());
                                 ev2.start.setFullYear(dates[i].getFullYear());
 
-                                ev2.end.setDate(dates[i].getDate());
-                                ev2.end.setMonth(dates[i].getMonth());
-                                ev2.end.setFullYear(dates[i].getFullYear());
+                                ev2.end = new Date(ev2.start.getTime() + eventLength); // Set end date based on length in ms
 
                                 adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
 
@@ -742,8 +741,6 @@ function formatDate(_date, _end, withTime, fullday) {
     var d = new Date();
     d.setHours(0,0,0,0);
 
-    var minsLeft = (_end.getTime() - d.getTime()) / 1000 / 60;
-
     if (!alreadyStarted) {
 
         if (day   === d.getDate() &&
@@ -810,9 +807,9 @@ function formatDate(_date, _end, withTime, fullday) {
             if (_class === 'ical_6days')    return {text: (alreadyStarted?'&#8594; ':'') + _('6days') + _time, _class: _class};
             if (_class === 'ical_oneweek')  return {text: (alreadyStarted?'&#8594; ':'') + _('oneweek') + _time, _class: _class};
         }
-    // check if date is in the past and if so we show the end time instead
     }
     else {
+        // check if date is in the past and if so we show the end time instead
       _class = 'ical_today';
       var daysleft = Math.round((_end - new Date())/(1000*60*60*24));
       var hoursleft = Math.round((_end - new Date())/(1000*60*60));
