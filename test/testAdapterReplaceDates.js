@@ -430,7 +430,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val[0].date).to.be.equal(' 2 days left');
+                expect(state.val[0].date).to.be.oneOf([' 1 day left', ' 2 days left']);
                 expect(state.val[0].event).to.be.equal('TestEvent');
                 expect(state.val[0]._section).to.be.equal('TestEvent');
                 expect(state.val[0]._allDay).to.be.false;
