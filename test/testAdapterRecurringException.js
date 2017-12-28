@@ -159,6 +159,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.native.forceFullday = false;
             config.native.replaceDates = false;
             config.native.hideYear = true;
+            config.native.daysPreview = 8;
             config.native.calendars[0] = {
                 "name": "calendar1",
                 "url": __dirname + '/data/recurring.ics',
