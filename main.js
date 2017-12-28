@@ -251,7 +251,6 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                 // be excluded.
                                 var checkDate = true;
                                 if(ev2.exdate) {
-                                    var found = false;
                                     for(var d in ev2.exdate) {
                                         d = new Date(d);
                                         if(d.getTime() === ev2.start.getTime())
@@ -262,9 +261,15 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                         }
                                     }
                                 }
+                                if (checkDate) {
+                                    if (ev2.recurrences[ev2.start.toISOString]) {
+                                        adapter.debug.log(' FOUND DIFFERENT RECURRING!! ' + JSON.stringify(ev2.recurrences[ev2.start.toISOString]));
+                                    }
+                                }
 
-                                if(checkDate === true)
-                                  checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
+                                if (checkDate) {
+                                    checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
+                                }
                             }
                         } else {
                             adapter.log.debug('no RRule events inside the time interval');
