@@ -6,7 +6,12 @@
     "name": "bluefox",
     "email": "dogafox@gmail.com"
   },
-  "homepage": "https://github.com/ioBroker/ioBroker.ical",
+  "contributors": [
+    {
+      "name": "Apollon77",
+      "email": "ingo@fischer-ka.de"
+    }
+  ],  "homepage": "https://github.com/ioBroker/ioBroker.ical",
   "readme": "https://github.com/ioBroker/ioBroker.ical/blob/master/README.md",
   "keywords": [
     "ioBroker",

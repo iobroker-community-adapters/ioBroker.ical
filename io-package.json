@@ -58,7 +58,8 @@
         },
         "authors": [
             "bluefox <dogafox@gmail.com>",
-            "Jens Maus <mail@jens-maus.de>"
+            "Jens Maus <mail@jens-maus.de>",
+            "Apollon77 <ingo@fischer-ka.de>"
         ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
