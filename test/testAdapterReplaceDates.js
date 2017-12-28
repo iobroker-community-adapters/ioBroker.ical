@@ -271,7 +271,7 @@ function setupIcsFiles() {
         data += 'CREATED:20160525T175643Z\n';
         data += 'LAST-MODIFIED:20171114T171736Z\n';
         data += 'DTSTAMP:20171114T171736Z\n';
-        data += 'UID:7defc9a5-a1c8-419d-a05c-58cf98e83cdb\n';
+        data += 'UID:7defc9a5-a1c8-419d-a05c-65cf98e83cdb\n';
         data += 'DESCRIPTION:SameDay\n';
         data += 'SUMMARY:SameDay\n';
         data += 'DTSTART;TZID=Europe/Berlin:' + d1.getFullYear() + m1 + day1 + 'T235800\n';
@@ -375,7 +375,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.count', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val).to.be.equal(3);
+                expect(state.val).to.be.equal(4);
                 done();
             });
         }, 3000);

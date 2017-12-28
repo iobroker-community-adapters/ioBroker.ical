@@ -261,9 +261,12 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                         }
                                     }
                                 }
-                                if (checkDate) {
-                                    if (ev2.recurrences[ev2.start.toISOString]) {
-                                        adapter.debug.log(' FOUND DIFFERENT RECURRING!! ' + JSON.stringify(ev2.recurrences[ev2.start.toISOString]));
+                                if (checkDate && ev.recurrences) {
+                                    for(var dOri in ev.recurrences) {
+                                        var d = new Date(dOri);
+                                        if(d.getTime() === ev2.start.getTime()) {
+                                            adapter.debug.log(' FOUND DIFFERENT RECURRING!! ' + JSON.stringify(ev.recurrences[dOri]));
+                                        }
                                     }
                                 }
 
