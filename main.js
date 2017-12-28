@@ -238,7 +238,6 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                 var ev2 = ce.clone(ev);
 
                                 // Datum ersetzen für jeden einzelnen Termin in RRule
-                                // TODO: funktioniert nur mit Terminen innerhalb eines Tages, da auch das EndDate ersetzt wird
                                 ev2.start.setDate(dates[i].getDate());
                                 ev2.start.setMonth(dates[i].getMonth());
                                 ev2.start.setFullYear(dates[i].getFullYear());

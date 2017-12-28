@@ -267,6 +267,20 @@ function setupIcsFiles() {
         data += 'X-MOZ-GENERATION:4\n';
         data += 'END:VEVENT\n';
 
+        data += 'BEGIN:VEVENT\n';
+        data += 'CREATED:20160525T175643Z\n';
+        data += 'LAST-MODIFIED:20171114T171736Z\n';
+        data += 'DTSTAMP:20171114T171736Z\n';
+        data += 'UID:7defc9a5-a1c8-419d-a05c-58cf98e83cdb\n';
+        data += 'DESCRIPTION:SameDay\n';
+        data += 'SUMMARY:SameDay\n';
+        data += 'DTSTART;TZID=Europe/Berlin:' + d1.getFullYear() + m1 + day1 + 'T235800\n';
+        data += 'DTEND;TZID=Europe/Berlin:' + d1.getFullYear() + m1 + day1 + 'T235900\n';
+        data += 'TRANSP:OPAQUE\n';
+        data += 'SEQUENCE:4\n';
+        data += 'X-MOZ-GENERATION:4\n';
+        data += 'END:VEVENT\n';
+
         data += 'END:VCALENDAR';
         fs.writeFileSync(__dirname + '/data/today.ics', data);
     }
