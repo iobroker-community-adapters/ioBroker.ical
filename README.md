@@ -73,6 +73,7 @@ Zum Einbinden von gesharten Kalendern einer OwnCloud muss man dort in der Kalend
 * correctly show end times for events that are longer then 1 day (including "+x" to show day duration)
 * many enhancements and optimizations in formatting the infos (especially when event has already started but not ended)
 * add option to hide year numbers
+* Known issue: For recurring events it works to delete single events, but it do not work to move them
 
 
 ### 1.3.3 (2017-10-30)

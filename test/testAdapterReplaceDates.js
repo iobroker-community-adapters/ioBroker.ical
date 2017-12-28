@@ -421,8 +421,10 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[0]._section).to.be.equal('TestEvent');
                 expect(state.val[0]._allDay).to.be.false;
 
-                expect(state.val[1].date.indexOf('hour')).to.be.not.equal(-1);
-                expect(state.val[1].date.indexOf('left')).to.be.not.equal(-1);
+                if (state.val[1].date !== ' 1 day left') {
+                    expect(state.val[1].date.indexOf('hour')).to.be.not.equal(-1);
+                    expect(state.val[1].date.indexOf('left')).to.be.not.equal(-1);
+                }
                 expect(state.val[1].event).to.be.equal('Today Event');
                 expect(state.val[1]._section).to.be.equal('Today Event');
                 expect(state.val[1]._allDay).to.be.true;
