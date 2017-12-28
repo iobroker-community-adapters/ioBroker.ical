@@ -429,7 +429,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[1]._section).to.be.equal('Today Event');
                 expect(state.val[1]._allDay).to.be.true;
 
-                expect(state.val[2].date).to.be.equal(' 1 day left');
+                expect(state.val[2].date).to.be.oneOf([' 1 day left', ' 2 days left']);
                 expect(state.val[2].event).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._section).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._allDay).to.be.true;
