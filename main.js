@@ -266,7 +266,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                                     for(var dOri in ev.recurrences) {
                                         var d = new Date(dOri);
                                         if(d.getTime() === ev2.start.getTime()) {
-                                            adapter.debug.log(' FOUND DIFFERENT RECURRING!! ' + JSON.stringify(ev.recurrences[dOri]));
+                                            adapter.log.debug(' FOUND DIFFERENT RECURRING!! ' + JSON.stringify(ev.recurrences[dOri]));
                                         }
                                     }
                                 }
