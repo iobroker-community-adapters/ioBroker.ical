@@ -55,8 +55,8 @@ var dictionary       = {
     'still':     {'en': ' ',                 'de': 'Noch',             'ru': ' ',					'nl': 'nog'},
     'days':      {'en': 'days',              'de': 'Tage',             'ru': 'days',				'nl': 'dagen'},
     'day':       {'en': 'day',               'de': 'Tag',              'ru': 'day',					'nl': 'dag'},
-    'hours':     {'en': 'hours',             'de': 'Stunden',          'ru': 'hours',				'nl': 'hours'},
-    'hour':      {'en': 'hour',              'de': 'Stunde',           'ru': 'hour',		        'nl': 'hour'}
+    'hours':     {'en': 'hours',             'de': 'Stunden',          'ru': 'hours',				'nl': 'uren'},
+    'hour':      {'en': 'hour',              'de': 'Stunde',           'ru': 'hour',		        'nl': 'uur'}
 };
 
 function _(text) {
@@ -329,7 +329,8 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
 		ev.start.setMinutes(0);
 		ev.start.setSeconds(0);
 		ev.start.setHours(0);
-		ev.end.setHours(0);
+        ev.end.setDate(ev.end.getDate() + 1);
+        ev.end.setHours(0);
 		ev.end.setMinutes(0);
 		ev.end.setSeconds(0);
 	}
@@ -822,6 +823,7 @@ function formatDate(_date, _end, withTime, fullday) {
       var daysleft = Math.round((_end - new Date())/(1000*60*60*24));
       var hoursleft = Math.round((_end - new Date())/(1000*60*60));
       adapter.log.debug('    time difference: ' + daysleft + '/' + hoursleft + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
+      if (adapter.config.forceFullday && daysleft < 1) daysleft = 1;
 
       if(adapter.config.replaceDates) {
         var text;
