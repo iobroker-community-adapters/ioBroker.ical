@@ -416,9 +416,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = warn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:red\">';
+                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:red\">';
             }
             result.suffix += "<span class='icalWarn2'>";
         } else
@@ -427,9 +427,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = prewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:orange\">';
+                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:orange\">';
             }
             result.suffix += "<span class='icalPreWarn2'>";
         } else
@@ -438,9 +438,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = preprewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:yellow\">';
+                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:yellow\">';
             }
             result.suffix += "<span class='icalPrePreWarn2'>";
         } else
@@ -449,22 +449,22 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = normal;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
             }
             result.suffix += "<span class='icalNormal2'>";
         } else {
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
             }
             result.suffix += "<span class='icalNormal2'>";
         }
     }
-    result.prefix = result.prefix.replace('style=', 'class= \"' + calName + '\" style=');
+    result.prefix = result.prefix.replace('style=', 'class=\"' + calName + '\" style=');
     return result;
 }
 
