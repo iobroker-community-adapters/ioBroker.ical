@@ -303,7 +303,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.native.replaceDates = false;
             config.native.hideYear = true;
             config.native.calendars[0] = {
-                "name": "calendar1",
+                "name": "calendar1-holiday",
                 "url": __dirname + '/data/germany_holidays.ics',
                 "user": "username",
                 "pass": "password",
@@ -311,7 +311,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 "color": "red"
             };
             config.native.calendars[1] = {
-                "name": "calendar2",
+                "name": "calendar-today",
                 "url": __dirname + '/data/today.ics',
                 "user": "username",
                 "pass": "password",

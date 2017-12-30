@@ -161,7 +161,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.native.hideYear = true;
             config.native.daysPreview = 8;
             config.native.calendars[0] = {
-                "name": "calendar1",
+                "name": "calendar1-recurring",
                 "url": __dirname + '/data/recurring.ics',
                 "user": "username",
                 "pass": "password",

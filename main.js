@@ -399,13 +399,15 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
     }
 }
 
-function colorizeDates(date, today, tomorrow, dayafter, col) {
+function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     var result = {
         prefix: normal,
         suffix: "</span></span>"
     };
     var cmpDate = new Date(date.getTime());
     cmpDate.setHours(0,0,0,0);
+
+    calName = calName.replace(' ', '_');
 
     // Colorieren wenn gewünscht
     if (adapter.config.colorize) {
@@ -414,9 +416,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.prefix = warn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span style=\"font-weight:normal;color:red\">';
+                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:red\">';
             }
             result.suffix += "<span class='icalWarn2'>";
         } else
@@ -425,9 +427,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.prefix = prewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span style=\"font-weight:normal;color:orange\">';
+                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:orange\">';
             }
             result.suffix += "<span class='icalPreWarn2'>";
         } else
@@ -436,9 +438,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.prefix = preprewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span style=\"font-weight:normal;color:yellow\">';
+                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:yellow\">';
             }
             result.suffix += "<span class='icalPrePreWarn2'>";
         } else
@@ -447,21 +449,22 @@ function colorizeDates(date, today, tomorrow, dayafter, col) {
             result.prefix = normal;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
             }
             result.suffix += "<span class='icalNormal2'>";
         } else {
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+                result.suffix += '<span class= \"' + calName + '2\" style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
             }
             result.suffix += "<span class='icalNormal2'>";
         }
     }
+    result.prefix = result.prefix.replace('style=', 'class= \"' + calName + '\" style=');
     return result;
 }
 
@@ -1010,7 +1013,7 @@ function brSeparatedList(arr) {
             }
         }
 
-        var xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayafter, color);
+        var xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayafter, color, datesArray[i]._calName);
 
         if (text) text += '<br/>\n';
         text += xfix.prefix + date.text + xfix.suffix + ' ' + datesArray[i].event + '</span></span>';
