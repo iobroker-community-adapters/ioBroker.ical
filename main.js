@@ -416,55 +416,56 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = warn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:red\">';
+                result.suffix += '<span style=\"font-weight:normal;color:red\">';
             }
-            result.suffix += "<span class='icalWarn2'>";
+            result.suffix += "<span class='icalWarn2 iCal-" + calName + "2'>";
         } else
         // tomorrow
         if (cmpDate.compare(tomorrow) === 0) {
             result.prefix = prewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:orange\">';
+                result.suffix += '<span style=\"font-weight:normal;color:orange\">';
             }
-            result.suffix += "<span class='icalPreWarn2'>";
+            result.suffix += "<span class='icalPreWarn2 iCal-" + calName + "2'>";
         } else
         // day after tomorrow
         if (cmpDate.compare(dayafter) === 0) {
             result.prefix = preprewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:yellow\">';
+                result.suffix += '<span style=\"font-weight:normal;color:yellow\">';
             }
-            result.suffix += "<span class='icalPrePreWarn2'>";
+            result.suffix += "<span class='icalPrePreWarn2 iCal-" + calName + "2'>";
         } else
         // start time is in the past
         if (cmpDate.compare(today) === -1) {
             result.prefix = normal;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+                result.suffix += '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
             }
-            result.suffix += "<span class='icalNormal2'>";
+            result.suffix += "<span class='icalNormal2 iCal-" + calName + "2'>";
         } else {
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
             } else {
-                result.suffix += '<span class=\"' + calName + '2\" style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+                result.suffix += '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
             }
-            result.suffix += "<span class='icalNormal2'>";
+            result.suffix += "<span class='icalNormal2 iCal-" + calName + "2'>";
         }
     }
-    result.prefix = result.prefix.replace('style=', 'class=\"' + calName + '\" style=');
+    result.prefix = result.prefix.substring(0, result.prefix.length() - 1);
+    result.prefix += " iCal- " + calName + '">';
     return result;
 }
 
