@@ -464,8 +464,8 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.suffix += "<span class='icalNormal2 iCal-" + calName + "2'>";
         }
     }
-    result.prefix = result.prefix.substring(0, result.prefix.length - 1);
-    result.prefix += " iCal- " + calName + '">';
+    result.prefix = result.prefix.substring(0, result.prefix.length - 2);
+    result.prefix += " iCal-" + calName + '">';
     return result;
 }
 
