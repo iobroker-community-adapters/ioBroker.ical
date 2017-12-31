@@ -752,9 +752,20 @@ function formatDate(_date, _end, withTime, fullday) {
     var _class = '';
     var d = new Date();
     d.setHours(0,0,0,0);
+    var d2 = new Date();
+    d2.setDate(d.getDate() + 1);
+    var todayOnly = false;
+    if (day   === d.getDate() &&
+        month === (d.getMonth() + 1) &&
+        year  === d.getFullYear() &&
+        endday === d2.getDate() &&
+        endmonth === (d2.getMonth() + 1) &&
+        endyear  === d2.getFullYear() &&
+        fullday) {
+            todayOnly = true;
+        }
 
-    if (!alreadyStarted) {
-
+    if (!alreadyStarted || todayOnly) {
         if (day   === d.getDate() &&
             month === (d.getMonth() + 1) &&
             year  === d.getFullYear()) {
@@ -810,7 +821,7 @@ function formatDate(_date, _end, withTime, fullday) {
             _class = 'ical_oneweek';
         }
         if (adapter.config.replaceDates) {
-            if (_class === 'ical_today')    return {text: (alreadyStarted?'&#8594; ':'') + _('today')    + _time, _class: _class};
+            if (_class === 'ical_today')    return {text: ((alreadyStarted && !todayOnly)?'&#8594; ':'') + _('today')    + _time, _class: _class};
             if (_class === 'ical_tomorrow') return {text: (alreadyStarted?'&#8594; ':'') + _('tomorrow') + _time, _class: _class};
             if (_class === 'ical_dayafter') return {text: (alreadyStarted?'&#8594; ':'') + _('dayafter') + _time, _class: _class};
             if (_class === 'ical_3days')    return {text: (alreadyStarted?'&#8594; ':'') + _('3days') + _time, _class: _class};
