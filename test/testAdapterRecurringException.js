@@ -85,17 +85,17 @@ function setupIcsFiles() {
         if (day2 < 10) day2 = '0' + day2;
 
         var d4 = new Date();
-        d4.setDate(d2.getDate() + 2);
+        d4.setDate(d4.getDate() + 3);
         var m4 = (d4.getMonth() + 1);
         if (m4 < 10) m4 = '0' + m4;
         var day4 = d4.getDate();
         if (day4 < 10) day4 = '0' + day4;
 
         var d6 = new Date();
-        d6.setDate(d6.getDate() + 2);
+        d6.setDate(d6.getDate() + 5);
         var m6 = (d6.getMonth() + 1);
         if (m6 < 10) m6 = '0' + m6;
-        var day6 = d4.getDate();
+        var day6 = d6.getDate();
         if (day6 < 10) day6 = '0' + day6;
 
         var data = fs.readFileSync(__dirname + '/data/empty.ics');

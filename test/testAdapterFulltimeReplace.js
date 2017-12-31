@@ -98,7 +98,7 @@ function setupIcsFiles() {
         if (day2 < 10) day2 = '0' + day2;
 
         var d3 = new Date();
-        d3.setDate(d2.getDate() + 1);
+        d3.setDate(d3.getDate() + 2);
         var m3 = (d3.getMonth() + 1);
         if (m3 < 10) m3 = '0' + m3;
         var day3 = d3.getDate();
