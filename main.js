@@ -764,8 +764,9 @@ function formatDate(_date, _end, withTime, fullday) {
         fullday) {
             todayOnly = true;
         }
+    adapter.log.debug('    todayOnly = ' + todayOnly + ': (' + _date + '-' + _end + '), alreadyStarted=' + alreadyStarted);
 
-    if (!alreadyStarted || todayOnly) {
+    if (todayOnly || !alreadyStarted) {
         if (day   === d.getDate() &&
             month === (d.getMonth() + 1) &&
             year  === d.getFullYear()) {
