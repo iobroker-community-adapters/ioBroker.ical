@@ -10,7 +10,7 @@ ioBroker iCal adapter
 
 This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal). Alternatively it is possible to use a local .ics file (use absolute path to the file instead of URL)
 
-Siehe deustche [Version hier](README-de.md).
+Siehe deustche [Version hier](README-de.md) (outdated!!).
 
 ## Install
 ```
@@ -75,7 +75,7 @@ In the generated HTML two kind of css classes are included to allow design freed
 * _iCalPrePreWarn_/_iCalPrePreWarn2_: The Event starts day after tomorrow, default color without CSS and without a calendercolor is "yellow"
 The first CSS class (e.g. iCalNormal) is used for the date and time part of the HTML and the second CSS class (e.g. iCalNormal2) is used for the Event name.
 
-CSS example for those CSS classes to format the output a bit different (e.g. date/time left and Eventname right ...):
+CSS example for those CSS classes to format the output a bit different (e.g. date/time left+bold and Eventname right ...):
 
 ```
 .icalWarn{
@@ -117,7 +117,7 @@ CSS example for those CSS classes to format the output a bit different (e.g. dat
 ```
 
 #### Calender-based CSS classes
-Each span also has a CSS class assigned based on the name of the calender the event is in The "calendername" defined in the adapter configuration is used for this (spaces are replaced by underscores).
+Each span also has a CSS class assigned based on the name of the calendar the event is in The "calendar name" defined in the adapter configuration is used for this (spaces are replaced by underscores).
 
 * _iCal-<calendername>_: This class is used for the date and time part of the HTML
 * _iCal->calendername2>_: This class is used for the Event name
@@ -129,8 +129,12 @@ Each span also has a CSS class assigned based on the name of the calender the ev
 <span style="font-weight: bold; color: red"><span class="icalWarn iCal-calendar-today">1.1.2018  ganzer Tag</span></span><span style="font-weight:normal;color:red"><span class='icalWarn2 iCal-calendar-today2'> Today Event</span></span><br/>
 ```
 
+## Todo
+* Known issue: For recurring events it works to delete single events, but it do not work to move them
+* README should be english
+
 ## ChangeLog
-### 1.4.0 (2017-12-xx)
+### 1.4.0 (2018-01-01)
 * allow multiple Events to be contained in one calendar entry. Make sure the names are unique enough because the search only checks for existance of the event name in the text.
 * correctly detect events that started before 0:00
 * also show events with no duration (sometimes used as reminders)
