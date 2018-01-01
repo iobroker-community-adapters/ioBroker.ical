@@ -432,7 +432,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val[0].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[0].date.indexOf('. 02:00')).to.be.equal(5);
+                expect(state.val[0].date.indexOf('. 02:00')).to.be.equal(13);
                 expect(state.val[0].event).to.be.equal('TestEvent');
                 expect(state.val[0]._section).to.be.equal('TestEvent');
                 expect(state.val[0]._allDay).to.be.false;
@@ -444,7 +444,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[1]._allDay).to.be.true;
 
                 expect(state.val[2].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[2].date.indexOf('. 00:00')).to.be.equal(5);
+                expect(state.val[2].date.indexOf('. 00:00')).to.be.equal(13);
                 expect(state.val[2].event).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._section).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._allDay).to.be.true;
