@@ -65,6 +65,70 @@ Zum Einbinden eines Google Kalenders muss die Kalendereinstellung des Google Kal
 #### OwnCloud Kalender
 Zum Einbinden von gesharten Kalendern einer OwnCloud muss man dort in der Kalenderansicht in OwnCloud diesen Kalender als gesharten Kalender freigeben und dort den Link zum Kalender anzeigen lassen und diese URL (https://owncloud.xxxxxx.de/remote.php/dav/calendars/USER/xxxxxxx_shared_by_xxxxxx?export) entsprechend in den ioBroker.ical Adapter mit Nutzername und Passwort angeben.
 
+### CSS
+In the generated HTML two kind of css classes are included to allow design freedom.
+
+#### Timebased CSS classes
+* _iCalNormal_/_iCalNormal2_: The Event started before today (and is still running) or later as in 3 days, default color without CSS and without a calendercolor is the configured adapter color
+* _iCalWarn_/_iCalWarn2_: The Event starts today, default color without CSS and without a calendercolor is "red"
+* _iCalPreWarn_/_iCalPreWarn2_: The Event starts tomorrow, default color without CSS and without a calendercolor is "orange"
+* _iCalPrePreWarn_/_iCalPrePreWarn2_: The Event starts day after tomorrow, default color without CSS and without a calendercolor is "yellow"
+The first CSS class (e.g. iCalNormal) is used for the date and time part of the HTML and the second CSS class (e.g. iCalNormal2) is used for the Event name.
+
+CSS example for those CSS classes to format the output a bit different (e.g. date/time left and Eventname right ...):
+
+```
+.icalWarn{
+    color:red;
+    float:left;
+    font-size:12px;
+    font-weight:bold;
+}
+.icalWarn2{
+    color:white;
+    float:right;
+    font-size:12px;
+    font-weight:normal;
+}
+.icalPreWarn{
+    color:yellow;
+    float:left;
+    font-size:12px;
+    font-weight:bold;
+}
+.icalPreWarn2{
+    color:white;
+    float:right;
+    font-size:12px;
+    font-weight:normal;
+}
+.icalNormal{
+    color:green;
+    float:left;
+    font-size:12px;
+    font-weight:bold;
+}
+.icalNormal2{
+    color:white;
+    float:right;
+    font-size:12px;
+    font-weight:normal;
+}
+```
+
+#### Calender-based CSS classes
+Each span also has a CSS class assigned based on the name of the calender the event is in The "calendername" defined in the adapter configuration is used for this (spaces are replaced by underscores).
+
+* _iCal-<calendername>_: This class is used for the date and time part of the HTML
+* _iCal->calendername2>_: This class is used for the Event name
+
+#### Example of generated html
+
+```
+<span style="font-weight: bold; color:white"><span class="icalNormal iCal-calendar-today">&#8594; 3.1.2018 2:00</span></span><span style="font-weight: normal; color:white"><span class='icalNormal2 iCal-calendar-today2'> TestEvent</span></span><br/>
+<span style="font-weight: bold; color: red"><span class="icalWarn iCal-calendar-today">1.1.2018  ganzer Tag</span></span><span style="font-weight:normal;color:red"><span class='icalWarn2 iCal-calendar-today2'> Today Event</span></span><br/>
+```
+
 ## ChangeLog
 ### 1.4.0 (2017-12-xx)
 * allow multiple Events to be contained in one calendar entry. Make sure the names are unique enough because the search only checks for existance of the event name in the text.
@@ -73,6 +137,7 @@ Zum Einbinden von gesharten Kalendern einer OwnCloud muss man dort in der Kalend
 * correctly show end times for events that are longer then 1 day (including "+x" to show day duration)
 * many enhancements and optimizations in formatting the infos (especially when event has already started but not ended)
 * add option to hide year numbers
+* add own CSS classes to each entry with the names iCal-<calendername> and iCal-<calendername>2 to be able to really design it as needed
 * Known issue: For recurring events it works to delete single events, but it do not work to move them
 
 
