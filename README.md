@@ -102,6 +102,18 @@ CSS example for those CSS classes to format the output a bit different (e.g. dat
     font-size:12px;
     font-weight:normal;
 }
+.icalPrePreWarn{
+    color:white;
+    float:left;
+    font-size:12px;
+    font-weight:bold;
+}
+.icalPrePreWarn2{
+    color:white;
+    float:right;
+    font-size:12px;
+    font-weight:normal;
+}
 .icalNormal{
     color:green;
     float:left;
@@ -121,6 +133,17 @@ Each span also has a CSS class assigned based on the name of the calendar the ev
 
 * _iCal-<calendername>_: This class is used for the date and time part of the HTML
 * _iCal->calendername2>_: This class is used for the Event name
+
+To set these CSS classes you need to use the timebased CSS class too, e.g. _.icalNormal2.iCal-<calendername>2_:
+
+```
+.icalNormal2.iCal-Google2{
+    color:white;
+    float:right;
+    font-size:12px;
+    font-weight:normal;
+}
+```
 
 #### Example of generated html
 
