@@ -230,6 +230,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                         adapter.log.debug(JSON.stringify(options));
                         adapter.log.debug(JSON.stringify(ev));
                         adapter.log.debug(JSON.stringify(dates));
+                        if (!ev.end) ev.end = ev.start;
                         var eventLength = ev.end.getTime() - ev.start.getTime();
                         // event innerhalb des Zeitfensters
                         if (dates.length > 0) {
@@ -308,8 +309,8 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
     // If not start point => ignore it
     if (!ev.start) return;
 
-    // If not end point => ignore it
-    if (!ev.end) return;
+    // If not end point => assume 0:0:0 event and set to same as start
+    if (!ev.end) ev.end = ev.start;
 
     // If full day
     if (!ev.start.getHours()   &&
@@ -859,11 +860,20 @@ function formatDate(_date, _end, withTime, fullday) {
           text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft + ' ' + (daysleft === 1 ? _('day') : _('days')) + (_('left') !== ' ' ? ' ' + _('left') : '');
         else
           text = (_('still') !== ' ' ? _('still') : '') + ' ' + hoursleft + ' ' + (hoursleft === 1 ? _('hour') : _('hours')) + (_('left') !== ' ' ? ' ' + _('left') : '');
-      } else {
+      }
+      else {
 
         day = _end.getDate();
         month = _end.getMonth() + 1;
         year = _end.getFullYear();
+
+        if (fullday && !withTime) {
+            var d3 = new Date();
+            d3.setDate(_end.getDate() - 1);
+            day = d3.getDate();
+            month = d3.getMonth() + 1;
+            year = d3.getFullYear();
+        }
 
         if (adapter.config.dataPaddingWithZeros) {
             if (day < 10)   day   = '0' + day.toString();

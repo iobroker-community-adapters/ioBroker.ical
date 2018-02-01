@@ -158,14 +158,18 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 
 ## ChangeLog
 ### 1.4.0 (2018-01-01)
-* allow multiple Events to be contained in one calendar entry. Make sure the names are unique enough because the search only checks for existance of the event name in the text.
-* correctly detect events that started before 0:00
-* also show events with no duration (sometimes used as reminders)
-* correctly show end times for events that are longer then 1 day (including "+x" to show day duration)
-* many enhancements and optimizations in formatting the infos (especially when event has already started but not ended)
-* add option to hide year numbers
-* add own CSS classes to each entry with the names iCal-<calendername> and iCal-<calendername>2 to be able to really design it as needed
-* Known issue: For recurring events it works to delete single events, but it do not work to move them
+* (Apollon77) also allow events without end parameter and assume an 0minute event then and set end = start
+* (Apollon77) 
+
+### 1.4.0 (2018-01-01)
+* (Apollon77) allow multiple Events to be contained in one calendar entry. Make sure the names are unique enough because the search only checks for existance of the event name in the text.
+* (Apollon77) correctly detect events that started before 0:00
+* (Apollon77) also show events with no duration (sometimes used as reminders)
+* (Apollon77) correctly show end times for events that are longer then 1 day (including "+x" to show day duration)
+* (Apollon77) many enhancements and optimizations in formatting the infos (especially when event has already started but not ended)
+* (Apollon77) add option to hide year numbers
+* (Apollon77) add own CSS classes to each entry with the names iCal-<calendername> and iCal-<calendername>2 to be able to really design it as needed
+* (Apollon77) Known issue: For recurring events it works to delete single events, but it do not work to move them
 
 
 ### 1.3.3 (2017-10-30)
