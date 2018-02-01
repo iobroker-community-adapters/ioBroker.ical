@@ -11,7 +11,7 @@ var onObjectChanged = null;
 var sendToID = 1;
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Config Normal';
+var adapterShortNameLog = adapterShortName + ' Config ForceFullday';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
@@ -298,7 +298,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.common.enabled  = true;
             config.common.loglevel = 'silly';
 
-            config.native.fulltime = "";
+            config.native.fulltime = " ";
             config.native.forceFullday = true;
             config.native.replaceDates = false;
             config.native.hideYear = true;
@@ -432,49 +432,49 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val[0].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[0].date.indexOf('. 02:00')).to.be.equal(13);
+                expect(state.val[0].date.indexOf('. 00:00')).to.be.equal(-1);
                 expect(state.val[0].event).to.be.equal('TestEvent');
                 expect(state.val[0]._section).to.be.equal('TestEvent');
                 expect(state.val[0]._allDay).to.be.false;
 
                 expect(state.val[1].date.indexOf('&#8594; ')).to.be.equal(-1);
-                expect(state.val[1].date.indexOf('. 00:00')).to.be.equal(5);
+                expect(state.val[1].date.indexOf('. 00:00')).to.be.equal(-1);
                 expect(state.val[1].event).to.be.equal('Today Event');
                 expect(state.val[1]._section).to.be.equal('Today Event');
                 expect(state.val[1]._allDay).to.be.true;
 
                 expect(state.val[2].date.indexOf('&#8594; ')).to.be.equal(0);
-                expect(state.val[2].date.indexOf('. 00:00')).to.be.equal(13);
+                expect(state.val[2].date.indexOf('. 00:00')).to.be.equal(-1);
                 expect(state.val[2].event).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._section).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._allDay).to.be.true;
 
-                expect(state.val[3].date.indexOf('. 23:58-23:59')).to.be.equal(5);
+                expect(state.val[3].date.indexOf('. 23:58-23:59')).to.be.equal(-1);
                 expect(state.val[3].event).to.be.equal('SameDay');
                 expect(state.val[3]._section).to.be.equal('SameDay');
                 expect(state.val[3]._allDay).to.be.false;
 
-                expect(state.val[4].date.indexOf('. 00:00')).to.be.equal(5);
+                expect(state.val[4].date.indexOf('. 00:00')).to.be.equal(-1);
                 expect(state.val[4].event).to.be.equal('MorgenVoll');
                 expect(state.val[4]._section).to.be.equal('MorgenVoll');
                 expect(state.val[4]._allDay).to.be.true;
 
-                expect(state.val[5].date.indexOf('. 10:00')).to.be.equal(5);
+                expect(state.val[5].date.indexOf('. 10:00')).to.be.equal(-1);
                 expect(state.val[5].event).to.be.equal('Reminder');
                 expect(state.val[5]._section).to.be.equal('Reminder');
                 expect(state.val[5]._allDay).to.be.false;
 
-                expect(state.val[6].date.indexOf('. 18:00-20:00')).to.be.equal(5);
+                expect(state.val[6].date.indexOf('. 18:00-20:00')).to.be.equal(-1);
                 expect(state.val[6].event).to.be.equal('InDay2');
                 expect(state.val[6]._section).to.be.equal('InDay2');
                 expect(state.val[6]._allDay).to.be.false;
 
-                expect(state.val[7].date.indexOf('. 19:30-20:30')).to.be.equal(5);
+                expect(state.val[7].date.indexOf('. 19:30-20:30')).to.be.equal(-1);
                 expect(state.val[7].event).to.be.equal('TestUserEvent1');
                 expect(state.val[7]._section).to.be.equal('TestUserEvent1');
                 expect(state.val[7]._allDay).to.be.false;
 
-                expect(state.val[8].date.indexOf('. 22:00-02:00+1')).to.be.equal(5);
+                expect(state.val[8].date.indexOf('. 22:00-02:00+1')).to.be.equal(-1);
                 expect(state.val[8].event).to.be.equal('OverEvent');
                 expect(state.val[8]._section).to.be.equal('OverEvent');
                 expect(state.val[8]._allDay).to.be.false;
