@@ -867,14 +867,6 @@ function formatDate(_date, _end, withTime, fullday) {
         month = _end.getMonth() + 1;
         year = _end.getFullYear();
 
-/*        if (fullday && !withTime) {
-            var d3 = new Date();
-            d3.setDate(_end.getDate() - 1);
-            day = d3.getDate();
-            month = d3.getMonth() + 1;
-            year = d3.getFullYear();
-        }*/
-
         if (adapter.config.dataPaddingWithZeros) {
             if (day < 10)   day   = '0' + day.toString();
             if (month < 10) month = '0' + month.toString();

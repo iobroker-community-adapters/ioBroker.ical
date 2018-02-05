@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.4.0",
+        "version": "1.4.1",
         "news": {
+            "1.4.1": {
+                "en": "Better handle events without end",
+                "de": "Bessere Behandlung von Ereignissen ohne Ende",
+                "ru": "Лучше обрабатывать события без конца",
+                "pt": "Melhorar eventos sem fim",
+                "nl": "Beter omgaan met gebeurtenissen zonder einde",
+                "fr": "Mieux gérer les événements sans fin",
+                "it": "Gestisci meglio eventi senza fine",
+                "es": "Manejar mejor los eventos sin fin",
+                "pl": "Lepiej radzić sobie z wydarzeniami bez końca"
+            },
             "1.4.0": {
                 "en": "Several fixes and enhancements",
                 "de": "Einige Fehlerbehebungen und Verbesserungen",
