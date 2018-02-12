@@ -212,7 +212,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
             now2.setHours(0, 0, 0, 0);
 
             // Datum 1 Sec zurück wegen Ganztätigen Terminen um 00:00 Uhr
-            now2.setSeconds(now2.getSeconds() - 1);
+            //now2.setSeconds(now2.getSeconds() - 1);
 
             for (var k in data) {
                 var ev = data[k];
@@ -225,13 +225,15 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                         var options = RRule.parseString(ev.rrule.toString());
                         options.dtstart = ev.start;
                         var rule = new RRule(options);
-                        adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 +  ' ' + rule.toText());
-                        var dates = rule.between(now2, endpreview);
+                        if (!ev.end) ev.end = ev.start;
+                        var eventLength = ev.end.getTime() - ev.start.getTime();
+                        var now3 = new Date(ev.start.getTime() - eventLength);
+                        if (now3 < now2) now3 = now2;
+                        adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 + ' now3:' + now3 + ' ' + rule.toText());
+                        var dates = rule.between(now3, endpreview, true);
                         adapter.log.debug(JSON.stringify(options));
                         adapter.log.debug(JSON.stringify(ev));
                         adapter.log.debug(JSON.stringify(dates));
-                        if (!ev.end) ev.end = ev.start;
-                        var eventLength = ev.end.getTime() - ev.start.getTime();
                         // event innerhalb des Zeitfensters
                         if (dates.length > 0) {
                             for (var i = 0; i < dates.length; i++) {
