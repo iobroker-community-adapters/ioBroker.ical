@@ -157,6 +157,9 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 * README should be english
 
 ## ChangeLog
+### 1.4.2 (2018-02-21)
+* (Apollon77) Also display events that started before today
+
 ### 1.4.1 (2018-02-05)
 * (Apollon77) also allow events without end parameter and assume an 0minute event then and set end = start
 

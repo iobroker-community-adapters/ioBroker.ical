@@ -3,6 +3,17 @@
         "name": "ical",
         "version": "1.4.2",
         "news": {
+            "1.4.2": {
+                "en": "Also display events that started before today",
+                "de": "Zeigen Sie auch Ereignisse an, die vor dem heutigen Tag gestartet wurden",
+                "ru": "Также покажите события, которые начались до сегодняшнего дня",
+                "pt": "Também exibir eventos que começaram antes de hoje",
+                "nl": "Geef ook gebeurtenissen weer die vóór vandaag zijn gestart",
+                "fr": "Afficher également les événements qui ont commencé avant aujourd'hui",
+                "it": "Visualizza anche eventi che sono iniziati prima di oggi",
+                "es": "También muestra eventos que comenzaron antes de hoy",
+                "pl": "Wyświetlaj także wydarzenia, które rozpoczęły się przed dzisiaj"
+            },
             "1.4.1": {
                 "en": "Better handle events without end",
                 "de": "Bessere Behandlung von Ereignissen ohne Ende",
