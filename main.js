@@ -227,8 +227,8 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                         var rule = new RRule(options);
                         if (!ev.end) ev.end = ev.start;
                         var eventLength = ev.end.getTime() - ev.start.getTime();
-                        var now3 = new Date(ev.start.getTime() - eventLength);
-                        if (now3 < now2) now3 = now2;
+                        var now3 = new Date(now2.getTime() - eventLength);
+                        if (now2 < now3) now3 = now2;
                         adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 + ' now3:' + now3 + ' ' + rule.toText());
                         var dates = rule.between(now3, endpreview, true);
                         adapter.log.debug(JSON.stringify(options));
