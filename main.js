@@ -395,7 +395,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                 });
                 adapter.log.debug('Event with time added: ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
             } else {
-                adapter.log.debug('Event does not displayed, because beings to hidden user events: ' + reason);
+                adapter.log.debug('Event does not displayed, because belongs to hidden user events: ' + reason);
             }
         } else {
             // filtered out, because does not belongs to specified time interval
