@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.4.2",
+        "version": "1.5.0",
         "news": {
+            "1.5.0": {
+                "en": "ready for Admin3",
+                "de": "Bereit für Admin3",
+                "ru": "готово для Admin3",
+                "pt": "pronto para Admin3",
+                "nl": "klaar voor Admin3",
+                "fr": "prêt pour Admin3",
+                "it": "pronto per Admin3",
+                "es": "listo para Admin3",
+                "pl": "gotowy dla Admin3"
+            },
             "1.4.2": {
                 "en": "Also display events that started before today",
                 "de": "Zeigen Sie auch Ereignisse an, die vor dem heutigen Tag gestartet wurden",
@@ -72,11 +83,28 @@
                 "ru": "fix error if entry is invalid\nuse newer ical packet version"
             }
         },
-        "title": "iCal Adapter",
+        "title": "iCal Calendar",
+        "titleLang": {
+            "en": "iCal Calendar",
+            "de": "iCal Kalender",
+            "ru": "Календарь iCal",
+            "pt": "Calendário iCal",
+            "nl": "iCal-agenda",
+            "fr": "Calendrier iCal",
+            "it": "Calendario iCal",
+            "es": "Calendario iCal",
+            "pl": "Kalendarz iCal"
+        },
         "desc": {
             "en": "This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal)",
             "de": "iCal liest Kalender Files im .ics Format von einer URL (Google Calendar oder iCal)",
-            "ru": "iCal читает файлы в формате .ics по URL адресу (Google Calendar или iCal)"
+            "ru": "iCal читает файлы в формате .ics по URL адресу (Google Calendar или iCal)",
+            "pt": "Este adaptador permite ler arquivos .ics de URL específico e analisá-lo (Google Calendar ou iCal)",
+            "nl": "Met deze adapter kunnen .ics-bestanden van een specifieke URL worden gelezen en geanalyseerd (Google Calendar of iCal)",
+            "fr": "Cet adaptateur permet de lire des fichiers .ics à partir d'URL spécifiques et de les analyser (Google Calendar ou iCal)",
+            "it": "Questo adattatore consente di leggere i file .ics da URL specifici e di analizzarli (Google Calendar o iCal)",
+            "es": "Este adaptador permite leer archivos .ics de una URL específica y analizarlos (Google Calendar o iCal)",
+            "pl": "Ten adapter umożliwia odczytanie plików .ics z określonego adresu URL i przeanalizowanie go (Kalendarz Google lub iCal)"
         },
         "authors": [
             "bluefox <dogafox@gmail.com>",
@@ -90,6 +118,7 @@
         "loglevel": "info",
         "readme": "https://github.com/ioBroker/ioBroker.ical/blob/master/README.md",
         "icon": "ical.png",
+        "materialize": true,
         "keywords": [
             "web",
             "iCal",

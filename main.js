@@ -1,18 +1,18 @@
 /**
  *      ioBroker.iCal
- *      Copyright 2015-2016, bluefox <dogafox@gmail.com>
+ *      Copyright 2015-2018, bluefox <dogafox@gmail.com>
  *
  *      Based on ccu.io vader722 adapter.
  *      https://github.com/hobbyquaker/ccu.io/tree/master/adapter/ical
  *
  */
 
-
-/* jshint -W097 */// jshint strict:false
-/*global require */
-/*global RRule */
-/*global __dirname */
-/*jslint node: true */
+/* jshint -W097 */
+/* jshint strict:false */
+/* global require */
+/* global RRule */
+/* global __dirname */
+/* jslint node: true */
 'use strict';
 
 var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
@@ -37,26 +37,26 @@ var preprewarn       = '<span style="font-weight: bold; color: yellow"><span cla
 var datesArray       = [];
 var events           = [];
 var dictionary       = {
-    'today':     {'en': 'Today',             'de': 'Heute',            'ru': 'Сегодня',				'nl': 'Vandaag'},
-    'tomorrow':  {'en': 'Tomorrow',          'de': 'Morgen',           'ru': 'Завтра',				'nl': 'Morgen'},
-    'dayafter':  {'en': 'Day After Tomorrow','de': 'Übermorgen',       'ru': 'Послезавтра',			'nl': 'Overmorgen'},
-    '3days':     {'en': 'In 3 days',         'de': 'In 3 Tagen',       'ru': 'Через 2 дня',			'nl': 'Over 3 dagen'},
-    '4days':     {'en': 'In 4 days',         'de': 'In 4 Tagen',       'ru': 'Через 3 дня',			'nl': 'Over 4 dagen'},
-    '5days':     {'en': 'In 5 days',         'de': 'In 5 Tagen',       'ru': 'Через 4 дня',			'nl': 'Over 5 dagen'},
-    '6days':     {'en': 'In 6 days',         'de': 'In 6 Tagen',       'ru': 'Через 5 дней',		'nl': 'Over 6 dagen'},
-    'oneweek':   {'en': 'In one week',       'de': 'In einer Woche',   'ru': 'Через неделю',		'nl': 'Binnen een week'},
-    '1week_left':{'en': 'One week left',     'de': 'Noch eine Woche',  'ru': 'One week left',		'nl': 'Over een week'},
-    '2week_left':{'en': 'Two weeks left',    'de': 'Noch zwei Wochen', 'ru': 'Two weeks left',		'nl': 'Over twee weken'},
-    '3week_left':{'en': 'Three weeks left',  'de': 'Noch drei Wochen', 'ru': 'Three weeks left',	'nl': 'Over drie weken'},
-    '4week_left':{'en': 'Four weeks left',   'de': 'Noch vier Wochen', 'ru': 'Four weeks left',		'nl': 'Over vier weken'},
-    '5week_left':{'en': 'Five weeks left',   'de': 'Noch fünf Wochen', 'ru': 'Five weeks left',		'nl': 'Over vijf weken'},
-    '6week_left':{'en': 'Six weeks left',    'de': 'Noch sechs Wochen','ru': 'Six weeks left',		'nl': 'Over zes weken'},
-    'left':      {'en': 'left',              'de': ' ',                'ru': 'left',				'nl': 'over'},
-    'still':     {'en': ' ',                 'de': 'Noch',             'ru': ' ',					'nl': 'nog'},
-    'days':      {'en': 'days',              'de': 'Tage',             'ru': 'days',				'nl': 'dagen'},
-    'day':       {'en': 'day',               'de': 'Tag',              'ru': 'day',					'nl': 'dag'},
-    'hours':     {'en': 'hours',             'de': 'Stunden',          'ru': 'hours',				'nl': 'uren'},
-    'hour':      {'en': 'hour',              'de': 'Stunde',           'ru': 'hour',		        'nl': 'uur'}
+    'today':     {'en': 'Today',             'it': 'Oggi',                      'es': 'Hoy',                   'pl': 'Dzisiaj',                   'fr': 'Aujourd\'hui',              'de': 'Heute',            'ru': 'Сегодня',				'nl': 'Vandaag'},
+    'tomorrow':  {'en': 'Tomorrow',          'it': 'Domani',                    'es': 'Mañana',                'pl': 'Jutro',                     'fr': 'Demain',                    'de': 'Morgen',           'ru': 'Завтра',				'nl': 'Morgen'},
+    'dayafter':  {'en': 'Day After Tomorrow','it': 'Dopodomani',                'es': 'Pasado mañana',         'pl': 'Pojutrze',                  'fr': 'Après demain',              'de': 'Übermorgen',       'ru': 'Послезавтра',			'nl': 'Overmorgen'},
+    '3days':     {'en': 'In 3 days',         'it': 'In 3 giorni',               'es': 'En 3 días',             'pl': 'W 3 dni',                   'fr': 'Dans 3 jours',              'de': 'In 3 Tagen',       'ru': 'Через 2 дня',			'nl': 'Over 3 dagen'},
+    '4days':     {'en': 'In 4 days',         'it': 'In 4 giorni',               'es': 'En 4 días',             'pl': 'W 4 dni',                   'fr': 'Dans 4 jours',              'de': 'In 4 Tagen',       'ru': 'Через 3 дня',			'nl': 'Over 4 dagen'},
+    '5days':     {'en': 'In 5 days',         'it': 'In 5 giorni',               'es': 'En 5 días',             'pl': 'W ciągu 5 dni',             'fr': 'Dans 5 jours',              'de': 'In 5 Tagen',       'ru': 'Через 4 дня',			'nl': 'Over 5 dagen'},
+    '6days':     {'en': 'In 6 days',         'it': 'In 6 giorni',               'es': 'En 6 días',             'pl': "W ciągu 6 dni",             'fr': "Dans 6 jours",              'de': 'In 6 Tagen',       'ru': 'Через 5 дней',		'nl': 'Over 6 dagen'},
+    'oneweek':   {'en': 'In one week',       'it': 'In una settimana',          'es': 'En una semana',         'pl': 'W jeden tydzień',           'fr': 'Dans une semaine',          'de': 'In einer Woche',   'ru': 'Через неделю',		'nl': 'Binnen een week'},
+    '1week_left':{'en': 'One week left',     'it': 'Manca una settimana',       'es': 'Queda una semana',      'pl': 'Został jeden tydzień',      'fr': 'Reste une semaine',         'de': 'Noch eine Woche',  'ru': 'Ещё неделя',		    'nl': 'Over een week'},
+    '2week_left':{'en': 'Two weeks left',    'it': 'Due settimane rimaste',     'es': 'Dos semanas restantes', 'pl': 'Zostały dwa tygodnie',      'fr': 'Il reste deux semaines',    'de': 'Noch zwei Wochen', 'ru': 'Ещё две недели',		'nl': 'Over twee weken'},
+    '3week_left':{'en': 'Three weeks left',  'it': 'Tre settimane rimanenti',   'es': 'Tres semanas quedan',   'pl': "Pozostały trzy tygodnie",   'fr': 'Trois semaines restantes',  'de': 'Noch drei Wochen', 'ru': 'Ещё три недели',	    'nl': 'Over drie weken'},
+    '4week_left':{'en': 'Four weeks left',   'it': 'Quattro settimane rimaste', 'es': 'Cuatro semanas quedan', 'pl': 'Pozostały cztery tygodnie', 'fr': 'Quatre semaines à gauche',  'de': 'Noch vier Wochen', 'ru': 'Ещё три недели',		'nl': 'Over vier weken'},
+    '5week_left':{'en': 'Five weeks left',   'it': 'Cinque settimane rimaste',  'es': 'Quedan cinco semanas',  'pl': 'Pozostało pięć tygodni',    'fr': 'Cinq semaines à gauche',    'de': 'Noch fünf Wochen', 'ru': 'Ещё пять недель',		'nl': 'Over vijf weken'},
+    '6week_left':{'en': 'Six weeks left',    'it': 'Sei settimane a sinistra',  'es': 'Seis semanas restantes','pl': 'Pozostało sześć tygodni',   'fr': 'Six semaines à gauche',     'de': 'Noch sechs Wochen','ru': 'Ещё шесть недель',	'nl': 'Over zes weken'},
+    'left':      {'en': 'left',              'it': 'sinistra',                  'es': 'izquierda',             'pl': 'lewo',                      'fr': 'la gauche',                 'de': ' ',                'ru': 'осталось',			'nl': 'over'},
+    'still':     {'en': ' ',                 'it': '',                          'es': '',                      'pl': '',                          'fr': '',                          'de': 'Noch',             'ru': ' ',					'nl': 'nog'},
+    'days':      {'en': 'days',              'it': 'Giorni',                    'es': 'dias',                  'pl': 'dni',                       'fr': 'journées',                  'de': 'Tage',             'ru': 'дней',			'nl': 'dagen'},
+    'day':       {'en': 'day',               'it': 'giorno',                    'es': 'día',                   'pl': 'dzień',                     'fr': 'journée',                   'de': 'Tag',              'ru': 'день',				'nl': 'dag'},
+    'hours':     {'en': 'hours',             'it': 'ore',                       'es': 'horas',                 'pl': 'godziny',                   'fr': 'heures',                    'de': 'Stunden',          'ru': 'часов',			'nl': 'uren'},
+    'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',		            'nl': 'uur'}
 };
 
 function _(text) {
@@ -153,7 +153,9 @@ function getiCal(urlOrFile, user, pass, sslignore, calName, cb) {
             uri: urlOrFile
         };
 
-        if (sslignore === 'ignore') options.rejectUnauthorized = false;
+        if (sslignore === 'ignore' || sslignore === 'true' || sslignore === true) {
+            options.rejectUnauthorized = false;
+        }
 
         if (user) {
             options.auth = {
@@ -430,9 +432,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = prewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight: normal; color:' + col + '\">';
             } else {
-                result.suffix += '<span style=\"font-weight:normal;color:orange\">';
+                result.suffix += '<span style=\"font-weight: normal; color: orange\">';
             }
             result.suffix += "<span class='icalPreWarn2 iCal-" + calName + "2'>";
         } else
@@ -441,9 +443,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = preprewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight: normal; color: ' + col + '\">';
             } else {
-                result.suffix += '<span style=\"font-weight:normal;color:yellow\">';
+                result.suffix += '<span style=\"font-weight: normal; color: yellow\">';
             }
             result.suffix += "<span class='icalPrePreWarn2 iCal-" + calName + "2'>";
         } else
@@ -452,17 +454,17 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = normal;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight: normal; color: ' + col + '\">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+                result.suffix += '<span style=\"font-weight: normal; color: ' + adapter.config.defColor + '\">';
             }
             result.suffix += "<span class='icalNormal2 iCal-" + calName + "2'>";
         } else {
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style=\"font-weight: normal; color: ' + col + '\">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color:' + adapter.config.defColor + '\">';
+                result.suffix += '<span style=\"font-weight: normal; color: ' + adapter.config.defColor + '\">';
             }
             result.suffix += "<span class='icalNormal2 iCal-" + calName + "2'>";
         }
@@ -675,7 +677,6 @@ function readAll() {
         adapter.log.debug('displaying dates');
         displayDates();
     }
-
 }
 
 // Read one calendar
@@ -759,15 +760,15 @@ function formatDate(_date, _end, withTime, fullday) {
     var d2 = new Date();
     d2.setDate(d.getDate() + 1);
     var todayOnly = false;
-    if (day   === d.getDate() &&
-        month === (d.getMonth() + 1) &&
-        year  === d.getFullYear() &&
-        endday === d2.getDate() &&
+    if (day      === d.getDate() &&
+        month    === (d.getMonth() + 1) &&
+        year     === d.getFullYear() &&
+        endday   === d2.getDate() &&
         endmonth === (d2.getMonth() + 1) &&
         endyear  === d2.getFullYear() &&
         fullday) {
             todayOnly = true;
-        }
+    }
     adapter.log.debug('    todayOnly = ' + todayOnly + ': (' + _date + '-' + _end + '), alreadyStarted=' + alreadyStarted);
 
     if (todayOnly || !alreadyStarted) {
@@ -826,77 +827,104 @@ function formatDate(_date, _end, withTime, fullday) {
             _class = 'ical_oneweek';
         }
         if (adapter.config.replaceDates) {
-            if (_class === 'ical_today')    return {text: ((alreadyStarted && !todayOnly)?'&#8594; ':'') + _('today')    + _time, _class: _class};
-            if (_class === 'ical_tomorrow') return {text: (alreadyStarted?'&#8594; ':'') + _('tomorrow') + _time, _class: _class};
-            if (_class === 'ical_dayafter') return {text: (alreadyStarted?'&#8594; ':'') + _('dayafter') + _time, _class: _class};
-            if (_class === 'ical_3days')    return {text: (alreadyStarted?'&#8594; ':'') + _('3days') + _time, _class: _class};
-            if (_class === 'ical_4days')    return {text: (alreadyStarted?'&#8594; ':'') + _('4days') + _time, _class: _class};
-            if (_class === 'ical_5days')    return {text: (alreadyStarted?'&#8594; ':'') + _('5days') + _time, _class: _class};
-            if (_class === 'ical_6days')    return {text: (alreadyStarted?'&#8594; ':'') + _('6days') + _time, _class: _class};
-            if (_class === 'ical_oneweek')  return {text: (alreadyStarted?'&#8594; ':'') + _('oneweek') + _time, _class: _class};
+            if (_class === 'ical_today')    return {text: ((alreadyStarted && !todayOnly) ? '&#8594; ' : '') + _('today')    + _time, _class: _class};
+            if (_class === 'ical_tomorrow') return {text: (alreadyStarted ? '&#8594; ' : '') + _('tomorrow') + _time, _class: _class};
+            if (_class === 'ical_dayafter') return {text: (alreadyStarted ? '&#8594; ' : '') + _('dayafter') + _time, _class: _class};
+            if (_class === 'ical_3days')    return {text: (alreadyStarted ? '&#8594; ' : '') + _('3days')    + _time, _class: _class};
+            if (_class === 'ical_4days')    return {text: (alreadyStarted ? '&#8594; ' : '') + _('4days')    + _time, _class: _class};
+            if (_class === 'ical_5days')    return {text: (alreadyStarted ? '&#8594; ' : '') + _('5days')    + _time, _class: _class};
+            if (_class === 'ical_6days')    return {text: (alreadyStarted ? '&#8594; ' : '') + _('6days')    + _time, _class: _class};
+            if (_class === 'ical_oneweek')  return {text: (alreadyStarted ? '&#8594; ' : '') + _('oneweek')  + _time, _class: _class};
         }
     }
     else {
         // check if date is in the past and if so we show the end time instead
-      _class = 'ical_today';
-      var daysleft = Math.round((_end - new Date())/(1000*60*60*24));
-      var hoursleft = Math.round((_end - new Date())/(1000*60*60));
-      adapter.log.debug('    time difference: ' + daysleft + '/' + hoursleft + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
-      if (adapter.config.forceFullday && daysleft < 1) daysleft = 1;
+        _class = 'ical_today';
+        var daysleft = Math.round((_end - new Date())/(1000*60*60*24));
+        var hoursleft = Math.round((_end - new Date())/(1000*60*60));
+        adapter.log.debug('    time difference: ' + daysleft + '/' + hoursleft + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
+        if (adapter.config.forceFullday && daysleft < 1) daysleft = 1;
 
-      if(adapter.config.replaceDates) {
-        var text;
-        if(daysleft === 42)
-          text = _('6week_left');
-        else if(daysleft === 35)
-          text = _('5week_left');
-        else if(daysleft === 28)
-          text = _('4week_left');
-        else if(daysleft === 21)
-          text = _('3week_left');
-        else if(daysleft === 14)
-          text = _('2week_left');
-        else if(daysleft === 7)
-          text = _('1week_left');
-        else if (daysleft >= 1)
-          text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft + ' ' + (daysleft === 1 ? _('day') : _('days')) + (_('left') !== ' ' ? ' ' + _('left') : '');
-        else
-          text = (_('still') !== ' ' ? _('still') : '') + ' ' + hoursleft + ' ' + (hoursleft === 1 ? _('hour') : _('hours')) + (_('left') !== ' ' ? ' ' + _('left') : '');
-      }
-      else {
-
-        day = _end.getDate();
-        month = _end.getMonth() + 1;
-        year = _end.getFullYear();
-
-        if (adapter.config.dataPaddingWithZeros) {
-            if (day < 10)   day   = '0' + day.toString();
-            if (month < 10) month = '0' + month.toString();
-        }
-
-        text = '&#8594; ' + day + '.' + month + '.';
-        if (!adapter.config.hideYear) {
-            text += year;
-        }
-
-        if (withTime) {
-            if (adapter.config.fulltime && fullday) {
-                text += ' ' + adapter.config.fulltime;
-            }
-            else {
-                var endhours = _end.getHours();
-                var endminutes = _end.getMinutes();
-                if (adapter.config.dataPaddingWithZeros) {
-                    if (endhours < 10)   endhours   = '0' + endhours.toString();
+        if (adapter.config.replaceDates) {
+            var _left = (_('left') !== ' ' ? ' ' + _('left') : '');
+            var text;
+            if (daysleft === 42) {
+                text = _('6week_left');
+            } else if (daysleft === 35) {
+                text = _('5week_left');
+            } else if (daysleft === 28) {
+                text = _('4week_left');
+            } else if (daysleft === 21) {
+                text = _('3week_left');
+            } else if (daysleft === 14) {
+                text = _('2week_left');
+            } else if (daysleft === 7) {
+                text = _('1week_left');
+            } else if (daysleft >= 1) {
+                if (adapter.config.language === 'ru') {
+                    var c = daysleft % 10;
+                    var cc = Math.floor(daysleft / 10) % 10;
+                    if (daysleft === 1) {
+                        text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft  + ' ' + _('day') + _left;
+                    } else if (cc > 1 && (c > 1 || c < 5)) {
+                        text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft  + ' ' + 'дня' + _left;
+                    } else {
+                        text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft  + ' ' + _('days') + _left;
+                    }
+                } else {
+                    text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft  + ' ' + (daysleft  === 1 ? _('day') : _('days')) + _left;
                 }
-                if (endminutes < 10) endminutes = '0' + endminutes.toString();
-                text += ' ' + endhours + ':' + endminutes;
+            } else {
+                if (adapter.config.language === 'ru') {
+                    var c = hoursleft % 10;
+                    var cc = Math.floor(hoursleft / 10) % 10;
+                    if (hoursleft === 1) {
+                        text = (_('still') !== ' ' ? _('still') : '') + ' ' + hoursleft  + ' ' + _('hour') + _left;
+                    } else if (cc !== 1 && (c > 1 || c < 5)) {
+                        text = (_('still') !== ' ' ? _('still') : '') + ' ' + hoursleft  + ' ' + 'часа' + _left;
+                    } else {
+                        text = (_('still') !== ' ' ? _('still') : '') + ' ' + hoursleft  + ' ' + _('hours') + _left;
+                    }
+                } else {
+                    text = (_('still') !== ' ' ? _('still') : '') + ' ' + hoursleft + ' ' + (hoursleft === 1 ? _('hour') : _('hours')) + _left;
+                }
+            }
+        } else {
+            day   = _end.getDate();
+            month = _end.getMonth() + 1;
+            year  = _end.getFullYear();
+
+            if (adapter.config.dataPaddingWithZeros) {
+                if (day < 10)   day   = '0' + day.toString();
+                if (month < 10) month = '0' + month.toString();
+            }
+
+            text = '&#8594; ' + day + '.' + month + '.';
+            if (!adapter.config.hideYear) {
+                text += year;
+            }
+
+            if (withTime) {
+                if (adapter.config.fulltime && fullday) {
+                    text += ' ' + adapter.config.fulltime;
+                }
+                else {
+                    var endhours   = _end.getHours();
+                    var endminutes = _end.getMinutes();
+                    if (adapter.config.dataPaddingWithZeros) {
+                        if (endhours < 10)   {
+                            endhours   = '0' + endhours.toString();
+                        }
+                    }
+                    if (endminutes < 10) {
+                        endminutes = '0' + endminutes.toString();
+                    }
+                    text += ' ' + endhours + ':' + endminutes;
+                }
             }
         }
 
-      }
-
-      return { text: text, _class: _class };
+        return {text: text, _class: _class};
     }
 
     if (adapter.config.dataPaddingWithZeros) {
@@ -905,7 +933,7 @@ function formatDate(_date, _end, withTime, fullday) {
     }
 
     return {
-        text:   day + '.' + month + ((adapter.config.hideYear)?'.' : '.' + year) + _time,
+        text:   day + '.' + month + ((adapter.config.hideYear) ? '.' : '.' + year) + _time,
         _class: _class
     };
 }
@@ -1009,7 +1037,7 @@ function insertSorted(arr, element) {
     }
 }
 
-function brSeparatedList(arr) {
+function brSeparatedList(datesArray) {
     var text     = '';
     var today    = new Date();
     var tomorrow = new Date();
@@ -1040,7 +1068,7 @@ function brSeparatedList(arr) {
 }
 
 function main() {
-    normal  = '<span style="font-weight: bold; color:' + adapter.config.defColor + '"><span class="icalNormal">';
+    normal  = '<span style="font-weight: bold; color: ' + adapter.config.defColor + '"><span class="icalNormal">';
 
     adapter.config.language = adapter.config.language || 'en';
 

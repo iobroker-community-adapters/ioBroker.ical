@@ -1,0 +1,225 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- Materialze style -->
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+    <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+    <script type="text/javascript" src="words.js"></script>
+
+<script type="text/javascript">
+
+    var calendars = [];
+    var events = [];
+    // the function loadSettings has to exist ...
+    function load(settings, onChange) {
+        if (!settings) return;
+        for (var key in settings) {
+            if (!settings.hasOwnProperty(key)) continue;
+            var $value = $('#' + key + '.value');
+            if ($value.attr('type') === 'checkbox') {
+                $value.prop('checked', settings[key]).change(function() {
+                    if ($('#auth').prop('checked')) {
+                        $('#secure').prop('checked', true);
+                    }
+                    onChange();
+                    showHideSettings();
+                });
+            } else {
+                $value.val(settings[key]).change(function() {
+                    onChange();
+                }).keyup(function() {
+                    onChange();
+                });
+            }
+        }
+        // Set default language
+        if (!settings.language) {
+            settings.language = systemLang || 'en';
+            $('#language').val(settings.language).trigger('change');
+        }
+        calendars = settings.calendars || [];
+        events    = settings.events    || [];
+
+        for (var c = 0; c < settings.calendars.length; c++) {
+            settings.calendars[c].sslignore =
+                settings.calendars[c].sslignore === 'ignore' ||
+                settings.calendars[c].sslignore === 'true' ||
+                settings.calendars[c].sslignore === true;
+
+            settings.calendars[c].name  = settings.calendars[c].name || '';
+            settings.calendars[c].url   = settings.calendars[c].url || '';
+            settings.calendars[c].user  = settings.calendars[c].user || '';
+            settings.calendars[c].pass  = settings.calendars[c].pass || '';
+            settings.calendars[c].color = settings.calendars[c].color || '';
+        }
+
+        /*editTable({
+            tabId: 'calendars',
+            cols:   [{name: 'name', width: '60'},  {name: 'url',     width: '260'}, {name: 'user',   width: '60'}, {name: 'pass',   width: '60'}, {name: 'sslignore', width : '40'}, {name: 'color',   width: '60'}],
+            values: calendars,
+            top:    400,
+            title:  'Calendars'
+        });
+        editTable({
+            tabId: 'events',
+            cols:   [{name: 'name', width: '200'}, {name: 'enabled', width: '60', checkbox: true},  {name: 'display', width: '120', checkbox: true}],
+            values: events,
+            top:    350,
+            title:  'Events'
+        });*/
+        onChange(false);
+        values2table('calendars', calendars, onChange);
+
+        values2table('events', events, onChange);
+
+    }
+
+    function save(callback) {
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            if ($this.attr('type') === 'checkbox') {
+                obj[$this.attr('id')] = $this.prop('checked');
+            } else {
+                obj[$this.attr('id')] = $this.val();
+            }
+        });
+        // Get edited table
+        //obj.calendars = getTableResult('calendars', ['name', 'url', 'user', 'pass', 'sslignore', 'color']);
+        //obj.events    = getTableResult('events',    ['name', 'enabled', 'display']);
+        obj.calendars = table2values('calendars');
+        obj.events    = table2values('events');
+        callback(obj);
+    }
+</script>
+    <style>
+        .m .select-wrapper+label {
+            top: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="m adapter-container">
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s2"><a href="#tab-main"      class="translate active">Main settings</a></li>
+                <li class="tab col s2"><a href="#tab-calendars" class="translate">Calendars</a></li>
+                <li class="tab col s2"><a href="#tab-events"    class="translate">Events</a></li>
+            </ul>
+        </div>
+        <div id="tab-main"      class="col s12 page">
+            <div class="row">
+                <div class="col s12 m4 l2">
+                    <img src="ical.png" class="logo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4">
+                    <select class="value" id="language">
+                        <option value="en">English</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ru">русский</option>
+                        <option value="pt">Portugues</option>
+                        <option value="nl">Nederlands</option>
+                        <option value="fr">français</option>
+                        <option value="it">Italiano</option>
+                        <option value="es">Espanol</option>
+                    </select>
+                    <label class="translate" for="language">Language:</label>
+                </div>
+                <div class="col s12 m4">
+                    <input class="value" id="daysPreview" type="number"  min="1" max="99"/>
+                    <label class="translate" for="daysPreview">Preview days:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4">
+                    <input  class="value" id="colorize" type="checkbox"/>
+                    <label class="translate" for="colorize">Colorize HTML:</label>
+                </div>
+                <div class="col s12 m4">
+                    <input class="value" id="defColor" type="text"  maxlength="10" />
+                    <label class="translate" for="defColor">Default color for HTML:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4">
+                    <input class="value" id="dataPaddingWithZeros" type="checkbox">
+                    <label class="translate" for="dataPaddingWithZeros">Padding date with '0':</label>
+                </div>
+                <div class="col s12 m4">
+                    <input class="value" id="replaceDates" type="checkbox" />
+                    <label class="translate" for="replaceDates">Replace dates with words:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4">
+                    <input class="value" id="everyCalOneColor" type="checkbox">
+                    <label class="translate" for="everyCalOneColor">Every calendar has own color:</label>
+                </div>
+                <div class="col s12 m4">
+                    <input class="value" id="fulltime" type="text" maxlength="10"/>
+                    <label class="translate" for="fulltime">Use by full day:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4">
+                    <input class="value" id="forceFullday" type="checkbox">
+                    <label class="translate" for="forceFullday">Hide Start-End of events:</label>
+                </div>
+                <div class="col s12 m4">
+                    <input  class="value" id="hideYear" type="checkbox" />
+                    <label class="translate" for="hideYear">Hide Year:</label>
+                </div>
+            </div>
+        </div>
+            </div>
+        <div id="tab-calendars" class="col s12 page">
+            <div class="col s12" id="calendars">
+                <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                <div class="table-values-div">
+                    <table class="table-values">
+                        <thead>
+                        <tr>
+                            <th data-name="name"      class="translate">name</th>
+                            <th data-name="url"       class="translate">url</th>
+                            <th data-name="user"      data-style="width: 100px" class="translate">user</th>
+                            <th data-name="pass"      data-style="width: 100px" data-type="password" class="translate">pass</th>
+                            <th data-name="sslignore" data-type="checkbox" class="translate translateT" title="Ignore Certificate errors">sslignore</th>
+                            <th data-name="color"     data-type="color" class="translate">color</th>
+                            <th data-buttons="delete up down"></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="tab-events"    class="col s12 page">
+            <div class="col s12" id="events">
+                <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                <div class="table-values-div">
+                    <table class="table-values">
+                        <thead>
+                        <tr>
+                            <th data-name="name"     style="width: 80%" class="translate">name</th>
+                            <th data-name="enabled"  style="width: 70px" data-style="width: 70px" data-type="checkbox" class="translate">enabled</th>
+                            <th data-name="display"  style="width: 70px" data-style="width: 70px" data-type="checkbox" class="translate">display</th>
+                            <th data-buttons="delete up down" style="width: 120px"></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

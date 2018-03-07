@@ -1,4 +1,7 @@
 node_modules
 .idea
 tmp
-/test/data/germany_holidays_today.ics
+admin/i18n/flat.txt
+admin/i18n/*/flat.txt
+iob_npm.done
+package-lock.json

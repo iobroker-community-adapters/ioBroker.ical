@@ -157,6 +157,9 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 * README should be english
 
 ## ChangeLog
+### 1.5.0 (2018-03-07)
+* (bluefox) ready for Admin3
+
 ### 1.4.2 (2018-02-21)
 * (Apollon77) Also display events that started before today
 
