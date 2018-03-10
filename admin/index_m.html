@@ -24,7 +24,7 @@
             if (!settings.hasOwnProperty(key)) continue;
             var $value = $('#' + key + '.value');
             if ($value.attr('type') === 'checkbox') {
-                $value.prop('checked', settings[key]).change(function() {
+                $value.prop('checked', settings[key]).on('change', function() {
                     if ($('#auth').prop('checked')) {
                         $('#secure').prop('checked', true);
                     }
@@ -32,7 +32,7 @@
                     showHideSettings();
                 });
             } else {
-                $value.val(settings[key]).change(function() {
+                $value.val(settings[key]).on('change', function() {
                     onChange();
                 }).keyup(function() {
                     onChange();
@@ -78,7 +78,6 @@
         values2table('calendars', calendars, onChange);
 
         values2table('events', events, onChange);
-
     }
 
     function save(callback) {
@@ -181,7 +180,6 @@
                 </div>
             </div>
         </div>
-            </div>
         <div id="tab-calendars" class="col s12 page">
             <div class="col s12" id="calendars">
                 <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
