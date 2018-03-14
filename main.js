@@ -744,9 +744,12 @@ function formatDate(_date, _end, withTime, fullday) {
                         start.setFullYear(_date.getFullYear());
                     }
                     start.setHours(0,0,1,0);
+                    var fullTimeDiff = timeDiff;
                     timeDiff = _end.getTime() - start.getTime();
                     adapter.log.debug('    time difference: ' + timeDiff + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
-                    _time += '+' + Math.floor(timeDiff / (24*60*60*1000));
+                    if (fullTimeDiff >= 24*60*60*1000) {
+                        _time += '+' + Math.floor(timeDiff / (24*60*60*1000));
+                    }
                 }
                 else if (adapter.config.replaceDates && _end.getHours() === 0 && _end.getMinutes() === 0) {
                     _time = ' ';
