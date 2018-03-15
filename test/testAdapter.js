@@ -474,7 +474,8 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[7]._section).to.be.equal('TestUserEvent1');
                 expect(state.val[7]._allDay).to.be.false;
 
-                expect(state.val[8].date.indexOf('. 22:00-02:00+1')).to.be.equal(5);
+                expect(state.val[8].date.indexOf('. 22:00-02:00')).to.be.equal(5);
+                expect(state.val[8].date.indexOf('+1')).to.be.equal(-1);
                 expect(state.val[8].event).to.be.equal('OverEvent');
                 expect(state.val[8]._section).to.be.equal('OverEvent');
                 expect(state.val[8]._allDay).to.be.false;
