@@ -157,6 +157,10 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 * README should be english
 
 ## ChangeLog
+
+### 1.5.2 (2018-03-23)
+* (Apollon77/BuZZy1337) Fix several display issues
+
 ### 1.5.0 (2018-03-07)
 * (bluefox) ready for Admin3
 

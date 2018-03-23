@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.5.1",
+        "version": "1.5.2",
         "news": {
+            "1.5.2": {
+                "en": "Fix several display issues",
+                "de": "Beheben Sie einige Anzeigeprobleme",
+                "ru": "Исправить несколько проблем с отображением",
+                "pt": "Corrigir vários problemas de exibição",
+                "nl": "Los verschillende weergaveproblemen op",
+                "fr": "Correction de plusieurs problèmes d'affichage",
+                "it": "Correggere diversi problemi di visualizzazione",
+                "es": "Soluciona varios problemas de visualización",
+                "pl": "Napraw kilka problemów z wyświetlaniem"
+            },
             "1.5.0": {
                 "en": "ready for Admin3",
                 "de": "Bereit für Admin3",
