@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.5.2",
+        "version": "1.5.3",
         "news": {
+            "1.5.3": {
+                "en": "Also make location available in data table",
+                "de": "Stellen Sie den Speicherort auch in der Datentabelle zur Verfügung",
+                "ru": "Также укажите местоположение в таблице данных",
+                "pt": "Também disponibilize a localização na tabela de dados",
+                "nl": "Plaats ook beschikbaar in de gegevenstabel",
+                "fr": "Rendre également l'emplacement disponible dans le tableau de données",
+                "it": "Rendi anche la posizione disponibile nella tabella dei dati",
+                "es": "También haga que la ubicación esté disponible en la tabla de datos",
+                "pl": "Udostępnij także lokalizację w tabeli danych"
+            },
             "1.5.2": {
                 "en": "Fix several display issues",
                 "de": "Beheben Sie einige Anzeigeprobleme",

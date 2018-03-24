@@ -198,7 +198,7 @@ function setupIcsFiles() {
         data += 'CREATED:20111213T123901Z\n';
         data += 'DESCRIPTION:TestEvent\n';
         data += 'LAST-MODIFIED:20111213T123901Z\n';
-        data += 'LOCATION:\n';
+        data += 'LOCATION:Test-Location\n';
         data += 'SEQUENCE:0\n';
         data += 'STATUS:CONFIRMED\n';
         data += "SUMMARY:TestEvent\n";
@@ -436,6 +436,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[0].event).to.be.equal('TestEvent');
                 expect(state.val[0]._section).to.be.equal('TestEvent');
                 expect(state.val[0]._allDay).to.be.false;
+                expect(state.val[0].location).to.be.equal('Test-Location');
 
                 expect(state.val[1].date.indexOf('&#8594; ')).to.be.equal(-1);
                 expect(state.val[1].date.indexOf('. 00:00')).to.be.equal(5);

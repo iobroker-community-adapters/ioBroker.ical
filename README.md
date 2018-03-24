@@ -158,6 +158,9 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 
 ## ChangeLog
 
+### 1.5.3 (2018-03-24)
+* (Apollon77) Also make location available in data table
+
 ### 1.5.2 (2018-03-23)
 * (Apollon77/BuZZy1337) Fix several display issues
 

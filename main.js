@@ -359,6 +359,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _IDID:    ev.uid,
                     _allDay:  true,
                     _rule:    rule,
+                    location: ev.location ? ev.location : '',
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName
                 });
@@ -390,6 +391,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _IDID:    ev.uid,
                     _allDay:  false,
                     _rule:    rule,
+                    location: ev.location ? ev.location : '',
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName
                 });
