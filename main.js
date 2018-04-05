@@ -227,7 +227,12 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                         var options = RRule.parseString(ev.rrule.toString());
                         options.dtstart = ev.start;
                         var rule = new RRule(options);
-                        if (!ev.end) ev.end = ev.start;
+                        if (!ev.end) {
+                            ev.end = ev.start;
+                            if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
+                                ev.end.setDate(ev.end.getDate() + 1);
+                            }
+                        }
                         var eventLength = ev.end.getTime() - ev.start.getTime();
                         var now3 = new Date(now2.getTime() - eventLength);
                         if (now2 < now3) now3 = now2;
