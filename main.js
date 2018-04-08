@@ -222,17 +222,18 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                 // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
                 if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
 
+                    if (!ev.end) {
+                        ev.end = ev.start;
+                        if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
+                            ev.end.setDate(ev.end.getDate() + 1);
+                        }
+                    }
                     // aha, it is RRULE in the event --> process it
                     if (ev.rrule !== undefined) {
                         var options = RRule.parseString(ev.rrule.toString());
                         options.dtstart = ev.start;
                         var rule = new RRule(options);
-                        if (!ev.end) {
-                            ev.end = ev.start;
-                            if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
-                                ev.end.setDate(ev.end.getDate() + 1);
-                            }
-                        }
+
                         var eventLength = ev.end.getTime() - ev.start.getTime();
                         var now3 = new Date(now2.getTime() - eventLength);
                         if (now2 < now3) now3 = now2;
