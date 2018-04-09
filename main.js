@@ -200,7 +200,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
 
         if (data) {
             adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
-            //adapter.log.debug(JSON.stringify(data));
+            adapter.log.debug(JSON.stringify(data));
             var realnow    = new Date();
             var today      = new Date();
             today.setHours(0, 0, 0, 0);
