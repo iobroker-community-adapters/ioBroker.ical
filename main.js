@@ -215,90 +215,113 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
 
             // Datum 1 Sec zurück wegen Ganztätigen Terminen um 00:00 Uhr
             //now2.setSeconds(now2.getSeconds() - 1);
+            setTimeout(function() {
+                processData(data, realnow, today, endpreview, now2, calName, cb);
+            }, 0);
+        }
+        else {
+            // Ready with processing
+            cb(calName);
+        }
+    });
+}
 
-            for (var k in data) {
-                var ev = data[k];
+function processData(data, realnow, today, endpreview, now2, calName, cb) {
+    var processedEntries = 0;
+    for (var k in data) {
+        var ev = data[k];
+        delete data[k];
+        processedEntries++;
 
-                // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
-                if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
+        // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
+        if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
 
-                    if (!ev.end) {
-                        ev.end = ev.start;
-                        if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
-                            ev.end.setDate(ev.end.getDate() + 1);
-                        }
-                    }
-                    // aha, it is RRULE in the event --> process it
-                    if (ev.rrule !== undefined) {
-                        var options = RRule.parseString(ev.rrule.toString());
-                        options.dtstart = ev.start;
-                        var rule = new RRule(options);
-
-                        var eventLength = ev.end.getTime() - ev.start.getTime();
-                        var now3 = new Date(now2.getTime() - eventLength);
-                        if (now2 < now3) now3 = now2;
-                        adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 + ' now3:' + now3 + ' ' + rule.toText());
-                        var dates = rule.between(now3, endpreview, true);
-                        adapter.log.debug(JSON.stringify(options));
-                        adapter.log.debug(JSON.stringify(ev));
-                        adapter.log.debug(JSON.stringify(dates));
-                        // event innerhalb des Zeitfensters
-                        if (dates.length > 0) {
-                            for (var i = 0; i < dates.length; i++) {
-                                // ein deep-copy clone anlegen da ansonsten das setDate&co
-                                // die daten eines anderes Eintrages überschreiben
-                                var ev2 = ce.clone(ev);
-
-                                // Datum ersetzen für jeden einzelnen Termin in RRule
-                                ev2.start.setDate(dates[i].getDate());
-                                ev2.start.setMonth(dates[i].getMonth());
-                                ev2.start.setFullYear(dates[i].getFullYear());
-
-                                ev2.end = new Date(ev2.start.getTime() + eventLength); // Set end date based on length in ms
-
-                                adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
-
-                                // we have to check if there is an exdate array
-                                // which defines dates that - if matched - should
-                                // be excluded.
-                                var checkDate = true;
-                                if(ev2.exdate) {
-                                    for(var d in ev2.exdate) {
-                                        d = new Date(d);
-                                        if(d.getTime() === ev2.start.getTime())
-                                        {
-                                            checkDate = false;
-                                            adapter.log.debug('   ' + i + ': sort out');
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (checkDate && ev.recurrences) {
-                                    for(var dOri in ev.recurrences) {
-                                        var d = new Date(dOri);
-                                        if(d.getTime() === ev2.start.getTime()) {
-                                            adapter.log.debug(' FOUND DIFFERENT RECURRING!! ' + JSON.stringify(ev.recurrences[dOri]));
-                                        }
-                                    }
-                                }
-
-                                if (checkDate) {
-                                    checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
-                                }
-                            }
-                        } else {
-                            adapter.log.debug('no RRule events inside the time interval');
-                        }
-                    } else {
-                        // No RRule event
-                        checkDates(ev, endpreview, today, realnow, ' ', calName);
-                    }
+            if (!ev.end) {
+                ev.end = ev.start;
+                if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
+                    ev.end.setDate(ev.end.getDate() + 1);
                 }
             }
+            // aha, it is RRULE in the event --> process it
+            if (ev.rrule !== undefined) {
+                var options = RRule.parseString(ev.rrule.toString());
+                options.dtstart = ev.start;
+                var rule = new RRule(options);
+
+                var eventLength = ev.end.getTime() - ev.start.getTime();
+                var now3 = new Date(now2.getTime() - eventLength);
+                if (now2 < now3) now3 = now2;
+                adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 + ' now3:' + now3 + ' ' + rule.toText());
+                var dates = rule.between(now3, endpreview, true);
+                adapter.log.debug(JSON.stringify(options));
+                adapter.log.debug(JSON.stringify(ev));
+                adapter.log.debug(JSON.stringify(dates));
+                // event innerhalb des Zeitfensters
+                if (dates.length > 0) {
+                    for (var i = 0; i < dates.length; i++) {
+                        // ein deep-copy clone anlegen da ansonsten das setDate&co
+                        // die daten eines anderes Eintrages überschreiben
+                        var ev2 = ce.clone(ev);
+
+                        // Datum ersetzen für jeden einzelnen Termin in RRule
+                        ev2.start.setDate(dates[i].getDate());
+                        ev2.start.setMonth(dates[i].getMonth());
+                        ev2.start.setFullYear(dates[i].getFullYear());
+
+                        ev2.end = new Date(ev2.start.getTime() + eventLength); // Set end date based on length in ms
+
+                        adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
+
+                        // we have to check if there is an exdate array
+                        // which defines dates that - if matched - should
+                        // be excluded.
+                        var checkDate = true;
+                        if(ev2.exdate) {
+                            for(var d in ev2.exdate) {
+                                d = new Date(d);
+                                if(d.getTime() === ev2.start.getTime())
+                                {
+                                    checkDate = false;
+                                    adapter.log.debug('   ' + i + ': sort out');
+                                    break;
+                                }
+                            }
+                        }
+                        if (checkDate && ev.recurrences) {
+                            for(var dOri in ev.recurrences) {
+                                var d = new Date(dOri);
+                                if(d.getTime() === ev2.start.getTime()) {
+                                    adapter.log.debug(' FOUND DIFFERENT RECURRING!! ' + JSON.stringify(ev.recurrences[dOri]));
+                                }
+                            }
+                        }
+
+                        if (checkDate) {
+                            checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
+                        }
+                    }
+                } else {
+                    adapter.log.debug('no RRule events inside the time interval');
+                }
+            } else {
+                // No RRule event
+                checkDates(ev, endpreview, today, realnow, ' ', calName);
+            }
         }
-        // Ready with processing
+
+        if (processedEntries > 100) {
+            break;
+        }
+    }
+    if (!Object.keys(data).length) {
         cb(calName);
-    });
+        return;
+    }
+    else {
+        setTimeout(function() {
+            processData(data, realnow, today, endpreview, now2, calName, cb);
+        }, 0);
+    }
 }
 
 function checkDates(ev, endpreview, today, realnow, rule, calName) {
