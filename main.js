@@ -178,8 +178,15 @@ function getiCal(urlOrFile, user, pass, sslignore, calName, cb) {
 }
 
 function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
+    if (typeof user === 'function') {
+        cb = user;
+        user = undefined;
+    }
     getiCal(urlOrFile, user, pass, sslignore, calName, function (err, _data) {
-        if (err || !_data) return;
+        if (err || !_data) {
+            cb(calName);
+            return;
+        }
 
         // Remove from file empty lines
         var lines = _data.split(/[\n\r]/g);
@@ -231,7 +238,6 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
     for (var k in data) {
         var ev = data[k];
         delete data[k];
-        processedEntries++;
 
         // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
         if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
@@ -309,7 +315,7 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
             }
         }
 
-        if (processedEntries > 100) {
+        if (++processedEntries > 100) {
             break;
         }
     }
@@ -713,7 +719,7 @@ function readAll() {
 // Read one calendar
 function readOne(url) {
     datesArray = [];
-    checkiCal(url, '', function () {
+    checkiCal(url, function () {
         displayDates();
     });
 }

@@ -311,12 +311,20 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 "color": "red"
             };
             config.native.calendars[1] = {
-                "name": "calendar-today",
+                "name": "not-existing-calender",
                 "url": __dirname + '/data/today.ics',
                 "user": "username",
                 "pass": "password",
                 "sslignore": "ignore",
-                "color": "red"
+                "color": "orange"
+            };
+            config.native.calendars[2] = {
+                "name": "calendar-today",
+                "url": __dirname + '/data/non-existing.ics',
+                "user": "username",
+                "pass": "password",
+                "sslignore": "ignore",
+                "color": "green"
             };
 
             config.native.events[0] = {
