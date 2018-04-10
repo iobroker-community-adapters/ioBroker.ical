@@ -184,6 +184,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
     }
     getiCal(urlOrFile, user, pass, sslignore, calName, function (err, _data) {
         if (err || !_data) {
+            adapter.log.warn('Error reading "' + urlOrFile + '": ' + err);
             cb(calName);
             return;
         }
