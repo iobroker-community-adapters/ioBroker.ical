@@ -189,6 +189,8 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
             return;
         }
 
+        adapter.log.debug('File read successfully ' + urlOrFile);
+
         // Remove from file empty lines
         var lines = _data.split(/[\n\r]/g);
         for (var t = lines.length - 1; t >= 0; t--) {
