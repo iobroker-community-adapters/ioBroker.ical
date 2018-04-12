@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.5.4",
+        "version": "1.6.0",
         "news": {
             "1.5.3": {
                 "en": "Also make location available in data table",
