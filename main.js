@@ -225,9 +225,9 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
 
             // Datum 1 Sec zurück wegen Ganztätigen Terminen um 00:00 Uhr
             //now2.setSeconds(now2.getSeconds() - 1);
-            setTimeout(function() {
+            setImmediate(function() {
                 processData(data, realnow, today, endpreview, now2, calName, cb);
-            }, 0);
+            });
         }
         else {
             // Ready with processing
@@ -327,9 +327,9 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
         return;
     }
     else {
-        setTimeout(function() {
+        setImmediate(function() {
             processData(data, realnow, today, endpreview, now2, calName, cb);
-        }, 0);
+        });
     }
 }
 
