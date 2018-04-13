@@ -1113,8 +1113,8 @@ function main() {
 
     syncUserEvents(readAll);
 
-    setTimeout(function () {
+/*    setTimeout(function () {
         adapter.log.info('force terminating after 4 minutes');
         adapter.stop();
-    }, 240000);
+    }, 240000);*/
 }
