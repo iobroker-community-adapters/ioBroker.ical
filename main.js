@@ -192,14 +192,14 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
         adapter.log.debug('File read successfully ' + urlOrFile);
 
         // Remove from file empty lines
-        var lines = _data.split(/[\n\r]/g);
+        /*var lines = _data.split(/[\n\r]/g);
         for (var t = lines.length - 1; t >= 0; t--) {
             if (!lines[t]) lines.splice(t, 1);
-        }
+        }*/
 
         var data;
         try {
-            data = ical.parseICS(lines.join('\r\n'), function(err, data) {
+            data = ical.parseICS(_data/*lines.join('\r\n')*/, function(err, data) {
                 if (data) {
                     adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
                     adapter.log.debug(JSON.stringify(data));
