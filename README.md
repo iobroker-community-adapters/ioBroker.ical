@@ -158,6 +158,12 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 
 ## ChangeLog
 
+### 1.6.0 (2018-04-13)
+* (Apollon77) Several fixes and optimizations
+* (Apollon77) Upgrade node-ical library to allow big files to work
+* (Apollon77) Better handling of full day events
+* (Apollon77) Allow "Replace 0:00" to have 30 characters
+
 ### 1.5.3 (2018-03-24)
 * (Apollon77) Also make location available in data table
 

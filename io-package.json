@@ -3,6 +3,17 @@
         "name": "ical",
         "version": "1.6.0",
         "news": {
+            "1.6.0": {
+                "en": "Several fixes and optimizations",
+                "de": "Mehrere Korrekturen und Optimierungen",
+                "ru": "Несколько исправлений и оптимизаций",
+                "pt": "Várias correções e otimizações",
+                "nl": "Verschillende oplossingen en optimalisaties",
+                "fr": "Plusieurs corrections et optimisations",
+                "it": "Diverse correzioni e ottimizzazioni",
+                "es": "Varias correcciones y optimizaciones",
+                "pl": "Kilka poprawek i optymalizacji"
+            },
             "1.5.3": {
                 "en": "Also make location available in data table",
                 "de": "Stellen Sie den Speicherort auch in der Datentabelle zur Verfügung",
