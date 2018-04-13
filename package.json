@@ -24,7 +24,7 @@
     "url": "https://github.com/ioBroker/ioBroker.ical"
   },
   "dependencies": {
-    "node-ical": "Apollon77/node-ical#make-async-release",
+    "node-ical": "^0.6.0",
     "rrule": "^2.2.9",
     "request": "^2.83.0",
     "cloneextend": "^0.0.3"
