@@ -199,39 +199,35 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
 
         var data;
         try {
-            data = ical.parseICS(lines.join('\r\n'));
+            data = ical.parseICS(lines.join('\r\n'), function(err, data) {
+                if (data) {
+                    adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
+                    adapter.log.debug(JSON.stringify(data));
+                    var realnow    = new Date();
+                    var today      = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    var endpreview = new Date();
+                    endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
+
+                    // Now2 1 Sekunde  zurück für Vergleich von ganztägigen Terminen in RRule
+                    var now2 = new Date();
+
+                    // Uhzeit nullen
+                    now2.setHours(0, 0, 0, 0);
+
+                    // Datum 1 Sec zurück wegen Ganztätigen Terminen um 00:00 Uhr
+                    //now2.setSeconds(now2.getSeconds() - 1);
+                    setImmediate(function() {
+                        processData(data, realnow, today, endpreview, now2, calName, cb);
+                    });
+                }
+                else {
+                    // Ready with processing
+                    cb(calName);
+                }
+            });
         } catch (e) {
             adapter.log.error('Cannot parse ics file: ' + e);
-        }
-
-        /*if (!data) {
-         data = ical.parseFile(__dirname + '/demo.isc');
-         }*/
-
-        if (data) {
-            adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
-            adapter.log.debug(JSON.stringify(data));
-            var realnow    = new Date();
-            var today      = new Date();
-            today.setHours(0, 0, 0, 0);
-            var endpreview = new Date();
-            endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
-
-            // Now2 1 Sekunde  zurück für Vergleich von ganztägigen Terminen in RRule
-            var now2 = new Date();
-
-            // Uhzeit nullen
-            now2.setHours(0, 0, 0, 0);
-
-            // Datum 1 Sec zurück wegen Ganztätigen Terminen um 00:00 Uhr
-            //now2.setSeconds(now2.getSeconds() - 1);
-            setImmediate(function() {
-                processData(data, realnow, today, endpreview, now2, calName, cb);
-            });
-        }
-        else {
-            // Ready with processing
-            cb(calName);
         }
     });
 }
