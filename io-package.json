@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.6.1",
+        "version": "1.6.2",
         "news": {
+            "1.6.2": {
+                "en": "bug fixed",
+                "de": "Fehler behoben",
+                "ru": "ошибка в программе исправлена",
+                "pt": "erro corrigido",
+                "nl": "fout is opgelost",
+                "fr": "bug réparé",
+                "it": "bug corretto",
+                "es": "error arreglado",
+                "pl": "Naprawiono błąd"
+            },
             "1.6.1": {
                 "en": "bug fixed",
                 "de": "Fehler behoben",

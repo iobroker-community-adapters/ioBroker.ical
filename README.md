@@ -158,6 +158,12 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 
 ## ChangeLog
 
+### 1.6.2 (2018-10-08)
+* (twonky4) Fixes timezone issue in recurring appointments
+
+### 1.6.1 (2018-06-04)
+* (Apollon77) Several fixes and optimizations
+
 ### 1.6.0 (2018-04-13)
 * (Apollon77) Several fixes and optimizations
 * (Apollon77) Upgrade node-ical library to allow big files to work
