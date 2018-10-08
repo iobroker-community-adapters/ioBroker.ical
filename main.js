@@ -19,6 +19,7 @@ var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
 var RRule   = require('rrule').RRule;
 var ical    = require('node-ical');
 var ce      = require('cloneextend');
+var moment  = require('moment-timezone');
 var request;
 var fs;
 
@@ -232,6 +233,10 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
     });
 }
 
+function addOffset(time, offset) {
+	return new Date(time.getTime()+offset);
+}
+
 function processData(data, realnow, today, endpreview, now2, calName, cb) {
     var processedEntries = 0;
     for (var k in data) {
@@ -250,7 +255,14 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
             // aha, it is RRULE in the event --> process it
             if (ev.rrule !== undefined) {
                 var options = RRule.parseString(ev.rrule.toString());
-                options.dtstart = ev.start;
+                var offset = 0;
+
+                // special property form node-ical
+                if(ev.start.hasOwnProperty('tz')) {
+                	offset = moment.tz.zone(ev.start.tz).utcOffset(ev.start.getTime())*60*1000*-1;
+                }
+                options.dtstart = addOffset(ev.start, offset);
+                options.until = addOffset(options.until, offset);
                 var rule = new RRule(options);
 
                 var eventLength = ev.end.getTime() - ev.start.getTime();
