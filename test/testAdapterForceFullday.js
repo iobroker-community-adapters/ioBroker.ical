@@ -106,7 +106,7 @@ function setupIcsFiles() {
 
         var data = fs.readFileSync(__dirname + '/data/empty.ics');
         var lines = data.toString().split('\n');
-        lines.splice(lines.length - 1, 1);
+        lines.splice(lines.length - 2, 2);
         data = lines.join('\n');
 
         // Fullday event for 1 day with Trigger "Vacation"

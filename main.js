@@ -19,6 +19,7 @@ var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
 var RRule   = require('rrule').RRule;
 var ical    = require('node-ical');
 var ce      = require('cloneextend');
+var moment  = require('moment-timezone');
 var request;
 var fs;
 
@@ -190,7 +191,6 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
         }
 
         adapter.log.debug('File read successfully ' + urlOrFile);
-
         // Remove from file empty lines
         /*var lines = _data.split(/[\n\r]/g);
         for (var t = lines.length - 1; t >= 0; t--) {
@@ -232,6 +232,10 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
     });
 }
 
+function addOffset(time, offset) {
+	return new Date(time.getTime()+offset);
+}
+
 function processData(data, realnow, today, endpreview, now2, calName, cb) {
     var processedEntries = 0;
     for (var k in data) {
@@ -250,7 +254,16 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
             // aha, it is RRULE in the event --> process it
             if (ev.rrule !== undefined) {
                 var options = RRule.parseString(ev.rrule.toString());
-                options.dtstart = ev.start;
+                var offset = 0;
+
+                // special property form node-ical
+                if(ev.start.hasOwnProperty('tz')) {
+                	offset = moment.tz.zone(ev.start.tz).utcOffset(ev.start.getTime())*60*1000*-1;
+                }
+                options.dtstart = addOffset(ev.start, offset);
+                if(options.hasOwnProperty('until')) {
+                	options.until = addOffset(options.until, offset);
+                }
                 var rule = new RRule(options);
 
                 var eventLength = ev.end.getTime() - ev.start.getTime();
@@ -296,7 +309,8 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                             for(var dOri in ev.recurrences) {
                                 var d = new Date(dOri);
                                 if(d.getTime() === ev2.start.getTime()) {
-                                    adapter.log.debug(' FOUND DIFFERENT RECURRING!! ' + JSON.stringify(ev.recurrences[dOri]));
+                                    ev2 = ce.clone(ev.recurrences[dOri]);
+                                    adapter.log.debug('   ' + i + ': different recurring found replaced with Event:' + ev2.start.toString() + ' ' + ev2.end.toString());
                                 }
                             }
                         }
