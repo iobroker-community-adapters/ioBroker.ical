@@ -262,7 +262,9 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                 	offset = moment.tz.zone(ev.start.tz).utcOffset(ev.start.getTime())*60*1000*-1;
                 }
                 options.dtstart = addOffset(ev.start, offset);
-                options.until = addOffset(options.until, offset);
+                if(options.hasOwnProperty('until')) {
+                	options.until = addOffset(options.until, offset);
+                }
                 var rule = new RRule(options);
 
                 var eventLength = ev.end.getTime() - ev.start.getTime();
