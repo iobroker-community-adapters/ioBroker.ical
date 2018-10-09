@@ -191,7 +191,6 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
         }
 
         adapter.log.debug('File read successfully ' + urlOrFile);
-
         // Remove from file empty lines
         /*var lines = _data.split(/[\n\r]/g);
         for (var t = lines.length - 1; t >= 0; t--) {
@@ -310,7 +309,8 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                             for(var dOri in ev.recurrences) {
                                 var d = new Date(dOri);
                                 if(d.getTime() === ev2.start.getTime()) {
-                                    adapter.log.debug(' FOUND DIFFERENT RECURRING!! ' + JSON.stringify(ev.recurrences[dOri]));
+                                    ev2 = ce.clone(ev.recurrences[dOri]);
+                                    adapter.log.debug('   ' + i + ': different recurring found replaced with Event:' + ev2.start.toString() + ' ' + ev2.end.toString());
                                 }
                             }
                         }
