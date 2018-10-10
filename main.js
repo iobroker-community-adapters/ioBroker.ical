@@ -238,12 +238,21 @@ function addOffset(time, offset) {
 
 function processData(data, realnow, today, endpreview, now2, calName, cb) {
     var processedEntries = 0;
+    var defaultTimezone = undefined;
     for (var k in data) {
         var ev = data[k];
         delete data[k];
 
+        if(ev.type === 'VTIMEZONE' && ev.tzid !== undefined) {
+        	if(defaultTimezone !== undefined) {
+        		adapter.log.debug('more then one calendar timezone detected! (' + ev.tzid + ')');
+        		continue;
+        	}
+        	defaultTimezone = ev.tzid;
+        	adapter.log.debug('default timezone: ' + defaultTimezone);
+        }
         // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
-        if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
+        else if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
 
             if (!ev.end) {
                 ev.end = ev.start;
@@ -258,7 +267,14 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
 
                 // special property form node-ical
                 if(ev.start.hasOwnProperty('tz')) {
-                	offset = moment.tz.zone(ev.start.tz).utcOffset(ev.start.getTime())*60*1000*-1;
+                	var timezone = ev.start.tz;
+                	if(timezone == undefined) {
+                		adapter.log.debug('no timezone for this event, take default timezone from calendar');
+                		timezone = defaultTimezone;
+                	}
+                	if(timezone !== undefined) {
+                		offset = moment.tz.zone(timezone).utcOffset(ev.start.getTime())*60*1000*-1;
+                	}
                 }
                 options.dtstart = addOffset(ev.start, offset);
                 if(options.hasOwnProperty('until')) {
