@@ -20,6 +20,7 @@ var RRule   = require('rrule').RRule;
 var ical    = require('node-ical');
 var ce      = require('cloneextend');
 var moment  = require('moment-timezone');
+var windowsZones = require(__dirname + '/windowszones');
 var request;
 var fs;
 
@@ -191,15 +192,10 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
         }
 
         adapter.log.debug('File read successfully ' + urlOrFile);
-        // Remove from file empty lines
-        /*var lines = _data.split(/[\n\r]/g);
-        for (var t = lines.length - 1; t >= 0; t--) {
-            if (!lines[t]) lines.splice(t, 1);
-        }*/
 
         var data;
         try {
-            data = ical.parseICS(_data/*lines.join('\r\n')*/, function(err, data) {
+            data = ical.parseICS(_data, function(err, data) {
                 if (data) {
                     adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
                     adapter.log.debug(JSON.stringify(data));
@@ -209,14 +205,11 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                     var endpreview = new Date();
                     endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
 
-                    // Now2 1 Sekunde  zurück für Vergleich von ganztägigen Terminen in RRule
                     var now2 = new Date();
 
-                    // Uhzeit nullen
+                    // clear time
                     now2.setHours(0, 0, 0, 0);
 
-                    // Datum 1 Sec zurück wegen Ganztätigen Terminen um 00:00 Uhr
-                    //now2.setSeconds(now2.getSeconds() - 1);
                     setImmediate(function() {
                         processData(data, realnow, today, endpreview, now2, calName, cb);
                     });
@@ -238,20 +231,26 @@ function addOffset(time, offset) {
 
 function processData(data, realnow, today, endpreview, now2, calName, cb) {
     var processedEntries = 0;
-    var defaultTimezone = undefined;
+    var defaultTimezone;
     for (var k in data) {
         var ev = data[k];
         delete data[k];
 
-        if(ev.type === 'VTIMEZONE' && ev.tzid !== undefined) {
-        	if(defaultTimezone !== undefined) {
-        		adapter.log.debug('more then one calendar timezone detected! (' + ev.tzid + ')');
+        if(ev.type === 'VTIMEZONE' && ev.tzid) {
+        	var calTime;
+        	if(defaultTimezone) {
+        		adapter.log.warn('more then one calendar timezone (' + ev.tzid + ') detected! Ignore further ones');
         		continue;
         	}
-        	defaultTimezone = ev.tzid;
-        	adapter.log.debug('default timezone: ' + defaultTimezone);
+
+    		defaultTimezone = moment.tz.zone(ev.tzid);
+    		if(defaultTimezone) {
+    			adapter.log.debug('calender timezone: ' + ev.tzid);
+    		} else {
+    			adapter.log.warn('invalid calender timezone: ' + ev.tzid);
+    		}
         }
-        // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
+        // only events with summary are interesting
         else if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
 
             if (!ev.end) {
@@ -267,13 +266,22 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
 
                 // special property form node-ical
                 if(ev.start.hasOwnProperty('tz')) {
+                	var zone;
                 	var timezone = ev.start.tz;
-                	if(timezone == undefined) {
-                		adapter.log.debug('no timezone for this event, take default timezone from calendar');
-                		timezone = defaultTimezone;
+                	if(timezone) {
+                		var eventZone = moment.tz.zone(timezone);
+                		if(eventZone) {
+                			zone = eventZone;
+                		} else {
+                			adapter.log.warn('invalid event timezone: ' + timezone);
+                		}
                 	}
-                	if(timezone !== undefined) {
-                		offset = moment.tz.zone(timezone).utcOffset(ev.start.getTime())*60*1000*-1;
+                	if (!zone && defaultTimezone) {
+                		adapter.log.debug('no timezone for this event, take calendar timezone: '+ defaultTimezone.name);
+                		zone = defaultTimezone;
+                	}
+                	if(zone) {
+                		offset = zone.utcOffset(ev.start.getTime()) * 60 * 1000 * -1;
                 	}
                 }
                 options.dtstart = addOffset(ev.start, offset);
@@ -290,14 +298,13 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                 adapter.log.debug(JSON.stringify(options));
                 adapter.log.debug(JSON.stringify(ev));
                 adapter.log.debug(JSON.stringify(dates));
-                // event innerhalb des Zeitfensters
+                // event within the time window
                 if (dates.length > 0) {
                     for (var i = 0; i < dates.length; i++) {
-                        // ein deep-copy clone anlegen da ansonsten das setDate&co
-                        // die daten eines anderes Eintrages überschreiben
+                        // use deep-copy otherwise setDate etc. overwrites data from different events 
                         var ev2 = ce.clone(ev);
 
-                        // Datum ersetzen für jeden einzelnen Termin in RRule
+                        // replace date for each event in RRule
                         ev2.start.setDate(dates[i].getDate());
                         ev2.start.setMonth(dates[i].getMonth());
                         ev2.start.setFullYear(dates[i].getFullYear());
@@ -326,7 +333,7 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                                 var d = new Date(dOri);
                                 if(d.getTime() === ev2.start.getTime()) {
                                     ev2 = ce.clone(ev.recurrences[dOri]);
-                                    adapter.log.debug('   ' + i + ': different recurring found replaced with Event:' + ev2.start.toString() + ' ' + ev2.end.toString());
+                                    adapter.log.debug('   ' + i + ': different recurring found replaced with Event:' + ev2.start + ' ' + ev2.end);
                                 }
                             }
                         }
@@ -364,13 +371,12 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
     var reason;
     var date;
 
-    // Check ob ganztägig
-    // Für Outlook schauen ob ev.summary eventuell Unterparameter enthält
+    // chech if sub parameter exists for outlook 
     if (ev.summary.hasOwnProperty('val')) {
-        //Ja, also reason auslesen
+        // yes -> read reason
         reason = ev.summary.val;
     } else {
-        //Nein
+        // no
         reason = ev.summary;
     }
 
@@ -406,7 +412,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
 
     // Full day
     if (fullday) {
-        //Terminstart >= today  && < previewzeit  oder endzeitpunkt > today && < previewzeit ---> anzeigen
+        //event start >= today  && < previewtime  or end > today && < previewtime ---> display
         if ((ev.start < endpreview && ev.start >= today) || (ev.end > today && ev.end <= endpreview) || (ev.start < today && ev.end > today)) {
             // check only full day events
             if (checkForEvents(reason, today, ev, true, realnow)) {
@@ -480,7 +486,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
 
     calName = calName.replace(' ', '_');
 
-    // Colorieren wenn gewünscht
+    // colorize if needed
     if (adapter.config.colorize) {
         // today
         if (cmpDate.compare(today) === 0) {
@@ -544,10 +550,10 @@ function checkForEvents(reason, today, event, fullday, realnow) {
     // show unknown events
     var result = true;
 
-    // Schauen ob es ein Event in der Tabelle gibt
+    // check if event exists in table
     for (var i = 0; i < events.length; i++) {
         if (reason.indexOf(events[i].name) !== -1) {
-            // auslesen ob das Event angezeigt werden soll
+        	// check if event should shown
             result = events[i].display;
             adapter.log.debug('found event in table: ' + events[i].name);
 
@@ -575,7 +581,6 @@ function checkForEvents(reason, today, event, fullday, realnow) {
                     }
                 }
             }
-            //break;
         }
     }
     return result;
@@ -716,7 +721,7 @@ function readAll() {
     }
 
     if (adapter.config.calendars) {
-        // eigene Instanz hinzufügen, falls die Kalender schnell abgearbeitet werden
+    	// add own instance, needed if calendars are quickly readed
         for (var i = 0; i < adapter.config.calendars.length; i++) {
             if (adapter.config.calendars[i].url) {
                 count++;
@@ -1136,15 +1141,18 @@ function brSeparatedList(datesArray) {
     return text;
 }
 
+function readWindowsTimezones() {
+	for(var z in windowsZones) {
+		moment.tz.link(z + '|' + windowsZones[z]);
+	}
+}
+
 function main() {
+	readWindowsTimezones();
+
     normal  = '<span style="font-weight: bold; color: ' + adapter.config.defColor + '"><span class="icalNormal">';
 
     adapter.config.language = adapter.config.language || 'en';
 
     syncUserEvents(readAll);
-
-/*    setTimeout(function () {
-        adapter.log.info('force terminating after 4 minutes');
-        adapter.stop();
-    }, 240000);*/
 }
