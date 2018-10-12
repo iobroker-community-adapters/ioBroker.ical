@@ -158,6 +158,10 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 
 ## ChangeLog
 
+### 1.6.4 (2018-10-12)
+* (twonky4) Support windows timezones
+* (twonky4) Don't fail on invalid timezones
+
 ### 1.6.3 (2018-10-10)
 * (twonky4) Fixes timezone issue in fullday recurring appointments
 
