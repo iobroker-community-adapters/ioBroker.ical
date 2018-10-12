@@ -238,18 +238,24 @@ function addOffset(time, offset) {
 
 function processData(data, realnow, today, endpreview, now2, calName, cb) {
     var processedEntries = 0;
-    var defaultTimezone = undefined;
+    var defaultTimezone;
     for (var k in data) {
         var ev = data[k];
         delete data[k];
 
-        if(ev.type === 'VTIMEZONE' && ev.tzid !== undefined) {
-        	if(defaultTimezone !== undefined) {
-        		adapter.log.debug('more then one calendar timezone detected! (' + ev.tzid + ')');
+        if(ev.type === 'VTIMEZONE' && ev.tzid) {
+        	var calTime;
+        	if(defaultTimezone) {
+        		adapter.log.warn('more then one calendar timezone (' + ev.tzid + ') detected! Ignore further ones');
         		continue;
         	}
-        	defaultTimezone = ev.tzid;
-        	adapter.log.debug('default timezone: ' + defaultTimezone);
+
+    		defaultTimezone = moment.tz.zone(ev.tzid);
+    		if(defaultTimezone) {
+    			adapter.log.debug('calender timezone: ' + ev.tzid);
+    		} else {
+    			adapter.log.warn('invalid calender timezone: ' + ev.tzid);
+    		}
         }
         // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
         else if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
@@ -267,13 +273,22 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
 
                 // special property form node-ical
                 if(ev.start.hasOwnProperty('tz')) {
+                	var zone;
                 	var timezone = ev.start.tz;
-                	if(timezone == undefined) {
-                		adapter.log.debug('no timezone for this event, take default timezone from calendar');
-                		timezone = defaultTimezone;
+                	if(timezone) {
+                		var eventZone = moment.tz.zone(timezone);
+                		if(eventZone) {
+                			zone = eventZone;
+                		} else {
+                			adapter.log.warn('invalid event timezone: ' + timezone);
+                		}
                 	}
-                	if(timezone !== undefined) {
-                		offset = moment.tz.zone(timezone).utcOffset(ev.start.getTime())*60*1000*-1;
+                	if (!zone && defaultTimezone) {
+                		adapter.log.debug('no timezone for this event, take calendar timezone: '+ defaultTimezone.name);
+                		zone = defaultTimezone;
+                	}
+                	if(zone) {
+                		offset = zone.utcOffset(ev.start.getTime()) * 60 * 1000 * -1;
                 	}
                 }
                 options.dtstart = addOffset(ev.start, offset);
@@ -326,7 +341,7 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                                 var d = new Date(dOri);
                                 if(d.getTime() === ev2.start.getTime()) {
                                     ev2 = ce.clone(ev.recurrences[dOri]);
-                                    adapter.log.debug('   ' + i + ': different recurring found replaced with Event:' + ev2.start.toString() + ' ' + ev2.end.toString());
+                                    adapter.log.debug('   ' + i + ': different recurring found replaced with Event:' + ev2.start + ' ' + ev2.end);
                                 }
                             }
                         }
