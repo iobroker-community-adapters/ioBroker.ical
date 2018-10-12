@@ -126,8 +126,8 @@ function setupIcsFiles() {
 
         // valid timezone
         data += 'BEGIN:VTIMEZONE\n';
-        data += 'TZID:Europe/Berlin\n';
-        data += 'X-LIC-LOCATION:Europe/Berlin\n';
+        data += 'TZID:W. Europe Standard Time\n';
+        data += 'X-LIC-LOCATION:W. Europe Standard Time\n';
         data += 'BEGIN:DAYLIGHT\n';
         data += 'TZOFFSETFROM:+0100\n';
         data += 'TZOFFSETTO:+0200\n';
