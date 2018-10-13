@@ -232,8 +232,10 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         this.timeout(5000);
         setTimeout(function () {
             states.getState('ical.0.data.count', function (err, state) {
+            	var d1 = new Date();
+            	var weekend = d1.getDay() == 0 || d1.getDay() == 6;
                 expect(err).to.be.not.ok;
-                expect(state.val).to.be.equal(0);
+                expect(state.val).to.be.equal(weekend ? 1 : 0);
                 done();
             });
         }, 3000);
