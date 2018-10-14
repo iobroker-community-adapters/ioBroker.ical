@@ -20,7 +20,6 @@ var utils   = require(__dirname + '/lib/utils');
 var RRule   = require('rrule').RRule;
 var ical    = require('node-ical');
 var ce      = require('cloneextend');
-var moment  = require('moment-timezone');
 var request;
 var fs;
 
@@ -61,6 +60,7 @@ var dictionary       = {
     'hours':     {'en': 'hours',             'it': 'ore',                       'es': 'horas',                 'pl': 'godziny',                   'fr': 'heures',                    'de': 'Stunden',          'ru': 'часов',			'nl': 'uren'},
     'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',		            'nl': 'uur'}
 };
+var globalTimezoneOffset;
 
 function _(text) {
     if (!text) return '';
@@ -227,7 +227,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
 }
 
 function addOffset(time, offset) {
-	return new Date(time.getTime()+offset);
+	return new Date(time.getTime() + (offset * 60 * 1000));
 }
 
 function processData(data, realnow, today, endpreview, now2, calName, cb) {
@@ -249,9 +249,6 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
             if (ev.rrule !== undefined) {
                 var options = RRule.parseString(ev.rrule.toString());
 
-                // workaround for rrule.between
-            	var offset = moment(new Date().getTime()).utcOffset() * 60 * 1000 * -1
-
                 options.dtstart = ev.start;
                 var rule = new RRule(options);
 
@@ -266,7 +263,9 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                 // event within the time window
                 if (dates.length > 0) {
                     for (var i = 0; i < dates.length; i++) {
-                    	var date = addOffset(dates[i], offset);
+                        // timezone workaround for rrule.between
+                    	var date = addOffset(dates[i], globalTimezoneOffset);
+
                         // use deep-copy otherwise setDate etc. overwrites data from different events 
                         var ev2 = ce.clone(ev);
 
@@ -1109,6 +1108,9 @@ function brSeparatedList(datesArray) {
 }
 
 function main() {
+	globalTimezoneOffset = new Date().getTimezoneOffset();
+	adapter.log.debug('use system utc offset: ' + globalTimezoneOffset);
+
     normal  = '<span style="font-weight: bold; color: ' + adapter.config.defColor + '"><span class="icalNormal">';
 
     adapter.config.language = adapter.config.language || 'en';
