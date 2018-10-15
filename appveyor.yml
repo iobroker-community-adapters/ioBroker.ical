@@ -19,5 +19,10 @@ test_script:
   - echo %cd%
   - node --version
   - npm --version
+  - tzutil /s "UTC"
+  - npm test
+  - tzutil /s "Georgian Standard Time"
+  - npm test
+  - tzutil /s "Atlantic Standard Time"
   - npm test
 build: 'off'
