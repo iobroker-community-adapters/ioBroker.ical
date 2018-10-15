@@ -247,12 +247,13 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
             }
             // aha, it is RRULE in the event --> process it
             if (ev.rrule !== undefined) {
+            	var eventLength = ev.end.getTime() - ev.start.getTime();
+            	
                 var options = RRule.parseString(ev.rrule.toString());
-
-                options.dtstart = ev.start;
+                // convert times temporary to UTC
+                options.dtstart = addOffset(ev.start, -globalTimezoneOffset);
                 var rule = new RRule(options);
 
-                var eventLength = ev.end.getTime() - ev.start.getTime();
                 var now3 = new Date(now2.getTime() - eventLength);
                 if (now2 < now3) now3 = now2;
                 adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 + ' now3:' + now3 + ' ' + rule.toText());
@@ -263,16 +264,12 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                 // event within the time window
                 if (dates.length > 0) {
                     for (var i = 0; i < dates.length; i++) {
-                        // timezone workaround for rrule.between
-                    	var date = addOffset(dates[i], globalTimezoneOffset);
-
-                        // use deep-copy otherwise setDate etc. overwrites data from different events 
+                        // use deep-copy otherwise setDate etc. overwrites data from different events
                         var ev2 = ce.clone(ev);
 
-                        // replace date for each event in RRule
-                        ev2.start.setDate(date.getDate());
-                        ev2.start.setMonth(date.getMonth());
-                        ev2.start.setFullYear(date.getFullYear());
+                        // replace date & time for each event in RRule
+                        // convert time back to local times
+                        ev2.start = addOffset(dates[i], globalTimezoneOffset);
 
                         // Set end date based on length in ms
                         ev2.end = new Date(ev2.start.getTime() + eventLength);

@@ -11,7 +11,7 @@ var onObjectChanged = null;
 var sendToID = 1;
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Config Recurring without Timezones';
+var adapterShortNameLog = adapterShortName + ' Config Recurring without Timezones (' + setup.getCurrentTimezoneName() + ')';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
@@ -90,69 +90,65 @@ var day2 = d2.getDate();
 if (day2 < 10) day2 = '0' + day2;
 
 function setupIcsFiles() {
-    if (!fs.existsSync(__dirname + '/data/recurring_without_timezones.ics')) {
-    	var dn1 = new Date();
-    	dn1.setDate(dn1.getDate() - 4);
-    	dn1.setMonth(dn1.getMonth() - 4);
-    	var mn1 = (dn1.getMonth() + 1);
-    	if (mn1 < 10) mn1 = '0' + mn1;
-    	var dayn1 = dn1.getDate();
-    	if (dayn1 < 10) dayn1 = '0' + dayn1;
+	var dn1 = new Date();
+	dn1.setDate(dn1.getDate() - 4);
+	dn1.setMonth(dn1.getMonth() - 4);
+	var mn1 = (dn1.getMonth() + 1);
+	if (mn1 < 10) mn1 = '0' + mn1;
+	var dayn1 = dn1.getDate();
+	if (dayn1 < 10) dayn1 = '0' + dayn1;
 
-    	var dn2 = new Date();
-    	dn2.setDate(dn2.getDate() - 4);
-    	dn2.setMonth(dn2.getMonth() - 4);
-    	var mn2 = (dn2.getMonth() + 1);
-    	if (mn2 < 10) mn2 = '0' + mn2;
-    	var dayn2 = dn2.getDate();
-    	if (dayn2 < 10) dayn2 = '0' + dayn2;
+	var dn2 = new Date();
+	dn2.setDate(dn2.getDate() - 4);
+	dn2.setMonth(dn2.getMonth() - 4);
+	var mn2 = (dn2.getMonth() + 1);
+	if (mn2 < 10) mn2 = '0' + mn2;
+	var dayn2 = dn2.getDate();
+	if (dayn2 < 10) dayn2 = '0' + dayn2;
 
-        var data = 'BEGIN:VCALENDAR\n';
-        data += 'PRODID:-//Microsoft Corporation//Outlook 16.0 MIMEDIR//EN\n';
-        data += 'VERSION:2.0\n';
+	var data = fs.readFileSync(__dirname + '/data/calender_head_template.ics').toString();
 
-        // past event
-        data += 'BEGIN:VEVENT\n';
-        data += 'CLASS:PUBLIC\n';
-        data += 'DESCRIPTION:  \\n\n';
-        data += 'DTEND;VALUE=DATE:' + dn2.getFullYear() + mn2 + dayn2 + '\n';
-        data += 'DTSTAMP:20181011T171553Z\n';
-        data += 'DTSTART;VALUE=DATE:' + dn1.getFullYear() + mn1 + dayn1 + '\n';
-        data += 'PRIORITY:5\n';
-        data += 'RRULE:FREQ=YEARLY;BYMONTH=' + (dn1.getMonth() + 1) + ';BYMONTHDAY=' + dn1.getDate() + '\n';
-        data += 'SEQUENCE:0\n';
-        data += 'SUMMARY:Jarno Geburtstag\n';
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'UID:e920175b-fd11-42db-b961-6b7960f20f74\n';
-        data += 'X-MICROSOFT-CDO-BUSYSTATUS:FREE\n';
-        data += 'X-RADICALE-NAME:e920175b-fd11-42db-b961-6b7960f20f74.ics\n';
-        data += 'END:VEVENT\n';
+    // past event
+    data += 'BEGIN:VEVENT\n';
+    data += 'CLASS:PUBLIC\n';
+    data += 'DESCRIPTION:  \\n\n';
+    data += 'DTEND;VALUE=DATE:' + dn2.getFullYear() + mn2 + dayn2 + '\n';
+    data += 'DTSTAMP:20181011T171553Z\n';
+    data += 'DTSTART;VALUE=DATE:' + dn1.getFullYear() + mn1 + dayn1 + '\n';
+    data += 'PRIORITY:5\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=' + (dn1.getMonth() + 1) + ';BYMONTHDAY=' + dn1.getDate() + '\n';
+    data += 'SEQUENCE:0\n';
+    data += 'SUMMARY:Jarno Geburtstag\n';
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'UID:e920175b-fd11-42db-b961-6b7960f20f74\n';
+    data += 'X-MICROSOFT-CDO-BUSYSTATUS:FREE\n';
+    data += 'X-RADICALE-NAME:e920175b-fd11-42db-b961-6b7960f20f74.ics\n';
+    data += 'END:VEVENT\n';
 
-        // recurring event
-        data += 'BEGIN:VEVENT\n';
-        data += 'CLASS:PUBLIC\n';
-        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
-        data += 'DTSTAMP:20181012T150122Z\n';
-        data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
-        data += 'PRIORITY:5\n';
-        data += 'RRULE:FREQ=YEARLY;BYMONTH=' + (d1.getMonth() + 1) + ';BYMONTHDAY=' + d1.getDate() + '\n';
-        data += 'SEQUENCE:0\n';
-        data += 'SUMMARY:Test jährlich wiederholen\n';
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'UID:ec1cbf54-1aae-44bc-8c23-b27668f2be32\n';
-        data += 'X-MICROSOFT-CDO-BUSYSTATUS:FREE\n';
-        data += 'BEGIN:VALARM\n';
-        data += 'ACTION:DISPLAY\n';
-        data += 'DESCRIPTION:This is an event reminder\n';
-        data += 'TRIGGER:-PT12H\n';
-        data += 'X-RADICALE-NAME:ec1cbf54-1aae-44bc-8c23-b27668f2be32.ics\n';
-        data += 'END:VALARM\n';
-        data += 'X-RADICALE-NAME:ec1cbf54-1aae-44bc-8c23-b27668f2be32.ics\n';
-        data += 'END:VEVENT\n';
+    // recurring event
+    data += 'BEGIN:VEVENT\n';
+    data += 'CLASS:PUBLIC\n';
+    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+    data += 'DTSTAMP:20181012T150122Z\n';
+    data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
+    data += 'PRIORITY:5\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=' + (d1.getMonth() + 1) + ';BYMONTHDAY=' + d1.getDate() + '\n';
+    data += 'SEQUENCE:0\n';
+    data += 'SUMMARY:Test jährlich wiederholen\n';
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'UID:ec1cbf54-1aae-44bc-8c23-b27668f2be32\n';
+    data += 'X-MICROSOFT-CDO-BUSYSTATUS:FREE\n';
+    data += 'BEGIN:VALARM\n';
+    data += 'ACTION:DISPLAY\n';
+    data += 'DESCRIPTION:This is an event reminder\n';
+    data += 'TRIGGER:-PT12H\n';
+    data += 'X-RADICALE-NAME:ec1cbf54-1aae-44bc-8c23-b27668f2be32.ics\n';
+    data += 'END:VALARM\n';
+    data += 'X-RADICALE-NAME:ec1cbf54-1aae-44bc-8c23-b27668f2be32.ics\n';
+    data += 'END:VEVENT\n';
 
-        data += 'END:VCALENDAR';
-        fs.writeFileSync(__dirname + '/data/recurring_without_timezones.ics', data);
-    }
+    data += 'END:VCALENDAR\n';
+    fs.writeFileSync(__dirname + '/data/recurring_without_timezones.ics', data);
 }
 
 describe('Test ' + adapterShortNameLog + ' adapter', function() {

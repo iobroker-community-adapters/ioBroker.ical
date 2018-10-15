@@ -1,6 +1,8 @@
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
-var expect = require('chai').expect;
+var chai = require('chai');
+chai.use(require('chai-string'));
+var expect = chai.expect;
 var setup  = require(__dirname + '/lib/setup');
 var fs     = require('fs');
 
@@ -11,7 +13,7 @@ var onObjectChanged = null;
 var sendToID = 1;
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Config Recurring';
+var adapterShortNameLog = adapterShortName + ' Config Recurring (' + setup.getCurrentTimezoneName() + ')';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
@@ -76,71 +78,66 @@ function sendTo(target, command, message, callback) {
 }
 
 function setupIcsFiles() {
-    if (!fs.existsSync(__dirname + '/data/recurring.ics')) {
-        var d2 = new Date();
-        d2.setDate(d2.getDate() + 1);
-        var m2 = (d2.getMonth() + 1);
-        if (m2 < 10) m2 = '0' + m2;
-        var day2 = d2.getDate();
-        if (day2 < 10) day2 = '0' + day2;
+    var d2 = new Date();
+    d2.setDate(d2.getDate() + 1);
+    var m2 = (d2.getMonth() + 1);
+    if (m2 < 10) m2 = '0' + m2;
+    var day2 = d2.getDate();
+    if (day2 < 10) day2 = '0' + day2;
 
-        var d4 = new Date();
-        d4.setDate(d4.getDate() + 3);
-        var m4 = (d4.getMonth() + 1);
-        if (m4 < 10) m4 = '0' + m4;
-        var day4 = d4.getDate();
-        if (day4 < 10) day4 = '0' + day4;
+    var d4 = new Date();
+    d4.setDate(d4.getDate() + 3);
+    var m4 = (d4.getMonth() + 1);
+    if (m4 < 10) m4 = '0' + m4;
+    var day4 = d4.getDate();
+    if (day4 < 10) day4 = '0' + day4;
 
-        var d6 = new Date();
-        d6.setDate(d6.getDate() + 5);
-        var m6 = (d6.getMonth() + 1);
-        if (m6 < 10) m6 = '0' + m6;
-        var day6 = d6.getDate();
-        if (day6 < 10) day6 = '0' + day6;
+    var d6 = new Date();
+    d6.setDate(d6.getDate() + 5);
+    var m6 = (d6.getMonth() + 1);
+    if (m6 < 10) m6 = '0' + m6;
+    var day6 = d6.getDate();
+    if (day6 < 10) day6 = '0' + day6;
 
-        var data = fs.readFileSync(__dirname + '/data/empty.ics');
-        var lines = data.toString().split('\n');
-        lines.splice(lines.length - 2, 2);
-        data = lines.join('\n');
+    var data = fs.readFileSync(__dirname + '/data/calender_head_template.ics').toString();
 
-        data += '\nBEGIN:VEVENT\n';
-        data += 'DTSTART;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T130000\n';
-        data += 'DTEND;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T140000\n';
-        data += 'EXDATE;TZID=Europe/Berlin:' + d6.getFullYear() + m6 + day6 + 'T130000\n';
-        data += 'RRULE:FREQ=DAILY;INTERVAL=2\n';
-        data += 'DTSTAMP:20171227T110728Z\n';
-        data += 'UID:2C340B07-5893-4921-B0E5-A5EE82858F01\n';
-        data += 'CREATED:20171227T082153Z\n';
-        data += 'DESCRIPTION:RecurringTest\n';
-        data += 'LAST-MODIFIED:20171227T110650Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += 'SUMMARY:RecurringTest\n';
-        data += 'TRANSP:OPAQUE\n';
-        data += 'X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n';
-        data += 'END:VEVENT\n';
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T130000\n';
+    data += 'DTEND;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T140000\n';
+    data += 'EXDATE;TZID=Europe/Berlin:' + d6.getFullYear() + m6 + day6 + 'T130000\n';
+    data += 'RRULE:FREQ=DAILY;INTERVAL=2\n';
+    data += 'DTSTAMP:20171227T110728Z\n';
+    data += 'UID:2C340B07-5893-4921-B0E5-A5EE82858F01\n';
+    data += 'CREATED:20171227T082153Z\n';
+    data += 'DESCRIPTION:RecurringTest\n';
+    data += 'LAST-MODIFIED:20171227T110650Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += 'SUMMARY:RecurringTest\n';
+    data += 'TRANSP:OPAQUE\n';
+    data += 'X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n';
+    data += 'END:VEVENT\n';
 
-        data += 'BEGIN:VEVENT\n';
-        data += 'DTSTART;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T150000\n';
-        data += 'DTEND;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T160000\n';
-        data += 'DTSTAMP:20171227T110728Z\n';
-        data += 'UID:2C340B07-5893-4921-B0E5-A5EE82858F01\n';
-        data += 'RECURRENCE-ID;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T130000\n';
-        data += 'CREATED:20171227T082153Z\n';
-        data += 'DESCRIPTION:RecurringTest-Exception\n';
-        data += 'LAST-MODIFIED:20171227T082203Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += 'SUMMARY:RecurringTest-Exception\n';
-        data += 'TRANSP:OPAQUE\n';
-        data += 'X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n';
-        data += 'END:VEVENT\n';
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T150000\n';
+    data += 'DTEND;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T160000\n';
+    data += 'DTSTAMP:20171227T110728Z\n';
+    data += 'UID:2C340B07-5893-4921-B0E5-A5EE82858F01\n';
+    data += 'RECURRENCE-ID;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T130000\n';
+    data += 'CREATED:20171227T082153Z\n';
+    data += 'DESCRIPTION:RecurringTest-Exception\n';
+    data += 'LAST-MODIFIED:20171227T082203Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += 'SUMMARY:RecurringTest-Exception\n';
+    data += 'TRANSP:OPAQUE\n';
+    data += 'X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n';
+    data += 'END:VEVENT\n';
 
-        data += 'END:VCALENDAR';
-        fs.writeFileSync(__dirname + '/data/recurring.ics', data);
-    }
+    data += 'END:VCALENDAR\n';
+    fs.writeFileSync(__dirname + '/data/recurring.ics', data);
 }
 
 describe('Test ' + adapterShortNameLog + ' adapter', function() {
@@ -281,17 +278,17 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val[0].date.indexOf('. 13:00-14:00')).to.be.equal(5);
+                expect(state.val[0].date).to.endsWith('. 13:00-14:00');
                 expect(state.val[0].event).to.be.equal('RecurringTest');
                 expect(state.val[0]._section).to.be.equal('RecurringTest');
                 expect(state.val[0]._allDay).to.be.false;
 
-                expect(state.val[1].date.indexOf('. 15:00-16:00')).to.be.equal(5);
+                expect(state.val[1].date).to.endsWith('. 15:00-16:00');
                 expect(state.val[1].event).to.be.equal('RecurringTest-Exception');
                 expect(state.val[1]._section).to.be.equal('RecurringTest-Exception');
                 expect(state.val[1]._allDay).to.be.false;
 
-                expect(state.val[2].date.indexOf('. 13:00-14:00')).to.be.equal(5);
+                expect(state.val[2].date).to.endsWith('. 13:00-14:00');
                 expect(state.val[2].event).to.be.equal('RecurringTest');
                 expect(state.val[2]._section).to.be.equal('RecurringTest');
                 expect(state.val[2]._allDay).to.be.false;

@@ -21,8 +21,8 @@ test_script:
   - npm --version
   - tzutil /s "UTC"
   - npm test
-  - tzutil /s "Georgian Standard Time"
+  - tzutil /s "Chatham Islands Standard Time"
   - npm test
-  - tzutil /s "Atlantic Standard Time"
+  - tzutil /s "Dateline Standard Time"
   - npm test
 build: 'off'
