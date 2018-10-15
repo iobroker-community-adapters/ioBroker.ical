@@ -3,18 +3,10 @@
 var gulp      = require('gulp');
 var fs        = require('fs');
 var request   = require('request');
-var xml2js    = require('xml2json');
-var moment    = require('moment-timezone');
 var pkg       = require('./package.json');
 var iopackage = require('./io-package.json');
 var version   = (pkg && pkg.version) ? pkg.version : iopackage.common.version;
-/*var appName   = getAppName();
 
-function getAppName() {
-    var parts = __dirname.replace(/\\/g, '/').split('/');
-    return parts[parts.length - 1].split('.')[0].toLowerCase();
-}
-*/
 const fileName = 'words.js';
 var languages =  {
     en: {},
@@ -147,7 +139,6 @@ function words2languages(src) {
         for (var l in langs) {
             if (!langs.hasOwnProperty(l)) continue;
             var keys = Object.keys(langs[l]);
-            //keys.sort();
             var obj = {};
             for (var k = 0; k < keys.length; k++) {
                 obj[keys[k]] = langs[l][keys[k]];
@@ -182,7 +173,6 @@ function words2languagesFlat(src) {
             }
         }
         var keys = Object.keys(langs.en);
-        //keys.sort();
         for (var l in langs) {
             if (!langs.hasOwnProperty(l)) continue;
             var obj = {};
@@ -338,39 +328,6 @@ function languages2words(src) {
     writeWordJs(bigOne, src);
 }
 
-function createWindowsZones() {
-    request("https://unicode.org/repos/cldr/trunk/common/supplemental/windowsZones.xml", function (error, response, body) {
-        if (error || !body) {
-            console.error('Error reading windows zones');
-        } else {
-        	var json = JSON.parse(xml2js.toJson(body));
-    	    var t = {};
-        	var m = json.supplementalData.windowsZones.mapTimezones.mapZone;
-        		
-    		for (var i = 0; i < m.length; i++) {
-    			var a = m[i];
-
-        		var windowsName = a.other;
-        		var zoneName = a.type;
-    			if(moment.tz.zone(windowsName)) {
-    				// found in moment.js
-    				continue;
-    			} else {
-    				// not found
-    				if(moment.tz.zone(zoneName)) {
-    					t[windowsName] = zoneName;
-    					moment.tz.link(windowsName + '|' + zoneName);
-    				} else {
-    					console.error('counld not map windows zone (' + windowsName + ') with moment.js zone (' + zoneName + ')');
-    				}
-    			}
-        	}
-
-        	fs.writeFileSync("windowszones.js", 'module.exports = ' + JSON.stringify(t, null, 4) + ';');
-        }
-    });
-}
-
 gulp.task('adminWords2languages', function (done) {
     words2languages('./admin/');
     done();
@@ -388,11 +345,6 @@ gulp.task('adminLanguagesFlat2words', function (done) {
 
 gulp.task('adminLanguages2words', function (done) {
     languages2words('./admin/');
-    done();
-});
-
-gulp.task('createWindowsZones', function (done) {
-	createWindowsZones();
     done();
 });
 

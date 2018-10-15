@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.6.4",
+        "version": "1.6.5",
         "news": {
+            "1.6.5": {
+                "en": "Simplify timezone solution\nFix calendars without timezones",
+                "de": "Einfache Lösung für Zeitzonen\nFehler bei Kalendern ohne Zeitzonen behoben",
+                "ru": "Простое решение для часовых поясов\nФиксированные календари без часовых поясов",
+                "pt": "Solução simples para fusos horários\nCalendários fixos sem fusos horários",
+                "nl": "Eenvoudige oplossing voor tijdzones\nKalenders zonder tijdzones opgelost",
+                "fr": "Solution simple pour les fuseaux horaires\nCalendriers fixes sans fuseaux horaires",
+                "it": "Soluzione semplice per i fusi orari\nFixati calendari senza fusi orari",
+                "es": "Solución simple para zonas horarias\nCalendarios fijos sin zonas horarias",
+                "pl": "Proste rozwiązanie dla stref czasowych\nNaprawiono kalendarze bez stref czasowych"
+            },
             "1.6.4": {
                 "en": "Support windows timezones\nDon't fail on invalid timezones",
                 "de": "Unterstützte Windows Zeitzonen\nKeine Fehler mehr bei ungültigen Zeitzonen",

@@ -1,6 +1,8 @@
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
-var expect = require('chai').expect;
+var chai = require('chai');
+chai.use(require('chai-string'));
+var expect = chai.expect;
 var setup  = require(__dirname + '/lib/setup');
 var fs     = require('fs');
 
@@ -11,7 +13,7 @@ var onObjectChanged = null;
 var sendToID = 1;
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Config Recurring Fullday';
+var adapterShortNameLog = adapterShortName + ' Config Recurring Fullday (' + setup.getCurrentTimezoneName() + ')';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
@@ -76,66 +78,58 @@ function sendTo(target, command, message, callback) {
 }
 
 function setupIcsFiles() {
-    if (!fs.existsSync(__dirname + '/data/recurring_fullday.ics')) {
-        var d1 = new Date();
-        var m1 = (d1.getMonth() + 1);
-        if (m1 < 10) m1 = '0' + m1;
-        var day1 = d1.getDate();
-        if (day1 < 10) day1 = '0' + day1;
+    var d1 = new Date();
+    var m1 = (d1.getMonth() + 1);
+    if (m1 < 10) m1 = '0' + m1;
+    var day1 = d1.getDate();
+    if (day1 < 10) day1 = '0' + day1;
 
-        var d2 = new Date();
-        d2.setDate(d2.getDate() + 1);
-        var m2 = (d2.getMonth() + 1);
-        if (m2 < 10) m2 = '0' + m2;
-        var day2 = d2.getDate();
-        if (day2 < 10) day2 = '0' + day2;
+    var d2 = new Date();
+    d2.setDate(d2.getDate() + 1);
+    var m2 = (d2.getMonth() + 1);
+    if (m2 < 10) m2 = '0' + m2;
+    var day2 = d2.getDate();
+    if (day2 < 10) day2 = '0' + day2;
 
-        var data = 'BEGIN:VCALENDAR\n';
-        data += 'PRODID:-//Google Inc//Google Calendar 70.9054//EN\n';
-        data += 'VERSION:2.0\n';
-        data += 'CALSCALE:GREGORIAN\n';
-        data += 'METHOD:PUBLISH\n';
-        data += 'X-WR-CALNAME:Schichtplan\n';
-        data += 'X-WR-TIMEZONE:Europe/Berlin\n';
-        data += 'X-WR-CALDESC:Zur Heizungssteuerung\n';
-        data += 'BEGIN:VTIMEZONE\n';
-        data += 'TZID:Europe/Berlin\n';
-        data += 'X-LIC-LOCATION:Europe/Berlin\n';
-        data += 'BEGIN:DAYLIGHT\n';
-        data += 'TZOFFSETFROM:+0100\n';
-        data += 'TZOFFSETTO:+0200\n';
-        data += 'TZNAME:CEST\n';
-        data += 'DTSTART:19700329T020000\n';
-        data += 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\n';
-        data += 'END:DAYLIGHT\n';
-        data += 'BEGIN:STANDARD\n';
-        data += 'TZOFFSETFROM:+0200\n';
-        data += 'TZOFFSETTO:+0100\n';
-        data += 'TZNAME:CET\n';
-        data += 'DTSTART:19701025T030000\n';
-        data += 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\n';
-        data += 'END:STANDARD\n';
-        data += 'END:VTIMEZONE\n';
+    var data = fs.readFileSync(__dirname + '/data/calender_head_template.ics').toString();;
 
-		data += 'BEGIN:VEVENT\n';
-		data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
-		data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
-		data += 'RRULE:FREQ=WEEKLY;BYDAY=SU,SA\n';
-		data += 'DTSTAMP:20181010T062520Z\n';
-		data += 'UID:2C340B07-5893-4234-B0E5-A5EE82858F01\n';
-		data += 'CREATED:20181008T073122Z\n';
-		data += 'DESCRIPTION:WE\n';
-		data += 'LAST-MODIFIED:20181008T073122Z\n';
-		data += 'LOCATION:\n';
-		data += 'SEQUENCE:0\n';
-		data += 'STATUS:CONFIRMED\n';
-		data += 'SUMMARY:WE\n';
-		data += 'TRANSP:TRANSPARENT\n';
-		data += 'END:VEVENT\n';
+    data += 'BEGIN:VTIMEZONE\n';
+    data += 'TZID:Europe/Berlin\n';
+    data += 'X-LIC-LOCATION:Europe/Berlin\n';
+    data += 'BEGIN:DAYLIGHT\n';
+    data += 'TZOFFSETFROM:+0100\n';
+    data += 'TZOFFSETTO:+0200\n';
+    data += 'TZNAME:CEST\n';
+    data += 'DTSTART:19700329T020000\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\n';
+    data += 'END:DAYLIGHT\n';
+    data += 'BEGIN:STANDARD\n';
+    data += 'TZOFFSETFROM:+0200\n';
+    data += 'TZOFFSETTO:+0100\n';
+    data += 'TZNAME:CET\n';
+    data += 'DTSTART:19701025T030000\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\n';
+    data += 'END:STANDARD\n';
+    data += 'END:VTIMEZONE\n';
 
-        data += 'END:VCALENDAR';
-        fs.writeFileSync(__dirname + '/data/recurring_fullday.ics', data);
-    }
+	data += 'BEGIN:VEVENT\n';
+	data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
+	data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+	data += 'RRULE:FREQ=WEEKLY;BYDAY=SU,SA\n';
+	data += 'DTSTAMP:20181010T062520Z\n';
+	data += 'UID:2C340B07-5893-4234-B0E5-A5EE82858F01\n';
+	data += 'CREATED:20181008T073122Z\n';
+	data += 'DESCRIPTION:WE\n';
+	data += 'LAST-MODIFIED:20181008T073122Z\n';
+	data += 'LOCATION:\n';
+	data += 'SEQUENCE:0\n';
+	data += 'STATUS:CONFIRMED\n';
+	data += 'SUMMARY:WE\n';
+	data += 'TRANSP:TRANSPARENT\n';
+	data += 'END:VEVENT\n';
+
+    data += 'END:VCALENDAR\n';
+    fs.writeFileSync(__dirname + '/data/recurring_fullday.ics', data);
 }
 
 function parseDate(input) {
@@ -232,8 +226,10 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         this.timeout(5000);
         setTimeout(function () {
             states.getState('ical.0.data.count', function (err, state) {
+            	var d1 = new Date();
+            	var weekend = d1.getDay() == 0 || d1.getDay() == 6;
                 expect(err).to.be.not.ok;
-                expect(state.val).to.be.equal(0);
+                expect(state.val).to.be.equal(weekend ? 1 : 0);
                 done();
             });
         }, 3000);
@@ -288,12 +284,12 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val[0].date.indexOf('. 00:00')).to.be.equal(5);
+                expect(state.val[0].date).to.endsWith('. 00:00-00:00');
                 expect(state.val[0].event).to.be.equal('WE');
                 expect(state.val[0]._section).to.be.equal('WE');
                 expect(state.val[0]._allDay).to.be.true;
 
-                expect(state.val[1].date.indexOf('. 00:00')).to.be.equal(5);
+                expect(state.val[1].date).to.endsWith('. 00:00-00:00');
                 expect(state.val[1].event).to.be.equal('WE');
                 expect(state.val[1]._section).to.be.equal('WE');
                 expect(state.val[1]._allDay).to.be.true;

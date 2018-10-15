@@ -713,6 +713,19 @@ function getAdapterConfig(instance) {
     return objects[id];
 }
 
+function getCurrentTimezoneName() {
+	var offsetMinues = new Date().getTimezoneOffset();
+	if(offsetMinues == 0) {
+		return 'UTC';
+	}
+	var offsetNegative = offsetMinues < 0;
+	offsetMinues = Math.abs(offsetMinues);
+	var offsetHours = Math.floor(offsetMinues / 60);
+	offsetMinues = offsetMinues % 60;
+
+	return 'UTC' + (offsetNegative ? '-' : '+') + offsetHours + ':' + ("0" + offsetMinues).slice(-2);
+}
+
 if (typeof module !== undefined && module.parent) {
     module.exports.getAdapterConfig = getAdapterConfig;
     module.exports.setAdapterConfig = setAdapterConfig;
@@ -725,4 +738,5 @@ if (typeof module !== undefined && module.parent) {
     module.exports.appName          = appName;
     module.exports.adapterName      = adapterName;
     module.exports.adapterStarted   = adapterStarted;
+    module.exports.getCurrentTimezoneName = getCurrentTimezoneName;
 }

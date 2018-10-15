@@ -15,12 +15,11 @@
 /* jslint node: true */
 'use strict';
 
-var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
+// Get common adapter utils
+var utils   = require(__dirname + '/lib/utils');
 var RRule   = require('rrule').RRule;
 var ical    = require('node-ical');
 var ce      = require('cloneextend');
-var moment  = require('moment-timezone');
-var windowsZones = require(__dirname + '/windowszones');
 var request;
 var fs;
 
@@ -31,7 +30,8 @@ var adapter = new utils.Adapter({
     }
 });
 
-var normal           = ''; // set when ready
+// set when ready
+var normal           = '';
 var warn             = '<span style="font-weight: bold; color: red"><span class="icalWarn">';
 var prewarn          = '<span style="font-weight: bold; color: orange"><span class="icalPreWarn">';
 var preprewarn       = '<span style="font-weight: bold; color: yellow"><span class="icalPrePreWarn">';
@@ -60,6 +60,7 @@ var dictionary       = {
     'hours':     {'en': 'hours',             'it': 'ore',                       'es': 'horas',                 'pl': 'godziny',                   'fr': 'heures',                    'de': 'Stunden',          'ru': 'часов',			'nl': 'uren'},
     'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',		            'nl': 'uur'}
 };
+var globalTimezoneOffset;
 
 function _(text) {
     if (!text) return '';
@@ -85,7 +86,7 @@ adapter.on('stateChange', function (id, state) {
 
     if (id === adapter.namespace + '.trigger') {
         var content = state.val.split(' ');
-        //One time read all calendars
+        // One time read all calendars
         switch (content[0]) {
             case 'read':
                 if (content[1]) {
@@ -226,7 +227,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
 }
 
 function addOffset(time, offset) {
-	return new Date(time.getTime()+offset);
+	return new Date(time.getTime() + (offset * 60 * 1000));
 }
 
 function processData(data, realnow, today, endpreview, now2, calName, cb) {
@@ -236,23 +237,8 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
         var ev = data[k];
         delete data[k];
 
-        if(ev.type === 'VTIMEZONE' && ev.tzid) {
-        	var calTime;
-        	if(defaultTimezone) {
-        		adapter.log.warn('more then one calendar timezone (' + ev.tzid + ') detected! Ignore further ones');
-        		continue;
-        	}
-
-    		defaultTimezone = moment.tz.zone(ev.tzid);
-    		if(defaultTimezone) {
-    			adapter.log.debug('calender timezone: ' + ev.tzid);
-    		} else {
-    			adapter.log.warn('invalid calender timezone: ' + ev.tzid);
-    		}
-        }
         // only events with summary are interesting
-        else if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
-
+        if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
             if (!ev.end) {
                 ev.end = ev.start;
                 if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
@@ -261,36 +247,13 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
             }
             // aha, it is RRULE in the event --> process it
             if (ev.rrule !== undefined) {
+            	var eventLength = ev.end.getTime() - ev.start.getTime();
+            	
                 var options = RRule.parseString(ev.rrule.toString());
-                var offset = 0;
-
-                // special property form node-ical
-                if(ev.start.hasOwnProperty('tz')) {
-                	var zone;
-                	var timezone = ev.start.tz;
-                	if(timezone) {
-                		var eventZone = moment.tz.zone(timezone);
-                		if(eventZone) {
-                			zone = eventZone;
-                		} else {
-                			adapter.log.warn('invalid event timezone: ' + timezone);
-                		}
-                	}
-                	if (!zone && defaultTimezone) {
-                		adapter.log.debug('no timezone for this event, take calendar timezone: '+ defaultTimezone.name);
-                		zone = defaultTimezone;
-                	}
-                	if(zone) {
-                		offset = zone.utcOffset(ev.start.getTime()) * 60 * 1000 * -1;
-                	}
-                }
-                options.dtstart = addOffset(ev.start, offset);
-                if(options.hasOwnProperty('until')) {
-                	options.until = addOffset(options.until, offset);
-                }
+                // convert times temporary to UTC
+                options.dtstart = addOffset(ev.start, -globalTimezoneOffset);
                 var rule = new RRule(options);
 
-                var eventLength = ev.end.getTime() - ev.start.getTime();
                 var now3 = new Date(now2.getTime() - eventLength);
                 if (now2 < now3) now3 = now2;
                 adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 + ' now3:' + now3 + ' ' + rule.toText());
@@ -301,15 +264,15 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                 // event within the time window
                 if (dates.length > 0) {
                     for (var i = 0; i < dates.length; i++) {
-                        // use deep-copy otherwise setDate etc. overwrites data from different events 
+                        // use deep-copy otherwise setDate etc. overwrites data from different events
                         var ev2 = ce.clone(ev);
 
-                        // replace date for each event in RRule
-                        ev2.start.setDate(dates[i].getDate());
-                        ev2.start.setMonth(dates[i].getMonth());
-                        ev2.start.setFullYear(dates[i].getFullYear());
+                        // replace date & time for each event in RRule
+                        // convert time back to local times
+                        ev2.start = addOffset(dates[i], globalTimezoneOffset);
 
-                        ev2.end = new Date(ev2.start.getTime() + eventLength); // Set end date based on length in ms
+                        // Set end date based on length in ms
+                        ev2.end = new Date(ev2.start.getTime() + eventLength);
 
                         adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
 
@@ -320,8 +283,7 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                         if(ev2.exdate) {
                             for(var d in ev2.exdate) {
                                 d = new Date(d);
-                                if(d.getTime() === ev2.start.getTime())
-                                {
+                                if(d.getTime() === ev2.start.getTime()) {
                                     checkDate = false;
                                     adapter.log.debug('   ' + i + ': sort out');
                                     break;
@@ -358,8 +320,7 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
     if (!Object.keys(data).length) {
         cb(calName);
         return;
-    }
-    else {
+    } else {
         setImmediate(function() {
             processData(data, realnow, today, endpreview, now2, calName, cb);
         });
@@ -482,7 +443,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
         suffix: "</span></span>"
     };
     var cmpDate = new Date(date.getTime());
-    cmpDate.setHours(0,0,0,0);
+    cmpDate.setHours(0, 0, 0, 0);
 
     calName = calName.replace(' ', '_');
 
@@ -806,20 +767,22 @@ function formatDate(_date, _end, withTime, fullday) {
                 startDayEnd.setFullYear(_date.getFullYear());
                 startDayEnd.setMonth(_date.getMonth());
                 startDayEnd.setDate(_date.getDate() + 1);
-                startDayEnd.setHours(0,0,0,0);
-                if (_end > startDayEnd) { // end is next day
+                startDayEnd.setHours(0, 0, 0, 0);
+                
+                // end is next day
+                if (_end > startDayEnd) {
                     var start = new Date();
                     if (!alreadyStarted) {
                         start.setDate(_date.getDate());
                         start.setMonth(_date.getMonth());
                         start.setFullYear(_date.getFullYear());
                     }
-                    start.setHours(0,0,1,0);
+                    start.setHours(0, 0, 1, 0);
                     var fullTimeDiff = timeDiff;
                     timeDiff = _end.getTime() - start.getTime();
                     adapter.log.debug('    time difference: ' + timeDiff + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
-                    if (fullTimeDiff >= 24*60*60*1000) {
-                        _time += '+' + Math.floor(timeDiff / (24*60*60*1000));
+                    if (fullTimeDiff >= 24 * 60 * 60 * 1000) {
+                        _time += '+' + Math.floor(timeDiff / (24 * 60 * 60 * 1000));
                     }
                 }
                 else if (adapter.config.replaceDates && _end.getHours() === 0 && _end.getMinutes() === 0) {
@@ -1116,11 +1079,11 @@ function brSeparatedList(datesArray) {
     var today    = new Date();
     var tomorrow = new Date();
     var dayafter = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     tomorrow.setDate(today.getDate() + 1);
-    tomorrow.setHours(0,0,0,0);
+    tomorrow.setHours(0, 0, 0, 0);
     dayafter.setDate(today.getDate() + 2);
-    dayafter.setHours(0,0,0,0);
+    dayafter.setHours(0, 0, 0, 0);
 
     for (var i = 0; i < datesArray.length; i++) {
         var date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
@@ -1141,14 +1104,9 @@ function brSeparatedList(datesArray) {
     return text;
 }
 
-function readWindowsTimezones() {
-	for(var z in windowsZones) {
-		moment.tz.link(z + '|' + windowsZones[z]);
-	}
-}
-
 function main() {
-	readWindowsTimezones();
+	globalTimezoneOffset = new Date().getTimezoneOffset();
+	adapter.log.debug('use system utc offset: ' + globalTimezoneOffset);
 
     normal  = '<span style="font-weight: bold; color: ' + adapter.config.defColor + '"><span class="icalNormal">';
 

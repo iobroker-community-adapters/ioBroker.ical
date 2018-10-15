@@ -20,3 +20,10 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
+script:
+  - export TZ=UTC
+  - npm test
+  - export TZ=UTC+12:45
+  - npm test
+  - export TZ=UTC-12
+  - npm test

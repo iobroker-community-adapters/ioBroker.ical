@@ -3,9 +3,10 @@
 /* jslint node: true */
 /* jshint expr: true */
 var expect = require('chai').expect;
-var fs        = require('fs');
+var fs     = require('fs');
+var setup  = require(__dirname + '/lib/setup');
 
-describe('Test package.json and io-package.json', function() {
+describe('Test package.json and io-package.json (' + setup.getCurrentTimezoneName() + ')', function() {
     it('Test package files', function (done) {
         console.log();
 

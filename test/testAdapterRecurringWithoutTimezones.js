@@ -1,8 +1,6 @@
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
-var chai = require('chai');
-chai.use(require('chai-string'));
-var expect = chai.expect;
+var expect = require('chai').expect;
 var setup  = require(__dirname + '/lib/setup');
 var fs     = require('fs');
 
@@ -13,7 +11,7 @@ var onObjectChanged = null;
 var sendToID = 1;
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Config Recurring (' + setup.getCurrentTimezoneName() + ')';
+var adapterShortNameLog = adapterShortName + ' Config Recurring without Timezones (' + setup.getCurrentTimezoneName() + ')';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
@@ -77,67 +75,80 @@ function sendTo(target, command, message, callback) {
     });
 }
 
+var d1 = new Date();
+d1.setDate(d1.getDate() + 1);
+var m1 = (d1.getMonth() + 1);
+if (m1 < 10) m1 = '0' + m1;
+var day1 = d1.getDate();
+if (day1 < 10) day1 = '0' + day1;
+
+var d2 = new Date();
+d2.setDate(d2.getDate() + 2);
+var m2 = (d2.getMonth() + 1);
+if (m2 < 10) m2 = '0' + m2;
+var day2 = d2.getDate();
+if (day2 < 10) day2 = '0' + day2;
+
 function setupIcsFiles() {
-    var d2 = new Date();
-    d2.setDate(d2.getDate() + 1);
-    var m2 = (d2.getMonth() + 1);
-    if (m2 < 10) m2 = '0' + m2;
-    var day2 = d2.getDate();
-    if (day2 < 10) day2 = '0' + day2;
+	var dn1 = new Date();
+	dn1.setDate(dn1.getDate() - 4);
+	dn1.setMonth(dn1.getMonth() - 4);
+	var mn1 = (dn1.getMonth() + 1);
+	if (mn1 < 10) mn1 = '0' + mn1;
+	var dayn1 = dn1.getDate();
+	if (dayn1 < 10) dayn1 = '0' + dayn1;
 
-    var d4 = new Date();
-    d4.setDate(d4.getDate() + 3);
-    var m4 = (d4.getMonth() + 1);
-    if (m4 < 10) m4 = '0' + m4;
-    var day4 = d4.getDate();
-    if (day4 < 10) day4 = '0' + day4;
+	var dn2 = new Date();
+	dn2.setDate(dn2.getDate() - 4);
+	dn2.setMonth(dn2.getMonth() - 4);
+	var mn2 = (dn2.getMonth() + 1);
+	if (mn2 < 10) mn2 = '0' + mn2;
+	var dayn2 = dn2.getDate();
+	if (dayn2 < 10) dayn2 = '0' + dayn2;
 
-    var d6 = new Date();
-    d6.setDate(d6.getDate() + 5);
-    var m6 = (d6.getMonth() + 1);
-    if (m6 < 10) m6 = '0' + m6;
-    var day6 = d6.getDate();
-    if (day6 < 10) day6 = '0' + day6;
+	var data = fs.readFileSync(__dirname + '/data/calender_head_template.ics').toString();
 
-    var data = fs.readFileSync(__dirname + '/data/calender_head_template.ics').toString();
-
+    // past event
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T130000\n';
-    data += 'DTEND;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T140000\n';
-    data += 'EXDATE;TZID=Europe/Berlin:' + d6.getFullYear() + m6 + day6 + 'T130000\n';
-    data += 'RRULE:FREQ=DAILY;INTERVAL=2\n';
-    data += 'DTSTAMP:20171227T110728Z\n';
-    data += 'UID:2C340B07-5893-4921-B0E5-A5EE82858F01\n';
-    data += 'CREATED:20171227T082153Z\n';
-    data += 'DESCRIPTION:RecurringTest\n';
-    data += 'LAST-MODIFIED:20171227T110650Z\n';
-    data += 'LOCATION:\n';
+    data += 'CLASS:PUBLIC\n';
+    data += 'DESCRIPTION:  \\n\n';
+    data += 'DTEND;VALUE=DATE:' + dn2.getFullYear() + mn2 + dayn2 + '\n';
+    data += 'DTSTAMP:20181011T171553Z\n';
+    data += 'DTSTART;VALUE=DATE:' + dn1.getFullYear() + mn1 + dayn1 + '\n';
+    data += 'PRIORITY:5\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=' + (dn1.getMonth() + 1) + ';BYMONTHDAY=' + dn1.getDate() + '\n';
     data += 'SEQUENCE:0\n';
-    data += 'STATUS:CONFIRMED\n';
-    data += 'SUMMARY:RecurringTest\n';
-    data += 'TRANSP:OPAQUE\n';
-    data += 'X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n';
+    data += 'SUMMARY:Jarno Geburtstag\n';
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'UID:e920175b-fd11-42db-b961-6b7960f20f74\n';
+    data += 'X-MICROSOFT-CDO-BUSYSTATUS:FREE\n';
+    data += 'X-RADICALE-NAME:e920175b-fd11-42db-b961-6b7960f20f74.ics\n';
     data += 'END:VEVENT\n';
 
+    // recurring event
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T150000\n';
-    data += 'DTEND;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T160000\n';
-    data += 'DTSTAMP:20171227T110728Z\n';
-    data += 'UID:2C340B07-5893-4921-B0E5-A5EE82858F01\n';
-    data += 'RECURRENCE-ID;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T130000\n';
-    data += 'CREATED:20171227T082153Z\n';
-    data += 'DESCRIPTION:RecurringTest-Exception\n';
-    data += 'LAST-MODIFIED:20171227T082203Z\n';
-    data += 'LOCATION:\n';
+    data += 'CLASS:PUBLIC\n';
+    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+    data += 'DTSTAMP:20181012T150122Z\n';
+    data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
+    data += 'PRIORITY:5\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=' + (d1.getMonth() + 1) + ';BYMONTHDAY=' + d1.getDate() + '\n';
     data += 'SEQUENCE:0\n';
-    data += 'STATUS:CONFIRMED\n';
-    data += 'SUMMARY:RecurringTest-Exception\n';
-    data += 'TRANSP:OPAQUE\n';
-    data += 'X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n';
+    data += 'SUMMARY:Test jährlich wiederholen\n';
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'UID:ec1cbf54-1aae-44bc-8c23-b27668f2be32\n';
+    data += 'X-MICROSOFT-CDO-BUSYSTATUS:FREE\n';
+    data += 'BEGIN:VALARM\n';
+    data += 'ACTION:DISPLAY\n';
+    data += 'DESCRIPTION:This is an event reminder\n';
+    data += 'TRIGGER:-PT12H\n';
+    data += 'X-RADICALE-NAME:ec1cbf54-1aae-44bc-8c23-b27668f2be32.ics\n';
+    data += 'END:VALARM\n';
+    data += 'X-RADICALE-NAME:ec1cbf54-1aae-44bc-8c23-b27668f2be32.ics\n';
     data += 'END:VEVENT\n';
 
     data += 'END:VCALENDAR\n';
-    fs.writeFileSync(__dirname + '/data/recurring.ics', data);
+    fs.writeFileSync(__dirname + '/data/recurring_without_timezones.ics', data);
 }
 
 describe('Test ' + adapterShortNameLog + ' adapter', function() {
@@ -159,7 +170,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.native.daysPreview = 8;
             config.native.calendars[0] = {
                 "name": "calendar1-recurring",
-                "url": __dirname + '/data/recurring.ics',
+                "url": __dirname + '/data/recurring_without_timezones.ics',
                 "user": "username",
                 "pass": "password",
                 "sslignore": "ignore",
@@ -278,20 +289,10 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val[0].date).to.endsWith('. 13:00-14:00');
-                expect(state.val[0].event).to.be.equal('RecurringTest');
-                expect(state.val[0]._section).to.be.equal('RecurringTest');
-                expect(state.val[0]._allDay).to.be.false;
-
-                expect(state.val[1].date).to.endsWith('. 15:00-16:00');
-                expect(state.val[1].event).to.be.equal('RecurringTest-Exception');
-                expect(state.val[1]._section).to.be.equal('RecurringTest-Exception');
-                expect(state.val[1]._allDay).to.be.false;
-
-                expect(state.val[2].date).to.endsWith('. 13:00-14:00');
-                expect(state.val[2].event).to.be.equal('RecurringTest');
-                expect(state.val[2]._section).to.be.equal('RecurringTest');
-                expect(state.val[2]._allDay).to.be.false;
+                expect(state.val[0].date).to.be.equal(day1 + '.' + m1 + '. 00:00-00:00');
+                expect(state.val[0].event).to.be.equal('Test jährlich wiederholen');
+                expect(state.val[0]._section).to.be.equal(undefined);
+                expect(state.val[0]._allDay).to.be.true;
 
                 done();
             });

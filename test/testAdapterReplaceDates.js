@@ -11,7 +11,7 @@ var onObjectChanged = null;
 var sendToID = 1;
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Config Replace Dates';
+var adapterShortNameLog = adapterShortName + ' Config Replace Dates (' + setup.getCurrentTimezoneName() + ')';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
@@ -76,214 +76,209 @@ function sendTo(target, command, message, callback) {
 }
 
 function setupIcsFiles() {
-    if (!fs.existsSync(__dirname + '/data/today.ics')) {
-        var d0 = new Date();
-        d0.setDate(d0.getDate() - 1);
-        var m0 = (d0.getMonth() + 1);
-        if (m0 < 10) m0 = '0' + m0;
-        var day0 = d0.getDate();
-        if (day0 < 10) day0 = '0' + day0;
+    var d0 = new Date();
+    d0.setDate(d0.getDate() - 1);
+    var m0 = (d0.getMonth() + 1);
+    if (m0 < 10) m0 = '0' + m0;
+    var day0 = d0.getDate();
+    if (day0 < 10) day0 = '0' + day0;
 
-        var d1 = new Date();
-        var m1 = (d1.getMonth() + 1);
-        if (m1 < 10) m1 = '0' + m1;
-        var day1 = d1.getDate();
-        if (day1 < 10) day1 = '0' + day1;
+    var d1 = new Date();
+    var m1 = (d1.getMonth() + 1);
+    if (m1 < 10) m1 = '0' + m1;
+    var day1 = d1.getDate();
+    if (day1 < 10) day1 = '0' + day1;
 
-        var d2 = new Date();
-        d2.setDate(d2.getDate() + 1);
-        var m2 = (d2.getMonth() + 1);
-        if (m2 < 10) m2 = '0' + m2;
-        var day2 = d2.getDate();
-        if (day2 < 10) day2 = '0' + day2;
+    var d2 = new Date();
+    d2.setDate(d2.getDate() + 1);
+    var m2 = (d2.getMonth() + 1);
+    if (m2 < 10) m2 = '0' + m2;
+    var day2 = d2.getDate();
+    if (day2 < 10) day2 = '0' + day2;
 
-        var d3 = new Date();
-        d3.setDate(d3.getDate() + 2);
-        var m3 = (d3.getMonth() + 1);
-        if (m3 < 10) m3 = '0' + m3;
-        var day3 = d3.getDate();
-        if (day3 < 10) day3 = '0' + day3;
+    var d3 = new Date();
+    d3.setDate(d3.getDate() + 2);
+    var m3 = (d3.getMonth() + 1);
+    if (m3 < 10) m3 = '0' + m3;
+    var day3 = d3.getDate();
+    if (day3 < 10) day3 = '0' + day3;
 
-        var data = fs.readFileSync(__dirname + '/data/empty.ics');
-        var lines = data.toString().split('\n');
-        lines.splice(lines.length - 2, 2);
-        data = lines.join('\n');
+    var data = fs.readFileSync(__dirname + '/data/calender_head_template.ics').toString();
 
-        // Fullday event for 1 day with Trigger "Vacation"
-        data += '\nBEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
-        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
-        data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f56@calendarlabs.com\n';
-        data += 'CREATED:20111213T123901Z\n';
-        data += 'DESCRIPTION:Vacation\n';
-        data += 'LAST-MODIFIED:20111213T123901Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += "SUMMARY:Vacation\n";
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'END:VEVENT\n';
+    // Fullday event for 1 day with Trigger "Vacation"
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
+    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f56@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:Vacation\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:Vacation\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
 
-        // Fullday event for 1 day with Trigger "Vacation"
-        data += 'BEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
-        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
-        data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f61@calendarlabs.com\n';
-        data += 'CREATED:20111213T123901Z\n';
-        data += 'DESCRIPTION:Today Event\n';
-        data += 'LAST-MODIFIED:20111213T123901Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += "SUMMARY:Today Event\n";
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'END:VEVENT\n';
+    // Fullday event for 1 day with Trigger "Vacation"
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
+    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f61@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:Today Event\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:Today Event\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
 
-        // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
-        data += 'BEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
-        data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + '\n';
-        data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f57@calendarlabs.com\n';
-        data += 'CREATED:20111213T123901Z\n';
-        data += 'DESCRIPTION:MyEvent BlaEvent\n';
-        data += 'LAST-MODIFIED:20111213T123901Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += "SUMMARY:MyEvent BlaEvent\n";
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'END:VEVENT\n';
+    // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
+    data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + '\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f57@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:MyEvent BlaEvent\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:MyEvent BlaEvent\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
 
-        // event for over 0:00
-        data += 'BEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T220000\n';
-        data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
-        data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f62@calendarlabs.com\n';
-        data += 'CREATED:20111213T123901Z\n';
-        data += 'DESCRIPTION:OverEvent\n';
-        data += 'LAST-MODIFIED:20111213T123901Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += "SUMMARY:OverEvent\n";
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'END:VEVENT\n';
+    // event for over 0:00
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T220000\n';
+    data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f62@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:OverEvent\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:OverEvent\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
 
-        // event for over 0:00
-        data += 'BEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
-        data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + '\n';
-        data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f65@calendarlabs.com\n';
-        data += 'CREATED:20111213T123901Z\n';
-        data += 'DESCRIPTION:MorgenVoll\n';
-        data += 'LAST-MODIFIED:20111213T123901Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += "SUMMARY:MorgenVoll\n";
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'END:VEVENT\n';
+    // event for over 0:00
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + '\n';
+    data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + '\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f65@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:MorgenVoll\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:MorgenVoll\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
 
-        // event for over 0:00
-        data += 'BEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m0 + day0 + 'T220000\n';
-        data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
-        data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
-        data += 'CREATED:20111213T123901Z\n';
-        data += 'DESCRIPTION:TestEvent\n';
-        data += 'LAST-MODIFIED:20111213T123901Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += "SUMMARY:TestEvent\n";
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'END:VEVENT\n';
+    // event for over 0:00
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m0 + day0 + 'T220000\n';
+    data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:TestEvent\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:TestEvent\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
 
-        // event for over 0:00
-        data += 'BEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
-        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
-        data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f60@calendarlabs.com\n';
-        data += 'CREATED:20111213T123901Z\n';
-        data += 'DESCRIPTION:InDayEvent\n';
-        data += 'LAST-MODIFIED:20111213T123901Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += "SUMMARY:InDayEvent\n";
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'END:VEVENT\n';
+    // event for over 0:00
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
+    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f60@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:InDayEvent\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:InDayEvent\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
 
-        // event for over 0:00
-        data += 'BEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
-        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
-        data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f63@calendarlabs.com\n';
-        data += 'CREATED:20111213T123901Z\n';
-        data += 'DESCRIPTION:InDay2\n';
-        data += 'LAST-MODIFIED:20111213T123901Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += "SUMMARY:InDay2\n";
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'END:VEVENT\n';
+    // event for over 0:00
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
+    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f63@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:InDay2\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:InDay2\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
 
-        // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
-        data += 'BEGIN:VEVENT\n';
-        data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
-        data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
-        data += 'DTSTAMP:20111213T124028Z\n';
-        data += 'UID:2fb00ad3a214f7369e7a95f59@calendarlabs.com\n';
-        data += 'CREATED:20111213T123901Z\n';
-        data += 'DESCRIPTION:Reminder\n';
-        data += 'LAST-MODIFIED:20111213T123901Z\n';
-        data += 'LOCATION:\n';
-        data += 'SEQUENCE:0\n';
-        data += 'STATUS:CONFIRMED\n';
-        data += "SUMMARY:Reminder\n";
-        data += 'TRANSP:TRANSPARENT\n';
-        data += 'END:VEVENT\n';
+    // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
+    data += 'BEGIN:VEVENT\n';
+    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
+    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
+    data += 'DTSTAMP:20111213T124028Z\n';
+    data += 'UID:2fb00ad3a214f7369e7a95f59@calendarlabs.com\n';
+    data += 'CREATED:20111213T123901Z\n';
+    data += 'DESCRIPTION:Reminder\n';
+    data += 'LAST-MODIFIED:20111213T123901Z\n';
+    data += 'LOCATION:\n';
+    data += 'SEQUENCE:0\n';
+    data += 'STATUS:CONFIRMED\n';
+    data += "SUMMARY:Reminder\n";
+    data += 'TRANSP:TRANSPARENT\n';
+    data += 'END:VEVENT\n';
 
-        data += 'BEGIN:VEVENT\n';
-        data += 'CREATED:20160525T175643Z\n';
-        data += 'LAST-MODIFIED:20171114T171736Z\n';
-        data += 'DTSTAMP:20171114T171736Z\n';
-        data += 'UID:7defc9a5-a1c8-419d-a05c-58cf98e83cdb\n';
-        data += 'DESCRIPTION:TestUserEvent1\n';
-        data += 'SUMMARY:TestUserEvent1\n';
-        data += 'DTSTART;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T193000\n';
-        data += 'DTEND;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T203000\n';
-        data += 'TRANSP:OPAQUE\n';
-        data += 'SEQUENCE:4\n';
-        data += 'X-MOZ-GENERATION:4\n';
-        data += 'END:VEVENT\n';
+    data += 'BEGIN:VEVENT\n';
+    data += 'CREATED:20160525T175643Z\n';
+    data += 'LAST-MODIFIED:20171114T171736Z\n';
+    data += 'DTSTAMP:20171114T171736Z\n';
+    data += 'UID:7defc9a5-a1c8-419d-a05c-58cf98e83cdb\n';
+    data += 'DESCRIPTION:TestUserEvent1\n';
+    data += 'SUMMARY:TestUserEvent1\n';
+    data += 'DTSTART;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T193000\n';
+    data += 'DTEND;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T203000\n';
+    data += 'TRANSP:OPAQUE\n';
+    data += 'SEQUENCE:4\n';
+    data += 'X-MOZ-GENERATION:4\n';
+    data += 'END:VEVENT\n';
 
-        data += 'BEGIN:VEVENT\n';
-        data += 'CREATED:20160525T175643Z\n';
-        data += 'LAST-MODIFIED:20171114T171736Z\n';
-        data += 'DTSTAMP:20171114T171736Z\n';
-        data += 'UID:7defc9a5-a1c8-419d-a05c-65cf98e83cdb\n';
-        data += 'DESCRIPTION:SameDay\n';
-        data += 'SUMMARY:SameDay\n';
-        data += 'DTSTART;TZID=Europe/Berlin:' + d1.getFullYear() + m1 + day1 + 'T235800\n';
-        data += 'DTEND;TZID=Europe/Berlin:' + d1.getFullYear() + m1 + day1 + 'T235900\n';
-        data += 'TRANSP:OPAQUE\n';
-        data += 'SEQUENCE:4\n';
-        data += 'X-MOZ-GENERATION:4\n';
-        data += 'END:VEVENT\n';
+    data += 'BEGIN:VEVENT\n';
+    data += 'CREATED:20160525T175643Z\n';
+    data += 'LAST-MODIFIED:20171114T171736Z\n';
+    data += 'DTSTAMP:20171114T171736Z\n';
+    data += 'UID:7defc9a5-a1c8-419d-a05c-65cf98e83cdb\n';
+    data += 'DESCRIPTION:SameDay\n';
+    data += 'SUMMARY:SameDay\n';
+    data += 'DTSTART;TZID=Europe/Berlin:' + d1.getFullYear() + m1 + day1 + 'T235800\n';
+    data += 'DTEND;TZID=Europe/Berlin:' + d1.getFullYear() + m1 + day1 + 'T235900\n';
+    data += 'TRANSP:OPAQUE\n';
+    data += 'SEQUENCE:4\n';
+    data += 'X-MOZ-GENERATION:4\n';
+    data += 'END:VEVENT\n';
 
-        data += 'END:VCALENDAR';
-        fs.writeFileSync(__dirname + '/data/today.ics', data);
-    }
+    data += 'END:VCALENDAR\n';
+    fs.writeFileSync(__dirname + '/data/replace_date.ics', data);
 }
 
 describe('Test ' + adapterShortNameLog + ' adapter', function() {
@@ -311,7 +306,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             };
             config.native.calendars[1] = {
                 "name": "calendar-today",
-                "url": __dirname + '/data/today.ics',
+                "url": __dirname + '/data/replace_date.ics',
                 "user": "username",
                 "pass": "password",
                 "sslignore": "ignore",
@@ -470,7 +465,6 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[7]._allDay).to.be.false;
 
                 expect(state.val[8].date).to.be.equal('Tomorrow 22:00-02:00');
-                expect(state.val[8].date.indexOf('+1')).to.be.equal(-1);
                 expect(state.val[8].event).to.be.equal('OverEvent');
                 expect(state.val[8]._section).to.be.equal('OverEvent');
                 expect(state.val[8]._allDay).to.be.false;
