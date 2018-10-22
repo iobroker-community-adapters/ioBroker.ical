@@ -1,6 +1,8 @@
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
-var expect = require('chai').expect;
+var chai = require('chai');
+chai.use(require('chai-string'));
+var expect = chai.expect;
 var setup  = require(__dirname + '/lib/setup');
 var fs     = require('fs');
 
@@ -468,6 +470,19 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[8].event).to.be.equal('OverEvent');
                 expect(state.val[8]._section).to.be.equal('OverEvent');
                 expect(state.val[8]._allDay).to.be.false;
+
+                done();
+            });
+        }, 1000);
+    });
+
+    it('Test ' + adapterShortNameLog + ': data.html', function (done) {
+        this.timeout(2000);
+        setTimeout(function () {
+            states.getState('ical.0.data.html', function (err, state) {
+                expect(err).to.be.not.ok;
+                expect(state.val).to.have.entriesCount('<span ', 36);
+                expect(state.val).to.have.entriesCount('</span>', 36);
 
                 done();
             });
