@@ -20,6 +20,7 @@ var utils   = require(__dirname + '/lib/utils');
 var RRule   = require('rrule').RRule;
 var ical    = require('node-ical');
 var ce      = require('cloneextend');
+var moment  = require("moment-timezone");
 var request;
 var fs;
 
@@ -60,7 +61,6 @@ var dictionary       = {
     'hours':     {'en': 'hours',             'it': 'ore',                       'es': 'horas',                 'pl': 'godziny',                   'fr': 'heures',                    'de': 'Stunden',          'ru': 'часов',			'nl': 'uren'},
     'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',		            'nl': 'uur'}
 };
-var globalTimezoneOffset;
 
 function _(text) {
     if (!text) return '';
@@ -76,7 +76,7 @@ function _(text) {
             }
         }
     } else if (!text.match(/_tooltip$/)) {
-        console.log('"' + text + '": {"en": "' + text + '", "de": "' + text + '", "ru": "' + text + '"},');
+        adapter.log.debug('"' + text + '": {"en": "' + text + '", "de": "' + text + '", "ru": "' + text + '"},');
     }
     return text;
 }
@@ -226,6 +226,14 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
     });
 }
 
+function getTimezoneOffset(date) {
+	var offset = moment.tz.zone(moment.tz.guess()).utcOffset(date.getTime());
+
+	adapter.log.debug('use offset ' + offset + ' for ' + date);
+	
+	return offset;
+}
+
 function addOffset(time, offset) {
 	return new Date(time.getTime() + (offset * 60 * 1000));
 }
@@ -251,7 +259,7 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
             	
                 var options = RRule.parseString(ev.rrule.toString());
                 // convert times temporary to UTC
-                options.dtstart = addOffset(ev.start, -globalTimezoneOffset);
+                options.dtstart = addOffset(ev.start, -getTimezoneOffset(ev.start));
                 var rule = new RRule(options);
 
                 var now3 = new Date(now2.getTime() - eventLength);
@@ -269,10 +277,12 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
 
                         // replace date & time for each event in RRule
                         // convert time back to local times
-                        ev2.start = addOffset(dates[i], globalTimezoneOffset);
+                        var start = dates[i];
+                        ev2.start = addOffset(start, getTimezoneOffset(start));
 
                         // Set end date based on length in ms
-                        ev2.end = new Date(ev2.start.getTime() + eventLength);
+                        var end = new Date(start.getTime() + eventLength);
+                        ev2.end = addOffset(end, getTimezoneOffset(end));
 
                         adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
 
@@ -1105,9 +1115,6 @@ function brSeparatedList(datesArray) {
 }
 
 function main() {
-	globalTimezoneOffset = new Date().getTimezoneOffset();
-	adapter.log.debug('use system utc offset: ' + globalTimezoneOffset);
-
     normal  = '<span style="font-weight: bold; color: ' + adapter.config.defColor + '"><span class="icalNormal">';
 
     adapter.config.language = adapter.config.language || 'en';

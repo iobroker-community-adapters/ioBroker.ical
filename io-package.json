@@ -4,15 +4,15 @@
         "version": "1.6.6",
         "news": {
             "1.6.6": {
-                "en": "",
-                "de": "",
-                "ru": "",
-                "pt": "",
-                "nl": "",
-                "fr": "",
-                "it": "",
-                "es": "",
-                "pl": ""
+                "en": "Fixed html for disabled colorize\nFixed timezone handling for events during change from daylight saving time back to standard time",
+                "de": "Falsches HTML bei deaktivierten Farben behoben\nZeitzonenbehandlung für Ereignisse beim Wechsel von Sommer- auf Winterzeit behoben",
+                "ru": "Исправлен неверный HTML с деактивированными цветами\nИсправлена обработка часовых поясов для событий при смене с лета на зимнее время",
+                "pt": "Corrigido HTML incorreto com cores desativadas.\nCorrigido o tratamento de fuso horário para eventos ao mudar do horário de verão para o horário de inverno.",
+                "nl": "Foutieve HTML opgelost met gedeactiveerde kleuren\nVaste tijdzoneafhandeling voor gebeurtenissen bij het wisselen van zomer- naar wintertijd",
+                "fr": "Correction du code HTML incorrect avec les couleurs désactivées\nCorrection du traitement du fuseau horaire pour les événements lors du passage de l'heure d'été à l'heure d'hiver",
+                "it": "Risolto problema con l'HTML non corretto con i colori disattivati\nGestione del fuso orario fissa per eventi durante il passaggio dall'ora legale all'ora solare",
+                "es": "Se corrigió el HTML incorrecto con colores desactivados.\nManejo de zona horaria fija para eventos cuando se cambia de verano a invierno",
+                "pl": "Naprawiono nieprawidłowy kod HTML z wyłączonymi kolorami\nNaprawiono obsługę strefy czasowej zdarzeń podczas zmiany czasu z letniego na zimowy"
             },
             "1.6.5": {
                 "en": "Simplify timezone solution\nFix calendars without timezones",
