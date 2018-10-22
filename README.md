@@ -158,6 +158,9 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 
 ## Changelog
 
+### 1.6.6 (2018-10-22)
+* (twonky4) fix html for disabled colorize
+
 ### 1.6.5 (2018-10-13)
 * (twonky4) Simplify timezone solution
 * (twonky4) Fix calendars without timezones

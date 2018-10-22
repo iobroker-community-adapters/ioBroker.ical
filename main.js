@@ -440,7 +440,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
 function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     var result = {
         prefix: normal,
-        suffix: "</span></span>"
+        suffix: "</span>" + (adapter.config.colorize ? "</span>" : "")
     };
     var cmpDate = new Date(date.getTime());
     cmpDate.setHours(0, 0, 0, 0);
@@ -1098,7 +1098,7 @@ function brSeparatedList(datesArray) {
         var xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayafter, color, datesArray[i]._calName);
 
         if (text) text += '<br/>\n';
-        text += xfix.prefix + date.text + xfix.suffix + ' ' + datesArray[i].event + '</span></span>';
+        text += xfix.prefix + date.text + xfix.suffix + ' ' + datesArray[i].event + '</span>' + (adapter.config.colorize ? '</span>' : '');
     }
 
     return text;
