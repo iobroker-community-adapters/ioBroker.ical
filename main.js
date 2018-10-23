@@ -229,11 +229,11 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
 function getTimezoneOffset(date) {
 	var offset = 0;
 	var zone = moment.tz.zone(moment.tz.guess());
-	if(zone) {
+	if(zone && date) {
 	    offset = zone.utcOffset(date.getTime());
-            adapter.log.warn('no current timzone found: ' + moment.tz.guess());
+	    adapter.log.debug('use offset ' + offset + ' for ' + date);
 	} else {
-            adapter.log.debug('use offset ' + offset + ' for ' + date);
+            adapter.log.warn('no current timzone found: {zone:' + moment.tz.guess() + ', date: ' + date + '}');
 	}
 
 	return offset;
