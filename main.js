@@ -227,10 +227,15 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
 }
 
 function getTimezoneOffset(date) {
-	var offset = moment.tz.zone(moment.tz.guess()).utcOffset(date.getTime());
+	var offset = 0;
+	var zone = moment.tz.zone(moment.tz.guess());
+	if(zone) {
+	    offset = zone.utcOffset(date.getTime());
+            adapter.log.warn('no current timzone found: ' + moment.tz.guess());
+	} else {
+            adapter.log.debug('use offset ' + offset + ' for ' + date);
+	}
 
-	adapter.log.debug('use offset ' + offset + ' for ' + date);
-	
 	return offset;
 }
 
