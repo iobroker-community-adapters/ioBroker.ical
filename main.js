@@ -253,7 +253,7 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
         // only events with summary are interesting
         if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
             if (!ev.end) {
-                ev.end = ev.start;
+                ev.end = ce.clone(ev.start);
                 if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
                     ev.end.setDate(ev.end.getDate() + 1);
                 }
