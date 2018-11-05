@@ -13,7 +13,7 @@ var onObjectChanged = null;
 var sendToID = 1;
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Config Recurring without Timezones (' + setup.getCurrentTimezoneName() + ')';
+var adapterShortNameLog = adapterShortName + ' Config No Colorize (' + setup.getCurrentTimezoneName() + ')';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
@@ -170,6 +170,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.native.replaceDates = false;
             config.native.hideYear = true;
             config.native.daysPreview = 8;
+            config.native.colorize = false;
             config.native.calendars[0] = {
                 "name": "calendar1-recurring",
                 "url": __dirname + '/data/recurring_without_timezones.ics',
@@ -306,8 +307,8 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.html', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val).to.have.entriesCount('<span ', 4);
-                expect(state.val).to.have.entriesCount('</span>', 4);
+                expect(state.val).to.have.entriesCount('<span ', 2);
+                expect(state.val).to.have.entriesCount('</span>', 2);
 
                 done();
             });

@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.6.5",
+        "version": "1.6.6",
         "news": {
+            "1.6.6": {
+                "en": "Fixed html for disabled colorize\nFixed timezone handling for events during change from daylight saving time back to standard time\nFixed: events without end date moved to different day",
+                "de": "Falsches HTML bei deaktivierten Farben behoben\nZeitzonenbehandlung für Ereignisse beim Wechsel von Sommer- auf Winterzeit behoben\nBehoben: Ereignisse ohne Enddatum wurden an einen anderen Tag verschoben",
+                "ru": "Исправлен неверный HTML с деактивированными цветами\nИсправлена обработка часовых поясов для событий при смене с лета на зимнее время\nИсправлено: события без даты окончания переместились на другой день",
+                "pt": "Corrigido HTML incorreto com cores desativadas.\nCorrigido o tratamento de fuso horário para eventos ao mudar do horário de verão para o horário de inverno.\nCorrigido: eventos sem data de término movidos para outro dia",
+                "nl": "Foutieve HTML opgelost met gedeactiveerde kleuren\nVaste tijdzoneafhandeling voor gebeurtenissen bij het wisselen van zomer- naar wintertijd\nOpgelost: evenementen zonder einddatum verplaatst naar een andere dag",
+                "fr": "Correction du code HTML incorrect avec les couleurs désactivées\nCorrection du traitement du fuseau horaire pour les événements lors du passage de l'heure d'été à l'heure d'hiver\nCorrigé: événements sans date de fin déplacés vers un jour différent",
+                "it": "Risolto problema con l'HTML non corretto con i colori disattivati\nGestione del fuso orario fissa per eventi durante il passaggio dall'ora legale all'ora solare\nRisolto: eventi senza data di fine spostati in giorni diversi",
+                "es": "Se corrigió el HTML incorrecto con colores desactivados.\nManejo de zona horaria fija para eventos cuando se cambia de verano a invierno\nCorregido: los eventos sin fecha de finalización se trasladaron a otro día.",
+                "pl": "Naprawiono nieprawidłowy kod HTML z wyłączonymi kolorami\nNaprawiono obsługę strefy czasowej zdarzeń podczas zmiany czasu z letniego na zimowy\nNaprawiono: zdarzenia bez daty zakończenia przeniesione do innego dnia"
+            },
             "1.6.5": {
                 "en": "Simplify timezone solution\nFix calendars without timezones",
                 "de": "Einfache Lösung für Zeitzonen\nFehler bei Kalendern ohne Zeitzonen behoben",

@@ -723,7 +723,7 @@ function getCurrentTimezoneName() {
 	var offsetHours = Math.floor(offsetMinues / 60);
 	offsetMinues = offsetMinues % 60;
 
-	return 'UTC' + (offsetNegative ? '-' : '+') + offsetHours + ':' + ("0" + offsetMinues).slice(-2);
+	return 'UTC' + (offsetNegative ? '+' : '-') + offsetHours + ':' + ("0" + offsetMinues).slice(-2);
 }
 
 if (typeof module !== undefined && module.parent) {

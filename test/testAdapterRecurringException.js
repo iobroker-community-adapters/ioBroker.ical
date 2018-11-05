@@ -298,6 +298,19 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         }, 1000);
     });
 
+    it('Test ' + adapterShortNameLog + ': data.html', function (done) {
+        this.timeout(2000);
+        setTimeout(function () {
+            states.getState('ical.0.data.html', function (err, state) {
+                expect(err).to.be.not.ok;
+                expect(state.val).to.have.entriesCount('<span ', 12);
+                expect(state.val).to.have.entriesCount('</span>', 12);
+
+                done();
+            });
+        }, 1000);
+    });
+
     after('Test ' + adapterShortNameLog + ' adapter: Stop js-controller', function (done) {
         this.timeout(10000);
 

@@ -144,6 +144,10 @@ function parseDate(input) {
 	  return date;
 }
 
+function instr(str, search) {
+	return (str.match('/' + search + ' /g') || []).length;
+}
+
 describe('Test ' + adapterShortNameLog + ' adapter', function() {
     before('Test ' + adapterShortNameLog + ' adapter: Start js-controller', function (_done) {
         this.timeout(600000); // because of first install from npm
@@ -160,7 +164,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.native.forceFullday = false;
             config.native.replaceDates = false;
             config.native.hideYear = true;
-            config.native.daysPreview = 8;
+            config.native.daysPreview = 7;
             config.native.calendars[0] = {
                 "name": "calendar1-recurring",
                 "url": __dirname + '/data/recurring_fullday.ics',
@@ -284,7 +288,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.table', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val[0].date).to.endsWith('. 00:00-00:00');
+                expect(state.val[0].date).to.contains('. 00:00');
                 expect(state.val[0].event).to.be.equal('WE');
                 expect(state.val[0]._section).to.be.equal('WE');
                 expect(state.val[0]._allDay).to.be.true;
@@ -298,6 +302,18 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 	parseDate(state.val[0].date).getDay(),
                 	parseDate(state.val[1].date).getDay()
                 ]).to.be.an('array').that.includes(0, 6);
+
+                done();
+            });
+        }, 1000);
+    });
+
+    it('Test ' + adapterShortNameLog + ': data.html', function (done) {
+        this.timeout(2000);
+        setTimeout(function () {
+            states.getState('ical.0.data.html', function (err, state) {
+                expect(err).to.be.not.ok;
+                expect(instr(state.val, '<span ')).to.be.equal(instr(state.val, '</span>'));                
 
                 done();
             });

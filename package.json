@@ -1,6 +1,6 @@
 {
   "name": "iobroker.ical",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "description": "Allows read information from google calender and from iCal.",
   "author": {
     "name": "bluefox",
@@ -27,7 +27,8 @@
     "node-ical": "^0.8.0",
     "rrule": "^2.5.6",
     "request": "^2.88.0",
-    "cloneextend": "^0.0.3"
+    "cloneextend": "^0.0.3",
+    "moment-timezone": "^0.5.21"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
