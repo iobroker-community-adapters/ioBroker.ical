@@ -50,8 +50,8 @@ Bedeutung der Optionen im Konfigfile:
 - "replaceDates": true Bei true wird bei heutigen Terminen das heutige Datum durch den String todayString ersetzt (z.B. "Heute"). Bei morgigen Terminen durch den String tomorrowString
 - "everyCalOneColor": " false Bei true wird bei mehreren Kalendern jeder Kalender in einer festzulegenden Farbe eingefärbt. Ist die Option colorize gesetzt, funktioniert dies nicht!
 - "Calendar1": { "calURL": "http://11111.ics", URL des Kalenders "calColor": "white" Farbe des Kalenders, wenn die Option "everyCalOneColor" gesetzt ist } es können beliebig viele Kalender eingetragen werden. Im Standard Konfigfile sind 2 Kalender eingetragen.
-- "Events": { "Urlaub": { "enabled": true, # legt fest, ob das Event bearbeitet wird "display": false # legt fest, ob das Event auch in dem iCalEvents angezeigt wird, oder nur ausgewertet wird } } Durch setzen eines Events (in diesem Beispiel „Urlaub“), werden die Kalender nach dem String „Urlaub“ durchsucht. Sollte ein Termin am heutigen Tage (ganztägige Termine) oder zur aktuellen Uhrzeit mit dem Stichwort „Urlaub“ in einem Kalender stehen, so wird automatisch eine Variable mit dem Namen Urlaub auf True gesetzt. Ist der Termin vorbei, wird die Variable wieder auf false gesetzt. Die Variablen werden automatisch ab der Adresse 80110 angelegt. Achtung ! Es wird nach einem Substring gesucht, d.h. ein Eintrag im Kalender „Urlaub“ wird genauso erkannt wie ein Eintrag „Urlaub Eltern“. Dies ist beim festlegen der Ereignisse zu berücksichtigen.
-Durch Anpassen der dashui-user.css können die Styles von heutigen (Standard rot) und morgigen Terminen (Standard Orange) festegelegt werden: iCalWarn (Zeilenanfang Kalendereintrag heute) iCalPreWarn (Zeilenanfang Kalendereintrag morgen) iCalNormal (Zeilenende von heute) iCalNormal2 (Zeilenende von morgen)
+- "Events": { "Urlaub": { "enabled": true, # legt fest, ob das Event bearbeitet wird "display": false # legt fest, ob das Event auch in dem iCalEvents angezeigt wird, oder nur ausgewertet wird } } Durch setzen eines Events (in diesem Beispiel „Urlaub“), werden die Kalender nach dem String „Urlaub“ durchsucht. Sollte ein Termin mit dem Stichwort „Urlaub“ in einem Kalender stehen, so wird automatisch eine State mit dem Namen Urlaub auf True gesetzt. Ist der Termin vorbei, wird der State wieder auf false gesetzt. Es wird für jeden Tag des preview Zeitraums ein Status angelegt. Achtung! Es wird nach einem Substring gesucht, d.h. ein Eintrag im Kalender „Urlaub“ wird genauso erkannt wie ein Eintrag „Urlaub Eltern“. Dies ist beim festlegen der Ereignisse zu berücksichtigen.
+Durch Anpassen der css im VIS können die Styles von heutigen (Standard rot) und morgigen Terminen (Standard Orange) festegelegt werden: iCalWarn (Zeilenanfang Kalendereintrag heute) iCalPreWarn (Zeilenanfang Kalendereintrag morgen) iCalNormal (Zeilenende von heute) iCalNormal2 (Zeilenende von morgen)
 
 ### Kalender
 #### Apple iCloud Kalender
@@ -152,10 +152,29 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 <span style="font-weight: bold; color: red"><span class="icalWarn iCal-calendar-today">1.1.2018  ganzer Tag</span></span><span style="font-weight:normal;color:red"><span class='icalWarn2 iCal-calendar-today2'> Today Event</span></span><br/>
 ```
 
+## Filter
+In instance options it is possible to maintain a filter per calendar. It have to be a semicolon separated list. If you enable the option `Filter as regular expression` the filter is interpreted as a regular expression. During calendar refresh all events that matches by description, location or summary are excluded.
+
+The search pattern is:
+```
+SUMMARY:MySummary
+DESCRIPTION:MyDescription
+LOCATION:MyLocation
+```
+
+Blacklist: If you want to exclude all events of a specific location use `LOCATION:MyLocation` or simple `MyLocation` or 2 locations `LOCATION:MyLocation;LOCATION:SomewhereElse`.
+Whitelist: If you only want to include events of a specific location use regular expression like `/^(SUMMARY:.*)\s*(DESCRIPTION:.*)\s*(LOCATION:(?!MyLocation).*)$/` or for 2 locations `/^(SUMMARY:.*)\s*(DESCRIPTION:.*)\s*(LOCATION:(?!((MyHomeLocation)|(MyWorkLocation))).*)$/`
+
 ## Todo
 * README should be english
+* `data.trigger` doesn't support `check` option
 
 ## Changelog
+
+### 1.7.0 (2018-11-00)
+* (twonky4) Add filter option
+* (twonky4) Add support of events for configured date period; changed state names from `events.*` to `events.0.today.*`
+* (twonky4) Add Count of events for tomorrow - state `data.countTomorrow`
 
 ### 1.6.6 (2018-10-22)
 * (twonky4) Fixed html for disabled colorize

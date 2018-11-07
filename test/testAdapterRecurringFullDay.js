@@ -13,7 +13,7 @@ var onObjectChanged = null;
 var sendToID = 1;
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Config Recurring Fullday (' + setup.getCurrentTimezoneName() + ')';
+var adapterShortNameLog = adapterShortName + ' Recurring Fullday (' + setup.getCurrentTimezoneName() + ')';
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
@@ -236,51 +236,51 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val).to.be.equal(weekend ? 1 : 0);
                 done();
             });
-        }, 3000);
+        }, 1000);
     });
 
     it('Test ' + adapterShortNameLog + ': event Vacation', function (done) {
         this.timeout(5000);
         setTimeout(function () {
-            states.getState('ical.0.events.Vacation', function (err, state) {
+            states.getState('ical.0.events.0.today.Vacation', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val).to.be.false;
                 done();
             });
-        }, 3000);
+        }, 1000);
     });
 
     it('Test ' + adapterShortNameLog + ': event MyEvent', function (done) {
         this.timeout(5000);
         setTimeout(function () {
-            states.getState('ical.0.events.MyEvent', function (err, state) {
+            states.getState('ical.0.events.0.today.MyEvent', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val).to.be.false;
                 done();
             });
-        }, 3000);
+        }, 1000);
     });
 
     it('Test ' + adapterShortNameLog + ': event TestEvent', function (done) {
         this.timeout(5000);
         setTimeout(function () {
-            states.getState('ical.0.events.TestEvent', function (err, state) {
+            states.getState('ical.0.events.0.today.TestEvent', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val).to.be.false;
                 done();
             });
-        }, 3000);
+        }, 1000);
     });
 
     it('Test ' + adapterShortNameLog + ': event InDayEvent', function (done) {
         this.timeout(5000);
         setTimeout(function () {
-            states.getState('ical.0.events.InDayEvent', function (err, state) {
+            states.getState('ical.0.events.0.today.InDayEvent', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val).to.be.false;
                 done();
             });
-        }, 3000);
+        }, 1000);
     });
 
     it('Test ' + adapterShortNameLog + ': data.table', function (done) {

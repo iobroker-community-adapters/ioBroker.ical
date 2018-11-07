@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.6.6",
+        "version": "1.7.0",
         "news": {
+            "1.7.0": {
+                "en": "Add filter option\nAdd support of events for configured date period; changed state names from 'events.*' to 'events.0.today.*'\nAdd Count of events for tomorrow - state 'data.countTomorrow'",
+                "de": "Filteroption hinzufügen\nUnterstützung für Ereignisse für konfigurierten Datumszeitraum hinzufügen; Zustandsnamen von 'events. *' in 'events.0.today. *' geändert\nAnzahl der Ereignisse für morgen hinzufügen - Status 'data.countTomorrow'",
+                "ru": "Добавить опцию фильтра\nДобавить поддержку событий для настроенного периода дат; измененные имена состояний от «событий. *» до «events.0.today. *»\nДобавить количество событий для завтра - состояние 'data.countTomorrow'",
+                "pt": "Adicionar opção de filtro\nAdicionar suporte de eventos para o período de data configurado; alterou os nomes dos estados de 'events. *' para 'events.0.today.'\nAdicionar contagem de eventos para amanhã - estado 'data.countTomorrow'",
+                "nl": "Voeg filteroptie toe\nOndersteuning toevoegen van gebeurtenissen voor geconfigureerde dataperiode; veranderde namen van 'events. *' in 'events.0.today. *'\nVoeg aantal gebeurtenissen toe voor morgen - geef 'data.countTomorrow' aan",
+                "fr": "Ajouter une option de filtre\nAjouter le support des événements pour la période configurée; changé les noms d'état de 'événements. *' à 'événements.0.aujourd'hui. *'\nAjouter le nombre d'événements pour demain - indiquez 'data.countTomorrow'",
+                "it": "Aggiungi l'opzione di filtro\nAggiungi il supporto degli eventi per il periodo di tempo configurato; cambiato i nomi di stato da 'eventi. *' a 'events.0.today. *'\nAggiungi il conteggio degli eventi per domani - stato 'data.countTomorrow'",
+                "es": "Añadir opción de filtro\nAñadir soporte de eventos para el período de fecha configurado; nombres de estado cambiados de 'eventos. *' a 'eventos.0.today. *'\nAgregar recuento de eventos para mañana: estado 'data.countTomorrow'",
+                "pl": "Dodaj opcję filtru\nDodaj obsługę zdarzeń dla skonfigurowanego okresu daty; zmieniono nazwy stanów z \"events. *\" na \"events.0.today. *\"\nDodaj liczbę zdarzeń do jutra - stan \"data.countTomorrow\""
+        	},
             "1.6.6": {
                 "en": "Fixed html for disabled colorize\nFixed timezone handling for events during change from daylight saving time back to standard time\nFixed: events without end date moved to different day",
                 "de": "Falsches HTML bei deaktivierten Farben behoben\nZeitzonenbehandlung für Ereignisse beim Wechsel von Sommer- auf Winterzeit behoben\nBehoben: Ereignisse ohne Enddatum wurden an einen anderen Tag verschoben",
@@ -247,7 +258,9 @@
                 "user": "username",
                 "pass": "password",
                 "sslignore": "ignore",
-                "color": "red"
+                "color": "red",
+                "filter": "ignored events",
+                "filterregex": "no"
             }
         ],
         "events": [
@@ -268,6 +281,54 @@
             "native": {}
         },
         {
+            "_id": "events.0",
+            "type": "channel",
+            "common": {
+                "name": "User events of today, now and later today controlled from calendar"
+            },
+            "native": {}
+        },
+        {
+            "_id": "events.0.today",
+            "type": "channel",
+            "common": {
+                "name": "User events of today controlled from calendar"
+            },
+            "native": {}
+        },
+        {
+            "_id": "events.0.now",
+            "type": "channel",
+            "common": {
+                "name": "User events of now controlled from calendar"
+            },
+            "native": {}
+        },
+        {
+            "_id": "events.0.later",
+            "type": "channel",
+            "common": {
+                "name": "User events later of today controlled from calendar"
+            },
+            "native": {}
+        },
+        {
+            "_id": "events.1",
+            "type": "channel",
+            "common": {
+                "name": "User events of tomorrow controlled from calendar"
+            },
+            "native": {}
+        },
+        {
+            "_id": "events.2",
+            "type": "channel",
+            "common": {
+                "name": "User events of the day after tomorrow controlled from calendar"
+            },
+            "native": {}
+        },
+        {
             "_id": "data.trigger",
             "type": "state",
             "common": {
@@ -284,6 +345,18 @@
             "type": "state",
             "common": {
                 "name": "Count of events for today",
+                "type": "number",
+                "role": "indicator",
+                "read": true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "data.countTomorrow",
+            "type": "state",
+            "common": {
+                "name": "Count of events for tomorrow",
                 "type": "number",
                 "role": "indicator",
                 "read": true,
