@@ -153,7 +153,6 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 ```
 
 ## Todo
-* Known issue: For recurring events it works to delete single events, but it do not work to move them
 * README should be english
 
 ## Changelog
