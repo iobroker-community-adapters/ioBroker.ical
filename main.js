@@ -33,9 +33,9 @@ var adapter = new utils.Adapter({
 
 // set when ready
 var normal           = '';
-var warn             = '<span style="font-weight: bold; color: red"><span class="icalWarn">';
-var prewarn          = '<span style="font-weight: bold; color: orange"><span class="icalPreWarn">';
-var preprewarn       = '<span style="font-weight: bold; color: yellow"><span class="icalPrePreWarn">';
+var warn             = '<span style="color: red"><span class="icalWarn">';
+var prewarn          = '<span style="color: orange"><span class="icalPreWarn">';
+var preprewarn       = '<span style="color: yellow"><span class="icalPrePreWarn">';
 
 var datesArray       = [];
 var events           = [];
@@ -1120,7 +1120,7 @@ function brSeparatedList(datesArray) {
 }
 
 function main() {
-    normal  = '<span style="font-weight: bold; color: ' + adapter.config.defColor + '"><span class="icalNormal">';
+    normal  = '<span style="color: ' + adapter.config.defColor + '"><span class="icalNormal">';
 
     adapter.config.language = adapter.config.language || 'en';
 
