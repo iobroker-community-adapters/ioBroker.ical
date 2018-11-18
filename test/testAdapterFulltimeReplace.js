@@ -157,8 +157,8 @@ function setupIcsFiles() {
 
     // event for over 0:00
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T220000\n';
-    data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
+    data += 'DTSTART:' + d2.getFullYear() + m2 + day2 + 'T220000\n';
+    data += 'DTEND:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f62@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -189,8 +189,8 @@ function setupIcsFiles() {
 
     // event for over 0:00
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m0 + day0 + 'T220000\n';
-    data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
+    data += 'DTSTART:' + d0.getFullYear() + m0 + day0 + 'T220000\n';
+    data += 'DTEND:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -205,8 +205,8 @@ function setupIcsFiles() {
 
     // event for over 0:00
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
-    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
+    data += 'DTSTART:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
+    data += 'DTEND:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f60@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -221,8 +221,8 @@ function setupIcsFiles() {
 
     // event for over 0:00
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
-    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
+    data += 'DTSTART:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
+    data += 'DTEND:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f63@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -237,8 +237,8 @@ function setupIcsFiles() {
 
     // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
-    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
+    data += 'DTSTART:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
+    data += 'DTEND:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f59@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';

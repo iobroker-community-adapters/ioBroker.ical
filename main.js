@@ -374,15 +374,20 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
     if (!ev.end) ev.end = ev.start;
 
     // If full day
-    if (!ev.start.getHours()   &&
+    if (!ev.start.getHours() &&
         !ev.start.getMinutes() &&
         !ev.start.getSeconds() &&
-        !ev.end.getHours()     &&
-        !ev.end.getMinutes()   &&
-        !ev.end.getSeconds()   &&
-        ev.end.getTime() !== ev.start.getTime()
+        !ev.end.getHours() &&
+        !ev.end.getMinutes() &&
+        !ev.end.getSeconds()
     ) {
-        fullday = true;
+    	// interpreted as one day; RFC says end date must be after start date
+    	if(ev.end.getTime() == ev.start.getTime() && ev.datetype == 'date') {
+    		ev.end.setDate(ev.end.getDate() + 1);
+    	}
+    	if(ev.end.getTime() !== ev.start.getTime()) {
+            fullday = true;
+        }
     }
 
     // If force Fullday is set

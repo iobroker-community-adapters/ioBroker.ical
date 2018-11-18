@@ -147,8 +147,8 @@ function setupIcsFiles() {
     
     // EventNow
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + last5MinT + '\n';
-    data += 'DTEND;VALUE=DATE:' + next5MinT + '\n';
+    data += 'DTSTART:' + last5MinT + '\n';
+    data += 'DTEND:' + next5MinT + '\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f561@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -163,8 +163,8 @@ function setupIcsFiles() {
 
     // EventDisabled
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + last5MinT + '\n';
-    data += 'DTEND;VALUE=DATE:' + next5MinT + '\n';
+    data += 'DTSTART:' + last5MinT + '\n';
+    data += 'DTEND:' + next5MinT + '\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f562@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -179,8 +179,8 @@ function setupIcsFiles() {
 
     // EventLater
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + next10MinT + '\n';
-    data += 'DTEND;VALUE=DATE:' + next11MinT + '\n';
+    data += 'DTSTART:' + next10MinT + '\n';
+    data += 'DTEND:' + next11MinT + '\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f563@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
