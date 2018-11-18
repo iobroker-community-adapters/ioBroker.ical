@@ -98,6 +98,7 @@ adapter.on('stateChange', function (id, state) {
                 }
                 break;
 
+            // FIXME: checkForEvents not supporting call with only 1 parameter
             case 'check':
                 if (content[1]) {
                     adapter.log.info('checking "' + content[1] + '"');
@@ -134,7 +135,7 @@ Date.prototype.compare = function(b) {
     );
 };
 
-function getiCal(urlOrFile, user, pass, sslignore, calName, cb) {
+function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
     // Is it file or URL
     if (!urlOrFile.match(/^https?:\/\//)) {
         fs = fs || require('fs');
@@ -180,12 +181,12 @@ function getiCal(urlOrFile, user, pass, sslignore, calName, cb) {
     }
 }
 
-function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
+function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
     if (typeof user === 'function') {
         cb = user;
         user = undefined;
     }
-    getiCal(urlOrFile, user, pass, sslignore, calName, function (err, _data) {
+    getICal(urlOrFile, user, pass, sslignore, calName, function (err, _data) {
         if (err || !_data) {
             adapter.log.warn('Error reading "' + urlOrFile + '": ' + err);
             cb(calName);
@@ -212,7 +213,7 @@ function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
                     now2.setHours(0, 0, 0, 0);
 
                     setImmediate(function() {
-                        processData(data, realnow, today, endpreview, now2, calName, cb);
+                        processData(data, realnow, today, endpreview, now2, calName, filter, cb);
                     });
                 }
                 else {
@@ -243,7 +244,7 @@ function addOffset(time, offset) {
 	return new Date(time.getTime() + (offset * 60 * 1000));
 }
 
-function processData(data, realnow, today, endpreview, now2, calName, cb) {
+function processData(data, realnow, today, endpreview, now2, calName, filter, cb) {
     var processedEntries = 0;
     var defaultTimezone;
     for (var k in data) {
@@ -252,6 +253,7 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
 
         // only events with summary are interesting
         if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
+        	adapter.log.debug('ev:' + JSON.stringify(ev));
             if (!ev.end) {
                 ev.end = ce.clone(ev.start);
                 if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
@@ -261,19 +263,26 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
             // aha, it is RRULE in the event --> process it
             if (ev.rrule !== undefined) {
             	var eventLength = ev.end.getTime() - ev.start.getTime();
-            	
+
                 var options = RRule.parseString(ev.rrule.toString());
                 // convert times temporary to UTC
                 options.dtstart = addOffset(ev.start, -getTimezoneOffset(ev.start));
+                adapter.log.debug('options:' + JSON.stringify(options));
+
                 var rule = new RRule(options);
 
                 var now3 = new Date(now2.getTime() - eventLength);
                 if (now2 < now3) now3 = now2;
-                adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 + ' now3:' + now3 + ' ' + rule.toText());
-                var dates = rule.between(now3, endpreview, true);
-                adapter.log.debug(JSON.stringify(options));
-                adapter.log.debug(JSON.stringify(ev));
-                adapter.log.debug(JSON.stringify(dates));
+                adapter.log.debug('RRule event:' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; today:' + today + '; now2:' + now2 + '; now3:' + now3 + '; rule:' + JSON.stringify(rule));
+
+                var dates = [];
+                try {
+                	dates = rule.between(now3, endpreview, true);
+                } catch(e) {
+                	adapter.log.error('Issue detected in RRule, event ignored; Please forward debug information to iobroker.ical developer: ' + e.stack + '\nRRule object: ' + JSON.stringify(rule) + '\nnow3: ' + now3 + '\nendpreview: ' + endpreview);
+                }
+
+                adapter.log.debug('dates:' + JSON.stringify(dates));
                 // event within the time window
                 if (dates.length > 0) {
                     for (var i = 0; i < dates.length; i++) {
@@ -316,7 +325,7 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                         }
 
                         if (checkDate) {
-                            checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
+                            checkDates(ev2, endpreview, today, realnow, ' rrule ', calName, filter);
                         }
                     }
                 } else {
@@ -324,7 +333,7 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
                 }
             } else {
                 // No RRule event
-                checkDates(ev, endpreview, today, realnow, ' ', calName);
+                checkDates(ev, endpreview, today, realnow, ' ', calName, filter);
             }
         }
 
@@ -337,12 +346,12 @@ function processData(data, realnow, today, endpreview, now2, calName, cb) {
         return;
     } else {
         setImmediate(function() {
-            processData(data, realnow, today, endpreview, now2, calName, cb);
+            processData(data, realnow, today, endpreview, now2, calName, filter, cb);
         });
     }
 }
 
-function checkDates(ev, endpreview, today, realnow, rule, calName) {
+function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
     var fullday = false;
     var reason;
     var date;
@@ -355,6 +364,8 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         // no
         reason = ev.summary;
     }
+    
+    var location = ev.location || '';
 
     // If not start point => ignore it
     if (!ev.start) return;
@@ -363,15 +374,20 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
     if (!ev.end) ev.end = ev.start;
 
     // If full day
-    if (!ev.start.getHours()   &&
+    if (!ev.start.getHours() &&
         !ev.start.getMinutes() &&
         !ev.start.getSeconds() &&
-        !ev.end.getHours()     &&
-        !ev.end.getMinutes()   &&
-        !ev.end.getSeconds()   &&
-        ev.end.getTime() !== ev.start.getTime()
+        !ev.end.getHours() &&
+        !ev.end.getMinutes() &&
+        !ev.end.getSeconds()
     ) {
-        fullday = true;
+    	// interpreted as one day; RFC says end date must be after start date
+    	if(ev.end.getTime() == ev.start.getTime() && ev.datetype == 'date') {
+    		ev.end.setDate(ev.end.getDate() + 1);
+    	}
+    	if(ev.end.getTime() !== ev.start.getTime()) {
+            fullday = true;
+        }
     }
 
     // If force Fullday is set
@@ -386,12 +402,22 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         ev.end.setSeconds(0);
     }
 
+    if(filter) {
+    	var content = 'SUMMARY:' + reason + '\nDESCRIPTION:' + ev.description + '\nLOCATION:'+ location;
+    	filter = new RegExp(filter.source, filter.flags);
+    	if(filter.test(content)) {
+    		adapter.log.debug('Event filtered using ' + filter + ' by content: ' + content);
+
+    		return;
+    	}
+    }
+
     // Full day
     if (fullday) {
-        //event start >= today  && < previewtime  or end > today && < previewtime ---> display
+        // event start >= today  && < previewtime  or end > today && < previewtime ---> display
         if ((ev.start < endpreview && ev.start >= today) || (ev.end > today && ev.end <= endpreview) || (ev.start < today && ev.end > today)) {
             // check only full day events
-            if (checkForEvents(reason, today, ev, true, realnow)) {
+            if (checkForEvents(reason, today, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, true);
 
                 insertSorted(datesArray, {
@@ -405,7 +431,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _IDID:    ev.uid,
                     _allDay:  true,
                     _rule:    rule,
-                    location: ev.location ? ev.location : '',
+                    location: location,
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName
                 });
@@ -423,7 +449,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         // Start time >= today && Start time < preview time && End time >= now
         if ((ev.start >= today && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // Add to list only if not hidden
-            if (checkForEvents(reason, today, ev, false, realnow)) {
+            if (checkForEvents(reason, today, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, false);
 
                 insertSorted(datesArray, {
@@ -437,7 +463,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _IDID:    ev.uid,
                     _allDay:  false,
                     _rule:    rule,
-                    location: ev.location ? ev.location : '',
+                    location: location,
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName
                 });
@@ -522,38 +548,39 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     return result;
 }
 
-function checkForEvents(reason, today, event, fullday, realnow) {
+function checkForEvents(reason, today, event, realnow) {
+	let oneDay = 24 * 60 * 60 * 1000;
     // show unknown events
-    var result = true;
+    let result = true;
 
     // check if event exists in table
-    for (var i = 0; i < events.length; i++) {
-        if (reason.indexOf(events[i].name) !== -1) {
+    for (let i = 0; i < events.length; i++) {
+    	let ev = events[i];
+        if (reason.indexOf(ev.name) !== -1) {
         	// check if event should shown
-            result = events[i].display;
+            result = ev.display;
             adapter.log.debug('found event in table: ' + events[i].name);
 
             // If full day event
             // Follow processing only if event is today
-            if ((fullday  && (event.start <= today)   && (today   <= event.end)) || // full day
-                (!fullday && (event.start <= realnow) && (realnow <= event.end))) { // with time
-                if (fullday) {
-                    adapter.log.debug('Event (full day): ' + event.start + ' ' + today   + ' ' + event.end);
-                } else {
-                    adapter.log.debug('Event with time: '  + event.start + ' ' + realnow + ' ' + event.end);
-                }
+            if (
+            		((!ev.type || ev.type == 'today') && event.end.getTime() > today.getTime() + (ev.day * oneDay) && event.start.getTime() < today.getTime() + (ev.day * oneDay) + oneDay) ||
+            		(ev.type == 'now' && event.start <= realnow && realnow <= event.end) ||
+            		(ev.type == 'later' && event.start > realnow && event.start.getTime() < today.getTime() + oneDay)
+                ) {
+                adapter.log.debug((ev.type ? ev.type : 'day ' + ev.day) + ' Event with time: '  + event.start + ' ' + realnow + ' ' + event.end);
 
                 // If yet processed
-                if (events[i].processed) {
+                if (ev.processed) {
                     // nothing to do
-                    adapter.log.debug('Event ' + events[i].name + ' yet processed');
+                    adapter.log.debug('Event ' + ev.name + ' yet processed');
                 } else {
                     // Process event
-                    events[i].processed = true;
-                    if (!events[i].state) {
-                        events[i].state = true;
-                        adapter.log.info('Set events.' + events[i].name + ' to true');
-                        adapter.setState('events.' + events[i].name, {val: events[i].state, ack: true});
+                    ev.processed = true;
+                    if (!ev.state) {
+                        ev.state = true;
+                        adapter.log.info('Set events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + ev.name + ' to true');
+                        adapter.setState('events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + ev.name, {val: ev.state, ack: true});
                     }
                 }
             }
@@ -562,20 +589,24 @@ function checkForEvents(reason, today, event, fullday, realnow) {
     return result;
 }
 
-function initEvent(name, display, callback) {
+function initEvent(name, display, day, type, callback) {
     var obj = {
         name:      name,
         processed: false,
         state:     null,
-        display:   display
+        display:   display,
+        day:       day,
+        type:      type
     };
 
     events.push(obj);
 
-    adapter.getState('events.' + name, function (err, state) {
+    var stateName = 'events.' + day + '.' + (type ? type + '.' : '') + name;
+    
+    adapter.getState(stateName, function (err, state) {
         if (err || !state) {
             obj.state = false;
-            adapter.setState('events.' + name, {val: obj.state, ack: true});
+            adapter.setState(stateName, {val: obj.state, ack: true});
         } else {
             obj.state = state.val;
         }
@@ -583,53 +614,72 @@ function initEvent(name, display, callback) {
     });
 }
 
+function removeNameSpace(id) {
+    let re = new RegExp(adapter.namespace + '*\.', 'g');
+    return id.replace(re, '');
+}
+
 // Create new user events and remove existing, but deleted in config
 function syncUserEvents(callback) {
-    var count = 0;
+	let count = 0;
+	let days = parseInt(adapter.config.daysPreview, 10) + 1;
 
     // Read all actual events
     adapter.getStatesOf('', 'events', function (err, states) {
-        var toAdd = [];
-        var toDel = [];
+        let toAdd = [];
+        let toDel = [];
 
         if (states) {
             // Add "to delete" all existing events
-            for (var j = 0; j < states.length; j++) {
-                toDel.push(states[j].common.name);
+            for (let j = 0; j < states.length; j++) {
+            	toDel.push({id: removeNameSpace(states[j]._id), name: states[j].common.name});
             }
         }
 
         // Add "to add" all configured events
-        for (var i = 0; i < adapter.config.events.length; i++) {
-            toAdd.push(adapter.config.events[i].name);
+        for (let i = 0; i < adapter.config.events.length; i++) {
+        	for (let day = 0; day < days; day++) {
+        		let name = adapter.config.events[i].name;
+        		if (day == 0) {
+        			toAdd.push({id: 'events.' + day + '.later.' + name, name: name});
+        			toAdd.push({id: 'events.' + day + '.today.' + name, name: name});
+        			toAdd.push({id: 'events.' + day + '.now.' + name, name: name});
+        		} else {
+        			toAdd.push({id: 'events.' + day + '.' + name, name: name});
+        		}
+        	}
         }
 
         if (states) {
-            for (j = 0; j < states.length; j++) {
-                for (i = 0; i < adapter.config.events.length; i++) {
-                    if (states[j].common.name === adapter.config.events[i].name) {
-                        // remove it from "toDel"
-                        var pos = toDel.indexOf(adapter.config.events[i].name);
-                        if (pos !== -1) toDel.splice(pos, 1);
-                        break;
-                    }
+            for (let j = 0; j < states.length; j++) {
+           		for (let i = 0; i < adapter.config.events.length; i++) {
+           			for (let day = 0; day < days; day++) {
+	                    if (states[j].common.name === adapter.config.events[i].name) {
+	                        // remove it from "toDel"
+	                        let pos = toDel.indexOf(toDel.find(x => x.id === 'events.' + day + '.' + adapter.config.events[i].name));
+	                        if (pos !== -1) toDel.splice(pos, 1);
+	                    }
+                	}
                 }
             }
 
-            for (i = 0; i < adapter.config.events.length; i++) {
-                for (j = 0; j < states.length; j++) {
-                    if (states[j].common.name === adapter.config.events[i].name) {
-                        if (adapter.config.events[i].enabled === 'true')  adapter.config.events[i].enabled = true;
-                        if (adapter.config.events[i].enabled === 'false') adapter.config.events[i].enabled = false;
-                        if (adapter.config.events[i].display === 'true')  adapter.config.events[i].display = true;
-                        if (adapter.config.events[i].display === 'false') adapter.config.events[i].display = false;
+            for (let i = 0; i < adapter.config.events.length; i++) {
+                for (let j = 0; j < states.length; j++) {
+                	let event = adapter.config.events[i];
+                    if (states[j].common.name === event.name) {
+                        if (event.enabled === 'true')  event.enabled = true;
+                        if (event.enabled === 'false') event.enabled = false;
+                        if (event.display === 'true')  event.display = true;
+                        if (event.display === 'false') event.display = false;
 
                         // if settings does not changed
-                        if (states[j].native.enabled == adapter.config.events[i].enabled &&
-                            states[j].native.display == adapter.config.events[i].display) {
+                        if (states[j].native.enabled == event.enabled &&
+                            states[j].native.display == event.display) {
                             // remove it from "toAdd"
-                            var pos_ = toAdd.indexOf(adapter.config.events[i].name);
-                            if (pos_ !== -1) toAdd.splice(pos_, 1);
+                        	for (let day = 0; day < days; day++) {
+	                            let pos_ = toAdd.indexOf(toAdd.find(x => x.id === 'events.' + day + '.' + event.name));
+	                            if (pos_ !== -1) toAdd.splice(pos_, 1);
+                        	}
                         }
                     }
                 }
@@ -637,53 +687,99 @@ function syncUserEvents(callback) {
         }
 
         // Add states
-        for (i = 0; i < toAdd.length; i++) {
-            for (j = 0; j < adapter.config.events.length; j++) {
-                if (adapter.config.events[j].name === toAdd[i]) {
-                    if (adapter.config.events[j].enabled === 'true')  adapter.config.events[j].enabled = true;
-                    if (adapter.config.events[j].enabled === 'false') adapter.config.events[j].enabled = false;
-                    if (adapter.config.events[j].display === 'true')  adapter.config.events[j].display = true;
-                    if (adapter.config.events[j].display === 'false') adapter.config.events[j].display = false;
+        for (let i = 0; i < toAdd.length; i++) {
+            for (let j = 0; j < adapter.config.events.length; j++) {
+            	let configItem = adapter.config.events[j];
+                if (configItem.name === toAdd[i].name) {
+                    if (configItem.enabled === 'true')  configItem.enabled = true;
+                    if (configItem.enabled === 'false') configItem.enabled = false;
+                    if (configItem.display === 'true')  configItem.display = true;
+                    if (configItem.display === 'false') configItem.display = false;
 
                     // Add or update state
-                    adapter.setObject('events.' + toAdd[i], {
+                    adapter.setObject(toAdd[i].id, {
                         type: 'state',
                         common: {
-                            name: toAdd[i],
+                            name: toAdd[i].name,
                             type: 'boolean',
                             role: 'indicator'
                         },
                         native: {
-                            enabled: adapter.config.events[j].enabled,
-                            display: adapter.config.events[j].display
+                            enabled: configItem.enabled,
+                            display: configItem.display
                         }
                     }, function (err, id) {
                         adapter.log.info('Event "' + id.id + '" created');
                     });
-                    break;
                 }
             }
         }
 
         // Remove states
-        for (i = 0; i < toDel.length; i++) {
-            adapter.delObject('events.' + toDel[i]);
-            adapter.delState('events.' + toDel[i]);
+        for (let i = 0; i < toDel.length; i++) {
+            adapter.delObject(toDel[i].id);
+            adapter.delState(toDel[i].id);
         }
 
-        for (i = 0; i < adapter.config.events.length; i++) {
-            // If event enabled add it to list
-            if (adapter.config.events[i].enabled) {
-                count++;
-                initEvent(adapter.config.events[i].name, adapter.config.events[i].display, function () {
-                    count--;
-                    if (!count) callback();
-                });
-            }
+        let countFunc = function() {
+    		count--;
+    		if (!count) callback();
+    	};
+        
+        for (let day = 0; day < days; day++) { 
+	        for (let i = 0; i < adapter.config.events.length; i++) {
+	        	let event = adapter.config.events[i];
+	            // If event enabled add it to list
+	            if (event.enabled) {
+	                if(day == 0) {
+		                count += 3;
+	                	initEvent(event.name, event.display, 0, 'today', countFunc);
+	                	initEvent(event.name, event.display, 0, 'now', countFunc);
+	                	initEvent(event.name, event.display, 0, 'later', countFunc);
+	                } else {
+		                count++;
+	                	initEvent(event.name, event.display, day, null, countFunc);
+	                }
+	            }
+	        }
         }
 
         if (!count) callback();
     });
+}
+
+function buildFilter(filter, filterregex) {
+	var ret = null;
+	var prep = '';
+	if (filterregex === 'true' || filterregex === true) {
+		prep = filter;
+	} else {
+		var list = (filter || '').split(';');
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i].trim();
+			if(!item) {
+				continue;
+			}
+			if(prep) {
+				prep += '|';
+			}
+			prep += '(' + item + ')';
+		}
+		if(prep) {
+			prep = '/' + prep + '/g';
+		}
+	}
+
+	if (prep) {
+		try {
+			var s = prep.split('/');
+			ret = new RegExp(s[1], s[2]);
+		} catch (e) {
+		   adapter.log.error('invalid filter: ' + prep);
+		}
+	}
+	
+	return ret;
 }
 
 // Read all calendar
@@ -702,17 +798,18 @@ function readAll() {
             if (adapter.config.calendars[i].url) {
                 count++;
                 adapter.log.debug('reading calendar from URL: ' + adapter.config.calendars[i].url + ', color: ' + adapter.config.calendars[i].url.color);
-                checkiCal(
+                checkICal(
                     adapter.config.calendars[i].url,
                     adapter.config.calendars[i].user,
                     adapter.config.calendars[i].pass,
                     adapter.config.calendars[i].sslignore,
                     adapter.config.calendars[i].name,
+                    buildFilter(adapter.config.calendars[i].filter, adapter.config.calendars[i].filterregex),
                     function () {
                         // If all calendars are processed
                         if (!--count) {
                             adapter.log.debug('displaying dates because of callback');
-                            displayDates();
+                           	displayDates();
                         }
                     });
             }
@@ -722,15 +819,15 @@ function readAll() {
     // If nothing to process => show it
     if (!count) {
         adapter.log.debug('displaying dates');
-        displayDates();
+       	displayDates();
     }
 }
 
 // Read one calendar
 function readOne(url) {
     datesArray = [];
-    checkiCal(url, function () {
-        displayDates();
+    checkICal(url, function () {
+       	displayDates();
     });
 }
 
@@ -888,8 +985,7 @@ function formatDate(_date, _end, withTime, fullday) {
             if (_class === 'ical_6days')    return {text: (alreadyStarted ? '&#8594; ' : '') + _('6days')    + _time, _class: _class};
             if (_class === 'ical_oneweek')  return {text: (alreadyStarted ? '&#8594; ' : '') + _('oneweek')  + _time, _class: _class};
         }
-    }
-    else {
+    } else {
         // check if date is in the past and if so we show the end time instead
         _class = 'ical_today';
         var daysleft = Math.round((_end - new Date())/(1000*60*60*24));
@@ -992,59 +1088,41 @@ function formatDate(_date, _end, withTime, fullday) {
 
 // Show event as text
 function displayDates() {
-    var count = 0;
+    var count = 4;
+    let retFunc = function () {
+    	if (!--count) {
+    		setTimeout(function() {
+    			adapter.stop();
+    		}, 5000);
+    	}
+    };
+
+    let todayEventcounter = 0;
+    let tomorrowEventcounter = 0;
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let oneDay = 24 * 60 * 60 * 1000;
+    let tomorrow = new Date(today.getTime() + oneDay);
+    let dayAfterTomorrow = new Date(tomorrow.getTime() + oneDay);
+    
     if (datesArray.length) {
-        var todayEventcounter = 0;
         for (var t = 0; t < datesArray.length; t++) {
-            if (datesArray[t]._class.indexOf('ical_today') !== -1) todayEventcounter++;
+            if (datesArray[t]._end.getTime() > today.getTime() && datesArray[t]._date.getTime() < tomorrow.getTime()) {
+            	todayEventcounter++;
+            }
+            if (datesArray[t]._end.getTime() > tomorrow.getTime() && datesArray[t]._date.getTime() < dayAfterTomorrow.getTime()) {
+            	tomorrowEventcounter++;
+            }
         }
 
-        count += 3;
-        adapter.setState('data.count', {val: todayEventcounter,           ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
-        adapter.setState('data.table', {val: datesArray,                  ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
-        adapter.setState('data.html',  {val: brSeparatedList(datesArray), ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
+        adapter.setState('data.table', {val: datesArray, ack: true}, retFunc);
+        adapter.setState('data.html',  {val: brSeparatedList(datesArray), ack: true}, retFunc);
     } else {
-        count += 3;
-        adapter.setState('data.count', {val: 0,  ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
-        adapter.setState('data.table', {val: [], ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
-        adapter.setState('data.html',  {val: '', ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
+        adapter.setState('data.table', {val: [], ack: true}, retFunc);
+        adapter.setState('data.html',  {val: '', ack: true}, retFunc);
     }
+    adapter.setState('data.count', {val: todayEventcounter, ack: true}, retFunc);
+    adapter.setState('data.countTomorrow', {val: tomorrowEventcounter, ack: true}, retFunc);
 
     // set not processed events to false
     for (var j = 0; j < events.length; j++) {
@@ -1052,13 +1130,7 @@ function displayDates() {
             count++;
             events[j].state = false;
             // Set to false
-            adapter.setState('events.' + events[j].name, {val: events[j].state, ack: true}, function () {
-                if (!--count) {
-                    setTimeout(function () {
-                        adapter.stop();
-                    }, 5000);
-                }
-            });
+            adapter.setState('events.' + events[j].name, {val: events[j].state, ack: true}, retFunc);
         }
     }
 }

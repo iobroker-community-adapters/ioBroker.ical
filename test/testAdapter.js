@@ -157,8 +157,8 @@ function setupIcsFiles() {
 
     // event for over 0:00
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T220000\n';
-    data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
+    data += 'DTSTART:' + d2.getFullYear() + m2 + day2 + 'T220000\n';
+    data += 'DTEND:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f62@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -189,8 +189,8 @@ function setupIcsFiles() {
 
     // event for over 0:00
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d0.getFullYear() + m0 + day0 + 'T220000\n';
-    data += 'DTEND;VALUE=DATE:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
+    data += 'DTSTART:' + d0.getFullYear() + m0 + day0 + 'T220000\n';
+    data += 'DTEND:' + d3.getFullYear() + m3 + day3 + 'T020000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f58@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -205,8 +205,8 @@ function setupIcsFiles() {
 
     // event for over 0:00
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
-    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
+    data += 'DTSTART:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
+    data += 'DTEND:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f60@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -221,8 +221,8 @@ function setupIcsFiles() {
 
     // event for over 0:00
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
-    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
+    data += 'DTSTART:' + d2.getFullYear() + m2 + day2 + 'T180000\n';
+    data += 'DTEND:' + d2.getFullYear() + m2 + day2 + 'T200000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f63@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -237,8 +237,8 @@ function setupIcsFiles() {
 
     // Fullday event for 2 days with Trigger "MyEvent" and  "BlaEvent"
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
-    data += 'DTEND;VALUE=DATE:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
+    data += 'DTSTART:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
+    data += 'DTEND:' + d2.getFullYear() + m2 + day2 + 'T100000\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f59@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
@@ -274,6 +274,36 @@ function setupIcsFiles() {
     data += 'SUMMARY:SameDay\n';
     data += 'DTSTART;TZID=Europe/Berlin:' + d1.getFullYear() + m1 + day1 + 'T235800\n';
     data += 'DTEND;TZID=Europe/Berlin:' + d1.getFullYear() + m1 + day1 + 'T235900\n';
+    data += 'TRANSP:OPAQUE\n';
+    data += 'SEQUENCE:4\n';
+    data += 'X-MOZ-GENERATION:4\n';
+    data += 'END:VEVENT\n';
+
+    // event date with same start and end
+    data += 'BEGIN:VEVENT\n';
+    data += 'CREATED:20160525T175643Z\n';
+    data += 'LAST-MODIFIED:20171114T171736Z\n';
+    data += 'DTSTAMP:20171114T171736Z\n';
+    data += 'UID:7defc9a5-a1c8-419d-a05c-65cf98483cdb\n';
+    data += 'DESCRIPTION:FulldayWithSameDate\n';
+    data += 'SUMMARY:FulldayWithSameDate\n';
+    data += 'DTSTART;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
+    data += 'DTEND;VALUE=DATE:' + d1.getFullYear() + m1 + day1 + '\n';
+    data += 'TRANSP:OPAQUE\n';
+    data += 'SEQUENCE:4\n';
+    data += 'X-MOZ-GENERATION:4\n';
+    data += 'END:VEVENT\n';
+
+    // event date-time with same start and end; already gone
+    data += 'BEGIN:VEVENT\n';
+    data += 'CREATED:20160525T175643Z\n';
+    data += 'LAST-MODIFIED:20171114T171736Z\n';
+    data += 'DTSTAMP:20171114T171736Z\n';
+    data += 'UID:7defc9a5-a1cd-419d-a05c-65cf98483cdb\n';
+    data += 'DESCRIPTION:FulldayWithSameDateTime\n';
+    data += 'SUMMARY:FulldayWithSameDateTime\n';
+    data += 'DTSTART:' + d1.getFullYear() + m1 + day1 + 'T000000\n';
+    data += 'DTEND:' + d1.getFullYear() + m1 + day1 + 'T000000\n';
     data += 'TRANSP:OPAQUE\n';
     data += 'SEQUENCE:4\n';
     data += 'X-MOZ-GENERATION:4\n';
@@ -381,54 +411,54 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.count', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val).to.be.equal(4);
+                expect(state.val).to.be.equal(5);
                 done();
             });
-        }, 3000);
+        }, 1000);
     });
 
     it('Test ' + adapterShortNameLog + ': event Vacation', function (done) {
         this.timeout(5000);
         setTimeout(function () {
-            states.getState('ical.0.events.Vacation', function (err, state) {
+            states.getState('ical.0.events.0.today.Vacation', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val).to.be.true;
                 done();
             });
-        }, 3000);
+        }, 1000);
     });
 
     it('Test ' + adapterShortNameLog + ': event MyEvent', function (done) {
         this.timeout(5000);
         setTimeout(function () {
-            states.getState('ical.0.events.MyEvent', function (err, state) {
+            states.getState('ical.0.events.0.today.MyEvent', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val).to.be.true;
                 done();
             });
-        }, 3000);
+        }, 1000);
     });
 
     it('Test ' + adapterShortNameLog + ': event TestEvent', function (done) {
         this.timeout(5000);
         setTimeout(function () {
-            states.getState('ical.0.events.TestEvent', function (err, state) {
+            states.getState('ical.0.events.0.today.TestEvent', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val).to.be.true;
                 done();
             });
-        }, 3000);
+        }, 1000);
     });
 
     it('Test ' + adapterShortNameLog + ': event InDayEvent', function (done) {
         this.timeout(5000);
         setTimeout(function () {
-            states.getState('ical.0.events.InDayEvent', function (err, state) {
+            states.getState('ical.0.events.0.today.InDayEvent', function (err, state) {
                 expect(err).to.be.not.ok;
                 expect(state.val).to.be.false;
                 done();
             });
-        }, 3000);
+        }, 1000);
     });
 
     it('Test ' + adapterShortNameLog + ': data.table', function (done) {
@@ -455,36 +485,41 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 expect(state.val[2]._section).to.be.equal('MyEvent BlaEvent');
                 expect(state.val[2]._allDay).to.be.true;
 
-                expect(state.val[3].date).to.endsWith('. 23:58-23:59');
-                expect(state.val[3].event).to.be.equal('SameDay');
-                expect(state.val[3]._section).to.be.equal('SameDay');
-                expect(state.val[3]._allDay).to.be.false;
+                expect(state.val[3].date).to.endsWith('. 00:00');
+                expect(state.val[3].event).to.be.equal('FulldayWithSameDate');
+                expect(state.val[3]._section).to.be.equal('FulldayWithSameDate');
+                expect(state.val[3]._allDay).to.be.true;
 
-                expect(state.val[4].date).to.endsWith('. 00:00-00:00');
-                expect(state.val[4].event).to.be.equal('MorgenVoll');
-                expect(state.val[4]._section).to.be.equal('MorgenVoll');
-                expect(state.val[4]._allDay).to.be.true;
+                expect(state.val[4].date).to.endsWith('. 23:58-23:59');
+                expect(state.val[4].event).to.be.equal('SameDay');
+                expect(state.val[4]._section).to.be.equal('SameDay');
+                expect(state.val[4]._allDay).to.be.false;
 
-                expect(state.val[5].date).to.endsWith('. 10:00');
-                expect(state.val[5].event).to.be.equal('Reminder');
-                expect(state.val[5]._section).to.be.equal('Reminder');
-                expect(state.val[5]._allDay).to.be.false;
+                expect(state.val[5].date).to.endsWith('. 00:00-00:00');
+                expect(state.val[5].event).to.be.equal('MorgenVoll');
+                expect(state.val[5]._section).to.be.equal('MorgenVoll');
+                expect(state.val[5]._allDay).to.be.true;
 
-                expect(state.val[6].date).to.endsWith('. 18:00-20:00');
-                expect(state.val[6].event).to.be.equal('InDay2');
-                expect(state.val[6]._section).to.be.equal('InDay2');
+                expect(state.val[6].date).to.endsWith('. 10:00');
+                expect(state.val[6].event).to.be.equal('Reminder');
+                expect(state.val[6]._section).to.be.equal('Reminder');
                 expect(state.val[6]._allDay).to.be.false;
 
-                expect(state.val[7].date).to.endsWith('. 19:30-20:30');
-                expect(state.val[7].event).to.be.equal('TestUserEvent1');
-                expect(state.val[7]._section).to.be.equal('TestUserEvent1');
+                expect(state.val[7].date).to.endsWith('. 18:00-20:00');
+                expect(state.val[7].event).to.be.equal('InDay2');
+                expect(state.val[7]._section).to.be.equal('InDay2');
                 expect(state.val[7]._allDay).to.be.false;
 
-                expect(state.val[8].date).to.endsWith('. 22:00-02:00');
-                expect(state.val[8].date).to.not.have.string('+1');
-                expect(state.val[8].event).to.be.equal('OverEvent');
-                expect(state.val[8]._section).to.be.equal('OverEvent');
+                expect(state.val[8].date).to.endsWith('. 19:30-20:30');
+                expect(state.val[8].event).to.be.equal('TestUserEvent1');
+                expect(state.val[8]._section).to.be.equal('TestUserEvent1');
                 expect(state.val[8]._allDay).to.be.false;
+
+                expect(state.val[9].date).to.endsWith('. 22:00-02:00');
+                expect(state.val[9].date).to.not.have.string('+1');
+                expect(state.val[9].event).to.be.equal('OverEvent');
+                expect(state.val[9]._section).to.be.equal('OverEvent');
+                expect(state.val[9]._allDay).to.be.false;
 
                 done();
             });
@@ -496,8 +531,8 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setTimeout(function () {
             states.getState('ical.0.data.html', function (err, state) {
                 expect(err).to.be.not.ok;
-                expect(state.val).to.have.entriesCount('<span ', 36);
-                expect(state.val).to.have.entriesCount('</span>', 36);
+                expect(state.val).to.have.entriesCount('<span ', 40);
+                expect(state.val).to.have.entriesCount('</span>', 40);
 
                 done();
             });
