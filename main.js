@@ -663,22 +663,34 @@ function syncUserEvents(callback) {
                 }
             }
 
-            for (let i = 0; i < adapter.config.events.length; i++) {
-                for (let j = 0; j < states.length; j++) {
-                	let event = adapter.config.events[i];
-                    if (states[j].common.name === event.name) {
-                        if (event.enabled === 'true')  event.enabled = true;
-                        if (event.enabled === 'false') event.enabled = false;
-                        if (event.display === 'true')  event.display = true;
-                        if (event.display === 'false') event.display = false;
+            function removeFromArray(day, name) {
+                let pos_ = toAdd.indexOf(toAdd.find(x => x.id === 'events.' + day + '.' + name));
+                if (pos_ !== -1) {
+                	toAdd.splice(pos_, 1);
+                }
+            }
 
-                        // if settings does not changed
-                        if (states[j].native.enabled == event.enabled &&
-                            states[j].native.display == event.display) {
-                            // remove it from "toAdd"
-                        	for (let day = 0; day < days; day++) {
-	                            let pos_ = toAdd.indexOf(toAdd.find(x => x.id === 'events.' + day + '.' + event.name));
-	                            if (pos_ !== -1) toAdd.splice(pos_, 1);
+            for (let day = 0; day < days; day++) {
+	            for (let i = 0; i < adapter.config.events.length; i++) {
+	                for (let j = 0; j < states.length; j++) {
+	                	let event = adapter.config.events[i];
+	                    if (states[j].common.name === event.name) {
+	                        if (event.enabled === 'true') event.enabled = true;
+	                        if (event.enabled === 'false') event.enabled = false;
+	                        if (event.display === 'true') event.display = true;
+	                        if (event.display === 'false') event.display = false;
+
+	                        // if settings does not changed
+	                        if (states[j].native.enabled == event.enabled &&
+	                            states[j].native.display == event.display) {
+	                            // remove it from "toAdd"
+	                        	if(day == 0) {
+	                        		removeFromArray(day + '.today', event.name);
+	                        		removeFromArray(day + '.now', event.name);
+	                        		removeFromArray(day + '.later', event.name);
+	                        	} else {
+	                        		removeFromArray(day, event.name);
+	                        	}
                         	}
                         }
                     }
