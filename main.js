@@ -590,7 +590,7 @@ function checkForEvents(reason, today, event, realnow) {
 }
 
 function initEvent(name, display, day, type, callback) {
-    var obj = {
+    let obj = {
         name:      name,
         processed: false,
         state:     null,
@@ -601,9 +601,8 @@ function initEvent(name, display, day, type, callback) {
 
     events.push(obj);
 
-    var stateName = 'events.' + day + '.' + (type ? type + '.' : '') + name;
+    let stateName = 'events.' + day + '.' + (type ? type + '.' : '') + shrinkStateName(name);
 
-    
     adapter.getState(stateName, function (err, state) {
         if (err || !state) {
             obj.state = false;
@@ -618,6 +617,14 @@ function initEvent(name, display, day, type, callback) {
 function removeNameSpace(id) {
     let re = new RegExp(adapter.namespace + '*\.', 'g');
     return id.replace(re, '');
+}
+
+function shrinkStateName(v) {
+    let n = v.replace(/[\s."`'*,\\?<>[\];:]+/g, '');
+    if ((!n && typeof n != 'number') || 0 === n.length) {
+        n = 'onlySpecialCharacters';
+    }
+    return n;
 }
 
 // Create new user events and remove existing, but deleted in config
@@ -642,11 +649,11 @@ function syncUserEvents(callback) {
         	for (let day = 0; day < days; day++) {
         		let name = adapter.config.events[i].name;
         		if (day == 0) {
-        			toAdd.push({id: 'events.' + day + '.later.' + name, name: name});
-        			toAdd.push({id: 'events.' + day + '.today.' + name, name: name});
-        			toAdd.push({id: 'events.' + day + '.now.' + name, name: name});
+        			toAdd.push({id: 'events.' + day + '.later.' + shrinkStateName(name), name: name});
+        			toAdd.push({id: 'events.' + day + '.today.' + shrinkStateName(name), name: name});
+        			toAdd.push({id: 'events.' + day + '.now.' + shrinkStateName(name), name: name});
         		} else {
-        			toAdd.push({id: 'events.' + day + '.' + name, name: name});
+        			toAdd.push({id: 'events.' + day + '.' + shrinkStateName(name), name: name});
         		}
         	}
         }
@@ -664,12 +671,13 @@ function syncUserEvents(callback) {
            			for (let day = 0; day < days; day++) {
 	                    if (states[j].common.name === adapter.config.events[i].name) {
 	                        // remove it from "toDel"
+	                    	let name = shrinkStateName(adapter.config.events[i].name);
                         	if(day == 0) {
-                        		removeFromToDel(day + '.today', adapter.config.events[i].name);
-                        		removeFromToDel(day + '.now', adapter.config.events[i].name);
-                        		removeFromToDel(day + '.later', adapter.config.events[i].name);
+                        		removeFromToDel(day + '.today', name);
+                        		removeFromToDel(day + '.now', name);
+                        		removeFromToDel(day + '.later', name);
                         	} else {
-                        		removeFromToDel(day, adapter.config.events[i].name);
+                        		removeFromToDel(day, name);
                         	}
 	                    }
                 	}
@@ -687,12 +695,13 @@ function syncUserEvents(callback) {
 	            for (let i = 0; i < adapter.config.events.length; i++) {
 	                for (let j = 0; j < states.length; j++) {
 	                	let event = adapter.config.events[i];
+	                	let name = shrinkStateName(event.name);
 	                    if (states[j].common.name === event.name &&
-	                    		((day > 0 && removeNameSpace(states[j]._id) == 'events.' + day + '.' + event.name) ||
+	                    		((day > 0 && removeNameSpace(states[j]._id) == 'events.' + day + '.' + name) ||
 	                    		(day == 0 && (
-	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.today.' + event.name ||
-	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.now.' + event.name ||
-	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.later.' + event.name
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.today.' + name ||
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.now.' + name ||
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.later.' + name
 	                    		)))
 	                    ) {
 	                        if (event.enabled === 'true') event.enabled = true;
