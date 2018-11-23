@@ -726,6 +726,52 @@ function getCurrentTimezoneName() {
 	return 'UTC' + (offsetNegative ? '+' : '-') + offsetHours + ':' + ("0" + offsetMinues).slice(-2);
 }
 
+var lacyStates;
+function checkConnectionOfAdapter(lacyStates, cb, counter) {
+    counter = counter || 0;
+    console.log('wait for started #' + counter);
+    if (counter > 30) {
+        if (cb) cb('Cannot check connection');
+        return;
+    }
+
+    lacyStates.states.getState('system.adapter.' + adapterName.substring(adapterName.indexOf('.') + 1) + '.0.alive', function (err, state) {
+        if (err) console.error(err);
+        if (state && state.val) {
+            if (cb) cb();
+        } else {
+            setTimeout(function () {
+                checkConnectionOfAdapter(lacyStates, cb, counter + 1);
+            }, 1000);
+        }
+    });
+}
+
+function checkAdapterFinished(lacyStates, cb, counter) {
+    counter = counter || 0;
+    console.log('wait until stopped #' + counter);
+    if (counter > 30) {
+        if (cb) cb('Connection still available');
+        return;
+    }
+
+    lacyStates.states.getState('system.adapter.' + adapterName.substring(adapterName.indexOf('.') + 1) + '.0.alive', function (err, state) {
+        if (err) console.error(err);
+        if (state && !state.val) {
+            if (cb) cb();
+        } else {
+            setTimeout(function () {
+            	checkAdapterFinished(lacyStates, cb, counter + 1);
+            }, 1000);
+        }
+    });
+}
+function checkAdapterStartedAndFinished(lacyStates, cb) {
+	checkConnectionOfAdapter(lacyStates, function() {
+		checkAdapterFinished(lacyStates, cb);
+	});
+}
+
 if (typeof module !== undefined && module.parent) {
     module.exports.getAdapterConfig = getAdapterConfig;
     module.exports.setAdapterConfig = setAdapterConfig;
@@ -739,4 +785,5 @@ if (typeof module !== undefined && module.parent) {
     module.exports.adapterName      = adapterName;
     module.exports.adapterStarted   = adapterStarted;
     module.exports.getCurrentTimezoneName = getCurrentTimezoneName;
+    module.exports.checkAdapterStartedAndFinished = checkAdapterStartedAndFinished;
 }
