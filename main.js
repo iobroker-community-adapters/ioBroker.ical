@@ -602,6 +602,7 @@ function initEvent(name, display, day, type, callback) {
     events.push(obj);
 
     var stateName = 'events.' + day + '.' + (type ? type + '.' : '') + name;
+
     
     adapter.getState(stateName, function (err, state) {
         if (err || !state) {
@@ -651,20 +652,32 @@ function syncUserEvents(callback) {
         }
 
         if (states) {
+            function removeFromToDel(day, name) {
+                let pos_ = toDel.indexOf(toDel.find(x => x.id === 'events.' + day + '.' + name));
+                if (pos_ !== -1) {
+                	toDel.splice(pos_, 1);
+                }
+            }
+
             for (let j = 0; j < states.length; j++) {
            		for (let i = 0; i < adapter.config.events.length; i++) {
            			for (let day = 0; day < days; day++) {
 	                    if (states[j].common.name === adapter.config.events[i].name) {
 	                        // remove it from "toDel"
-	                        let pos = toDel.indexOf(toDel.find(x => x.id === 'events.' + day + '.' + adapter.config.events[i].name));
-	                        if (pos !== -1) toDel.splice(pos, 1);
+                        	if(day == 0) {
+                        		removeFromToDel(day + '.today', adapter.config.events[i].name);
+                        		removeFromToDel(day + '.now', adapter.config.events[i].name);
+                        		removeFromToDel(day + '.later', adapter.config.events[i].name);
+                        	} else {
+                        		removeFromToDel(day, adapter.config.events[i].name);
+                        	}
 	                    }
                 	}
                 }
             }
 
-            function removeFromArray(day, name) {
-                let pos_ = toAdd.indexOf(toAdd.find(x => x.id === 'events.' + day + '.' + name));
+            function removeFromToAdd(name) {
+                let pos_ = toAdd.indexOf(toAdd.find(x => x.id === name));
                 if (pos_ !== -1) {
                 	toAdd.splice(pos_, 1);
                 }
@@ -674,7 +687,14 @@ function syncUserEvents(callback) {
 	            for (let i = 0; i < adapter.config.events.length; i++) {
 	                for (let j = 0; j < states.length; j++) {
 	                	let event = adapter.config.events[i];
-	                    if (states[j].common.name === event.name) {
+	                    if (states[j].common.name === event.name &&
+	                    		((day > 0 && removeNameSpace(states[j]._id) == 'events.' + day + '.' + event.name) ||
+	                    		(day == 0 && (
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.today.' + event.name ||
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.now.' + event.name ||
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.later.' + event.name
+	                    		)))
+	                    ) {
 	                        if (event.enabled === 'true') event.enabled = true;
 	                        if (event.enabled === 'false') event.enabled = false;
 	                        if (event.display === 'true') event.display = true;
@@ -684,13 +704,7 @@ function syncUserEvents(callback) {
 	                        if (states[j].native.enabled == event.enabled &&
 	                            states[j].native.display == event.display) {
 	                            // remove it from "toAdd"
-	                        	if(day == 0) {
-	                        		removeFromArray(day + '.today', event.name);
-	                        		removeFromArray(day + '.now', event.name);
-	                        		removeFromArray(day + '.later', event.name);
-	                        	} else {
-	                        		removeFromArray(day, event.name);
-	                        	}
+                        		removeFromToAdd(removeNameSpace(states[j]._id));
                         	}
                         }
                     }
