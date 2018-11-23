@@ -7,6 +7,7 @@ var child_process = require('child_process');
 var rootDir       = path.normalize(__dirname + '/../../');
 var pkg           = require(rootDir + 'package.json');
 var debug         = typeof v8debug === 'object';
+var moment  = require("moment-timezone");
 pkg.main = pkg.main || 'main.js';
 
 var adapterName = path.normalize(rootDir).replace(/\\/g, '/').split('/');
@@ -197,7 +198,8 @@ function installAdapter(customName, cb) {
     // make first install
     if (debug) {
         child_process.execSync('node ' + startFile + ' add ' + customName + ' --enabled false', {
-            cwd:   rootDir + 'tmp',
+            cwd: rootDir + 'tmp',
+            env: { TZ: getTZ() },
             stdio: [0, 1, 2]
         });
         checkIsAdapterInstalled(function (error) {
@@ -209,6 +211,7 @@ function installAdapter(customName, cb) {
         // add controller
         var _pid = child_process.fork(startFile, ['add', customName, '--enabled', 'false'], {
             cwd:   rootDir + 'tmp',
+            env: { TZ: getTZ() },
             stdio: [0, 1, 2, 'ipc']
         });
 
@@ -257,11 +260,13 @@ function installJsController(cb) {
                 // start controller
                 _pid = child_process.exec('node ' + appName + '.js stop', {
                     cwd: rootDir + 'node_modules/' + appName + '.js-controller',
+                    env: { TZ: getTZ() },
                     stdio: [0, 1, 2]
                 });
             } else {
                 _pid = child_process.fork(appName + '.js', ['stop'], {
                     cwd:   rootDir + 'node_modules/' + appName + '.js-controller',
+                    env: { TZ: getTZ() },
                     stdio: [0, 1, 2, 'ipc']
                 });
             }
@@ -282,11 +287,13 @@ function installJsController(cb) {
                     // start controller
                     _pid = child_process.exec('node ' + appName + '.js setup first --console', {
                         cwd: rootDir + 'tmp/node_modules/' + appName + '.js-controller',
+                        env: { TZ: getTZ() },
                         stdio: [0, 1, 2]
                     });
                 } else {
                     __pid = child_process.fork(appName + '.js', ['setup', 'first', '--console'], {
                         cwd:   rootDir + 'tmp/node_modules/' + appName + '.js-controller',
+                        env: { TZ: getTZ() },
                         stdio: [0, 1, 2, 'ipc']
                     });
                 }
@@ -323,6 +330,7 @@ function installJsController(cb) {
 
                     child_process.execSync('npm install https://github.com/' + appName + '/' + appName + '.js-controller/tarball/master --prefix ./  --production', {
                         cwd:   rootDir + 'tmp/',
+                        env: { TZ: getTZ() },
                         stdio: [0, 1, 2]
                     });
                 } else {
@@ -332,11 +340,13 @@ function installJsController(cb) {
                         // start controller
                         child_process.exec('node ' + appName + '.js setup first', {
                             cwd: rootDir + 'tmp/node_modules/' + appName + '.js-controller',
+                            env: { TZ: getTZ() },
                             stdio: [0, 1, 2]
                         });
                     } else {
                         child_process.fork(appName + '.js', ['setup', 'first'], {
                             cwd:   rootDir + 'tmp/node_modules/' + appName + '.js-controller',
+                            env: { TZ: getTZ() },
                             stdio: [0, 1, 2, 'ipc']
                         });
                     }
@@ -349,6 +359,7 @@ function installJsController(cb) {
                     if (fs.existsSync(rootDir + 'node_modules/' + appName + '.js-controller/' + appName + '.js')) {
                         _pid = child_process.fork(appName + '.js', ['stop'], {
                             cwd:   rootDir + 'node_modules/' + appName + '.js-controller',
+                            env: { TZ: getTZ() },
                             stdio: [0, 1, 2, 'ipc']
                         });
                     }
@@ -486,12 +497,14 @@ function startAdapter(objects, states, callback) {
                 // start controller
                 pid = child_process.exec('node node_modules/' + pkg.name + '/' + pkg.main + ' --console silly', {
                     cwd: rootDir + 'tmp',
+                    env: { TZ: getTZ() },
                     stdio: [0, 1, 2]
                 });
             } else {
                 // start controller
                 pid = child_process.fork('node_modules/' + pkg.name + '/' + pkg.main, ['--console', 'silly'], {
                     cwd:   rootDir + 'tmp',
+                    env: { TZ: getTZ() },
                     stdio: [0, 1, 2, 'ipc']
                 });
             }
@@ -770,6 +783,10 @@ function checkAdapterStartedAndFinished(lacyStates, cb) {
 	checkConnectionOfAdapter(lacyStates, function() {
 		checkAdapterFinished(lacyStates, cb);
 	});
+}
+
+function getTZ() {
+	return moment.tz.guess();
 }
 
 if (typeof module !== undefined && module.parent) {

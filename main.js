@@ -234,7 +234,7 @@ function getTimezoneOffset(date) {
 	    offset = zone.utcOffset(date.getTime());
 	    adapter.log.debug('use offset ' + offset + ' for ' + date);
 	} else {
-            adapter.log.warn('no current timzone found: {zone:' + moment.tz.guess() + ', date: ' + date + '}');
+        adapter.log.warn('no current timzone found: {zone:' + moment.tz.guess() + ', date: ' + date + '}');
 	}
 
 	return offset;
