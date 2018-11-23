@@ -19,11 +19,11 @@ Die Termine werden zeilenweise durch ein Tag voneinander getrennt und können z.
 
 Es werden 4 Variablen angelegt:
 
-#### data.trigger 
-Die Variable *data.trigger* dient zum Triggern des Einlesevorgangs. In den Settings können mehrere URLs hinterlegt werden, von welchen der Kalender eingelesen wird. Die Kalender werden dann nacheinander eingelesen und das Ergebnis zusammengefasst. Alternativ kann dem Lesebefehl auch eine URL mitgegeben werden, um z.B. zeitweilig einen anderen Kalender einzulesen.
+#### trigger 
+Die Variable *trigger* dient zum Triggern des Einlesevorgangs. In den Settings können mehrere URLs hinterlegt werden, von welchen der Kalender eingelesen wird. Die Kalender werden dann nacheinander eingelesen und das Ergebnis zusammengefasst. Alternativ kann dem Lesebefehl auch eine URL mitgegeben werden, um z.B. zeitweilig einen anderen Kalender einzulesen.
  
-- zum Einlesen von den konfigurierten URLs muss der String "read" in die Variable *data.trigger* geschrieben werden.
-- zum Einlesen von einer beliebigen URL muss der String "read URL" in die Variable *data.trigger* geschrieben werden.
+- zum Einlesen von den konfigurierten URLs muss der String "read" in die Variable *trigger* geschrieben werden.
+- zum Einlesen von einer beliebigen URL muss der String "read URL" in die Variable *trigger* geschrieben werden.
 
 Das Ergebnis liefert der iCal Adapter in die Variablen *data.table*, *data.html*, *data.count*.
 Normallerweise wird der Adapter automatisch in einem definierbaren Intervall die Kalender abfragen. 

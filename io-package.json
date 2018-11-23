@@ -329,14 +329,15 @@
             "native": {}
         },
         {
-            "_id": "data.trigger",
+            "_id": "trigger",
             "type": "state",
             "common": {
                 "name": "Commands to iCal",
                 "desc": "Commands: read [url], check [reason]",
                 "type": "string",
                 "read": true,
-                "write": true
+                "write": true,
+                "role": "value"
             },
             "native": {}
         },
