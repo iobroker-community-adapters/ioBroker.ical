@@ -23,7 +23,7 @@ addons:
 script:
   - export TZ=UTC
   - npm test
-  - export TZ=UTC+12:45
+  - export TZ=Pacific/Chatham
   - npm test
   - export TZ=UTC-12
   - npm test

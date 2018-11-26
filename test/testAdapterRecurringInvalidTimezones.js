@@ -8,74 +8,10 @@ var fs     = require('fs');
 
 var objects = null;
 var states  = null;
-var onStateChanged = null;
-var onObjectChanged = null;
-var sendToID = 1;
+var lacyStates = {states: null};
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
 var adapterShortNameLog = adapterShortName + ' Recurring with invalid Timezones (' + setup.getCurrentTimezoneName() + ')';
-
-function checkConnectionOfAdapter(cb, counter) {
-    counter = counter || 0;
-    console.log('Try check #' + counter);
-    if (counter > 30) {
-        if (cb) cb('Cannot check connection');
-        return;
-    }
-
-    states.getState('system.adapter.' + adapterShortName + '.0.alive', function (err, state) {
-        if (err) console.error(err);
-        if (state && state.val) {
-            if (cb) cb();
-        } else {
-            setTimeout(function () {
-                checkConnectionOfAdapter(cb, counter + 1);
-            }, 1000);
-        }
-    });
-}
-
-function checkValueOfState(id, value, cb, counter) {
-    counter = counter || 0;
-    if (counter > 20) {
-        if (cb) cb('Cannot check value Of State ' + id);
-        return;
-    }
-
-    states.getState(id, function (err, state) {
-        if (err) console.error(err);
-        if (value === null && !state) {
-            if (cb) cb();
-        } else
-        if (state && (value === undefined || state.val === value)) {
-            if (cb) cb();
-        } else {
-            setTimeout(function () {
-                checkValueOfState(id, value, cb, counter + 1);
-            }, 500);
-        }
-    });
-}
-
-function sendTo(target, command, message, callback) {
-    onStateChanged = function (id, state) {
-        if (id === 'messagebox.system.adapter.test.0') {
-            callback(state.message);
-        }
-    };
-
-    states.pushMessage('system.adapter.' + target, {
-        command:    command,
-        message:    message,
-        from:       'system.adapter.test.0',
-        callback: {
-            message: message,
-            id:      sendToID++,
-            ack:     false,
-            time:    (new Date()).getTime()
-        }
-    });
-}
 
 function setupIcsFiles() {
     var d2 = new Date();
@@ -252,11 +188,11 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             setup.setAdapterConfig(config.common, config.native);
 
             setup.startController(true, function(id, obj) {}, function (id, state) {
-                    if (onStateChanged) onStateChanged(id, state);
                 },
                 function (_objects, _states) {
                     objects = _objects;
                     states  = _states;
+                    lacyStates.states = states;
                     _done();
                 });
         });
@@ -264,17 +200,17 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
 
     it('Test ' + adapterShortNameLog + ' adapter: Check if adapter started', function (done) {
         this.timeout(60000);
-        checkConnectionOfAdapter(function (res) {
+        setup.checkAdapterStartedAndFinished(lacyStates, function (res) {
             if (res) console.log(res);
             expect(res).not.to.be.equal('Cannot check connection');
             objects.setObject('system.adapter.test.0', {
                     common: {
-
                     },
                     type: 'instance'
                 },
                 function () {
                     states.subscribeMessage('system.adapter.test.0');
+
                     done();
                 });
         });
@@ -282,95 +218,88 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
 
     it('Test ' + adapterShortNameLog + ': check count of events', function (done) {
         this.timeout(5000);
-        setTimeout(function () {
-            states.getState('ical.0.data.count', function (err, state) {
-                expect(err).to.be.not.ok;
-                expect(state.val).to.be.equal(0);
-                done();
-            });
-        }, 1000);
+
+        states.getState('ical.0.data.count', function (err, state) {
+            expect(err).to.be.not.ok;
+            expect(state.val).to.be.equal(0);
+            done();
+        });
     });
 
     it('Test ' + adapterShortNameLog + ': event Vacation', function (done) {
         this.timeout(5000);
-        setTimeout(function () {
-            states.getState('ical.0.events.0.today.Vacation', function (err, state) {
-                expect(err).to.be.not.ok;
-                expect(state.val).to.be.false;
-                done();
-            });
-        }, 1000);
+
+        states.getState('ical.0.events.0.today.Vacation', function (err, state) {
+            expect(err).to.be.not.ok;
+            expect(state.val).to.be.false;
+            done();
+        });
     });
 
     it('Test ' + adapterShortNameLog + ': event MyEvent', function (done) {
         this.timeout(5000);
-        setTimeout(function () {
-            states.getState('ical.0.events.0.today.MyEvent', function (err, state) {
-                expect(err).to.be.not.ok;
-                expect(state.val).to.be.false;
-                done();
-            });
-        }, 1000);
+
+        states.getState('ical.0.events.0.today.MyEvent', function (err, state) {
+            expect(err).to.be.not.ok;
+            expect(state.val).to.be.false;
+            done();
+        });
     });
 
     it('Test ' + adapterShortNameLog + ': event TestEvent', function (done) {
         this.timeout(5000);
-        setTimeout(function () {
-            states.getState('ical.0.events.0.today.TestEvent', function (err, state) {
-                expect(err).to.be.not.ok;
-                expect(state.val).to.be.false;
-                done();
-            });
-        }, 1000);
+
+        states.getState('ical.0.events.0.today.TestEvent', function (err, state) {
+            expect(err).to.be.not.ok;
+            expect(state.val).to.be.false;
+            done();
+        });
     });
 
     it('Test ' + adapterShortNameLog + ': event InDayEvent', function (done) {
         this.timeout(5000);
-        setTimeout(function () {
-            states.getState('ical.0.events.0.today.InDayEvent', function (err, state) {
-                expect(err).to.be.not.ok;
-                expect(state.val).to.be.false;
-                done();
-            });
-        }, 1000);
+
+        states.getState('ical.0.events.0.today.InDayEvent', function (err, state) {
+            expect(err).to.be.not.ok;
+            expect(state.val).to.be.false;
+            done();
+        });
     });
 
     it('Test ' + adapterShortNameLog + ': data.table', function (done) {
-        this.timeout(2000);
-        setTimeout(function () {
-            states.getState('ical.0.data.table', function (err, state) {
-                expect(err).to.be.not.ok;
-                expect(state.val[0].date).to.endsWith('. 13:00-14:00');
-                expect(state.val[0].event).to.be.equal('RecurringTest');
-                expect(state.val[0]._section).to.be.equal('RecurringTest');
-                expect(state.val[0]._allDay).to.be.false;
+        this.timeout(5000);
 
-                expect(state.val[1].date).to.endsWith('. 15:00-16:00');
-                expect(state.val[1].event).to.be.equal('RecurringTest-Exception');
-                expect(state.val[1]._section).to.be.equal('RecurringTest-Exception');
-                expect(state.val[1]._allDay).to.be.false;
+        states.getState('ical.0.data.table', function (err, state) {
+            expect(err).to.be.not.ok;
+            expect(state.val[0].date).to.endsWith('. 13:00-14:00');
+            expect(state.val[0].event).to.be.equal('RecurringTest');
+            expect(state.val[0]._section).to.be.equal('RecurringTest');
+            expect(state.val[0]._allDay).to.be.false;
 
-                expect(state.val[2].date).to.endsWith('. 13:00-14:00');
-                expect(state.val[2].event).to.be.equal('RecurringTest');
-                expect(state.val[2]._section).to.be.equal('RecurringTest');
-                expect(state.val[2]._allDay).to.be.false;
+            expect(state.val[1].date).to.endsWith('. 15:00-16:00');
+            expect(state.val[1].event).to.be.equal('RecurringTest-Exception');
+            expect(state.val[1]._section).to.be.equal('RecurringTest-Exception');
+            expect(state.val[1]._allDay).to.be.false;
 
-                done();
-            });
-        }, 1000);
+            expect(state.val[2].date).to.endsWith('. 13:00-14:00');
+            expect(state.val[2].event).to.be.equal('RecurringTest');
+            expect(state.val[2]._section).to.be.equal('RecurringTest');
+            expect(state.val[2]._allDay).to.be.false;
+
+            done();
+        });
     });
 
     it('Test ' + adapterShortNameLog + ': data.html', function (done) {
-        this.timeout(2000);
-        setTimeout(function () {
-            states.getState('ical.0.data.html', function (err, state) {
-                expect(err).to.be.not.ok;
-                expect(state.val).to.have.entriesCount('<span ', 12);
-                expect(state.val).to.have.entriesCount('</span>', 12);
+        this.timeout(5000);
 
-                done();
-            });
-        }, 1000);
+        states.getState('ical.0.data.html', function (err, state) {
+            expect(err).to.be.not.ok;
+            expect(state.val).to.have.entriesCount('<span ', 12);
+            expect(state.val).to.have.entriesCount('</span>', 12);
+
+            done();
+        });
     });
 
     after('Test ' + adapterShortNameLog + ' adapter: Stop js-controller', function (done) {

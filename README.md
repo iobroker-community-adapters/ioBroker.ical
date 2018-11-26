@@ -171,11 +171,12 @@ Whitelist: If you only want to include events of a specific location use regular
 
 ## Changelog
 
-### 1.7.0 (2018-11-21)
+### 1.7.0 (2018-11-23)
 * (twonky4) Add filter option
 * (twonky4) Add support of events for configured date period; changed state names from `events.*` to `events.0.today.*`
 * (twonky4) Add Count of events for tomorrow - state `data.countTomorrow`
 * (twonky4) Events without time part and same start and end are interpreted as full day events
+* (twonky4) Remove special chars from event states
 
 ### 1.6.6 (2018-10-22)
 * (twonky4) Fixed html for disabled colorize

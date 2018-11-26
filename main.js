@@ -234,7 +234,7 @@ function getTimezoneOffset(date) {
 	    offset = zone.utcOffset(date.getTime());
 	    adapter.log.debug('use offset ' + offset + ' for ' + date);
 	} else {
-            adapter.log.warn('no current timzone found: {zone:' + moment.tz.guess() + ', date: ' + date + '}');
+        adapter.log.warn('no current timzone found: {zone:' + moment.tz.guess() + ', date: ' + date + '}');
 	}
 
 	return offset;
@@ -590,7 +590,7 @@ function checkForEvents(reason, today, event, realnow) {
 }
 
 function initEvent(name, display, day, type, callback) {
-    var obj = {
+    let obj = {
         name:      name,
         processed: false,
         state:     null,
@@ -601,8 +601,8 @@ function initEvent(name, display, day, type, callback) {
 
     events.push(obj);
 
-    var stateName = 'events.' + day + '.' + (type ? type + '.' : '') + name;
-    
+    let stateName = 'events.' + day + '.' + (type ? type + '.' : '') + shrinkStateName(name);
+
     adapter.getState(stateName, function (err, state) {
         if (err || !state) {
             obj.state = false;
@@ -617,6 +617,14 @@ function initEvent(name, display, day, type, callback) {
 function removeNameSpace(id) {
     let re = new RegExp(adapter.namespace + '*\.', 'g');
     return id.replace(re, '');
+}
+
+function shrinkStateName(v) {
+    let n = v.replace(/[\s."`'*,\\?<>[\];:]+/g, '');
+    if ((!n && typeof n != 'number') || 0 === n.length) {
+        n = 'onlySpecialCharacters';
+    }
+    return n;
 }
 
 // Create new user events and remove existing, but deleted in config
@@ -641,30 +649,43 @@ function syncUserEvents(callback) {
         	for (let day = 0; day < days; day++) {
         		let name = adapter.config.events[i].name;
         		if (day == 0) {
-        			toAdd.push({id: 'events.' + day + '.later.' + name, name: name});
-        			toAdd.push({id: 'events.' + day + '.today.' + name, name: name});
-        			toAdd.push({id: 'events.' + day + '.now.' + name, name: name});
+        			toAdd.push({id: 'events.' + day + '.later.' + shrinkStateName(name), name: name});
+        			toAdd.push({id: 'events.' + day + '.today.' + shrinkStateName(name), name: name});
+        			toAdd.push({id: 'events.' + day + '.now.' + shrinkStateName(name), name: name});
         		} else {
-        			toAdd.push({id: 'events.' + day + '.' + name, name: name});
+        			toAdd.push({id: 'events.' + day + '.' + shrinkStateName(name), name: name});
         		}
         	}
         }
 
         if (states) {
+            function removeFromToDel(day, name) {
+                let pos_ = toDel.indexOf(toDel.find(x => x.id === 'events.' + day + '.' + name));
+                if (pos_ !== -1) {
+                	toDel.splice(pos_, 1);
+                }
+            }
+
             for (let j = 0; j < states.length; j++) {
            		for (let i = 0; i < adapter.config.events.length; i++) {
            			for (let day = 0; day < days; day++) {
 	                    if (states[j].common.name === adapter.config.events[i].name) {
 	                        // remove it from "toDel"
-	                        let pos = toDel.indexOf(toDel.find(x => x.id === 'events.' + day + '.' + adapter.config.events[i].name));
-	                        if (pos !== -1) toDel.splice(pos, 1);
+	                    	let name = shrinkStateName(adapter.config.events[i].name);
+                        	if(day == 0) {
+                        		removeFromToDel(day + '.today', name);
+                        		removeFromToDel(day + '.now', name);
+                        		removeFromToDel(day + '.later', name);
+                        	} else {
+                        		removeFromToDel(day, name);
+                        	}
 	                    }
                 	}
                 }
             }
 
-            function removeFromArray(day, name) {
-                let pos_ = toAdd.indexOf(toAdd.find(x => x.id === 'events.' + day + '.' + name));
+            function removeFromToAdd(name) {
+                let pos_ = toAdd.indexOf(toAdd.find(x => x.id === name));
                 if (pos_ !== -1) {
                 	toAdd.splice(pos_, 1);
                 }
@@ -674,7 +695,15 @@ function syncUserEvents(callback) {
 	            for (let i = 0; i < adapter.config.events.length; i++) {
 	                for (let j = 0; j < states.length; j++) {
 	                	let event = adapter.config.events[i];
-	                    if (states[j].common.name === event.name) {
+	                	let name = shrinkStateName(event.name);
+	                    if (states[j].common.name === event.name &&
+	                    		((day > 0 && removeNameSpace(states[j]._id) == 'events.' + day + '.' + name) ||
+	                    		(day == 0 && (
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.today.' + name ||
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.now.' + name ||
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.later.' + name
+	                    		)))
+	                    ) {
 	                        if (event.enabled === 'true') event.enabled = true;
 	                        if (event.enabled === 'false') event.enabled = false;
 	                        if (event.display === 'true') event.display = true;
@@ -684,13 +713,7 @@ function syncUserEvents(callback) {
 	                        if (states[j].native.enabled == event.enabled &&
 	                            states[j].native.display == event.display) {
 	                            // remove it from "toAdd"
-	                        	if(day == 0) {
-	                        		removeFromArray(day + '.today', event.name);
-	                        		removeFromArray(day + '.now', event.name);
-	                        		removeFromArray(day + '.later', event.name);
-	                        	} else {
-	                        		removeFromArray(day, event.name);
-	                        	}
+                        		removeFromToAdd(removeNameSpace(states[j]._id));
                         	}
                         }
                     }
