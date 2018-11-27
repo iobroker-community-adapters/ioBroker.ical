@@ -789,6 +789,10 @@ function getTZ() {
 	return moment.tz.guess();
 }
 
+function instr(str, search) {
+	return (str.match('/' + search + ' /g') || []).length;
+}
+
 if (typeof module !== undefined && module.parent) {
     module.exports.getAdapterConfig = getAdapterConfig;
     module.exports.setAdapterConfig = setAdapterConfig;
@@ -803,4 +807,5 @@ if (typeof module !== undefined && module.parent) {
     module.exports.adapterStarted   = adapterStarted;
     module.exports.getCurrentTimezoneName = getCurrentTimezoneName;
     module.exports.checkAdapterStartedAndFinished = checkAdapterStartedAndFinished;
+    module.exports.instr = instr;
 }

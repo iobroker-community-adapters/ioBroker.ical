@@ -559,7 +559,7 @@ function checkForEvents(reason, today, event, realnow) {
         if (reason.indexOf(ev.name) !== -1) {
         	// check if event should shown
             result = ev.display;
-            adapter.log.debug('found event in table: ' + events[i].name);
+            adapter.log.debug('found event in table: ' + ev.name);
 
             // If full day event
             // Follow processing only if event is today
@@ -579,8 +579,9 @@ function checkForEvents(reason, today, event, realnow) {
                     ev.processed = true;
                     if (!ev.state) {
                         ev.state = true;
-                        adapter.log.info('Set events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + ev.name + ' to true');
-                        adapter.setState('events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + ev.name, {val: ev.state, ack: true});
+                        let name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
+                        adapter.log.info('Set ' + name + ' to true');
+                        adapter.setState(name, {val: ev.state, ack: true});
                     }
                 }
             }
@@ -1162,10 +1163,13 @@ function displayDates() {
     // set not processed events to false
     for (var j = 0; j < events.length; j++) {
         if (!events[j].processed && events[j].state) {
+        	let ev = events[j];
             count++;
-            events[j].state = false;
+            ev.state = false;
             // Set to false
-            adapter.setState('events.' + events[j].name, {val: events[j].state, ack: true}, retFunc);
+            let name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
+            adapter.log.info('Set ' + name + ' to false');
+            adapter.setState(name, {val: ev.state, ack: true}, retFunc);
         }
     }
 }

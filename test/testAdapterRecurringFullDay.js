@@ -80,10 +80,6 @@ function parseDate(input) {
 	  return date;
 }
 
-function instr(str, search) {
-	return (str.match('/' + search + ' /g') || []).length;
-}
-
 describe('Test ' + adapterShortNameLog + ' adapter', function() {
     before('Test ' + adapterShortNameLog + ' adapter: Start js-controller', function (_done) {
         this.timeout(600000); // because of first install from npm
@@ -243,7 +239,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
 
         states.getState('ical.0.data.html', function (err, state) {
             expect(err).to.be.not.ok;
-            expect(instr(state.val, '<span ')).to.be.equal(instr(state.val, '</span>'));                
+            expect(setup.instr(state.val, '<span ')).to.be.equal(setup.instr(state.val, '</span>'));                
 
             done();
         });

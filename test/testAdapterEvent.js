@@ -81,19 +81,19 @@ function setupIcsFiles() {
     data += 'TRANSP:TRANSPARENT\n';
     data += 'END:VEVENT\n';
     
-    // EventNow
+    // Event Now (space will be trimmed, because it's an invalid character)
     data += 'BEGIN:VEVENT\n';
     data += 'DTSTART:' + last5MinT + '\n';
     data += 'DTEND:' + next5MinT + '\n';
     data += 'DTSTAMP:20111213T124028Z\n';
     data += 'UID:2fb00ad3a214f7369e7a95f561@calendarlabs.com\n';
     data += 'CREATED:20111213T123901Z\n';
-    data += 'DESCRIPTION:EventNow\n';
+    data += 'DESCRIPTION:Event Now\n';
     data += 'LAST-MODIFIED:20111213T123901Z\n';
     data += 'LOCATION:\n';
     data += 'SEQUENCE:0\n';
     data += 'STATUS:CONFIRMED\n';
-    data += "SUMMARY:EventNow\n";
+    data += "SUMMARY:Event Now\n";
     data += 'TRANSP:TRANSPARENT\n';
     data += 'END:VEVENT\n';
 
@@ -209,7 +209,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
 
             config.native.events = [
             	{"name": "EventThreeDays", "enabled": true, "display": true},
-            	{"name": "EventNow", "enabled": true, "display": true},
+            	{"name": "Event Now", "enabled": true, "display": true},
 	            {"name": "EventDisabled", "enabled": false, "display": true},
 	            {"name": "EventLater", "enabled": true, "display": true},
 	            {"name": "EventNextDay1", "enabled": true, "display": true},

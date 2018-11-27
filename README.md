@@ -171,7 +171,7 @@ Whitelist: If you only want to include events of a specific location use regular
 
 ## Changelog
 
-### 1.7.0 (2018-11-23)
+### 1.7.0 (2018-11-27)
 * (twonky4) Add filter option
 * (twonky4) Add support of events for configured date period; changed state names from `events.*` to `events.0.today.*`
 * (twonky4) Add Count of events for tomorrow - state `data.countTomorrow`

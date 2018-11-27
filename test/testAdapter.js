@@ -461,8 +461,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
 
         states.getState('ical.0.data.html', function (err, state) {
             expect(err).to.be.not.ok;
-            expect(state.val).to.have.entriesCount('<span ', 40);
-            expect(state.val).to.have.entriesCount('</span>', 40);
+            expect(setup.instr(state.val, '<span ')).to.be.equal(setup.instr(state.val, '</span>'));
 
             done();
         });
