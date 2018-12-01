@@ -198,8 +198,7 @@ function installAdapter(customName, cb) {
     // make first install
     if (debug) {
         child_process.execSync('node ' + startFile + ' add ' + customName + ' --enabled false', {
-            cwd: rootDir + 'tmp',
-            env: { TZ: getTZ() },
+            cwd:   rootDir + 'tmp',
             stdio: [0, 1, 2]
         });
         checkIsAdapterInstalled(function (error) {
@@ -211,7 +210,6 @@ function installAdapter(customName, cb) {
         // add controller
         var _pid = child_process.fork(startFile, ['add', customName, '--enabled', 'false'], {
             cwd:   rootDir + 'tmp',
-            env: { TZ: getTZ() },
             stdio: [0, 1, 2, 'ipc']
         });
 
@@ -260,13 +258,11 @@ function installJsController(cb) {
                 // start controller
                 _pid = child_process.exec('node ' + appName + '.js stop', {
                     cwd: rootDir + 'node_modules/' + appName + '.js-controller',
-                    env: { TZ: getTZ() },
                     stdio: [0, 1, 2]
                 });
             } else {
                 _pid = child_process.fork(appName + '.js', ['stop'], {
                     cwd:   rootDir + 'node_modules/' + appName + '.js-controller',
-                    env: { TZ: getTZ() },
                     stdio: [0, 1, 2, 'ipc']
                 });
             }
@@ -287,13 +283,11 @@ function installJsController(cb) {
                     // start controller
                     _pid = child_process.exec('node ' + appName + '.js setup first --console', {
                         cwd: rootDir + 'tmp/node_modules/' + appName + '.js-controller',
-                        env: { TZ: getTZ() },
                         stdio: [0, 1, 2]
                     });
                 } else {
                     __pid = child_process.fork(appName + '.js', ['setup', 'first', '--console'], {
                         cwd:   rootDir + 'tmp/node_modules/' + appName + '.js-controller',
-                        env: { TZ: getTZ() },
                         stdio: [0, 1, 2, 'ipc']
                     });
                 }
@@ -330,7 +324,6 @@ function installJsController(cb) {
 
                     child_process.execSync('npm install https://github.com/' + appName + '/' + appName + '.js-controller/tarball/master --prefix ./  --production', {
                         cwd:   rootDir + 'tmp/',
-                        env: { TZ: getTZ() },
                         stdio: [0, 1, 2]
                     });
                 } else {
@@ -340,13 +333,11 @@ function installJsController(cb) {
                         // start controller
                         child_process.exec('node ' + appName + '.js setup first', {
                             cwd: rootDir + 'tmp/node_modules/' + appName + '.js-controller',
-                            env: { TZ: getTZ() },
                             stdio: [0, 1, 2]
                         });
                     } else {
                         child_process.fork(appName + '.js', ['setup', 'first'], {
                             cwd:   rootDir + 'tmp/node_modules/' + appName + '.js-controller',
-                            env: { TZ: getTZ() },
                             stdio: [0, 1, 2, 'ipc']
                         });
                     }
@@ -359,7 +350,6 @@ function installJsController(cb) {
                     if (fs.existsSync(rootDir + 'node_modules/' + appName + '.js-controller/' + appName + '.js')) {
                         _pid = child_process.fork(appName + '.js', ['stop'], {
                             cwd:   rootDir + 'node_modules/' + appName + '.js-controller',
-                            env: { TZ: getTZ() },
                             stdio: [0, 1, 2, 'ipc']
                         });
                     }
@@ -497,14 +487,12 @@ function startAdapter(objects, states, callback) {
                 // start controller
                 pid = child_process.exec('node node_modules/' + pkg.name + '/' + pkg.main + ' --console silly', {
                     cwd: rootDir + 'tmp',
-                    env: { TZ: getTZ() },
                     stdio: [0, 1, 2]
                 });
             } else {
                 // start controller
                 pid = child_process.fork('node_modules/' + pkg.name + '/' + pkg.main, ['--console', 'silly'], {
                     cwd:   rootDir + 'tmp',
-                    env: { TZ: getTZ() },
                     stdio: [0, 1, 2, 'ipc']
                 });
             }
@@ -726,69 +714,6 @@ function getAdapterConfig(instance) {
     return objects[id];
 }
 
-function getCurrentTimezoneName() {
-	var offsetMinues = new Date().getTimezoneOffset();
-	if(offsetMinues == 0) {
-		return 'UTC';
-	}
-	var offsetNegative = offsetMinues < 0;
-	offsetMinues = Math.abs(offsetMinues);
-	var offsetHours = Math.floor(offsetMinues / 60);
-	offsetMinues = offsetMinues % 60;
-
-	return 'UTC' + (offsetNegative ? '+' : '-') + offsetHours + ':' + ("0" + offsetMinues).slice(-2);
-}
-
-var lacyStates;
-function checkConnectionOfAdapter(lacyStates, cb, counter) {
-    counter = counter || 0;
-    console.log('wait for started #' + counter);
-    if (counter > 30) {
-        if (cb) cb('Cannot check connection');
-        return;
-    }
-
-    lacyStates.states.getState('system.adapter.' + adapterName.substring(adapterName.indexOf('.') + 1) + '.0.alive', function (err, state) {
-        if (err) console.error(err);
-        if (state && state.val) {
-            if (cb) cb();
-        } else {
-            setTimeout(function () {
-                checkConnectionOfAdapter(lacyStates, cb, counter + 1);
-            }, 1000);
-        }
-    });
-}
-
-function checkAdapterFinished(lacyStates, cb, counter) {
-    counter = counter || 0;
-    console.log('wait until stopped #' + counter);
-    if (counter > 30) {
-        if (cb) cb('Connection still available');
-        return;
-    }
-
-    lacyStates.states.getState('system.adapter.' + adapterName.substring(adapterName.indexOf('.') + 1) + '.0.alive', function (err, state) {
-        if (err) console.error(err);
-        if (state && !state.val) {
-            if (cb) cb();
-        } else {
-            setTimeout(function () {
-            	checkAdapterFinished(lacyStates, cb, counter + 1);
-            }, 1000);
-        }
-    });
-}
-function checkAdapterStartedAndFinished(lacyStates, cb) {
-	checkConnectionOfAdapter(lacyStates, function() {
-		checkAdapterFinished(lacyStates, cb);
-	});
-}
-
-function getTZ() {
-	return moment.tz.guess();
-}
-
 if (typeof module !== undefined && module.parent) {
     module.exports.getAdapterConfig = getAdapterConfig;
     module.exports.setAdapterConfig = setAdapterConfig;
@@ -801,6 +726,4 @@ if (typeof module !== undefined && module.parent) {
     module.exports.appName          = appName;
     module.exports.adapterName      = adapterName;
     module.exports.adapterStarted   = adapterStarted;
-    module.exports.getCurrentTimezoneName = getCurrentTimezoneName;
-    module.exports.checkAdapterStartedAndFinished = checkAdapterStartedAndFinished;
 }

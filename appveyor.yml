@@ -19,13 +19,10 @@ test_script:
   - echo %cd%
   - node --version
   - npm --version
-  - tzutil /s "UTC"
   - set TZ=UTC
   - npm test
-  - tzutil /s "Chatham Islands Standard Time"
   - set TZ=Chatham Islands Standard Time
   - npm test
-  - tzutil /s "Dateline Standard Time"
   - set TZ=Dateline Standard Time
   - npm test
 build: 'off'

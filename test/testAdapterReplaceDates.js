@@ -4,6 +4,7 @@ var chai = require('chai');
 chai.use(require('chai-string'));
 var expect = chai.expect;
 var setup  = require(__dirname + '/lib/setup');
+var util  = require(__dirname + '/lib/testUtil');
 var fs     = require('fs');
 
 var objects = null;
@@ -11,7 +12,7 @@ var states  = null;
 var lacyStates = {states: null};
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Config Replace Dates (' + setup.getCurrentTimezoneName() + ')';
+var adapterShortNameLog = adapterShortName + ' Config Replace Dates (' + util.getCurrentTimezoneName() + ')';
 
 function setupIcsFiles() {
     var d0 = new Date();
@@ -287,7 +288,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
 
     it('Test ' + adapterShortNameLog + ' adapter: Check if adapter started', function (done) {
         this.timeout(60000);
-        setup.checkAdapterStartedAndFinished(lacyStates, function (res) {
+        util.checkAdapterStartedAndFinished(lacyStates, function (res) {
             if (res) console.log(res);
             expect(res).not.to.be.equal('Cannot check connection');
             objects.setObject('system.adapter.test.0', {
@@ -411,8 +412,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
 
         states.getState('ical.0.data.html', function (err, state) {
             expect(err).to.be.not.ok;
-            expect(state.val).to.have.entriesCount('<span ', 36);
-            expect(state.val).to.have.entriesCount('</span>', 36);
+            expect(util.instr(state.val, '<span ')).to.be.equal(util.instr(state.val, '</span>'));
 
             done();
         });

@@ -5,8 +5,9 @@
 var expect = require('chai').expect;
 var fs     = require('fs');
 var setup  = require(__dirname + '/lib/setup');
+var util  = require(__dirname + '/lib/testUtil');
 
-describe('Test package.json and io-package.json (' + setup.getCurrentTimezoneName() + ')', function() {
+describe('Test package.json and io-package.json (' + util.getCurrentTimezoneName() + ')', function() {
     it('Test package files', function (done) {
         console.log();
 
