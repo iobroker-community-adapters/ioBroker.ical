@@ -279,7 +279,13 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
                 try {
                 	dates = rule.between(now3, endpreview, true);
                 } catch(e) {
-                	adapter.log.error('Issue detected in RRule, event ignored; Please forward debug information to iobroker.ical developer: ' + e.stack + '\nRRule object: ' + JSON.stringify(rule) + '\nnow3: ' + now3 + '\nendpreview: ' + endpreview);
+                	adapter.log.error('Issue detected in RRule, event ignored; Please forward debug information to iobroker.ical developer: ' + e.stack + '\n' +
+                			'RRule object: ' + JSON.stringify(rule) + '\n' +
+                			'now3: ' + now3 + '\n' +
+                			'endpreview: ' + endpreview + '\n' +
+                			'string: ' + ev.rrule.toString() + '\n' +
+                			'options: '+ JSON.stringify(options)
+                	);
                 }
 
                 adapter.log.debug('dates:' + JSON.stringify(dates));
