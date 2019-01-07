@@ -504,9 +504,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = warn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style="font-weight:normal' + (col ? (';color:' + col) : '' ) + '">';
             } else {
-                result.suffix += '<span style=\"font-weight:normal;color:red\">';
+                result.suffix += '<span style="font-weight:normal;color:red">';
             }
             result.suffix += "<span class='icalWarn2 iCal-" + calName + "2'>";
         } else
@@ -515,9 +515,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = prewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight: normal; color:' + col + '\">';
+                result.suffix += '<span style="font-weight: normal' + (col ? ('; color:' + col) : '') + '">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color: orange\">';
+                result.suffix += '<span style="font-weight: normal; color: orange">';
             }
             result.suffix += "<span class='icalPreWarn2 iCal-" + calName + "2'>";
         } else
@@ -526,9 +526,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = preprewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight: normal; color: ' + col + '\">';
+                result.suffix += '<span style="font-weight: normal' + (col ? ('; color:' + col) : '') + '">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color: yellow\">';
+                result.suffix += '<span style="font-weight: normal; color: yellow">';
             }
             result.suffix += "<span class='icalPrePreWarn2 iCal-" + calName + "2'>";
         } else
@@ -537,17 +537,17 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = normal;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight: normal; color: ' + col + '\">';
+                result.suffix += '<span style="font-weight: normal' + (col ? ('; color:' + col) : '') + '">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color: ' + adapter.config.defColor + '\">';
+                result.suffix += '<span style="font-weight: normal' + (adapter.config.defColor ? ('; color:' + adapter.config.defColor) : '') + '">';
             }
             result.suffix += "<span class='icalNormal2 iCal-" + calName + "2'>";
         } else {
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight: normal; color: ' + col + '\">';
+                result.suffix += '<span style="font-weight: normal' + (col ? ('; color:' + col) : '') + '">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color: ' + adapter.config.defColor + '\">';
+                result.suffix += '<span style="font-weight: normal' + (adapter.config.defColor ? ('; color:' + adapter.config.defColor) : '') + '">';
             }
             result.suffix += "<span class='icalNormal2 iCal-" + calName + "2'>";
         }
@@ -1240,7 +1240,7 @@ function brSeparatedList(datesArray) {
 }
 
 function main() {
-    normal  = '<span style="font-weight: bold; color: ' + adapter.config.defColor + '"><span class="icalNormal">';
+    normal  = '<span style="font-weight: bold' + (adapter.config.defColor ? ('; color: ' + adapter.config.defColor) : '') + '"><span class="icalNormal">';
 
     adapter.config.language = adapter.config.language || 'en';
 
