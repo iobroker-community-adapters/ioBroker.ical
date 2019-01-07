@@ -267,6 +267,9 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
                 var options = RRule.parseString(ev.rrule.toString());
                 // convert times temporary to UTC
                 options.dtstart = addOffset(ev.start, -getTimezoneOffset(ev.start));
+                if (options.until) {
+                	options.until = addOffset(options.until, -getTimezoneOffset(options.until));
+                }
                 adapter.log.debug('options:' + JSON.stringify(options));
 
                 var rule = new RRule(options);
