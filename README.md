@@ -171,6 +171,10 @@ Whitelist: If you only want to include events of a specific location use regular
 
 ## Changelog
 
+### 1.7.1 (2019-01-08)
+* (twonky4) Fixed issue with UTC of until in recurring appointments
+* (twonky4) Fixed possible empty color
+
 ### 1.7.0 (2018-11-27)
 * (twonky4) Add filter option
 * (twonky4) Add support of events for configured date period; changed state names from `events.*` to `events.0.today.*`
