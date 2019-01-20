@@ -15,10 +15,12 @@
 /* jslint node: true */
 'use strict';
 
-var utils   = require(__dirname + '/lib/utils'); // Get common adapter utils
+// Get common adapter utils
+var utils   = require(__dirname + '/lib/utils');
 var RRule   = require('rrule').RRule;
 var ical    = require('node-ical');
 var ce      = require('cloneextend');
+var moment  = require("moment-timezone");
 var request;
 var fs;
 
@@ -29,7 +31,8 @@ var adapter = new utils.Adapter({
     }
 });
 
-var normal           = ''; // set when ready
+// set when ready
+var normal           = '';
 var warn             = '<span style="font-weight: bold; color: red"><span class="icalWarn">';
 var prewarn          = '<span style="font-weight: bold; color: orange"><span class="icalPreWarn">';
 var preprewarn       = '<span style="font-weight: bold; color: yellow"><span class="icalPrePreWarn">';
@@ -73,7 +76,7 @@ function _(text) {
             }
         }
     } else if (!text.match(/_tooltip$/)) {
-        console.log('"' + text + '": {"en": "' + text + '", "de": "' + text + '", "ru": "' + text + '"},');
+        adapter.log.debug('"' + text + '": {"en": "' + text + '", "de": "' + text + '", "ru": "' + text + '"},');
     }
     return text;
 }
@@ -83,7 +86,7 @@ adapter.on('stateChange', function (id, state) {
 
     if (id === adapter.namespace + '.trigger') {
         var content = state.val.split(' ');
-        //One time read all calendars
+        // One time read all calendars
         switch (content[0]) {
             case 'read':
                 if (content[1]) {
@@ -95,6 +98,7 @@ adapter.on('stateChange', function (id, state) {
                 }
                 break;
 
+            // FIXME: checkForEvents not supporting call with only 1 parameter
             case 'check':
                 if (content[1]) {
                     adapter.log.info('checking "' + content[1] + '"');
@@ -131,7 +135,7 @@ Date.prototype.compare = function(b) {
     );
 };
 
-function getiCal(urlOrFile, user, pass, sslignore, calName, cb) {
+function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
     // Is it file or URL
     if (!urlOrFile.match(/^https?:\/\//)) {
         fs = fs || require('fs');
@@ -177,138 +181,200 @@ function getiCal(urlOrFile, user, pass, sslignore, calName, cb) {
     }
 }
 
-function checkiCal(urlOrFile, user, pass, sslignore, calName, cb) {
-    getiCal(urlOrFile, user, pass, sslignore, calName, function (err, _data) {
-        if (err || !_data) return;
-
-        // Remove from file empty lines
-        var lines = _data.split(/[\n\r]/g);
-        for (var t = lines.length - 1; t >= 0; t--) {
-            if (!lines[t]) lines.splice(t, 1);
+function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
+    if (typeof user === 'function') {
+        cb = user;
+        user = undefined;
+    }
+    getICal(urlOrFile, user, pass, sslignore, calName, function (err, _data) {
+        if (err || !_data) {
+            adapter.log.warn('Error reading "' + urlOrFile + '": ' + err);
+            cb(calName);
+            return;
         }
+
+        adapter.log.debug('File read successfully ' + urlOrFile);
 
         var data;
         try {
-            data = ical.parseICS(lines.join('\r\n'));
+            data = ical.parseICS(_data, function(err, data) {
+                if (data) {
+                    adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
+                    adapter.log.debug(JSON.stringify(data));
+                    var realnow    = new Date();
+                    var today      = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    var endpreview = new Date();
+                    endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
+
+                    var now2 = new Date();
+
+                    // clear time
+                    now2.setHours(0, 0, 0, 0);
+
+                    setImmediate(function() {
+                        processData(data, realnow, today, endpreview, now2, calName, filter, cb);
+                    });
+                }
+                else {
+                    // Ready with processing
+                    cb(calName);
+                }
+            });
         } catch (e) {
             adapter.log.error('Cannot parse ics file: ' + e);
         }
-
-        /*if (!data) {
-         data = ical.parseFile(__dirname + '/demo.isc');
-         }*/
-
-        if (data) {
-            adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
-            //adapter.log.debug(JSON.stringify(data));
-            var realnow    = new Date();
-            var today      = new Date();
-            today.setHours(0, 0, 0, 0);
-            var endpreview = new Date();
-            endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
-
-            // Now2 1 Sekunde  zurück für Vergleich von ganztägigen Terminen in RRule
-            var now2 = new Date();
-
-            // Uhzeit nullen
-            now2.setHours(0, 0, 0, 0);
-
-            // Datum 1 Sec zurück wegen Ganztätigen Terminen um 00:00 Uhr
-            //now2.setSeconds(now2.getSeconds() - 1);
-
-            for (var k in data) {
-                var ev = data[k];
-
-                // es interessieren nur Termine mit einer Summary und nur Einträge vom Typ VEVENT
-                if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
-
-                    // aha, it is RRULE in the event --> process it
-                    if (ev.rrule !== undefined) {
-                        var options = RRule.parseString(ev.rrule.toString());
-                        options.dtstart = ev.start;
-                        var rule = new RRule(options);
-                        if (!ev.end) ev.end = ev.start;
-                        var eventLength = ev.end.getTime() - ev.start.getTime();
-                        var now3 = new Date(now2.getTime() - eventLength);
-                        if (now2 < now3) now3 = now2;
-                        adapter.log.debug('RRule event:' + ev.summary + ' ' + ev.start.toString() + ' ' + endpreview.toString() + ' now:' + today + ' now2:' + now2 + ' now3:' + now3 + ' ' + rule.toText());
-                        var dates = rule.between(now3, endpreview, true);
-                        adapter.log.debug(JSON.stringify(options));
-                        adapter.log.debug(JSON.stringify(ev));
-                        adapter.log.debug(JSON.stringify(dates));
-                        // event innerhalb des Zeitfensters
-                        if (dates.length > 0) {
-                            for (var i = 0; i < dates.length; i++) {
-                                // ein deep-copy clone anlegen da ansonsten das setDate&co
-                                // die daten eines anderes Eintrages überschreiben
-                                var ev2 = ce.clone(ev);
-
-                                // Datum ersetzen für jeden einzelnen Termin in RRule
-                                ev2.start.setDate(dates[i].getDate());
-                                ev2.start.setMonth(dates[i].getMonth());
-                                ev2.start.setFullYear(dates[i].getFullYear());
-
-                                ev2.end = new Date(ev2.start.getTime() + eventLength); // Set end date based on length in ms
-
-                                adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
-
-                                // we have to check if there is an exdate array
-                                // which defines dates that - if matched - should
-                                // be excluded.
-                                var checkDate = true;
-                                if(ev2.exdate) {
-                                    for(var d in ev2.exdate) {
-                                        d = new Date(d);
-                                        if(d.getTime() === ev2.start.getTime())
-                                        {
-                                            checkDate = false;
-                                            adapter.log.debug('   ' + i + ': sort out');
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (checkDate && ev.recurrences) {
-                                    for(var dOri in ev.recurrences) {
-                                        var d = new Date(dOri);
-                                        if(d.getTime() === ev2.start.getTime()) {
-                                            adapter.log.debug(' FOUND DIFFERENT RECURRING!! ' + JSON.stringify(ev.recurrences[dOri]));
-                                        }
-                                    }
-                                }
-
-                                if (checkDate) {
-                                    checkDates(ev2, endpreview, today, realnow, ' rrule ', calName);
-                                }
-                            }
-                        } else {
-                            adapter.log.debug('no RRule events inside the time interval');
-                        }
-                    } else {
-                        // No RRule event
-                        checkDates(ev, endpreview, today, realnow, ' ', calName);
-                    }
-                }
-            }
-        }
-        // Ready with processing
-        cb(calName);
     });
 }
 
-function checkDates(ev, endpreview, today, realnow, rule, calName) {
+function getTimezoneOffset(date) {
+	var offset = 0;
+	var zone = moment.tz.zone(moment.tz.guess());
+	if(zone && date) {
+	    offset = zone.utcOffset(date.getTime());
+	    adapter.log.debug('use offset ' + offset + ' for ' + date);
+	} else {
+        adapter.log.warn('no current timzone found: {zone:' + moment.tz.guess() + ', date: ' + date + '}');
+	}
+
+	return offset;
+}
+
+function addOffset(time, offset) {
+	return new Date(time.getTime() + (offset * 60 * 1000));
+}
+
+function processData(data, realnow, today, endpreview, now2, calName, filter, cb) {
+    var processedEntries = 0;
+    var defaultTimezone;
+    for (var k in data) {
+        var ev = data[k];
+        delete data[k];
+
+        // only events with summary are interesting
+        if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
+        	adapter.log.debug('ev:' + JSON.stringify(ev));
+            if (!ev.end) {
+                ev.end = ce.clone(ev.start);
+                if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
+                    ev.end.setDate(ev.end.getDate() + 1);
+                }
+            }
+            // aha, it is RRULE in the event --> process it
+            if (ev.rrule !== undefined) {
+            	var eventLength = ev.end.getTime() - ev.start.getTime();
+
+                var options = RRule.parseString(ev.rrule.toString());
+                // convert times temporary to UTC
+                options.dtstart = addOffset(ev.start, -getTimezoneOffset(ev.start));
+                if (options.until) {
+                	options.until = addOffset(options.until, -getTimezoneOffset(options.until));
+                }
+                adapter.log.debug('options:' + JSON.stringify(options));
+
+                var rule = new RRule(options);
+
+                var now3 = new Date(now2.getTime() - eventLength);
+                if (now2 < now3) now3 = now2;
+                adapter.log.debug('RRule event:' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; today:' + today + '; now2:' + now2 + '; now3:' + now3 + '; rule:' + JSON.stringify(rule));
+
+                var dates = [];
+                try {
+                	dates = rule.between(now3, endpreview, true);
+                } catch(e) {
+                	adapter.log.error('Issue detected in RRule, event ignored; Please forward debug information to iobroker.ical developer: ' + e.stack + '\n' +
+                			'RRule object: ' + JSON.stringify(rule) + '\n' +
+                			'now3: ' + now3 + '\n' +
+                			'endpreview: ' + endpreview + '\n' +
+                			'string: ' + ev.rrule.toString() + '\n' +
+                			'options: '+ JSON.stringify(options)
+                	);
+                }
+
+                adapter.log.debug('dates:' + JSON.stringify(dates));
+                // event within the time window
+                if (dates.length > 0) {
+                    for (var i = 0; i < dates.length; i++) {
+                        // use deep-copy otherwise setDate etc. overwrites data from different events
+                        var ev2 = ce.clone(ev);
+
+                        // replace date & time for each event in RRule
+                        // convert time back to local times
+                        var start = dates[i];
+                        ev2.start = addOffset(start, getTimezoneOffset(start));
+
+                        // Set end date based on length in ms
+                        var end = new Date(start.getTime() + eventLength);
+                        ev2.end = addOffset(end, getTimezoneOffset(end));
+
+                        adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
+
+                        // we have to check if there is an exdate array
+                        // which defines dates that - if matched - should
+                        // be excluded.
+                        var checkDate = true;
+                        if(ev2.exdate) {
+                            for(var d in ev2.exdate) {
+                                d = new Date(d);
+                                if(d.getTime() === ev2.start.getTime()) {
+                                    checkDate = false;
+                                    adapter.log.debug('   ' + i + ': sort out');
+                                    break;
+                                }
+                            }
+                        }
+                        if (checkDate && ev.recurrences) {
+                            for(var dOri in ev.recurrences) {
+                                var d = new Date(dOri);
+                                if(d.getTime() === ev2.start.getTime()) {
+                                    ev2 = ce.clone(ev.recurrences[dOri]);
+                                    adapter.log.debug('   ' + i + ': different recurring found replaced with Event:' + ev2.start + ' ' + ev2.end);
+                                }
+                            }
+                        }
+
+                        if (checkDate) {
+                            checkDates(ev2, endpreview, today, realnow, ' rrule ', calName, filter);
+                        }
+                    }
+                } else {
+                    adapter.log.debug('no RRule events inside the time interval');
+                }
+            } else {
+                // No RRule event
+                checkDates(ev, endpreview, today, realnow, ' ', calName, filter);
+            }
+        }
+
+        if (++processedEntries > 100) {
+            break;
+        }
+    }
+    if (!Object.keys(data).length) {
+        cb(calName);
+        return;
+    } else {
+        setImmediate(function() {
+            processData(data, realnow, today, endpreview, now2, calName, filter, cb);
+        });
+    }
+}
+
+function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
     var fullday = false;
     var reason;
     var date;
 
-    // Check ob ganztägig
-    // Für Outlook schauen ob ev.summary eventuell Unterparameter enthält
+    // chech if sub parameter exists for outlook 
     if (ev.summary.hasOwnProperty('val')) {
-        //Ja, also reason auslesen
+        // yes -> read reason
         reason = ev.summary.val;
     } else {
-        //Nein
+        // no
         reason = ev.summary;
     }
+    
+    var location = ev.location || '';
 
     // If not start point => ignore it
     if (!ev.start) return;
@@ -317,35 +383,50 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
     if (!ev.end) ev.end = ev.start;
 
     // If full day
-    if (!ev.start.getHours()   &&
+    if (!ev.start.getHours() &&
         !ev.start.getMinutes() &&
         !ev.start.getSeconds() &&
-        !ev.end.getHours()     &&
-        !ev.end.getMinutes()   &&
-        !ev.end.getSeconds()   &&
-        ev.end.getTime() !== ev.start.getTime()
+        !ev.end.getHours() &&
+        !ev.end.getMinutes() &&
+        !ev.end.getSeconds()
     ) {
-        fullday = true;
+    	// interpreted as one day; RFC says end date must be after start date
+    	if(ev.end.getTime() == ev.start.getTime() && ev.datetype == 'date') {
+    		ev.end.setDate(ev.end.getDate() + 1);
+    	}
+    	if(ev.end.getTime() !== ev.start.getTime()) {
+            fullday = true;
+        }
     }
 
     // If force Fullday is set
-	if (adapter.config.forceFullday) {
-		fullday = true;
-		ev.start.setMinutes(0);
-		ev.start.setSeconds(0);
-		ev.start.setHours(0);
+    if (adapter.config.forceFullday && !fullday) {
+        fullday = true;
+        ev.start.setMinutes(0);
+        ev.start.setSeconds(0);
+        ev.start.setHours(0);
         ev.end.setDate(ev.end.getDate() + 1);
         ev.end.setHours(0);
-		ev.end.setMinutes(0);
-		ev.end.setSeconds(0);
-	}
+        ev.end.setMinutes(0);
+        ev.end.setSeconds(0);
+    }
+
+    if(filter) {
+    	var content = 'SUMMARY:' + reason + '\nDESCRIPTION:' + ev.description + '\nLOCATION:'+ location;
+    	filter = new RegExp(filter.source, filter.flags);
+    	if(filter.test(content)) {
+    		adapter.log.debug('Event filtered using ' + filter + ' by content: ' + content);
+
+    		return;
+    	}
+    }
 
     // Full day
     if (fullday) {
-        //Terminstart >= today  && < previewzeit  oder endzeitpunkt > today && < previewzeit ---> anzeigen
+        // event start >= today  && < previewtime  or end > today && < previewtime ---> display
         if ((ev.start < endpreview && ev.start >= today) || (ev.end > today && ev.end <= endpreview) || (ev.start < today && ev.end > today)) {
             // check only full day events
-            if (checkForEvents(reason, today, ev, true, realnow)) {
+            if (checkForEvents(reason, today, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, true);
 
                 insertSorted(datesArray, {
@@ -359,6 +440,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _IDID:    ev.uid,
                     _allDay:  true,
                     _rule:    rule,
+                    location: location,
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName
                 });
@@ -376,7 +458,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
         // Start time >= today && Start time < preview time && End time >= now
         if ((ev.start >= today && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // Add to list only if not hidden
-            if (checkForEvents(reason, today, ev, false, realnow)) {
+            if (checkForEvents(reason, today, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, false);
 
                 insertSorted(datesArray, {
@@ -390,6 +472,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
                     _IDID:    ev.uid,
                     _allDay:  false,
                     _rule:    rule,
+                    location: location,
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName
                 });
@@ -407,23 +490,23 @@ function checkDates(ev, endpreview, today, realnow, rule, calName) {
 function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     var result = {
         prefix: normal,
-        suffix: "</span></span>"
+        suffix: "</span>" + (adapter.config.colorize ? "</span>" : "")
     };
     var cmpDate = new Date(date.getTime());
-    cmpDate.setHours(0,0,0,0);
+    cmpDate.setHours(0, 0, 0, 0);
 
     calName = calName.replace(' ', '_');
 
-    // Colorieren wenn gewünscht
+    // colorize if needed
     if (adapter.config.colorize) {
         // today
         if (cmpDate.compare(today) === 0) {
             result.prefix = warn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight:normal;color:' + col + '\">';
+                result.suffix += '<span style="font-weight:normal' + (col ? (';color:' + col) : '' ) + '">';
             } else {
-                result.suffix += '<span style=\"font-weight:normal;color:red\">';
+                result.suffix += '<span style="font-weight:normal;color:red">';
             }
             result.suffix += "<span class='icalWarn2 iCal-" + calName + "2'>";
         } else
@@ -432,9 +515,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = prewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight: normal; color:' + col + '\">';
+                result.suffix += '<span style="font-weight: normal' + (col ? ('; color:' + col) : '') + '">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color: orange\">';
+                result.suffix += '<span style="font-weight: normal; color: orange">';
             }
             result.suffix += "<span class='icalPreWarn2 iCal-" + calName + "2'>";
         } else
@@ -443,9 +526,9 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = preprewarn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight: normal; color: ' + col + '\">';
+                result.suffix += '<span style="font-weight: normal' + (col ? ('; color:' + col) : '') + '">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color: yellow\">';
+                result.suffix += '<span style="font-weight: normal; color: yellow">';
             }
             result.suffix += "<span class='icalPrePreWarn2 iCal-" + calName + "2'>";
         } else
@@ -454,17 +537,17 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             result.prefix = normal;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight: normal; color: ' + col + '\">';
+                result.suffix += '<span style="font-weight: normal' + (col ? ('; color:' + col) : '') + '">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color: ' + adapter.config.defColor + '\">';
+                result.suffix += '<span style="font-weight: normal' + (adapter.config.defColor ? ('; color:' + adapter.config.defColor) : '') + '">';
             }
             result.suffix += "<span class='icalNormal2 iCal-" + calName + "2'>";
         } else {
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
-                result.suffix += '<span style=\"font-weight: normal; color: ' + col + '\">';
+                result.suffix += '<span style="font-weight: normal' + (col ? ('; color:' + col) : '') + '">';
             } else {
-                result.suffix += '<span style=\"font-weight: normal; color: ' + adapter.config.defColor + '\">';
+                result.suffix += '<span style="font-weight: normal' + (adapter.config.defColor ? ('; color:' + adapter.config.defColor) : '') + '">';
             }
             result.suffix += "<span class='icalNormal2 iCal-" + calName + "2'>";
         }
@@ -474,61 +557,66 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     return result;
 }
 
-function checkForEvents(reason, today, event, fullday, realnow) {
+function checkForEvents(reason, today, event, realnow) {
+	let oneDay = 24 * 60 * 60 * 1000;
     // show unknown events
-    var result = true;
+    let result = true;
 
-    // Schauen ob es ein Event in der Tabelle gibt
-    for (var i = 0; i < events.length; i++) {
-        if (reason.indexOf(events[i].name) !== -1) {
-            // auslesen ob das Event angezeigt werden soll
-            result = events[i].display;
-            adapter.log.debug('found event in table: ' + events[i].name);
+    // check if event exists in table
+    for (let i = 0; i < events.length; i++) {
+    	let ev = events[i];
+        if (reason.indexOf(ev.name) !== -1) {
+        	// check if event should shown
+            result = ev.display;
+            adapter.log.debug('found event in table: ' + ev.name);
 
             // If full day event
             // Follow processing only if event is today
-            if ((fullday  && (event.start <= today)   && (today   <= event.end)) || // full day
-                (!fullday && (event.start <= realnow) && (realnow <= event.end))) { // with time
-                if (fullday) {
-                    adapter.log.debug('Event (full day): ' + event.start + ' ' + today   + ' ' + event.end);
-                } else {
-                    adapter.log.debug('Event with time: '  + event.start + ' ' + realnow + ' ' + event.end);
-                }
+            if (
+            		((!ev.type || ev.type == 'today') && event.end.getTime() > today.getTime() + (ev.day * oneDay) && event.start.getTime() < today.getTime() + (ev.day * oneDay) + oneDay) ||
+            		(ev.type == 'now' && event.start <= realnow && realnow <= event.end) ||
+            		(ev.type == 'later' && event.start > realnow && event.start.getTime() < today.getTime() + oneDay)
+                ) {
+                adapter.log.debug((ev.type ? ev.type : 'day ' + ev.day) + ' Event with time: '  + event.start + ' ' + realnow + ' ' + event.end);
 
                 // If yet processed
-                if (events[i].processed) {
+                if (ev.processed) {
                     // nothing to do
-                    adapter.log.debug('Event ' + events[i].name + ' yet processed');
+                    adapter.log.debug('Event ' + ev.name + ' yet processed');
                 } else {
                     // Process event
-                    events[i].processed = true;
-                    if (!events[i].state) {
-                        events[i].state = true;
-                        adapter.log.info('Set events.' + events[i].name + ' to true');
-                        adapter.setState('events.' + events[i].name, {val: events[i].state, ack: true});
+                    ev.processed = true;
+                    if (!ev.state) {
+                        ev.state = true;
+                        let name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
+                        adapter.log.info('Set ' + name + ' to true');
+                        adapter.setState(name, {val: ev.state, ack: true});
                     }
                 }
             }
-            //break;
         }
     }
     return result;
 }
 
-function initEvent(name, display, callback) {
-    var obj = {
+function initEvent(name, display, day, type, callback) {
+    let obj = {
         name:      name,
         processed: false,
         state:     null,
-        display:   display
+        display:   display,
+        day:       day,
+        type:      type
     };
 
     events.push(obj);
 
-    adapter.getState('events.' + name, function (err, state) {
+    let stateName = 'events.' + day + '.' + (type ? type + '.' : '') + shrinkStateName(name);
+
+    adapter.getState(stateName, function (err, state) {
         if (err || !state) {
             obj.state = false;
-            adapter.setState('events.' + name, {val: obj.state, ack: true});
+            adapter.setState(stateName, {val: obj.state, ack: true});
         } else {
             obj.state = state.val;
         }
@@ -536,53 +624,107 @@ function initEvent(name, display, callback) {
     });
 }
 
+function removeNameSpace(id) {
+    let re = new RegExp(adapter.namespace + '*\.', 'g');
+    return id.replace(re, '');
+}
+
+function shrinkStateName(v) {
+    let n = v.replace(/[\s."`'*,\\?<>[\];:]+/g, '');
+    if ((!n && typeof n != 'number') || 0 === n.length) {
+        n = 'onlySpecialCharacters';
+    }
+    return n;
+}
+
 // Create new user events and remove existing, but deleted in config
 function syncUserEvents(callback) {
-    var count = 0;
+	let count = 0;
+	let days = parseInt(adapter.config.daysPreview, 10) + 1;
 
     // Read all actual events
     adapter.getStatesOf('', 'events', function (err, states) {
-        var toAdd = [];
-        var toDel = [];
+        let toAdd = [];
+        let toDel = [];
 
         if (states) {
             // Add "to delete" all existing events
-            for (var j = 0; j < states.length; j++) {
-                toDel.push(states[j].common.name);
+            for (let j = 0; j < states.length; j++) {
+            	toDel.push({id: removeNameSpace(states[j]._id), name: states[j].common.name});
             }
         }
 
         // Add "to add" all configured events
-        for (var i = 0; i < adapter.config.events.length; i++) {
-            toAdd.push(adapter.config.events[i].name);
+        for (let i = 0; i < adapter.config.events.length; i++) {
+        	for (let day = 0; day < days; day++) {
+        		let name = adapter.config.events[i].name;
+        		if (day == 0) {
+        			toAdd.push({id: 'events.' + day + '.later.' + shrinkStateName(name), name: name});
+        			toAdd.push({id: 'events.' + day + '.today.' + shrinkStateName(name), name: name});
+        			toAdd.push({id: 'events.' + day + '.now.' + shrinkStateName(name), name: name});
+        		} else {
+        			toAdd.push({id: 'events.' + day + '.' + shrinkStateName(name), name: name});
+        		}
+        	}
         }
 
         if (states) {
-            for (j = 0; j < states.length; j++) {
-                for (i = 0; i < adapter.config.events.length; i++) {
-                    if (states[j].common.name === adapter.config.events[i].name) {
-                        // remove it from "toDel"
-                        var pos = toDel.indexOf(adapter.config.events[i].name);
-                        if (pos !== -1) toDel.splice(pos, 1);
-                        break;
-                    }
+            function removeFromToDel(day, name) {
+                let pos_ = toDel.indexOf(toDel.find(x => x.id === 'events.' + day + '.' + name));
+                if (pos_ !== -1) {
+                	toDel.splice(pos_, 1);
                 }
             }
 
-            for (i = 0; i < adapter.config.events.length; i++) {
-                for (j = 0; j < states.length; j++) {
-                    if (states[j].common.name === adapter.config.events[i].name) {
-                        if (adapter.config.events[i].enabled === 'true')  adapter.config.events[i].enabled = true;
-                        if (adapter.config.events[i].enabled === 'false') adapter.config.events[i].enabled = false;
-                        if (adapter.config.events[i].display === 'true')  adapter.config.events[i].display = true;
-                        if (adapter.config.events[i].display === 'false') adapter.config.events[i].display = false;
+            for (let j = 0; j < states.length; j++) {
+           		for (let i = 0; i < adapter.config.events.length; i++) {
+           			for (let day = 0; day < days; day++) {
+	                    if (states[j].common.name === adapter.config.events[i].name) {
+	                        // remove it from "toDel"
+	                    	let name = shrinkStateName(adapter.config.events[i].name);
+                        	if(day == 0) {
+                        		removeFromToDel(day + '.today', name);
+                        		removeFromToDel(day + '.now', name);
+                        		removeFromToDel(day + '.later', name);
+                        	} else {
+                        		removeFromToDel(day, name);
+                        	}
+	                    }
+                	}
+                }
+            }
 
-                        // if settings does not changed
-                        if (states[j].native.enabled == adapter.config.events[i].enabled &&
-                            states[j].native.display == adapter.config.events[i].display) {
-                            // remove it from "toAdd"
-                            var pos_ = toAdd.indexOf(adapter.config.events[i].name);
-                            if (pos_ !== -1) toAdd.splice(pos_, 1);
+            function removeFromToAdd(name) {
+                let pos_ = toAdd.indexOf(toAdd.find(x => x.id === name));
+                if (pos_ !== -1) {
+                	toAdd.splice(pos_, 1);
+                }
+            }
+
+            for (let day = 0; day < days; day++) {
+	            for (let i = 0; i < adapter.config.events.length; i++) {
+	                for (let j = 0; j < states.length; j++) {
+	                	let event = adapter.config.events[i];
+	                	let name = shrinkStateName(event.name);
+	                    if (states[j].common.name === event.name &&
+	                    		((day > 0 && removeNameSpace(states[j]._id) == 'events.' + day + '.' + name) ||
+	                    		(day == 0 && (
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.today.' + name ||
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.now.' + name ||
+	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.later.' + name
+	                    		)))
+	                    ) {
+	                        if (event.enabled === 'true') event.enabled = true;
+	                        if (event.enabled === 'false') event.enabled = false;
+	                        if (event.display === 'true') event.display = true;
+	                        if (event.display === 'false') event.display = false;
+
+	                        // if settings does not changed
+	                        if (states[j].native.enabled == event.enabled &&
+	                            states[j].native.display == event.display) {
+	                            // remove it from "toAdd"
+                        		removeFromToAdd(removeNameSpace(states[j]._id));
+                        	}
                         }
                     }
                 }
@@ -590,53 +732,99 @@ function syncUserEvents(callback) {
         }
 
         // Add states
-        for (i = 0; i < toAdd.length; i++) {
-            for (j = 0; j < adapter.config.events.length; j++) {
-                if (adapter.config.events[j].name === toAdd[i]) {
-                    if (adapter.config.events[j].enabled === 'true')  adapter.config.events[j].enabled = true;
-                    if (adapter.config.events[j].enabled === 'false') adapter.config.events[j].enabled = false;
-                    if (adapter.config.events[j].display === 'true')  adapter.config.events[j].display = true;
-                    if (adapter.config.events[j].display === 'false') adapter.config.events[j].display = false;
+        for (let i = 0; i < toAdd.length; i++) {
+            for (let j = 0; j < adapter.config.events.length; j++) {
+            	let configItem = adapter.config.events[j];
+                if (configItem.name === toAdd[i].name) {
+                    if (configItem.enabled === 'true')  configItem.enabled = true;
+                    if (configItem.enabled === 'false') configItem.enabled = false;
+                    if (configItem.display === 'true')  configItem.display = true;
+                    if (configItem.display === 'false') configItem.display = false;
 
                     // Add or update state
-                    adapter.setObject('events.' + toAdd[i], {
+                    adapter.setObject(toAdd[i].id, {
                         type: 'state',
                         common: {
-                            name: toAdd[i],
+                            name: toAdd[i].name,
                             type: 'boolean',
                             role: 'indicator'
                         },
                         native: {
-                            enabled: adapter.config.events[j].enabled,
-                            display: adapter.config.events[j].display
+                            enabled: configItem.enabled,
+                            display: configItem.display
                         }
                     }, function (err, id) {
                         adapter.log.info('Event "' + id.id + '" created');
                     });
-                    break;
                 }
             }
         }
 
         // Remove states
-        for (i = 0; i < toDel.length; i++) {
-            adapter.delObject('events.' + toDel[i]);
-            adapter.delState('events.' + toDel[i]);
+        for (let i = 0; i < toDel.length; i++) {
+            adapter.delObject(toDel[i].id);
+            adapter.delState(toDel[i].id);
         }
 
-        for (i = 0; i < adapter.config.events.length; i++) {
-            // If event enabled add it to list
-            if (adapter.config.events[i].enabled) {
-                count++;
-                initEvent(adapter.config.events[i].name, adapter.config.events[i].display, function () {
-                    count--;
-                    if (!count) callback();
-                });
-            }
+        let countFunc = function() {
+    		count--;
+    		if (!count) callback();
+    	};
+        
+        for (let day = 0; day < days; day++) { 
+	        for (let i = 0; i < adapter.config.events.length; i++) {
+	        	let event = adapter.config.events[i];
+	            // If event enabled add it to list
+	            if (event.enabled) {
+	                if(day == 0) {
+		                count += 3;
+	                	initEvent(event.name, event.display, 0, 'today', countFunc);
+	                	initEvent(event.name, event.display, 0, 'now', countFunc);
+	                	initEvent(event.name, event.display, 0, 'later', countFunc);
+	                } else {
+		                count++;
+	                	initEvent(event.name, event.display, day, null, countFunc);
+	                }
+	            }
+	        }
         }
 
         if (!count) callback();
     });
+}
+
+function buildFilter(filter, filterregex) {
+	var ret = null;
+	var prep = '';
+	if (filterregex === 'true' || filterregex === true) {
+		prep = filter;
+	} else {
+		var list = (filter || '').split(';');
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i].trim();
+			if(!item) {
+				continue;
+			}
+			if(prep) {
+				prep += '|';
+			}
+			prep += '(' + item + ')';
+		}
+		if(prep) {
+			prep = '/' + prep + '/g';
+		}
+	}
+
+	if (prep) {
+		try {
+			var s = prep.split('/');
+			ret = new RegExp(s[1], s[2]);
+		} catch (e) {
+		   adapter.log.error('invalid filter: ' + prep);
+		}
+	}
+	
+	return ret;
 }
 
 // Read all calendar
@@ -650,22 +838,23 @@ function readAll() {
     }
 
     if (adapter.config.calendars) {
-        // eigene Instanz hinzufügen, falls die Kalender schnell abgearbeitet werden
+    	// add own instance, needed if calendars are quickly readed
         for (var i = 0; i < adapter.config.calendars.length; i++) {
             if (adapter.config.calendars[i].url) {
                 count++;
                 adapter.log.debug('reading calendar from URL: ' + adapter.config.calendars[i].url + ', color: ' + adapter.config.calendars[i].url.color);
-                checkiCal(
+                checkICal(
                     adapter.config.calendars[i].url,
                     adapter.config.calendars[i].user,
                     adapter.config.calendars[i].pass,
                     adapter.config.calendars[i].sslignore,
                     adapter.config.calendars[i].name,
+                    buildFilter(adapter.config.calendars[i].filter, adapter.config.calendars[i].filterregex),
                     function () {
                         // If all calendars are processed
                         if (!--count) {
                             adapter.log.debug('displaying dates because of callback');
-                            displayDates();
+                           	displayDates();
                         }
                     });
             }
@@ -675,15 +864,15 @@ function readAll() {
     // If nothing to process => show it
     if (!count) {
         adapter.log.debug('displaying dates');
-        displayDates();
+       	displayDates();
     }
 }
 
 // Read one calendar
 function readOne(url) {
     datesArray = [];
-    checkiCal(url, '', function () {
-        displayDates();
+    checkICal(url, function () {
+       	displayDates();
     });
 }
 
@@ -735,20 +924,22 @@ function formatDate(_date, _end, withTime, fullday) {
                 startDayEnd.setFullYear(_date.getFullYear());
                 startDayEnd.setMonth(_date.getMonth());
                 startDayEnd.setDate(_date.getDate() + 1);
-                startDayEnd.setHours(0,0,0,0);
-                if (_end > startDayEnd) { // end is next day
+                startDayEnd.setHours(0, 0, 0, 0);
+                
+                // end is next day
+                if (_end > startDayEnd) {
                     var start = new Date();
                     if (!alreadyStarted) {
                         start.setDate(_date.getDate());
                         start.setMonth(_date.getMonth());
                         start.setFullYear(_date.getFullYear());
                     }
-                    start.setHours(0,0,1,0);
+                    start.setHours(0, 0, 1, 0);
                     var fullTimeDiff = timeDiff;
                     timeDiff = _end.getTime() - start.getTime();
                     adapter.log.debug('    time difference: ' + timeDiff + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
-                    if (fullTimeDiff >= 24*60*60*1000) {
-                        _time += '+' + Math.floor(timeDiff / (24*60*60*1000));
+                    if (fullTimeDiff >= 24 * 60 * 60 * 1000) {
+                        _time += '+' + Math.floor(timeDiff / (24 * 60 * 60 * 1000));
                     }
                 }
                 else if (adapter.config.replaceDates && _end.getHours() === 0 && _end.getMinutes() === 0) {
@@ -839,8 +1030,7 @@ function formatDate(_date, _end, withTime, fullday) {
             if (_class === 'ical_6days')    return {text: (alreadyStarted ? '&#8594; ' : '') + _('6days')    + _time, _class: _class};
             if (_class === 'ical_oneweek')  return {text: (alreadyStarted ? '&#8594; ' : '') + _('oneweek')  + _time, _class: _class};
         }
-    }
-    else {
+    } else {
         // check if date is in the past and if so we show the end time instead
         _class = 'ical_today';
         var daysleft = Math.round((_end - new Date())/(1000*60*60*24));
@@ -943,73 +1133,52 @@ function formatDate(_date, _end, withTime, fullday) {
 
 // Show event as text
 function displayDates() {
-    var count = 0;
+    var count = 4;
+    let retFunc = function () {
+    	if (!--count) {
+    		setTimeout(function() {
+    			adapter.stop();
+    		}, 5000);
+    	}
+    };
+
+    let todayEventcounter = 0;
+    let tomorrowEventcounter = 0;
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let oneDay = 24 * 60 * 60 * 1000;
+    let tomorrow = new Date(today.getTime() + oneDay);
+    let dayAfterTomorrow = new Date(tomorrow.getTime() + oneDay);
+    
     if (datesArray.length) {
-        var todayEventcounter = 0;
         for (var t = 0; t < datesArray.length; t++) {
-            if (datesArray[t]._class.indexOf('ical_today') !== -1) todayEventcounter++;
+            if (datesArray[t]._end.getTime() > today.getTime() && datesArray[t]._date.getTime() < tomorrow.getTime()) {
+            	todayEventcounter++;
+            }
+            if (datesArray[t]._end.getTime() > tomorrow.getTime() && datesArray[t]._date.getTime() < dayAfterTomorrow.getTime()) {
+            	tomorrowEventcounter++;
+            }
         }
 
-        count += 3;
-        adapter.setState('data.count', {val: todayEventcounter,           ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
-        adapter.setState('data.table', {val: datesArray,                  ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
-        adapter.setState('data.html',  {val: brSeparatedList(datesArray), ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
+        adapter.setState('data.table', {val: datesArray, ack: true}, retFunc);
+        adapter.setState('data.html',  {val: brSeparatedList(datesArray), ack: true}, retFunc);
     } else {
-        count += 3;
-        adapter.setState('data.count', {val: 0,  ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
-        adapter.setState('data.table', {val: [], ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
-        adapter.setState('data.html',  {val: '', ack: true}, function () {
-            if (!--count) {
-                setTimeout(function() {
-                    adapter.stop();
-                }, 5000);
-            }
-        });
+        adapter.setState('data.table', {val: [], ack: true}, retFunc);
+        adapter.setState('data.html',  {val: '', ack: true}, retFunc);
     }
+    adapter.setState('data.count', {val: todayEventcounter, ack: true}, retFunc);
+    adapter.setState('data.countTomorrow', {val: tomorrowEventcounter, ack: true}, retFunc);
 
     // set not processed events to false
     for (var j = 0; j < events.length; j++) {
         if (!events[j].processed && events[j].state) {
+        	let ev = events[j];
             count++;
-            events[j].state = false;
+            ev.state = false;
             // Set to false
-            adapter.setState('events.' + events[j].name, {val: events[j].state, ack: true}, function () {
-                if (!--count) {
-                    setTimeout(function () {
-                        adapter.stop();
-                    }, 5000);
-                }
-            });
+            let name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
+            adapter.log.info('Set ' + name + ' to false');
+            adapter.setState(name, {val: ev.state, ack: true}, retFunc);
         }
     }
 }
@@ -1045,11 +1214,11 @@ function brSeparatedList(datesArray) {
     var today    = new Date();
     var tomorrow = new Date();
     var dayafter = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     tomorrow.setDate(today.getDate() + 1);
-    tomorrow.setHours(0,0,0,0);
+    tomorrow.setHours(0, 0, 0, 0);
     dayafter.setDate(today.getDate() + 2);
-    dayafter.setHours(0,0,0,0);
+    dayafter.setHours(0, 0, 0, 0);
 
     for (var i = 0; i < datesArray.length; i++) {
         var date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
@@ -1064,21 +1233,16 @@ function brSeparatedList(datesArray) {
         var xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayafter, color, datesArray[i]._calName);
 
         if (text) text += '<br/>\n';
-        text += xfix.prefix + date.text + xfix.suffix + ' ' + datesArray[i].event + '</span></span>';
+        text += xfix.prefix + date.text + xfix.suffix + ' ' + datesArray[i].event + '</span>' + (adapter.config.colorize ? '</span>' : '');
     }
 
     return text;
 }
 
 function main() {
-    normal  = '<span style="font-weight: bold; color: ' + adapter.config.defColor + '"><span class="icalNormal">';
+    normal  = '<span style="font-weight: bold' + (adapter.config.defColor ? ('; color: ' + adapter.config.defColor) : '') + '"><span class="icalNormal">';
 
     adapter.config.language = adapter.config.language || 'en';
 
     syncUserEvents(readAll);
-
-    setTimeout(function () {
-        adapter.log.info('force terminating after 4 minutes');
-        adapter.stop();
-    }, 240000);
 }

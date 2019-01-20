@@ -58,22 +58,15 @@
             settings.calendars[c].user  = settings.calendars[c].user || '';
             settings.calendars[c].pass  = settings.calendars[c].pass || '';
             settings.calendars[c].color = settings.calendars[c].color || '';
+
+            settings.calendars[c].filterregex =
+                settings.calendars[c].filterregex === 'yes' ||
+                settings.calendars[c].filterregex === 'true' ||
+                settings.calendars[c].filterregex === true;
+
+            settings.calendars[c].filter = settings.calendars[c].filter || '';
         }
 
-        /*editTable({
-            tabId: 'calendars',
-            cols:   [{name: 'name', width: '60'},  {name: 'url',     width: '260'}, {name: 'user',   width: '60'}, {name: 'pass',   width: '60'}, {name: 'sslignore', width : '40'}, {name: 'color',   width: '60'}],
-            values: calendars,
-            top:    400,
-            title:  'Calendars'
-        });
-        editTable({
-            tabId: 'events',
-            cols:   [{name: 'name', width: '200'}, {name: 'enabled', width: '60', checkbox: true},  {name: 'display', width: '120', checkbox: true}],
-            values: events,
-            top:    350,
-            title:  'Events'
-        });*/
         onChange(false);
         values2table('calendars', calendars, onChange);
 
@@ -91,8 +84,6 @@
             }
         });
         // Get edited table
-        //obj.calendars = getTableResult('calendars', ['name', 'url', 'user', 'pass', 'sslignore', 'color']);
-        //obj.events    = getTableResult('events',    ['name', 'enabled', 'display']);
         obj.calendars = table2values('calendars');
         obj.events    = table2values('events');
         callback(obj);
@@ -165,7 +156,7 @@
                     <label class="translate" for="everyCalOneColor">Every calendar has own color:</label>
                 </div>
                 <div class="col s12 m4">
-                    <input class="value" id="fulltime" type="text" maxlength="10"/>
+                    <input class="value" id="fulltime" type="text" maxlength="30"/>
                     <label class="translate" for="fulltime">Use by full day:</label>
                 </div>
             </div>
@@ -187,12 +178,14 @@
                     <table class="table-values">
                         <thead>
                         <tr>
-                            <th data-name="name"      class="translate">name</th>
-                            <th data-name="url"       class="translate">url</th>
-                            <th data-name="user"      data-style="width: 100px" class="translate">user</th>
-                            <th data-name="pass"      data-style="width: 100px" data-type="password" class="translate">pass</th>
-                            <th data-name="sslignore" data-type="checkbox" class="translate translateT" title="Ignore Certificate errors">sslignore</th>
-                            <th data-name="color"     data-type="color" class="translate">color</th>
+                            <th data-name="name"        class="translate">name</th>
+                            <th data-name="url"         class="translate">url</th>
+                            <th data-name="user"        data-style="width: 100px" class="translate">user</th>
+                            <th data-name="pass"        data-style="width: 100px" data-type="password" class="translate">pass</th>
+                            <th data-name="sslignore"   data-type="checkbox" class="translate">sslignore</th>
+                            <th data-name="color"       data-type="color" class="translate">color</th>
+                            <th data-name="filter"      data-style="width: 100px" class="translate">filter</th>
+                            <th data-name="filterregex" data-type="checkbox" class="translate">filterregex</th>
                             <th data-buttons="delete up down"></th>
                         </tr>
                         </thead>

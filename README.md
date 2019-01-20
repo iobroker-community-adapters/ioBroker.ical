@@ -50,8 +50,8 @@ Bedeutung der Optionen im Konfigfile:
 - "replaceDates": true Bei true wird bei heutigen Terminen das heutige Datum durch den String todayString ersetzt (z.B. "Heute"). Bei morgigen Terminen durch den String tomorrowString
 - "everyCalOneColor": " false Bei true wird bei mehreren Kalendern jeder Kalender in einer festzulegenden Farbe eingefärbt. Ist die Option colorize gesetzt, funktioniert dies nicht!
 - "Calendar1": { "calURL": "http://11111.ics", URL des Kalenders "calColor": "white" Farbe des Kalenders, wenn die Option "everyCalOneColor" gesetzt ist } es können beliebig viele Kalender eingetragen werden. Im Standard Konfigfile sind 2 Kalender eingetragen.
-- "Events": { "Urlaub": { "enabled": true, # legt fest, ob das Event bearbeitet wird "display": false # legt fest, ob das Event auch in dem iCalEvents angezeigt wird, oder nur ausgewertet wird } } Durch setzen eines Events (in diesem Beispiel „Urlaub“), werden die Kalender nach dem String „Urlaub“ durchsucht. Sollte ein Termin am heutigen Tage (ganztägige Termine) oder zur aktuellen Uhrzeit mit dem Stichwort „Urlaub“ in einem Kalender stehen, so wird automatisch eine Variable mit dem Namen Urlaub auf True gesetzt. Ist der Termin vorbei, wird die Variable wieder auf false gesetzt. Die Variablen werden automatisch ab der Adresse 80110 angelegt. Achtung ! Es wird nach einem Substring gesucht, d.h. ein Eintrag im Kalender „Urlaub“ wird genauso erkannt wie ein Eintrag „Urlaub Eltern“. Dies ist beim festlegen der Ereignisse zu berücksichtigen.
-Durch Anpassen der dashui-user.css können die Styles von heutigen (Standard rot) und morgigen Terminen (Standard Orange) festegelegt werden: iCalWarn (Zeilenanfang Kalendereintrag heute) iCalPreWarn (Zeilenanfang Kalendereintrag morgen) iCalNormal (Zeilenende von heute) iCalNormal2 (Zeilenende von morgen)
+- "Events": { "Urlaub": { "enabled": true, # legt fest, ob das Event bearbeitet wird "display": false # legt fest, ob das Event auch in dem iCalEvents angezeigt wird, oder nur ausgewertet wird } } Durch setzen eines Events (in diesem Beispiel „Urlaub“), werden die Kalender nach dem String „Urlaub“ durchsucht. Sollte ein Termin mit dem Stichwort „Urlaub“ in einem Kalender stehen, so wird automatisch eine State mit dem Namen Urlaub auf True gesetzt. Ist der Termin vorbei, wird der State wieder auf false gesetzt. Es wird für jeden Tag des preview Zeitraums ein Status angelegt. Achtung! Es wird nach einem Substring gesucht, d.h. ein Eintrag im Kalender „Urlaub“ wird genauso erkannt wie ein Eintrag „Urlaub Eltern“. Dies ist beim festlegen der Ereignisse zu berücksichtigen.
+Durch Anpassen der css im VIS können die Styles von heutigen (Standard rot) und morgigen Terminen (Standard Orange) festegelegt werden: iCalWarn (Zeilenanfang Kalendereintrag heute) iCalPreWarn (Zeilenanfang Kalendereintrag morgen) iCalNormal (Zeilenende von heute) iCalNormal2 (Zeilenende von morgen)
 
 ### Kalender
 #### Apple iCloud Kalender
@@ -152,11 +152,70 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 <span style="font-weight: bold; color: red"><span class="icalWarn iCal-calendar-today">1.1.2018  ganzer Tag</span></span><span style="font-weight:normal;color:red"><span class='icalWarn2 iCal-calendar-today2'> Today Event</span></span><br/>
 ```
 
-## Todo
-* Known issue: For recurring events it works to delete single events, but it do not work to move them
-* README should be english
+## Filter
+In instance options it is possible to maintain a filter per calendar. It have to be a semicolon separated list. If you enable the option `Filter as regular expression` the filter is interpreted as a regular expression. During calendar refresh all events that matches by description, location or summary are excluded.
 
-## ChangeLog
+The search pattern is:
+```
+SUMMARY:MySummary
+DESCRIPTION:MyDescription
+LOCATION:MyLocation
+```
+
+Blacklist: If you want to exclude all events of a specific location use `LOCATION:MyLocation` or simple `MyLocation` or 2 locations `LOCATION:MyLocation;LOCATION:SomewhereElse`.
+Whitelist: If you only want to include events of a specific location use regular expression like `/^(SUMMARY:.*)\s*(DESCRIPTION:.*)\s*(LOCATION:(?!MyLocation).*)$/` or for 2 locations `/^(SUMMARY:.*)\s*(DESCRIPTION:.*)\s*(LOCATION:(?!((MyHomeLocation)|(MyWorkLocation))).*)$/`
+
+## Todo
+* README should be english
+* `data.trigger` doesn't support `check` option
+
+## Changelog
+
+### 1.7.1 (2019-01-08)
+* (twonky4) Fixed issue with UTC of until in recurring appointments
+* (twonky4) Fixed possible empty color
+
+### 1.7.0 (2018-11-27)
+* (twonky4) Add filter option
+* (twonky4) Add support of events for configured date period; changed state names from `events.*` to `events.0.today.*`
+* (twonky4) Add Count of events for tomorrow - state `data.countTomorrow`
+* (twonky4) Events without time part and same start and end are interpreted as full day events
+* (twonky4) Remove special chars from event states
+
+### 1.6.6 (2018-10-22)
+* (twonky4) Fixed html for disabled colorize
+* (twonky4) Fixed timezone handling for events during change from daylight saving time back to standard time
+* (twonky4) Fixed events without end date moved to different day
+
+### 1.6.5 (2018-10-13)
+* (twonky4) Simplify timezone solution
+* (twonky4) Fix calendars without timezones
+
+### 1.6.4 (2018-10-12)
+* (twonky4) Support windows timezones
+* (twonky4) Don't fail on invalid timezones
+
+### 1.6.3 (2018-10-10)
+* (twonky4) Fixes timezone issue in fullday recurring appointments
+
+### 1.6.2 (2018-10-08)
+* (twonky4) Fixes timezone issue in recurring appointments
+
+### 1.6.1 (2018-06-04)
+* (Apollon77) Several fixes and optimizations
+
+### 1.6.0 (2018-04-13)
+* (Apollon77) Several fixes and optimizations
+* (Apollon77) Upgrade node-ical library to allow big files to work
+* (Apollon77) Better handling of full day events
+* (Apollon77) Allow "Replace 0:00" to have 30 characters
+
+### 1.5.3 (2018-03-24)
+* (Apollon77) Also make location available in data table
+
+### 1.5.2 (2018-03-23)
+* (Apollon77/BuZZy1337) Fix several display issues
+
 ### 1.5.0 (2018-03-07)
 * (bluefox) ready for Admin3
 
@@ -236,3 +295,27 @@ To set these CSS classes you need to use the timebased CSS class too, e.g. _.ica
 
 ### 0.0.1 (2015-02-17)
 * (bluefox) initial commit
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) 2014-2018, bluefox <dogafox@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

@@ -2,16 +2,11 @@
 
 var gulp      = require('gulp');
 var fs        = require('fs');
+var request   = require('request');
 var pkg       = require('./package.json');
 var iopackage = require('./io-package.json');
 var version   = (pkg && pkg.version) ? pkg.version : iopackage.common.version;
-/*var appName   = getAppName();
 
-function getAppName() {
-    var parts = __dirname.replace(/\\/g, '/').split('/');
-    return parts[parts.length - 1].split('.')[0].toLowerCase();
-}
-*/
 const fileName = 'words.js';
 var languages =  {
     en: {},
@@ -144,7 +139,6 @@ function words2languages(src) {
         for (var l in langs) {
             if (!langs.hasOwnProperty(l)) continue;
             var keys = Object.keys(langs[l]);
-            //keys.sort();
             var obj = {};
             for (var k = 0; k < keys.length; k++) {
                 obj[keys[k]] = langs[l][keys[k]];
@@ -179,7 +173,6 @@ function words2languagesFlat(src) {
             }
         }
         var keys = Object.keys(langs.en);
-        //keys.sort();
         for (var l in langs) {
             if (!langs.hasOwnProperty(l)) continue;
             var obj = {};
@@ -354,7 +347,6 @@ gulp.task('adminLanguages2words', function (done) {
     languages2words('./admin/');
     done();
 });
-
 
 gulp.task('updatePackages', function (done) {
     iopackage.common.version = pkg.version;

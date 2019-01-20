@@ -48,7 +48,7 @@
         events    = settings.events    || [];
         editTable({
             tabId: 'calendars',
-            cols:   [{name: 'name', width: '60'},  {name: 'url',     width: '260'}, {name: 'user',   width: '60'}, {name: 'pass',   width: '60'}, {name: 'sslignore', width : '40'}, {name: 'color',   width: '60'}],
+            cols:   [{name: 'name', width: '60'},  {name: 'url',     width: '260'}, {name: 'user',   width: '60'}, {name: 'pass',   width: '60'}, {name: 'sslignore', width : '40'}, {name: 'color',   width: '60'}, {name: 'filter', width : '60'}, {name: 'filterregex', width : '40'}],
             values: calendars,
             top:    400,
             title:  'Calendars'
@@ -74,7 +74,7 @@
             }
         });
         // Get edited table
-        obj.calendars = getTableResult('calendars', ['name', 'url', 'user', 'pass', 'sslignore', 'color']);
+        obj.calendars = getTableResult('calendars', ['name', 'url', 'user', 'pass', 'sslignore', 'color', 'filter', 'filterregex']);
         obj.events    = getTableResult('events',    ['name', 'enabled', 'display']);
         callback(obj);
     }
@@ -122,7 +122,7 @@
             <tr>
                 <td><label class="translate" for="everyCalOneColor">Every calendar has own color:</label></td><td><input class="value" id="everyCalOneColor" type="checkbox"></td>
                 <td></td>
-                <td><label class="translate" for="fulltime">Use by full day:</label></td><td><input class="value" id="fulltime" maxlength="10" style="width: 100px"/></td>
+                <td><label class="translate" for="fulltime">Use by full day:</label></td><td><input class="value" id="fulltime" maxlength="30" style="width: 100px"/></td>
             </tr>
             <tr>
                 <td><label class="translate" for="forceFullday">Hide Start-End of events:</label></td><td><input class="value" id="forceFullday" type="checkbox"></td>

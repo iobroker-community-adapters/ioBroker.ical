@@ -1,6 +1,6 @@
 {
   "name": "iobroker.ical",
-  "version": "1.5.1",
+  "version": "1.7.1",
   "description": "Allows read information from google calender and from iCal.",
   "author": {
     "name": "bluefox",
@@ -10,6 +10,10 @@
     {
       "name": "Apollon77",
       "email": "ingo@fischer-ka.de"
+    },
+    {
+      "name": "twonky4",
+      "email": "twonky4@gmx.de"
     }
   ],
   "homepage": "https://github.com/ioBroker/ioBroker.ical",
@@ -24,15 +28,17 @@
     "url": "https://github.com/ioBroker/ioBroker.ical"
   },
   "dependencies": {
-    "node-ical": "^0.5.4",
-    "rrule": "^2.2.9",
-    "request": "^2.83.0",
-    "cloneextend": "^0.0.3"
+    "node-ical": "^0.9.0",
+    "rrule": "^2.5.6",
+    "request": "^2.88.0",
+    "cloneextend": "^0.0.3",
+    "moment-timezone": "^0.5.21"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "mocha": "^5.0.4",
-    "chai": "^4.1.2"
+    "chai": "^4.1.2",
+    "chai-string": "^1.5.0"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.ical/issues"

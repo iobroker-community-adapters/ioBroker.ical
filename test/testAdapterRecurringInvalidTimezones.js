@@ -12,7 +12,7 @@ var states  = null;
 var lacyStates = {states: null};
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
-var adapterShortNameLog = adapterShortName + ' Recurring (' + util.getCurrentTimezoneName() + ')';
+var adapterShortNameLog = adapterShortName + ' Recurring with invalid Timezones (' + util.getCurrentTimezoneName() + ')';
 
 function setupIcsFiles() {
     var d2 = new Date();
@@ -36,12 +36,73 @@ function setupIcsFiles() {
     var day6 = d6.getDate();
     if (day6 < 10) day6 = '0' + day6;
 
-    var data = fs.readFileSync(__dirname + '/data/calender_head_template.ics').toString();
+    var data = fs.readFileSync(__dirname + '/data/calender_head_template.ics').toString();;
+    
+    // invalid timezone
+    data += 'BEGIN:VTIMEZONE\n';
+    data += 'TZID:Europe/Hannover\n';
+    data += 'X-LIC-LOCATION:Europe/Hannover\n';
+    data += 'BEGIN:DAYLIGHT\n';
+    data += 'TZOFFSETFROM:+0100\n';
+    data += 'TZOFFSETTO:+0200\n';
+    data += 'TZNAME:CEST\n';
+    data += 'DTSTART:19700329T020000\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\n';
+    data += 'END:DAYLIGHT\n';
+    data += 'BEGIN:STANDARD\n';
+    data += 'TZOFFSETFROM:+0200\n';
+    data += 'TZOFFSETTO:+0100\n';
+    data += 'TZNAME:CET\n';
+    data += 'DTSTART:19701025T030000\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\n';
+    data += 'END:STANDARD\n';
+    data += 'END:VTIMEZONE\n';
 
+    // valid timezone
+    data += 'BEGIN:VTIMEZONE\n';
+    data += 'TZID:W. Europe Standard Time\n';
+    data += 'X-LIC-LOCATION:W. Europe Standard Time\n';
+    data += 'BEGIN:DAYLIGHT\n';
+    data += 'TZOFFSETFROM:+0100\n';
+    data += 'TZOFFSETTO:+0200\n';
+    data += 'TZNAME:CEST\n';
+    data += 'DTSTART:19700329T020000\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\n';
+    data += 'END:DAYLIGHT\n';
+    data += 'BEGIN:STANDARD\n';
+    data += 'TZOFFSETFROM:+0200\n';
+    data += 'TZOFFSETTO:+0100\n';
+    data += 'TZNAME:CET\n';
+    data += 'DTSTART:19701025T030000\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\n';
+    data += 'END:STANDARD\n';
+    data += 'END:VTIMEZONE\n';
+
+    // valid timezone, but ignored
+    data += 'BEGIN:VTIMEZONE\n';
+    data += 'TZID:America/Dawson\n';
+    data += 'X-LIC-LOCATION:America/Dawson\n';
+    data += 'BEGIN:DAYLIGHT\n';
+    data += 'TZOFFSETFROM:-0800\n';
+    data += 'TZOFFSETTO:-0700\n';
+    data += 'TZNAME:PDT\n';
+    data += 'DTSTART:19700308T020000\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\n';
+    data += 'END:DAYLIGHT\n';
+    data += 'BEGIN:STANDARD\n';
+    data += 'TZOFFSETFROM:-0700\n';
+    data += 'TZOFFSETTO:-0800\n';
+    data += 'TZNAME:PST\n';
+    data += 'DTSTART:19701101T020000\n';
+    data += 'RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\n';
+    data += 'END:STANDARD\n';
+    data += 'END:VTIMEZONE\n';
+
+    // event with invalid timezone
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T130000\n';
-    data += 'DTEND;TZID=Europe/Berlin:' + d2.getFullYear() + m2 + day2 + 'T140000\n';
-    data += 'EXDATE;TZID=Europe/Berlin:' + d6.getFullYear() + m6 + day6 + 'T130000\n';
+    data += 'DTSTART;TZID=Europe/Hannover:' + d2.getFullYear() + m2 + day2 + 'T130000\n';
+    data += 'DTEND;TZID=Europe/Hannover:' + d2.getFullYear() + m2 + day2 + 'T140000\n';
+    data += 'EXDATE;TZID=Europe/Hannover:' + d6.getFullYear() + m6 + day6 + 'T130000\n';
     data += 'RRULE:FREQ=DAILY;INTERVAL=2\n';
     data += 'DTSTAMP:20171227T110728Z\n';
     data += 'UID:2C340B07-5893-4921-B0E5-A5EE82858F01\n';
@@ -56,12 +117,13 @@ function setupIcsFiles() {
     data += 'X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n';
     data += 'END:VEVENT\n';
 
+    // event with no timezone
     data += 'BEGIN:VEVENT\n';
-    data += 'DTSTART;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T150000\n';
-    data += 'DTEND;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T160000\n';
+    data += 'DTSTART:' + d4.getFullYear() + m4 + day4 + 'T150000\n';
+    data += 'DTEND:' + d4.getFullYear() + m4 + day4 + 'T160000\n';
     data += 'DTSTAMP:20171227T110728Z\n';
     data += 'UID:2C340B07-5893-4921-B0E5-A5EE82858F01\n';
-    data += 'RECURRENCE-ID;TZID=Europe/Berlin:' + d4.getFullYear() + m4 + day4 + 'T130000\n';
+    data += 'RECURRENCE-ID;TZID=Europe/Hannover:' + d4.getFullYear() + m4 + day4 + 'T130000\n';
     data += 'CREATED:20171227T082153Z\n';
     data += 'DESCRIPTION:RecurringTest-Exception\n';
     data += 'LAST-MODIFIED:20171227T082203Z\n';
@@ -74,7 +136,7 @@ function setupIcsFiles() {
     data += 'END:VEVENT\n';
 
     data += 'END:VCALENDAR\n';
-    fs.writeFileSync(__dirname + '/data/recurring.ics', data);
+    fs.writeFileSync(__dirname + '/data/recurring_invalid_timezones.ics', data);
 }
 
 describe('Test ' + adapterShortNameLog + ' adapter', function() {
@@ -96,7 +158,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             config.native.daysPreview = 9;
             config.native.calendars[0] = {
                 "name": "calendar1-recurring",
-                "url": __dirname + '/data/recurring.ics',
+                "url": __dirname + '/data/recurring_invalid_timezones.ics',
                 "user": "username",
                 "pass": "password",
                 "sslignore": "ignore",
