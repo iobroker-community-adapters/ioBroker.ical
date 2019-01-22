@@ -4,15 +4,15 @@
         "version": "1.7.1",
         "news": {
             "1.7.1": {
-                "en": "Fixed issue with UTC of until in recurring appointments\nFixed possible empty color",
-                "de": "Problem mit UTC von bis in wiederkehrenden Terminen behoben\nMögliche leere Farbe behoben",
-                "ru": "Исправлена проблема с UTC до повторяющихся встреч\nИсправлен возможный пустой цвет",
-                "pt": "Corrigido o problema com o UTC de até em compromissos recorrentes\nCorrigida possível cor vazia",
-                "nl": "Probleem opgelost met UTC van tot in terugkerende afspraken\nVaste mogelijke lege kleur",
-                "fr": "Correction du problème avec UTC de jusqu'à dans les rendez-vous récurrents\nCorrection possible de la couleur vide",
-                "it": "Risolto il problema con UTC fino a quando in appuntamenti ricorrenti\nRisolto il possibile colore vuoto",
-                "es": "Solucionado el problema con UTC de hasta en citas recurrentes\nPosible color vacio fijo",
-                "pl": "Naprawiono problem z UTC przed terminami cyklicznymi\nNaprawiono możliwy pusty kolor"
+                "en": "Fixed issue with UTC of until in recurring appointments\nFixed possible empty color\nAdded compact mode",
+                "de": "Problem mit UTC von bis in wiederkehrenden Terminen behoben\nMögliche leere Farbe behoben\nKompakter Modus hinzugefügt",
+                "ru": "Исправлена проблема с UTC до повторяющихся встреч\nИсправлен возможный пустой цвет\nДобавлен компактный режим",
+                "pt": "Corrigido o problema com o UTC de até em compromissos recorrentes\nCorrigida possível cor vazia\nAdicionado modo compacto",
+                "nl": "Probleem opgelost met UTC van tot in terugkerende afspraken\nVaste mogelijke lege kleur\nCompact-modus toegevoegd",
+                "fr": "Correction du problème avec UTC de jusqu'à dans les rendez-vous récurrents\nCorrection possible de la couleur vide\nAjout du mode compact",
+                "it": "Risolto il problema con UTC fino a quando in appuntamenti ricorrenti\nRisolto il possibile colore vuoto\nAggiunta modalità compatta",
+                "es": "Solucionado el problema con UTC de hasta en citas recurrentes\nPosible color vacio fijo\nModo compacto agregado",
+                "pl": "Naprawiono problem z UTC przed terminami cyklicznymi\nNaprawiono możliwy pusty kolor\nDodano tryb kompaktowy"
         	},
             "1.7.0": {
                 "en": "Add filter option\nAdd support of events for configured date period; changed state names from 'events.*' to 'events.0.today.*'\nAdd Count of events for tomorrow - state 'data.countTomorrow'\nEvents without time part and same start and end are interpreted as full day events\nRemove special chars from event states",
@@ -241,6 +241,7 @@
         "readme": "https://github.com/ioBroker/ioBroker.ical/blob/master/README.md",
         "icon": "ical.png",
         "materialize": true,
+        "compact": true,
         "keywords": [
             "web",
             "iCal",
