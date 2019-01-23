@@ -9,6 +9,7 @@
 
 /* jshint -W097 */
 /* jshint strict:false */
+/* jshint esversion: 6 */
 /* global require */
 /* global RRule */
 /* global __dirname */
@@ -16,20 +17,66 @@
 'use strict';
 
 // Get common adapter utils
-var utils   = require(__dirname + '/lib/utils');
+const utils = require('@iobroker/adapter-core'); 
 var RRule   = require('rrule').RRule;
 var ical    = require('node-ical');
 var ce      = require('cloneextend');
 var moment  = require("moment-timezone");
 var request;
 var fs;
-
-var adapter = new utils.Adapter({
-    name: 'ical',
-    ready: function () {
-        main();
-    }
-});
+let adapter; 
+ 
+function startAdapter(options) { 
+    options = options || {}; 
+    Object.assign(options,{ 
+        name:  "ical", 
+        stateChange:  function (id, state) { 
+            if (!id || !state || state.ack || !state.val) return; 
+ 
+            if (id === adapter.namespace + '.trigger') { 
+                var content = state.val.split(' '); 
+                // One time read all calendars 
+                switch (content[0]) { 
+                    case 'read': 
+                        if (content[1]) { 
+                            adapter.log.info('reading iCal from URL: "' + content[1] + '"'); 
+                            readOne(content[1]); 
+                        } else { 
+                            adapter.log.info('reading one time from all calendars'); 
+                            readAll(); 
+                        } 
+                        break; 
+         
+                    // FIXME: checkForEvents not supporting call with only 1 parameter 
+                    case 'check': 
+                        if (content[1]) { 
+                            adapter.log.info('checking "' + content[1] + '"'); 
+                            checkForEvents(content[1]); 
+                        } else { 
+                            adapter.log.warn('check all events'); 
+                            for (var i = 0; i < adapter.config.events.length; i++) { 
+                                checkForEvents(adapter.config.events[i].name); 
+                            } 
+                        } 
+                        break; 
+         
+                    default: 
+                        adapter.log.warn('Unknown command in trigger: "' + state.val + '"'); 
+                } 
+            } 
+        }, 
+        unload: function (callback) { 
+            callback(); 
+        }, 
+        ready: function () { 
+            main(); 
+        } 
+    }); 
+ 
+    adapter = new utils.Adapter(options); 
+ 
+    return adapter; 
+} 
 
 // set when ready
 var normal           = '';
@@ -80,42 +127,6 @@ function _(text) {
     }
     return text;
 }
-
-adapter.on('stateChange', function (id, state) {
-    if (!id || !state || state.ack || !state.val) return;
-
-    if (id === adapter.namespace + '.trigger') {
-        var content = state.val.split(' ');
-        // One time read all calendars
-        switch (content[0]) {
-            case 'read':
-                if (content[1]) {
-                    adapter.log.info('reading iCal from URL: "' + content[1] + '"');
-                    readOne(content[1]);
-                } else {
-                    adapter.log.info('reading one time from all calendars');
-                    readAll();
-                }
-                break;
-
-            // FIXME: checkForEvents not supporting call with only 1 parameter
-            case 'check':
-                if (content[1]) {
-                    adapter.log.info('checking "' + content[1] + '"');
-                    checkForEvents(content[1]);
-                } else {
-                    adapter.log.warn('check all events');
-                    for (var i = 0; i < adapter.config.events.length; i++) {
-                        checkForEvents(adapter.config.events[i].name);
-                    }
-                }
-                break;
-
-            default:
-                adapter.log.warn('Unknown command in trigger: "' + state.val + '"');
-        }
-    }
-});
 
 /* Compare the current date against another date.
  *
@@ -1245,4 +1256,12 @@ function main() {
     adapter.config.language = adapter.config.language || 'en';
 
     syncUserEvents(readAll);
+}
+
+// If started as allInOne/compact mode => return function to create instance 
+if (module && module.parent) { 
+    module.exports = startAdapter; 
+} else { 
+    // or start the instance directly 
+    startAdapter(); 
 }
