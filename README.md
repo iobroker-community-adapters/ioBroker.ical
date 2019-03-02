@@ -1,3 +1,5 @@
+# Moved to https://github.com/iobroker-community-adapters/ioBroker.ical
+
 ![Logo](admin/ical.png)
 ioBroker iCal adapter
 =================
