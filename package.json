@@ -16,8 +16,8 @@
       "email": "twonky4@gmx.de"
     }
   ],
-  "homepage": "https://github.com/ioBroker/ioBroker.ical",
-  "readme": "https://github.com/ioBroker/ioBroker.ical/blob/master/README.md",
+  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.ical",
+  "readme": "https://github.com/iobroker-community-adapters/ioBroker.ical/blob/master/README.md",
   "keywords": [
     "ioBroker",
     "calendar",
@@ -42,7 +42,7 @@
     "chai-string": "^1.5.0"
   },
   "bugs": {
-    "url": "https://github.com/ioBroker/ioBroker.ical/issues"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.ical/issues"
   },
   "main": "main.js",
   "scripts": {
