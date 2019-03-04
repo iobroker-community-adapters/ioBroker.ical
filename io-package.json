@@ -238,7 +238,7 @@
         "mode": "schedule",
         "schedule": "0,30 * * * *",
         "loglevel": "info",
-        "readme": "https://github.com/ioBroker/ioBroker.ical/blob/master/README.md",
+        "readme": "https://github.com/iobroker-community-adapters/ioBroker.ical/blob/master/README.md",
         "icon": "ical.png",
         "materialize": true,
         "compact": true,
@@ -249,7 +249,7 @@
         ],
         "allowInit": true,
         "subscribe": "ical.<INSTANCE>.trigger",
-        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.ical/master/admin/ical.png",
+        "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.ical/master/admin/ical.png",
         "type": "date-and-time"
     },
     "native": {

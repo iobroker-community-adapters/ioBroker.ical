@@ -16,8 +16,8 @@
       "email": "twonky4@gmx.de"
     }
   ],
-  "homepage": "https://github.com/ioBroker/ioBroker.ical",
-  "readme": "https://github.com/ioBroker/ioBroker.ical/blob/master/README.md",
+  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.ical",
+  "readme": "https://github.com/iobroker-community-adapters/ioBroker.ical/blob/master/README.md",
   "keywords": [
     "ioBroker",
     "calendar",
@@ -37,12 +37,13 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "mocha": "^5.0.4",
+    "mocha": "^6.0.2",
     "chai": "^4.1.2",
-    "chai-string": "^1.5.0"
+    "chai-string": "^1.5.0",
+    "@iobroker/adapter-core": "^1.0.3"
   },
   "bugs": {
-    "url": "https://github.com/ioBroker/ioBroker.ical/issues"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.ical/issues"
   },
   "main": "main.js",
   "scripts": {
