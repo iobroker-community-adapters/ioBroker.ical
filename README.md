@@ -4,7 +4,7 @@
 ioBroker iCal adapter
 =================
 [![Build Status](https://travis-ci.org/ioBroker/ioBroker.ical.svg?branch=master)](https://travis-ci.org/ioBroker/ioBroker.ical)
-[![NPM version](http://img.shields.io/npm/v/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
+![Number of Installations](http://iobroker.live/badges/ical-installed.svg) ![Number of Installations](http://iobroker.live/badges/ical-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
 [![Github Issues](http://githubbadges.herokuapp.com/ioBroker/ioBroker.ical/issues.svg)](https://github.com/ioBroker/ioBroker.ical/issues)
 
