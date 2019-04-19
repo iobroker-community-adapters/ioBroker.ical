@@ -1173,9 +1173,11 @@ function displayDates() {
 
         adapter.setState('data.table', {val: datesArray, ack: true}, retFunc);
         adapter.setState('data.html',  {val: brSeparatedList(datesArray), ack: true}, retFunc);
+        adapter.setState('data.text',  {val: crlfSeparatedList(datesArray), ack: true}, retFunc);
     } else {
         adapter.setState('data.table', {val: [], ack: true}, retFunc);
         adapter.setState('data.html',  {val: '', ack: true}, retFunc);
+        adapter.setState('data.text',  {val: '', ack: true}, retFunc);
     }
     adapter.setState('data.count', {val: todayEventcounter, ack: true}, retFunc);
     adapter.setState('data.countTomorrow', {val: tomorrowEventcounter, ack: true}, retFunc);
@@ -1245,6 +1247,34 @@ function brSeparatedList(datesArray) {
 
         if (text) text += '<br/>\n';
         text += xfix.prefix + date.text + xfix.suffix + ' ' + datesArray[i].event + '</span>' + (adapter.config.colorize ? '</span>' : '');
+    }
+
+    return text;
+}
+
+function crlfSeparatedList(datesArray) {
+    var text     = '';
+    var today    = new Date();
+    var tomorrow = new Date();
+    var dayafter = new Date();
+    today.setHours(0, 0, 0, 0);
+    tomorrow.setDate(today.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    dayafter.setDate(today.getDate() + 2);
+    dayafter.setHours(0, 0, 0, 0);
+
+    for (var i = 0; i < datesArray.length; i++) {
+        var date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
+        var color = adapter.config.defColor;
+        for (var j = 0; j < adapter.config.calendars.length; j++) {
+            if (adapter.config.calendars[j].name === datesArray[i]._calName) {
+                color = adapter.config.calendars[j].color;
+                break;
+            }
+        }
+
+        if (text) text += '\n';
+        text += date.text + ' ' + datesArray[i].event + ' ' + datesArray[i].location;
     }
 
     return text;
