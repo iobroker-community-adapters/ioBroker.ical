@@ -402,6 +402,19 @@
                 "write": false
             },
             "native": {}
+        },
+        {
+            "_id": "data.text",
+            "type": "state",
+            "common": {
+                "name": "Text iCal table",
+                "desc": "Text table with events",
+                "type": "string",
+                "role": "text",
+                "read": true,
+                "write": false
+            },
+            "native": {}
         }
     ]
 }
