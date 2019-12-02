@@ -147,7 +147,7 @@ Date.prototype.compare = function(b) {
     }
 
     return (isFinite(this.valueOf()) && isFinite(b.valueOf()) ?
-    	(this > b) - (this < b) : NaN
+            (this > b) - (this < b) : NaN
     );
 };
 
@@ -527,7 +527,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             }
             result.suffix += '<span class="icalWarn2 iCal-' + calName + '2">';
         } else
-        // tomorrow
+            // tomorrow
         if (cmpDate.compare(tomorrow) === 0) {
             result.prefix = prewarn;
             // If configured every calendar has own color
@@ -538,7 +538,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             }
             result.suffix += "<span class='icalPreWarn2 iCal-" + calName + "2'>";
         } else
-        // day after tomorrow
+            // day after tomorrow
         if (cmpDate.compare(dayafter) === 0) {
             result.prefix = preprewarn;
             // If configured every calendar has own color
@@ -549,7 +549,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             }
             result.suffix += "<span class='icalPrePreWarn2 iCal-" + calName + "2'>";
         } else
-        // start time is in the past
+            // start time is in the past
         if (cmpDate.compare(today) === -1) {
             result.prefix = normal;
             // If configured every calendar has own color
@@ -920,21 +920,21 @@ function formatDate(_date, _end, withTime, fullDay) {
             let timeDiff = _end.getTime() - _date.getTime();
             if (timeDiff === 0 && hours === 0 && minutes === 0) {
                 _time = ' ';
-            }
-            else if (timeDiff > 0) {
+            } else if (timeDiff > 0) {
                 if (!alreadyStarted) {
                     _time += '-';
-                }
-                else {
+                } else {
                     _time += ' ';
                 }
 
                 let endhours = _end.getHours();
                 let endminutes = _end.getMinutes();
-                if (adapter.config.dataPaddingWithZeros) {
-                    if (endhours < 10) endhours   = '0' + endhours.toString();
+                if (adapter.config.dataPaddingWithZeros && endhours < 10) {
+                    endhours = '0' + endhours.toString();
                 }
-                if (endminutes < 10) endminutes = '0' + endminutes.toString();
+                if (endminutes < 10) {
+                    endminutes = '0' + endminutes.toString();
+                }
                 _time += endhours + ':' + endminutes;
 
                 const startDayEnd = new Date();
@@ -1050,9 +1050,10 @@ function formatDate(_date, _end, withTime, fullDay) {
     } else {
         // check if date is in the past and if so we show the end time instead
         _class = 'ical_today';
-        let daysleft = Math.round((_end - new Date())/(1000*60*60*24));
-        const hoursleft = Math.round((_end - new Date())/(1000*60*60));
-        adapter.log.debug(`    time difference: ${daysleft}/${hoursleft} (${_date}-${_end}) --> ${timeDiff / (24 * 60 * 60 * 1000)})`);
+        let daysleft = Math.round((_end - new Date())/(1000 * 60 * 60 * 24));
+        const hoursleft = Math.round((_end - new Date())/(1000 * 60 * 60));
+
+        adapter.log.debug(`    time difference: ${daysleft}/${hoursleft} (${_date}-${_end})`);
         if (adapter.config.forceFullday && daysleft < 1) {
             daysleft = 1;
         }
