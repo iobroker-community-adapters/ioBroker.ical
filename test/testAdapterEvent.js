@@ -314,7 +314,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
             states.getState(tests[i].name, function (err, state) {
                 expect(err).to.be.not.ok;
                 if (tests[i].value === undefined) {
-                	expect(state).to.be.undefined;
+                	expect(state).to.be.null;
                 } else {
                 	expect(state.val).to.be.equals(tests[i].value);
                 }
