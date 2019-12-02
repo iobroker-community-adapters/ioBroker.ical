@@ -1,6 +1,6 @@
 /**
  *      ioBroker.iCal
- *      Copyright 2015-2018, bluefox <dogafox@gmail.com>
+ *      Copyright 2015-2019, bluefox <dogafox@gmail.com>
  *
  *      Based on ccu.io vader722 adapter.
  *      https://github.com/hobbyquaker/ccu.io/tree/master/adapter/ical
@@ -18,23 +18,26 @@
 
 // Get common adapter utils
 const utils = require('@iobroker/adapter-core'); 
-var RRule   = require('rrule').RRule;
-var ical    = require('node-ical');
-var ce      = require('cloneextend');
-var moment  = require("moment-timezone");
-var request;
-var fs;
+const RRule   = require('rrule').RRule;
+const ical    = require('node-ical');
+const ce      = require('cloneextend');
+const moment  = require("moment-timezone");
+let request;
+let fs;
 let adapter; 
  
 function startAdapter(options) { 
-    options = options || {}; 
+    options = options || {};
+
     Object.assign(options,{ 
-        name:  "ical", 
+        name:  'ical',
         stateChange:  function (id, state) { 
-            if (!id || !state || state.ack || !state.val) return; 
+            if (!id || !state || state.ack || !state.val) {
+                return;
+            }
  
             if (id === adapter.namespace + '.trigger') { 
-                var content = state.val.split(' '); 
+                const content = state.val.split(' ');
                 // One time read all calendars 
                 switch (content[0]) { 
                     case 'read': 
@@ -54,7 +57,7 @@ function startAdapter(options) {
                             checkForEvents(content[1]); 
                         } else { 
                             adapter.log.warn('check all events'); 
-                            for (var i = 0; i < adapter.config.events.length; i++) { 
+                            for (let i = 0; i < adapter.config.events.length; i++) {
                                 checkForEvents(adapter.config.events[i].name); 
                             } 
                         } 
@@ -79,14 +82,14 @@ function startAdapter(options) {
 } 
 
 // set when ready
-var normal           = '';
-var warn             = '<span style="font-weight: bold; color: red"><span class="icalWarn">';
-var prewarn          = '<span style="font-weight: bold; color: orange"><span class="icalPreWarn">';
-var preprewarn       = '<span style="font-weight: bold; color: yellow"><span class="icalPrePreWarn">';
+let   normal           = '';
+const warn             = '<span style="font-weight: bold; color: red"><span class="icalWarn">';
+const prewarn          = '<span style="font-weight: bold; color: orange"><span class="icalPreWarn">';
+const preprewarn       = '<span style="font-weight: bold; color: yellow"><span class="icalPrePreWarn">';
 
-var datesArray       = [];
-var events           = [];
-var dictionary       = {
+let   datesArray       = [];
+const events           = [];
+const dictionary       = {
     'today':     {'en': 'Today',             'it': 'Oggi',                      'es': 'Hoy',                   'pl': 'Dzisiaj',                   'fr': 'Aujourd\'hui',              'de': 'Heute',            'ru': 'Сегодня',				'nl': 'Vandaag'},
     'tomorrow':  {'en': 'Tomorrow',          'it': 'Domani',                    'es': 'Mañana',                'pl': 'Jutro',                     'fr': 'Demain',                    'de': 'Morgen',           'ru': 'Завтра',				'nl': 'Morgen'},
     'dayafter':  {'en': 'Day After Tomorrow','it': 'Dopodomani',                'es': 'Pasado mañana',         'pl': 'Pojutrze',                  'fr': 'Après demain',              'de': 'Übermorgen',       'ru': 'Послезавтра',			'nl': 'Overmorgen'},
@@ -110,10 +113,12 @@ var dictionary       = {
 };
 
 function _(text) {
-    if (!text) return '';
+    if (!text) {
+        return '';
+    }
 
     if (dictionary[text]) {
-        var newText = dictionary[text][adapter.config.language];
+        let newText = dictionary[text][adapter.config.language];
         if (newText) {
             return newText;
         } else if (adapter.config.language !== 'en') {
@@ -154,7 +159,7 @@ function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
             cb && cb('File does not exist: "' + urlOrFile + '"');
         } else {
             try {
-                var data = fs.readFileSync(urlOrFile);
+                const data = fs.readFileSync(urlOrFile);
                 cb && cb(null, data.toString());
             } catch (e) {
                 cb && cb('Cannot read file "' + urlOrFile + '": ' + e);
@@ -164,7 +169,7 @@ function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
     } else {
         request = request || require('request');
         // Find out whether SSL certificate errors shall be ignored
-        var options = {
+        const options = {
             uri: urlOrFile
         };
 
@@ -181,7 +186,7 @@ function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
         }
 
         // Call library function with the "auth object" and credentials provided
-        request(options, function (err, r, _data) {
+        request(options, (err, r, _data) => {
             if (err || !_data) {
                 adapter.log.warn('Error reading from URL "' + urlOrFile + '": ' + ((err && err.code === 'ENOTFOUND') ? 'address not found!' : err));
                 cb && cb(err || 'Cannot read URL: "' + urlOrFile + '"');
@@ -197,7 +202,7 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
         cb = user;
         user = undefined;
     }
-    getICal(urlOrFile, user, pass, sslignore, calName, function (err, _data) {
+    getICal(urlOrFile, user, pass, sslignore, calName, (err, _data) => {
         if (err || !_data) {
             adapter.log.warn('Error reading "' + urlOrFile + '": ' + err);
             cb(calName);
@@ -206,26 +211,25 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
 
         adapter.log.debug('File read successfully ' + urlOrFile);
 
-        var data;
+        let data;
         try {
-            data = ical.parseICS(_data, function(err, data) {
+            data = ical.parseICS(_data, (err, data) => {
                 if (data) {
                     adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
                     adapter.log.debug(JSON.stringify(data));
-                    var realnow    = new Date();
-                    var today      = new Date();
+                    const realnow    = new Date();
+                    const today      = new Date();
                     today.setHours(0, 0, 0, 0);
-                    var endpreview = new Date();
+                    const endpreview = new Date();
                     endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
 
-                    var now2 = new Date();
+                    const now2 = new Date();
 
                     // clear time
                     now2.setHours(0, 0, 0, 0);
 
-                    setImmediate(function() {
-                        processData(data, realnow, today, endpreview, now2, calName, filter, cb);
-                    });
+                    setImmediate(() =>
+                        processData(data, realnow, today, endpreview, now2, calName, filter, cb));
                 }
                 else {
                     // Ready with processing
@@ -239,8 +243,8 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
 }
 
 function getTimezoneOffset(date) {
-	var offset = 0;
-	var zone = moment.tz.zone(moment.tz.guess());
+	let offset = 0;
+	const zone = moment.tz.zone(moment.tz.guess());
 	if(zone && date) {
 	    offset = zone.utcOffset(date.getTime());
 	    adapter.log.debug('use offset ' + offset + ' for ' + date);
@@ -256,10 +260,10 @@ function addOffset(time, offset) {
 }
 
 function processData(data, realnow, today, endpreview, now2, calName, filter, cb) {
-    var processedEntries = 0;
-    var defaultTimezone;
-    for (var k in data) {
-        var ev = data[k];
+    let processedEntries = 0;
+    let defaultTimezone;
+    for (const k in data) {
+        const ev = data[k];
         delete data[k];
 
         // only events with summary are interesting
@@ -273,9 +277,9 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
             }
             // aha, it is RRULE in the event --> process it
             if (ev.rrule !== undefined) {
-            	var eventLength = ev.end.getTime() - ev.start.getTime();
+            	const eventLength = ev.end.getTime() - ev.start.getTime();
 
-                var options = RRule.parseString(ev.rrule.toString());
+                const options = RRule.parseString(ev.rrule.toString());
                 // convert times temporary to UTC
                 options.dtstart = addOffset(ev.start, -getTimezoneOffset(ev.start));
                 if (options.until) {
@@ -283,13 +287,15 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
                 }
                 adapter.log.debug('options:' + JSON.stringify(options));
 
-                var rule = new RRule(options);
+                const rule = new RRule(options);
 
-                var now3 = new Date(now2.getTime() - eventLength);
-                if (now2 < now3) now3 = now2;
+                let now3 = new Date(now2.getTime() - eventLength);
+                if (now2 < now3) {
+                    now3 = now2;
+                }
                 adapter.log.debug('RRule event:' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; today:' + today + '; now2:' + now2 + '; now3:' + now3 + '; rule:' + JSON.stringify(rule));
 
-                var dates = [];
+                let dates = [];
                 try {
                 	dates = rule.between(now3, endpreview, true);
                 } catch(e) {
@@ -305,17 +311,17 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
                 adapter.log.debug('dates:' + JSON.stringify(dates));
                 // event within the time window
                 if (dates.length > 0) {
-                    for (var i = 0; i < dates.length; i++) {
+                    for (let i = 0; i < dates.length; i++) {
                         // use deep-copy otherwise setDate etc. overwrites data from different events
-                        var ev2 = ce.clone(ev);
+                        let ev2 = ce.clone(ev);
 
                         // replace date & time for each event in RRule
                         // convert time back to local times
-                        var start = dates[i];
+                        const start = dates[i];
                         ev2.start = addOffset(start, getTimezoneOffset(start));
 
                         // Set end date based on length in ms
-                        var end = new Date(start.getTime() + eventLength);
+                        const end = new Date(start.getTime() + eventLength);
                         ev2.end = addOffset(end, getTimezoneOffset(end));
 
                         adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
@@ -323,11 +329,11 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
                         // we have to check if there is an exdate array
                         // which defines dates that - if matched - should
                         // be excluded.
-                        var checkDate = true;
+                        let checkDate = true;
                         if(ev2.exdate) {
-                            for(var d in ev2.exdate) {
-                                d = new Date(d);
-                                if(d.getTime() === ev2.start.getTime()) {
+                            for(const d in ev2.exdate) {
+                                const dd = new Date(d);
+                                if (dd.getTime() === ev2.start.getTime()) {
                                     checkDate = false;
                                     adapter.log.debug('   ' + i + ': sort out');
                                     break;
@@ -335,9 +341,9 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
                             }
                         }
                         if (checkDate && ev.recurrences) {
-                            for(var dOri in ev.recurrences) {
-                                var d = new Date(dOri);
-                                if(d.getTime() === ev2.start.getTime()) {
+                            for(const dOri in ev.recurrences) {
+                                const d = new Date(dOri);
+                                if (d.getTime() === ev2.start.getTime()) {
                                     ev2 = ce.clone(ev.recurrences[dOri]);
                                     adapter.log.debug('   ' + i + ': different recurring found replaced with Event:' + ev2.start + ' ' + ev2.end);
                                 }
@@ -363,18 +369,16 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
     }
     if (!Object.keys(data).length) {
         cb(calName);
-        return;
     } else {
-        setImmediate(function() {
-            processData(data, realnow, today, endpreview, now2, calName, filter, cb);
-        });
+        setImmediate(() =>
+            processData(data, realnow, today, endpreview, now2, calName, filter, cb));
     }
 }
 
 function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
-    var fullday = false;
-    var reason;
-    var date;
+    let fullDay = false;
+    let reason;
+    let date;
 
     // chech if sub parameter exists for outlook 
     if (ev.summary.hasOwnProperty('val')) {
@@ -385,13 +389,15 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
         reason = ev.summary;
     }
     
-    var location = ev.location || '';
+    const location = ev.location || '';
 
     // If not start point => ignore it
-    if (!ev.start) return;
+    if (!ev.start) {
+        return;
+    }
 
     // If not end point => assume 0:0:0 event and set to same as start
-    if (!ev.end) ev.end = ev.start;
+    ev.end = ev.end || ev.start;
 
     // If full day
     if (!ev.start.getHours() &&
@@ -402,17 +408,17 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
         !ev.end.getSeconds()
     ) {
     	// interpreted as one day; RFC says end date must be after start date
-    	if(ev.end.getTime() == ev.start.getTime() && ev.datetype == 'date') {
+    	if (ev.end.getTime() === ev.start.getTime() && ev.datetype === 'date') {
     		ev.end.setDate(ev.end.getDate() + 1);
     	}
-    	if(ev.end.getTime() !== ev.start.getTime()) {
-            fullday = true;
+    	if (ev.end.getTime() !== ev.start.getTime()) {
+            fullDay = true;
         }
     }
 
     // If force Fullday is set
-    if (adapter.config.forceFullday && !fullday) {
-        fullday = true;
+    if (adapter.config.forceFullday && !fullDay) {
+        fullDay = true;
         ev.start.setMinutes(0);
         ev.start.setSeconds(0);
         ev.start.setHours(0);
@@ -422,8 +428,8 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
         ev.end.setSeconds(0);
     }
 
-    if(filter) {
-    	var content = 'SUMMARY:' + reason + '\nDESCRIPTION:' + ev.description + '\nLOCATION:'+ location;
+    if (filter) {
+    	const content = 'SUMMARY:' + reason + '\nDESCRIPTION:' + ev.description + '\nLOCATION:'+ location;
     	filter = new RegExp(filter.source, filter.flags);
     	if(filter.test(content)) {
     		adapter.log.debug('Event filtered using ' + filter + ' by content: ' + content);
@@ -433,7 +439,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
     }
 
     // Full day
-    if (fullday) {
+    if (fullDay) {
         // event start >= today  && < previewtime  or end > today && < previewtime ---> display
         if ((ev.start < endpreview && ev.start >= today) || (ev.end > today && ev.end <= endpreview) || (ev.start < today && ev.end > today)) {
             // check only full day events
@@ -499,11 +505,11 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
 }
 
 function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
-    var result = {
+    const result = {
         prefix: normal,
-        suffix: "</span>" + (adapter.config.colorize ? "</span>" : "")
+        suffix: '</span>' + (adapter.config.colorize ? '</span>' : '')
     };
-    var cmpDate = new Date(date.getTime());
+    const cmpDate = new Date(date.getTime());
     cmpDate.setHours(0, 0, 0, 0);
 
     calName = calName.replace(' ', '_');
@@ -519,7 +525,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
             } else {
                 result.suffix += '<span style="font-weight:normal;color:red">';
             }
-            result.suffix += "<span class='icalWarn2 iCal-" + calName + "2'>";
+            result.suffix += '<span class="icalWarn2 iCal-' + calName + '2">';
         } else
         // tomorrow
         if (cmpDate.compare(tomorrow) === 0) {
@@ -584,9 +590,9 @@ function checkForEvents(reason, today, event, realnow) {
             // If full day event
             // Follow processing only if event is today
             if (
-            		((!ev.type || ev.type == 'today') && event.end.getTime() > today.getTime() + (ev.day * oneDay) && event.start.getTime() < today.getTime() + (ev.day * oneDay) + oneDay) ||
-            		(ev.type == 'now' && event.start <= realnow && realnow <= event.end) ||
-            		(ev.type == 'later' && event.start > realnow && event.start.getTime() < today.getTime() + oneDay)
+            		((!ev.type || ev.type === 'today') && event.end.getTime() > today.getTime() + (ev.day * oneDay) && event.start.getTime() < today.getTime() + (ev.day * oneDay) + oneDay) ||
+            		(ev.type === 'now' && event.start <= realnow && realnow <= event.end) ||
+            		(ev.type === 'later' && event.start > realnow && event.start.getTime() < today.getTime() + oneDay)
                 ) {
                 adapter.log.debug((ev.type ? ev.type : 'day ' + ev.day) + ' Event with time: '  + event.start + ' ' + realnow + ' ' + event.end);
 
@@ -624,7 +630,7 @@ function initEvent(name, display, day, type, callback) {
 
     let stateName = 'events.' + day + '.' + (type ? type + '.' : '') + shrinkStateName(name);
 
-    adapter.getState(stateName, function (err, state) {
+    adapter.getState(stateName, (err, state) => {
         if (err || !state) {
             obj.state = false;
             adapter.setState(stateName, {val: obj.state, ack: true});
@@ -654,7 +660,7 @@ function syncUserEvents(callback) {
 	let days = parseInt(adapter.config.daysPreview, 10) + 1;
 
     // Read all actual events
-    adapter.getStatesOf('', 'events', function (err, states) {
+    adapter.getStatesOf('', 'events', (err, states) => {
         let toAdd = [];
         let toDel = [];
 
@@ -669,7 +675,7 @@ function syncUserEvents(callback) {
         for (let i = 0; i < adapter.config.events.length; i++) {
         	for (let day = 0; day < days; day++) {
         		let name = adapter.config.events[i].name;
-        		if (day == 0) {
+        		if (!day) {
         			toAdd.push({id: 'events.' + day + '.later.' + shrinkStateName(name), name: name});
         			toAdd.push({id: 'events.' + day + '.today.' + shrinkStateName(name), name: name});
         			toAdd.push({id: 'events.' + day + '.now.' + shrinkStateName(name), name: name});
@@ -693,7 +699,7 @@ function syncUserEvents(callback) {
 	                    if (states[j].common.name === adapter.config.events[i].name) {
 	                        // remove it from "toDel"
 	                    	let name = shrinkStateName(adapter.config.events[i].name);
-                        	if(day == 0) {
+                        	if (!day) {
                         		removeFromToDel(day + '.today', name);
                         		removeFromToDel(day + '.now', name);
                         		removeFromToDel(day + '.later', name);
@@ -718,11 +724,11 @@ function syncUserEvents(callback) {
 	                	let event = adapter.config.events[i];
 	                	let name = shrinkStateName(event.name);
 	                    if (states[j].common.name === event.name &&
-	                    		((day > 0 && removeNameSpace(states[j]._id) == 'events.' + day + '.' + name) ||
-	                    		(day == 0 && (
-	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.today.' + name ||
-	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.now.' + name ||
-	                    				removeNameSpace(states[j]._id) == 'events.' + day + '.later.' + name
+	                    		((day > 0 && removeNameSpace(states[j]._id) === 'events.' + day + '.' + name) ||
+	                    		(!day && (
+	                    				removeNameSpace(states[j]._id) === 'events.' + day + '.today.' + name ||
+	                    				removeNameSpace(states[j]._id) === 'events.' + day + '.now.' + name ||
+	                    				removeNameSpace(states[j]._id) === 'events.' + day + '.later.' + name
 	                    		)))
 	                    ) {
 	                        if (event.enabled === 'true') event.enabled = true;
@@ -805,14 +811,14 @@ function syncUserEvents(callback) {
 }
 
 function buildFilter(filter, filterregex) {
-	var ret = null;
-	var prep = '';
+    let ret = null;
+	let prep = '';
 	if (filterregex === 'true' || filterregex === true) {
 		prep = filter;
 	} else {
-		var list = (filter || '').split(';');
-		for(var i = 0; i < list.length; i++) {
-			var item = list[i].trim();
+		const list = (filter || '').split(';');
+		for (let i = 0; i < list.length; i++) {
+			const item = list[i].trim();
 			if(!item) {
 				continue;
 			}
@@ -828,7 +834,7 @@ function buildFilter(filter, filterregex) {
 
 	if (prep) {
 		try {
-			var s = prep.split('/');
+			const s = prep.split('/');
 			ret = new RegExp(s[1], s[2]);
 		} catch (e) {
 		   adapter.log.error('invalid filter: ' + prep);
@@ -841,16 +847,16 @@ function buildFilter(filter, filterregex) {
 // Read all calendar
 function readAll() {
     datesArray = [];
-    var count = 0;
+    let count = 0;
 
     // Set all events as not processed
-    for (var j = 0; j < events.length; j++) {
+    for (let j = 0; j < events.length; j++) {
         events[j].processed = false;
     }
 
     if (adapter.config.calendars) {
     	// add own instance, needed if calendars are quickly readed
-        for (var i = 0; i < adapter.config.calendars.length; i++) {
+        for (let i = 0; i < adapter.config.calendars.length; i++) {
             if (adapter.config.calendars[i].url) {
                 count++;
                 adapter.log.debug('reading calendar from URL: ' + adapter.config.calendars[i].url + ', color: ' + adapter.config.calendars[i].url.color);
@@ -861,7 +867,7 @@ function readAll() {
                     adapter.config.calendars[i].sslignore,
                     adapter.config.calendars[i].name,
                     buildFilter(adapter.config.calendars[i].filter, adapter.config.calendars[i].filterregex),
-                    function () {
+                    () => {
                         // If all calendars are processed
                         if (!--count) {
                             adapter.log.debug('displaying dates because of callback');
@@ -882,26 +888,26 @@ function readAll() {
 // Read one calendar
 function readOne(url) {
     datesArray = [];
-    checkICal(url, function () {
-       	displayDates();
-    });
+    checkICal(url, () =>
+        displayDates());
 }
 
-function formatDate(_date, _end, withTime, fullday) {
-    var day   = _date.getDate();
-    var month = _date.getMonth() + 1;
-    var year  = _date.getFullYear();
-    var endday   = _end.getDate();
-    var endmonth = _end.getMonth() + 1;
-    var endyear  = _end.getFullYear();
-    var _time = '';
-    var alreadyStarted = (_date < new Date());
+function formatDate(_date, _end, withTime, fullDay) {
+    let day   = _date.getDate();
+    let month = _date.getMonth() + 1;
+    let year  = _date.getFullYear();
+
+    const endday   = _end.getDate();
+    const endmonth = _end.getMonth() + 1;
+    const endyear  = _end.getFullYear();
+    let _time = '';
+    const alreadyStarted = (_date < new Date());
 
     if (withTime) {
-        var hours   = _date.getHours();
-        var minutes = _date.getMinutes();
+        let hours   = _date.getHours();
+        let minutes = _date.getMinutes();
 
-        if (adapter.config.fulltime && fullday) {
+        if (adapter.config.fulltime && fullDay) {
             _time = ' ' + adapter.config.fulltime;
         } else {
             if (!alreadyStarted) {
@@ -911,7 +917,7 @@ function formatDate(_date, _end, withTime, fullday) {
                 if (minutes < 10) minutes = '0' + minutes.toString();
                 _time = ' ' + hours + ':' + minutes;
             }
-            var timeDiff = _end.getTime() - _date.getTime();
+            let timeDiff = _end.getTime() - _date.getTime();
             if (timeDiff === 0 && hours === 0 && minutes === 0) {
                 _time = ' ';
             }
@@ -923,15 +929,15 @@ function formatDate(_date, _end, withTime, fullday) {
                     _time += ' ';
                 }
 
-                var endhours = _end.getHours();
-                var endminutes = _end.getMinutes();
+                let endhours = _end.getHours();
+                let endminutes = _end.getMinutes();
                 if (adapter.config.dataPaddingWithZeros) {
                     if (endhours < 10) endhours   = '0' + endhours.toString();
                 }
                 if (endminutes < 10) endminutes = '0' + endminutes.toString();
                 _time += endhours + ':' + endminutes;
 
-                var startDayEnd = new Date();
+                const startDayEnd = new Date();
                 startDayEnd.setFullYear(_date.getFullYear());
                 startDayEnd.setMonth(_date.getMonth());
                 startDayEnd.setDate(_date.getDate() + 1);
@@ -939,14 +945,14 @@ function formatDate(_date, _end, withTime, fullday) {
                 
                 // end is next day
                 if (_end > startDayEnd) {
-                    var start = new Date();
+                    const start = new Date();
                     if (!alreadyStarted) {
                         start.setDate(_date.getDate());
                         start.setMonth(_date.getMonth());
                         start.setFullYear(_date.getFullYear());
                     }
                     start.setHours(0, 0, 1, 0);
-                    var fullTimeDiff = timeDiff;
+                    const fullTimeDiff = timeDiff;
                     timeDiff = _end.getTime() - start.getTime();
                     adapter.log.debug('    time difference: ' + timeDiff + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
                     if (fullTimeDiff >= 24 * 60 * 60 * 1000) {
@@ -959,19 +965,19 @@ function formatDate(_date, _end, withTime, fullday) {
             }
         }
     }
-    var _class = '';
-    var d = new Date();
+    let _class = '';
+    const d = new Date();
     d.setHours(0,0,0,0);
-    var d2 = new Date();
+    const d2 = new Date();
     d2.setDate(d.getDate() + 1);
-    var todayOnly = false;
+    let todayOnly = false;
     if (day      === d.getDate() &&
         month    === (d.getMonth() + 1) &&
         year     === d.getFullYear() &&
         endday   === d2.getDate() &&
         endmonth === (d2.getMonth() + 1) &&
         endyear  === d2.getFullYear() &&
-        fullday) {
+        fullDay) {
             todayOnly = true;
     }
     adapter.log.debug('    todayOnly = ' + todayOnly + ': (' + _date + '-' + _end + '), alreadyStarted=' + alreadyStarted);
@@ -1044,14 +1050,16 @@ function formatDate(_date, _end, withTime, fullday) {
     } else {
         // check if date is in the past and if so we show the end time instead
         _class = 'ical_today';
-        var daysleft = Math.round((_end - new Date())/(1000*60*60*24));
-        var hoursleft = Math.round((_end - new Date())/(1000*60*60));
+        let daysleft = Math.round((_end - new Date())/(1000*60*60*24));
+        const hoursleft = Math.round((_end - new Date())/(1000*60*60));
         adapter.log.debug('    time difference: ' + daysleft + '/' + hoursleft + ' (' + _date + '-' + _end + ' / ' + start + ') --> ' + (timeDiff / (24*60*60*1000)));
-        if (adapter.config.forceFullday && daysleft < 1) daysleft = 1;
+        if (adapter.config.forceFullday && daysleft < 1) {
+            daysleft = 1;
+        }
 
+        let text;
         if (adapter.config.replaceDates) {
-            var _left = (_('left') !== ' ' ? ' ' + _('left') : '');
-            var text;
+            const _left = (_('left') !== ' ' ? ' ' + _('left') : '');
             if (daysleft === 42) {
                 text = _('6week_left');
             } else if (daysleft === 35) {
@@ -1066,8 +1074,8 @@ function formatDate(_date, _end, withTime, fullday) {
                 text = _('1week_left');
             } else if (daysleft >= 1) {
                 if (adapter.config.language === 'ru') {
-                    var c = daysleft % 10;
-                    var cc = Math.floor(daysleft / 10) % 10;
+                    const c = daysleft % 10;
+                    const cc = Math.floor(daysleft / 10) % 10;
                     if (daysleft === 1) {
                         text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft  + ' ' + _('day') + _left;
                     } else if (cc > 1 && (c > 1 || c < 5)) {
@@ -1080,8 +1088,8 @@ function formatDate(_date, _end, withTime, fullday) {
                 }
             } else {
                 if (adapter.config.language === 'ru') {
-                    var c = hoursleft % 10;
-                    var cc = Math.floor(hoursleft / 10) % 10;
+                    const c = hoursleft % 10;
+                    const cc = Math.floor(hoursleft / 10) % 10;
                     if (hoursleft === 1) {
                         text = (_('still') !== ' ' ? _('still') : '') + ' ' + hoursleft  + ' ' + _('hour') + _left;
                     } else if (cc !== 1 && (c > 1 || c < 5)) {
@@ -1109,12 +1117,12 @@ function formatDate(_date, _end, withTime, fullday) {
             }
 
             if (withTime) {
-                if (adapter.config.fulltime && fullday) {
+                if (adapter.config.fulltime && fullDay) {
                     text += ' ' + adapter.config.fulltime;
                 }
                 else {
-                    var endhours   = _end.getHours();
-                    var endminutes = _end.getMinutes();
+                    let endhours   = _end.getHours();
+                    let endminutes = _end.getMinutes();
                     if (adapter.config.dataPaddingWithZeros) {
                         if (endhours < 10)   {
                             endhours   = '0' + endhours.toString();
@@ -1144,13 +1152,9 @@ function formatDate(_date, _end, withTime, fullday) {
 
 // Show event as text
 function displayDates() {
-    var count = 4;
+    let count = 4;
     let retFunc = function () {
-    	if (!--count) {
-    		setTimeout(function() {
-    			adapter.stop();
-    		}, 5000);
-    	}
+    	!--count && setTimeout(() => adapter.stop(), 5000);
     };
 
     let todayEventcounter = 0;
@@ -1162,7 +1166,7 @@ function displayDates() {
     let dayAfterTomorrow = new Date(tomorrow.getTime() + oneDay);
     
     if (datesArray.length) {
-        for (var t = 0; t < datesArray.length; t++) {
+        for (let t = 0; t < datesArray.length; t++) {
             if (datesArray[t]._end.getTime() > today.getTime() && datesArray[t]._date.getTime() < tomorrow.getTime()) {
             	todayEventcounter++;
             }
@@ -1181,13 +1185,13 @@ function displayDates() {
     adapter.setState('data.countTomorrow', {val: tomorrowEventcounter, ack: true}, retFunc);
 
     // set not processed events to false
-    for (var j = 0; j < events.length; j++) {
+    for (let j = 0; j < events.length; j++) {
         if (!events[j].processed && events[j].state) {
         	let ev = events[j];
             count++;
             ev.state = false;
             // Set to false
-            let name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
+            const name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
             adapter.log.info('Set ' + name + ' to false');
             adapter.setState(name, {val: ev.state, ack: true}, retFunc);
         }
@@ -1206,7 +1210,7 @@ function insertSorted(arr, element) {
             if (arr.length === 1) {
                 arr.push(element);
             } else {
-                for (var i = 0; i < arr.length - 1; i++){
+                for (let i = 0; i < arr.length - 1; i++){
                     if (arr[i]._date <= element._date && element._date < arr[i + 1]._date) {
                         arr.splice(i + 1, 0, element);
                         element = null;
@@ -1221,29 +1225,32 @@ function insertSorted(arr, element) {
 }
 
 function brSeparatedList(datesArray) {
-    var text     = '';
-    var today    = new Date();
-    var tomorrow = new Date();
-    var dayafter = new Date();
+    let text     = '';
+    const today    = new Date();
+    const tomorrow = new Date();
+    const dayafter = new Date();
     today.setHours(0, 0, 0, 0);
     tomorrow.setDate(today.getDate() + 1);
     tomorrow.setHours(0, 0, 0, 0);
     dayafter.setDate(today.getDate() + 2);
     dayafter.setHours(0, 0, 0, 0);
 
-    for (var i = 0; i < datesArray.length; i++) {
-        var date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
-        var color = adapter.config.defColor;
-        for (var j = 0; j < adapter.config.calendars.length; j++) {
+    for (let i = 0; i < datesArray.length; i++) {
+        const date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
+        let color = adapter.config.defColor;
+
+        for (let j = 0; j < adapter.config.calendars.length; j++) {
             if (adapter.config.calendars[j].name === datesArray[i]._calName) {
                 color = adapter.config.calendars[j].color;
                 break;
             }
         }
 
-        var xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayafter, color, datesArray[i]._calName);
+        const xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayafter, color, datesArray[i]._calName);
 
-        if (text) text += '<br/>\n';
+        if (text) {
+            text += '<br/>\n';
+        }
         text += xfix.prefix + date.text + xfix.suffix + ' ' + datesArray[i].event + '</span>' + (adapter.config.colorize ? '</span>' : '');
     }
 
