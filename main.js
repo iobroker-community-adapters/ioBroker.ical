@@ -332,7 +332,7 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
                         let checkDate = true;
                         if(ev2.exdate) {
                             for(const d in ev2.exdate) {
-                                const dd = new Date(d);
+                                const dd = new Date(ev2.exdate[d]);
                                 if (dd.getTime() === ev2.start.getTime()) {
                                     checkDate = false;
                                     adapter.log.debug('   ' + i + ': sort out');
