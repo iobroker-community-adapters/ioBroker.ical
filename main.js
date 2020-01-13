@@ -1,6 +1,6 @@
 /**
  *      ioBroker.iCal
- *      Copyright 2015-2019, bluefox <dogafox@gmail.com>
+ *      Copyright 2015-2020, bluefox <dogafox@gmail.com>
  *
  *      Based on ccu.io vader722 adapter.
  *      https://github.com/hobbyquaker/ccu.io/tree/master/adapter/ical
@@ -38,7 +38,7 @@ function startAdapter(options) {
 
             if (id === adapter.namespace + '.trigger') {
                 const content = state.val.split(' ');
-                // One time read all calendars 
+                // One time read all calendars
                 switch (content[0]) {
                     case 'read':
                         if (content[1]) {
@@ -50,7 +50,7 @@ function startAdapter(options) {
                         }
                         break;
 
-                    // FIXME: checkForEvents not supporting call with only 1 parameter 
+                    // FIXME: checkForEvents not supporting call with only 1 parameter
                     case 'check':
                         if (content[1]) {
                             adapter.log.info('checking "' + content[1] + '"');
@@ -380,7 +380,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
     let reason;
     let date;
 
-    // chech if sub parameter exists for outlook 
+    // chech if sub parameter exists for outlook
     if (ev.summary.hasOwnProperty('val')) {
         // yes -> read reason
         reason = ev.summary.val;
@@ -582,7 +582,7 @@ function checkForEvents(reason, today, event, realnow) {
     // check if event exists in table
     for (let i = 0; i < events.length; i++) {
         let ev = events[i];
-        if (reason.indexOf(ev.name) !== -1) {
+        if (reason.includes(ev.name)) {
             // check if event should shown
             result = ev.display;
             adapter.log.debug('found event in table: ' + ev.name);
@@ -607,7 +607,8 @@ function checkForEvents(reason, today, event, realnow) {
                         ev.state = true;
                         let name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
                         adapter.log.info('Set ' + name + ' to true');
-                        adapter.setState(name, {val: ev.state, ack: true});
+                        adapter.setState(name, {val: true, ack: true}, () =>
+                            ev.id && setState(ev.id, ev.on));
                     }
                 }
             }
@@ -616,15 +617,21 @@ function checkForEvents(reason, today, event, realnow) {
     return result;
 }
 
-function initEvent(name, display, day, type, callback) {
+function initEvent(name, display, day, type, id, on, off, callback) {
     let obj = {
-        name:      name,
+        name,
         processed: false,
         state:     null,
-        display:   display,
-        day:       day,
-        type:      type
+        display,
+        day,
+        type
     };
+
+    if (type === 'now' && id) {
+        obj.id = id;
+        obj.off = off;
+        obj.on = on;
+    }
 
     events.push(obj);
 
@@ -633,11 +640,12 @@ function initEvent(name, display, day, type, callback) {
     adapter.getState(stateName, (err, state) => {
         if (err || !state) {
             obj.state = false;
-            adapter.setState(stateName, {val: obj.state, ack: true});
+            adapter.setState(stateName, {val: false, ack: true}, err =>
+                setState(id, off, () => callback && callback(name)));
         } else {
             obj.state = state.val;
+            callback && callback(name);
         }
-        if (callback) callback(name);
     });
 }
 
@@ -759,20 +767,21 @@ function syncUserEvents(callback) {
                     if (configItem.display === 'false') configItem.display = false;
 
                     // Add or update state
-                    adapter.setObject(toAdd[i].id, {
-                        type: 'state',
-                        common: {
-                            name: toAdd[i].name,
-                            type: 'boolean',
-                            role: 'indicator'
+                    adapter.setObject(toAdd[i].id,
+                        {
+                            type: 'state',
+                            common: {
+                                name: toAdd[i].name,
+                                type: 'boolean',
+                                role: 'indicator'
+                            },
+                            native: {
+                                enabled: configItem.enabled,
+                                display: configItem.display
+                            }
                         },
-                        native: {
-                            enabled: configItem.enabled,
-                            display: configItem.display
-                        }
-                    }, function (err, id) {
-                        adapter.log.info('Event "' + id.id + '" created');
-                    });
+                        (err, id) => adapter.log.info('Event "' + id.id + '" created')
+                    );
                 }
             }
         }
@@ -783,30 +792,25 @@ function syncUserEvents(callback) {
             adapter.delState(toDel[i].id);
         }
 
-        let countFunc = function() {
-            count--;
-            if (!count) callback();
-        };
-
         for (let day = 0; day < days; day++) {
             for (let i = 0; i < adapter.config.events.length; i++) {
                 let event = adapter.config.events[i];
                 // If event enabled add it to list
                 if (event.enabled) {
-                    if(day == 0) {
+                    if (!day) {
                         count += 3;
-                        initEvent(event.name, event.display, 0, 'today', countFunc);
-                        initEvent(event.name, event.display, 0, 'now', countFunc);
-                        initEvent(event.name, event.display, 0, 'later', countFunc);
+                        initEvent(event.name, event.display, 0, 'today', null, null, null, !--count && callback());
+                        initEvent(event.name, event.display, 0, 'now',   null, null, null, !--count && callback());
+                        initEvent(event.name, event.display, 0, 'later', null, null, null, !--count && callback());
                     } else {
                         count++;
-                        initEvent(event.name, event.display, day, null, countFunc);
+                        initEvent(event.name, event.display, day, null, null, null, null, !--count && callback());
                     }
                 }
             }
         }
 
-        if (!count) callback();
+        !count && callback();
     });
 }
 
@@ -866,8 +870,7 @@ function readAll() {
                     adapter.config.calendars[i].pass,
                     adapter.config.calendars[i].sslignore,
                     adapter.config.calendars[i].name,
-                    buildFilter(adapter.config.calendars[i].filter, adapter.config.calendars[i].filterregex),
-                    () => {
+                    buildFilter(adapter.config.calendars[i].filter, adapter.config.calendars[i].filterregex), () => {
                         // If all calendars are processed
                         if (!--count) {
                             adapter.log.debug('displaying dates because of callback');
@@ -901,7 +904,7 @@ function formatDate(_date, _end, withTime, fullDay) {
     const endmonth = _end.getMonth() + 1;
     const endyear  = _end.getFullYear();
     let _time = '';
-    const alreadyStarted = (_date < new Date());
+    const alreadyStarted = _date < new Date();
 
     if (withTime) {
         let hours   = _date.getHours();
@@ -912,9 +915,13 @@ function formatDate(_date, _end, withTime, fullDay) {
         } else {
             if (!alreadyStarted) {
                 if (adapter.config.dataPaddingWithZeros) {
-                    if (hours < 10) hours   = '0' + hours.toString();
+                    if (hours < 10) {
+                        hours   = '0' + hours.toString();
+                    }
                 }
-                if (minutes < 10) minutes = '0' + minutes.toString();
+                if (minutes < 10) {
+                    minutes = '0' + minutes.toString();
+                }
                 _time = ' ' + hours + ':' + minutes;
             }
             let timeDiff = _end.getTime() - _date.getTime();
@@ -927,15 +934,15 @@ function formatDate(_date, _end, withTime, fullDay) {
                     _time += ' ';
                 }
 
-                let endhours = _end.getHours();
-                let endminutes = _end.getMinutes();
-                if (adapter.config.dataPaddingWithZeros && endhours < 10) {
-                    endhours = '0' + endhours.toString();
+                let endHours = _end.getHours();
+                let endMinutes = _end.getMinutes();
+                if (adapter.config.dataPaddingWithZeros && endHours < 10) {
+                    endHours = '0' + endHours.toString();
                 }
-                if (endminutes < 10) {
-                    endminutes = '0' + endminutes.toString();
+                if (endMinutes < 10) {
+                    endMinutes = '0' + endMinutes.toString();
                 }
-                _time += endhours + ':' + endminutes;
+                _time += endHours + ':' + endMinutes;
 
                 const startDayEnd = new Date();
                 startDayEnd.setFullYear(_date.getFullYear());
@@ -1151,6 +1158,34 @@ function formatDate(_date, _end, withTime, fullDay) {
     };
 }
 
+function setState(id, val, cb) {
+    if (!id) {
+        return cb & cb();
+    }
+    adapter.getForeignObject(id, (err, obj) => {
+        if (!err && obj) {
+            // convert value
+            if (obj.common) {
+                if (val === 'null' || val === null || val === undefined) {
+                    val = null;
+                } else {
+                    if (obj.common.type === 'boolean') {
+                        val = val === true || val === 'true' || val === 1  || val === '1';
+                    } else if (obj.common.type === 'number') {
+                        val = parseFloat(val);
+                    } else if (obj.common.type === 'string') {
+                        val = val.toString();
+                    }
+                }
+            }
+
+            adapter.setForeignState(id, val, true, cb);
+        } else {
+            cb && cb();
+        }
+    });
+}
+
 // Show event as text
 function displayDates() {
     let count = 4;
@@ -1158,8 +1193,8 @@ function displayDates() {
         !--count && setTimeout(() => adapter.stop(), 5000);
     };
 
-    let todayEventcounter = 0;
-    let tomorrowEventcounter = 0;
+    let todayEventCounter = 0;
+    let tomorrowEventCounter = 0;
     let today = new Date();
     today.setHours(0, 0, 0, 0);
     const oneDay = 24 * 60 * 60 * 1000;
@@ -1169,10 +1204,10 @@ function displayDates() {
     if (datesArray.length) {
         for (let t = 0; t < datesArray.length; t++) {
             if (datesArray[t]._end.getTime() > today.getTime() && datesArray[t]._date.getTime() < tomorrow.getTime()) {
-                todayEventcounter++;
+                todayEventCounter++;
             }
             if (datesArray[t]._end.getTime() > tomorrow.getTime() && datesArray[t]._date.getTime() < dayAfterTomorrow.getTime()) {
-                tomorrowEventcounter++;
+                tomorrowEventCounter++;
             }
         }
 
@@ -1184,8 +1219,8 @@ function displayDates() {
         adapter.setState('data.html',  {val: '', ack: true}, retFunc);
         adapter.setState('data.text',  {val: '', ack: true}, retFunc);
     }
-    adapter.setState('data.count', {val: todayEventcounter, ack: true}, retFunc);
-    adapter.setState('data.countTomorrow', {val: tomorrowEventcounter, ack: true}, retFunc);
+    adapter.setState('data.count', {val: todayEventCounter, ack: true}, retFunc);
+    adapter.setState('data.countTomorrow', {val: tomorrowEventCounter, ack: true}, retFunc);
 
     // set not processed events to false
     for (let j = 0; j < events.length; j++) {
@@ -1196,7 +1231,8 @@ function displayDates() {
             // Set to false
             const name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
             adapter.log.info('Set ' + name + ' to false');
-            adapter.setState(name, {val: ev.state, ack: true}, retFunc);
+            adapter.setState(name, {val: false, ack: true}, () =>
+                setState(ev.id, ev.off, retFunc));
         }
     }
 }
@@ -1231,12 +1267,12 @@ function brSeparatedList(datesArray) {
     let text     = '';
     const today    = new Date();
     const tomorrow = new Date();
-    const dayafter = new Date();
+    const dayAfter = new Date();
     today.setHours(0, 0, 0, 0);
     tomorrow.setDate(today.getDate() + 1);
     tomorrow.setHours(0, 0, 0, 0);
-    dayafter.setDate(today.getDate() + 2);
-    dayafter.setHours(0, 0, 0, 0);
+    dayAfter.setDate(today.getDate() + 2);
+    dayAfter.setHours(0, 0, 0, 0);
 
     for (let i = 0; i < datesArray.length; i++) {
         const date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
@@ -1249,7 +1285,7 @@ function brSeparatedList(datesArray) {
             }
         }
 
-        const xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayafter, color, datesArray[i]._calName);
+        const xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayAfter, color, datesArray[i]._calName);
 
         if (text) {
             text += '<br/>\n';
@@ -1261,27 +1297,29 @@ function brSeparatedList(datesArray) {
 }
 
 function crlfSeparatedList(datesArray) {
-    var text     = '';
-    var today    = new Date();
-    var tomorrow = new Date();
-    var dayafter = new Date();
+    let text     = '';
+    const today    = new Date();
+    const tomorrow = new Date();
+    const dayafter = new Date();
     today.setHours(0, 0, 0, 0);
     tomorrow.setDate(today.getDate() + 1);
     tomorrow.setHours(0, 0, 0, 0);
     dayafter.setDate(today.getDate() + 2);
     dayafter.setHours(0, 0, 0, 0);
 
-    for (var i = 0; i < datesArray.length; i++) {
-        var date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
-        var color = adapter.config.defColor;
-        for (var j = 0; j < adapter.config.calendars.length; j++) {
+    for (let i = 0; i < datesArray.length; i++) {
+        const date = formatDate(datesArray[i]._date, datesArray[i]._end, true, datesArray[i]._allDay);
+        let color = adapter.config.defColor;
+        for (const j = 0; j < adapter.config.calendars.length; j++) {
             if (adapter.config.calendars[j].name === datesArray[i]._calName) {
                 color = adapter.config.calendars[j].color;
                 break;
             }
         }
 
-        if (text) text += '\n';
+        if (text) {
+            text += '\n';
+        }
         text += date.text + ' ' + datesArray[i].event + ' ' + datesArray[i].location;
     }
 
@@ -1296,10 +1334,10 @@ function main() {
     syncUserEvents(readAll);
 }
 
-// If started as allInOne/compact mode => return function to create instance 
+// If started as allInOne/compact mode => return function to create instance
 if (module && module.parent) {
     module.exports = startAdapter;
 } else {
-    // or start the instance directly 
+    // or start the instance directly
     startAdapter();
 }

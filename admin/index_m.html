@@ -4,11 +4,17 @@
     <!-- Materialze style -->
     <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
     <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+    <link type="text/css" rel="stylesheet" href="../../lib/css/themes/jquery-ui/default/jquery-ui.min.css">
+    <link type="text/css" rel="stylesheet" href="../../lib/css/fancytree/ui.fancytree.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../lib/css/iob/selectID.css"/>
 
     <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+    <script type="text/javascript" src="../../lib/js/jquery.fancytree-all.min.js"></script>
     <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
 
     <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/selectID.js"></script>
     <script type="text/javascript" src="../../lib/js/materialize.js"></script>
     <script type="text/javascript" src="../../js/adapter-settings.js"></script>
     <script type="text/javascript" src="words.js"></script>
@@ -200,9 +206,9 @@
                     <table class="table-values">
                         <thead>
                         <tr>
-                            <th data-name="name"     style="width: 80%" class="translate">name</th>
+                            <th data-name="name"     style="width: 80%"  class="translate">name</th>
                             <th data-name="enabled"  style="width: 70px"  data-style="width: 70px"  data-type="checkbox" class="translate">enabled</th>
-                            <th data-name="id"       style="width: 200px" data-style="width: 200px" data-type="text"     class="translate">Control ID</th>
+                            <th data-name="id"       style="width: 200px"  data-style="width: 300px" data-type="OID"      class="translate">Control ID</th>
                             <th data-name="on"       style="width: 50px"  data-style="width: 50px"  data-type="text"     class="translate">ON</th>
                             <th data-name="off"      style="width: 50px"  data-style="width: 50px"  data-type="text"     class="translate">OFF</th>
                             <th data-name="display"  style="width: 70px"  data-style="width: 70px"  data-type="checkbox" class="translate">display</th>
