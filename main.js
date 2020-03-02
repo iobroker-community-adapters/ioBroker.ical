@@ -459,7 +459,8 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
                     _rule:    rule,
                     location: location,
                     // add additional Objects, so iobroker.occ can use it
-                    _calName: calName
+                    _calName: calName,
+                    _calColor: adapter.config.calendars.find(x => x.name === calName).color
                 });
 
                 adapter.log.debug('Event (full day) added : ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
@@ -491,7 +492,8 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
                     _rule:    rule,
                     location: location,
                     // add additional Objects, so iobroker.occ can use it
-                    _calName: calName
+                    _calName: calName,
+                    _calColor: adapter.config.calendars.find(x => x.name === calName).color
                 });
                 adapter.log.debug('Event with time added: ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
             } else {
