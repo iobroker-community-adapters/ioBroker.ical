@@ -13,7 +13,7 @@ Alternatively it is possible to use a local `.ics` file (use absolute path to th
 
 Read english [here](docs/en/README.md).
 
-Siehe deustche [Version hier](docs/de/README.md).
+Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Todo
 * `data.trigger` doesn't support `check` option
