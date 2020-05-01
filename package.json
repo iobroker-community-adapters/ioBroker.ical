@@ -34,7 +34,8 @@
     "node-ical": "^0.10.0",
     "request": "^2.88.0",
     "rrule": "^2.5.6",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -47,7 +48,10 @@
   },
   "main": "main.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --exit"
+    "test": "node node_modules/mocha/bin/mocha --exit",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "snyk": true
 }
