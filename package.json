@@ -28,7 +28,7 @@
     "url": "https://github.com/ioBroker/ioBroker.ical"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^1.0.3",
+    "@iobroker/adapter-core": "^2.4.0",
     "cloneextend": "^0.0.3",
     "moment-timezone": "^0.5.21",
     "node-ical": "^0.10.0",
