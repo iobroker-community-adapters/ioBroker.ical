@@ -30,13 +30,14 @@
   "dependencies": {
     "@iobroker/adapter-core": "^2.4.0",
     "cloneextend": "^0.0.3",
-    "moment-timezone": "^0.5.21",
+    "moment-timezone": "^0.5.31",
     "node-ical": "^0.11.3",
     "request": "^2.88.0",
     "rrule": "2.6.4",
-    "winston": "^3.2.1"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
+    "@alcalzone/release-script": "^1.7.0",
     "chai": "^4.2.0",
     "chai-string": "^1.5.0",
     "gulp": "^4.0.2",
@@ -48,7 +49,8 @@
   },
   "main": "main.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --exit"
+    "test": "node node_modules/mocha/bin/mocha --exit",
+    "release": "node node_modules/@alcalzone/release-script/bin/release.js"
   },
   "license": "MIT"
 }

@@ -98,7 +98,12 @@
         "allowInit": true,
         "subscribe": "ical.<INSTANCE>.trigger",
         "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.ical/master/admin/ical.png",
-        "type": "date-and-time"
+        "type": "date-and-time",
+        "plugins": {
+            "sentry": {
+                "dsn": "https://82b5b68454d946149c547291365cbee3@sentry.iobroker.net/47"
+            }
+        },
     },
     "native": {
         "daysPreview": 7,
