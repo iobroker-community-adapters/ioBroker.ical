@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.7.2",
+        "version": "1.7.3",
         "news": {
+            "1.7.3": {
+                "en": "we pin a specific dependency version, because \"rrule\" package broken",
+                "de": "Wir pinnen eine bestimmte Abhängigkeitsversion, weil das \"rrule\" -Paket kaputt ist",
+                "ru": "мы закрепляем конкретную версию зависимости, потому что пакет \"rrule\" сломан",
+                "pt": "fixamos uma versão de dependência específica, porque o pacote \"rrule\" quebrado",
+                "nl": "we pinnen een specifieke afhankelijkheidsversie, omdat het \"rrule\" -pakket kapot is",
+                "fr": "nous épinglons une version de dépendance spécifique, car le package \"rrule\" est cassé",
+                "it": "blocciamo una specifica versione della dipendenza, perché il pacchetto \"rrule\" non funziona",
+                "es": "fijamos una versión de dependencia específica, porque el paquete \"rrule\" está roto",
+                "pl": "przypinamy określoną wersję zależności, ponieważ pakiet „rrule” jest uszkodzony",
+                "zh-cn": "我们固定了特定的依赖版本，因为“ rrule”包已损坏"
+            },
             "1.7.1": {
                 "en": "Fixed issue with UTC of until in recurring appointments\nFixed possible empty color\nAdded compact mode",
                 "de": "Problem mit UTC von bis in wiederkehrenden Terminen behoben\nMögliche leere Farbe behoben\nKompakter Modus hinzugefügt",

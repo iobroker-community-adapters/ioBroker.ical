@@ -19,6 +19,10 @@ Siehe deutsche [Version hier](docs/de/README.md).
 * `data.trigger` doesn't support `check` option
 
 ## Changelog
+### 1.7.3 (2020-08-26)
+* (foxriver76) we pin a specific dependency version, because "rrule" package broken
+* (foxriver76) added eslint
+
 ### 1.7.2 (2019-12-02)
 * (bluefox) Documentation was changed
 
