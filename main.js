@@ -814,8 +814,8 @@ function syncUserEvents(callback) {
                     if (!day) {
                         count += 3;
                         initEvent(event.name, event.display, 0, 'today', null, null, null, () => !--count && callback());
-                        initEvent(event.name, event.display, 0, 'now',   null, null, null, () =>!--count && callback());
-                        initEvent(event.name, event.display, 0, 'later', null, null, null, () =>!--count && callback());
+                        initEvent(event.name, event.display, 0, 'now',   null, null, null, () => !--count && callback());
+                        initEvent(event.name, event.display, 0, 'later', null, null, null, () => !--count && callback());
                     } else {
                         count++;
                         initEvent(event.name, event.display, day, null, null, null, null, () => !--count && callback());
