@@ -146,8 +146,8 @@ jobs:
           export SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
           export SENTRY_URL=https://sentry.iobroker.net
           export SENTRY_ORG=iobroker
-          export SENTRY_PROJECT=iobroker-alexa2
-          export SENTRY_VERSION=iobroker.alexa2@${{ env.VERSION }}
+          export SENTRY_PROJECT=iobroker-ical
+          export SENTRY_VERSION=iobroker.ical@${{ env.VERSION }}
           sentry-cli releases new $SENTRY_VERSION
           sentry-cli releases finalize $SENTRY_VERSION
 
