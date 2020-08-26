@@ -33,7 +33,7 @@
     "moment-timezone": "^0.5.21",
     "node-ical": "^0.11.3",
     "request": "^2.88.0",
-    "rrule": "2.6.4",
+    "rrule": "2.6.5",
     "winston": "^3.2.1"
   },
   "devDependencies": {
