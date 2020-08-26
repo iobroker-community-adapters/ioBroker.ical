@@ -813,12 +813,12 @@ function syncUserEvents(callback) {
                 if (event.enabled) {
                     if (!day) {
                         count += 3;
-                        initEvent(event.name, event.display, 0, 'today', null, null, null, !--count && callback());
-                        initEvent(event.name, event.display, 0, 'now',   null, null, null, !--count && callback());
-                        initEvent(event.name, event.display, 0, 'later', null, null, null, !--count && callback());
+                        initEvent(event.name, event.display, 0, 'today', null, null, null, () => !--count && callback());
+                        initEvent(event.name, event.display, 0, 'now',   null, null, null, () =>!--count && callback());
+                        initEvent(event.name, event.display, 0, 'later', null, null, null, () =>!--count && callback());
                     } else {
                         count++;
-                        initEvent(event.name, event.display, day, null, null, null, null, !--count && callback());
+                        initEvent(event.name, event.display, day, null, null, null, null, () => !--count && callback());
                     }
                 }
             }
@@ -877,7 +877,7 @@ function readAll() {
         for (let i = 0; i < adapter.config.calendars.length; i++) {
             if (adapter.config.calendars[i].url) {
                 count++;
-                adapter.log.debug('reading calendar from URL: ' + adapter.config.calendars[i].url + ', color: ' + adapter.config.calendars[i].url.color);
+                adapter.log.debug('reading calendar from URL: ' + adapter.config.calendars[i].url + ', color: ' + adapter.config.calendars[i].color);
                 checkICal(
                     adapter.config.calendars[i].url,
                     adapter.config.calendars[i].user,
