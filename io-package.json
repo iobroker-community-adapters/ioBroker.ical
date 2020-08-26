@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.7.3",
+        "version": "1.7.4",
         "news": {
+            "1.7.4": {
+                "en": "Fix multiple parsing",
+                "de": "Mehrfachanalyse korrigieren",
+                "ru": "Исправить множественный разбор",
+                "pt": "Corrigir análise múltipla",
+                "nl": "Herstel meerdere parsing",
+                "fr": "Correction de l'analyse multiple",
+                "it": "Correzione di più analisi",
+                "es": "Corregir análisis múltiple",
+                "pl": "Napraw wielokrotne analizowanie",
+                "zh-cn": "修复多个解析"
+            },
             "1.7.3": {
                 "en": "we pin a specific dependency version, because \"rrule\" package broken",
                 "de": "Wir pinnen eine bestimmte Abhängigkeitsversion, weil das \"rrule\" -Paket kaputt ist",
@@ -25,7 +37,7 @@
                 "it": "Risolto il problema con UTC fino a quando in appuntamenti ricorrenti\nRisolto il possibile colore vuoto\nAggiunta modalità compatta",
                 "es": "Solucionado el problema con UTC de hasta en citas recurrentes\nPosible color vacio fijo\nModo compacto agregado",
                 "pl": "Naprawiono problem z UTC przed terminami cyklicznymi\nNaprawiono możliwy pusty kolor\nDodano tryb kompaktowy"
-        	},
+            },
             "1.7.0": {
                 "en": "Add filter option\nAdd support of events for configured date period; changed state names from 'events.*' to 'events.0.today.*'\nAdd Count of events for tomorrow - state 'data.countTomorrow'\nEvents without time part and same start and end are interpreted as full day events\nRemove special chars from event states",
                 "de": "Filteroption hinzufügen\nUnterstützung für Ereignisse für konfigurierten Datumszeitraum hinzufügen; Zustandsnamen von 'events. *' in 'events.0.today. *' geändert\nAnzahl der Ereignisse für morgen hinzufügen - Status 'data.countTomorrow'\nEreignisse ohne Zeitteil und gleichem Anfang und Ende werden als ganztägige Ereignisse interpretiert\nSonderzeichen aus Ereignisstatus entfernen",
@@ -36,7 +48,7 @@
                 "it": "Aggiungi l'opzione di filtro\nAggiungi il supporto degli eventi per il periodo di tempo configurato; cambiato i nomi di stato da 'eventi. *' a 'events.0.today. *'\nAggiungi il conteggio degli eventi per domani - stato 'data.countTomorrow'\nGli eventi senza parte del tempo e stesso inizio e fine sono interpretati come eventi di un giorno intero\nRimuovi caratteri speciali dagli stati degli eventi",
                 "es": "Añadir opción de filtro\nAñadir soporte de eventos para el período de fecha configurado; nombres de estado cambiados de 'eventos. *' a 'eventos.0.today. *'\nAgregar recuento de eventos para mañana: estado 'data.countTomorrow'\nLos eventos sin parte de la hora y el mismo inicio y final se interpretan como eventos de día completo\nEliminar caracteres especiales de estados de evento",
                 "pl": "Dodaj opcję filtru\nDodaj obsługę zdarzeń dla skonfigurowanego okresu daty; zmieniono nazwy stanów z \"events. *\" na \"events.0.today. *\"\nDodaj liczbę zdarzeń do jutra - stan \"data.countTomorrow\"\nZdarzenia bez części czasowej oraz ten sam początek i koniec są interpretowane jako wydarzenia całodniowe\nUsuń znaki specjalne ze stanów zdarzeń"
-        	},
+            },
             "1.6.6": {
                 "en": "Fixed html for disabled colorize\nFixed timezone handling for events during change from daylight saving time back to standard time\nFixed: events without end date moved to different day",
                 "de": "Falsches HTML bei deaktivierten Farben behoben\nZeitzonenbehandlung für Ereignisse beim Wechsel von Sommer- auf Winterzeit behoben\nBehoben: Ereignisse ohne Enddatum wurden an einen anderen Tag verschoben",

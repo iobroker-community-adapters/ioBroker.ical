@@ -21,8 +21,13 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Todo
 * `data.trigger` doesn't support `check` option
+* fix timezone stuff in tests
 
 ## Changelog
+
+### 1.7.4 (2020-08-26)
+* (Apollon77) Fix multiple parsing
+
 ### 1.7.3 (2020-08-26)
 * (foxriver76) we pin a specific dependency version, because "rrule" package broken
 * (foxriver76) added eslint
