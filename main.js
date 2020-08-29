@@ -14,11 +14,12 @@
 'use strict';
 
 // Get common adapter utils
-const utils = require('@iobroker/adapter-core');
-const RRule   = require('rrule').RRule;
-const ical    = require('node-ical');
-const ce      = require('cloneextend');
-const moment  = require('moment-timezone');
+const utils       = require('@iobroker/adapter-core');
+const RRule       = require('rrule').RRule;
+const ical        = require('node-ical');
+const ce          = require('cloneextend');
+const moment      = require('moment-timezone');
+const adapterName = require('./package.json').name.split('.').pop();
 let request;
 let fs;
 let adapter;
@@ -27,7 +28,7 @@ function startAdapter(options) {
     options = options || {};
 
     Object.assign(options,{
-        name:  'ical',
+        name:  adapterName,
         stateChange:  function (id, state) {
             if (!id || !state || state.ack || !state.val) {
                 return;
