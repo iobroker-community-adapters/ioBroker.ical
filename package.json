@@ -33,7 +33,7 @@
     "moment-timezone": "^0.5.31",
     "node-ical": "^0.12.1",
     "request": "^2.88.2",
-    "rrule": "2.6.4"
+    "rrule": "2.6.6"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^1.7.0",
