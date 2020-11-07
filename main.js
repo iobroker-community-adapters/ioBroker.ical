@@ -263,8 +263,8 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
         const ev = data[k];
         delete data[k];
 
-        // only events with summary are interesting
-        if ((ev.summary !== undefined) && (ev.type === 'VEVENT')) {
+        // only events with summary and a start date are interesting
+        if ((ev.summary !== undefined) && (ev.type === 'VEVENT') && ev.start && ev.start instanceof Date) {
             adapter.log.debug('ev:' + JSON.stringify(ev));
             if (!ev.end) {
                 ev.end = ce.clone(ev.start);
@@ -389,12 +389,15 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
     const location = ev.location || '';
 
     // If not start point => ignore it
-    if (!ev.start) {
+    if (!ev.start || !ev.start instanceof Date) {
         return;
     }
 
     // If not end point => assume 0:0:0 event and set to same as start
     ev.end = ev.end || ev.start;
+    if (!ev.end || !ev.end instanceof Date) {
+        return;
+    }
 
     // If full day
     if (!ev.start.getHours() &&

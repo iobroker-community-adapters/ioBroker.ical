@@ -25,6 +25,10 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
+### __WORK IN PROGRESS__
+* (Apollon77) Only handle events with a start date (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)
+* (JensMaus) Update dependencies, fix some more issues
+
 ### 1.7.4 (2020-08-26)
 * (Apollon77) Fix multiple parsing
 
