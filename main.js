@@ -920,6 +920,7 @@ function formatDate(_date, _end, withTime, fullDay) {
     const endyear  = _end.getFullYear();
     let _time = '';
     const alreadyStarted = _date < new Date();
+    const arrowAlreadyStarted = adapter.config.arrowAlreadyStarted;
 
     if (withTime) {
         let hours   = _date.getHours();
@@ -1060,28 +1061,28 @@ function formatDate(_date, _end, withTime, fullDay) {
         }
         if (adapter.config.replaceDates) {
             if (_class === 'ical_today')    {
-                return {text: ((alreadyStarted && !todayOnly) ? '&#8594; ' : '') + _('today')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted && !todayOnly) ? '&#8594; ' : '') + _('today')    + _time, _class: _class};
             }
             if (_class === 'ical_tomorrow') {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('tomorrow') + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('tomorrow') + _time, _class: _class};
             }
             if (_class === 'ical_dayafter') {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('dayafter') + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('dayafter') + _time, _class: _class};
             }
             if (_class === 'ical_3days')    {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('3days')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('3days')    + _time, _class: _class};
             }
             if (_class === 'ical_4days')    {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('4days')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('4days')    + _time, _class: _class};
             }
             if (_class === 'ical_5days')    {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('5days')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('5days')    + _time, _class: _class};
             }
             if (_class === 'ical_6days')    {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('6days')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('6days')    + _time, _class: _class};
             }
             if (_class === 'ical_oneweek')  {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('oneweek')  + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('oneweek')  + _time, _class: _class};
             }
         }
     } else {
@@ -1153,7 +1154,7 @@ function formatDate(_date, _end, withTime, fullDay) {
                 }
             }
 
-            text = '&#8594; ' + day + '.' + month + '.';
+            text = ((arrowAlreadyStarted) ? '&#8594; ' : '') + day + '.' + month + '.';
             if (!adapter.config.hideYear) {
                 text += year;
             }

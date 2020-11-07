@@ -74,8 +74,8 @@
         }
 
         onChange(false);
-        values2table('calendars', calendars, onChange);
 
+        values2table('calendars', calendars, onChange);
         values2table('events', events, onChange);
     }
 
@@ -149,8 +149,8 @@
             </div>
             <div class="row">
                 <div class="col s12 m4">
-                    <input  class="value" id="colorize" type="checkbox"/>
-                    <label class="translate" for="colorize">Colorize HTML:</label>
+                    <input class="value" id="fulltime" type="text" maxlength="30"/>
+                    <label class="translate" for="fulltime">Use by full day:</label>
                 </div>
                 <div class="col s12 m4">
                     <input class="value" id="defColor" type="text"  maxlength="10" />
@@ -173,8 +173,8 @@
                     <label class="translate" for="everyCalOneColor">Every calendar has own color:</label>
                 </div>
                 <div class="col s12 m4">
-                    <input class="value" id="fulltime" type="text" maxlength="30"/>
-                    <label class="translate" for="fulltime">Use by full day:</label>
+                    <input  class="value" id="colorize" type="checkbox"/>
+                    <label class="translate" for="colorize">Colorize HTML:</label>
                 </div>
             </div>
             <div class="row">
@@ -185,6 +185,15 @@
                 <div class="col s12 m4">
                     <input  class="value" id="hideYear" type="checkbox" />
                     <label class="translate" for="hideYear">Hide Year:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m4">
+                    <input class="value" id="arrowAlreadyStarted" type="checkbox">
+                    <label class="translate" for="arrowAlreadyStarted">Add arrow for started events:</label>
+                </div>
+                <div class="col s12 m4">
+
                 </div>
             </div>
         </div>

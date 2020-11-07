@@ -276,5 +276,17 @@ systemDictionary = {
         "it": "Nascondi inizio-fine degli eventi",
         "es": "Ocultar inicio-fin de eventos",
         "pl": "Ukryj Start-Koniec wydarzeń"
+    },
+    "Add arrow for started events:": {
+        "en": "Add arrow for started events",
+        "de": "Pfeil für gestartete Ereignisse hinzufügen",
+        "ru": "Добавить стрелку для начатых событий",
+        "pt": "Adicionar seta para eventos iniciados",
+        "nl": "Voeg pijl toe voor gestarte evenementen",
+        "fr": "Ajouter une flèche pour les événements commencés",
+        "it": "Aggiungi freccia per gli eventi iniziati",
+        "es": "Agregar flecha para eventos iniciados",
+        "pl": "Dodaj strzałkę do rozpoczętych wydarzeń",
+        "zh-cn": "为开始的事件添加箭头"
     }
 };
