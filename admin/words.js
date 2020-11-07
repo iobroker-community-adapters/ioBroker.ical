@@ -24,6 +24,18 @@ systemDictionary = {
         "es": "Vista previa de días",
         "pl": "Podgląd dni"
     },
+    "Past days:": {
+        "en": "Past days",
+        "de": "Vergangene Tage",
+        "ru": "Прошедшие дни",
+        "pt": "Dias passados",
+        "nl": "Vorige dagen",
+        "fr": "Jours passés",
+        "it": "Giorni passati",
+        "es": "Días pasados",
+        "pl": "Minione dni",
+        "zh-cn": "过去的日子"
+    },
     "HTML settings": {
         "en": "HTML settings",
         "de": "HTML-Einstellungen",
