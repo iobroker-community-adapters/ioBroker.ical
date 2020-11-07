@@ -480,7 +480,7 @@ function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter
 
         // Event with time
         // Start time >= startpreview && Start time < preview time && End time >= now
-        if ((ev.start >= startpreview && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
+        if ((ev.start >= startpreview && ev.start < endpreview) || (ev.end >= startpreview && ev.end < endpreview) || (ev.start < startpreview && ev.end > endpreview)) {
             // Add to list only if not hidden
             if (checkForEvents(reason, startpreview, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, false);
@@ -501,6 +501,7 @@ function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter
                     _calName: calName,
                     _calColor: adapter.config.calendars.find(x => x.name === calName).color
                 });
+
                 adapter.log.debug('Event with time added: ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
             } else {
                 adapter.log.debug('Event does not displayed, because belongs to hidden user events: ' + reason);
@@ -1263,7 +1264,9 @@ function displayDates() {
             if (datesArray[t]._end.getTime() > tomorrow.getTime() && datesArray[t]._date.getTime() < dayAfterTomorrow.getTime()) {
                 tomorrowEventCounter++;
             }
-            // TODO: Calculate yesterday events
+            if (datesArray[t]._end.getTime() > yesterday.getTime() && datesArray[t]._date.getTime() < today.getTime()) {
+                yesterdayEventCounter++;
+            }
         }
 
         adapter.setState('data.table', {val: datesArray, ack: true}, retFunc);
