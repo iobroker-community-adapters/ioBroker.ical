@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.7.4",
+        "version": "1.7.5",
         "news": {
+            "1.7.5": {
+                "en": "Only handle events with a start date (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nUpdate dependencies, fix some more issues",
+                "de": "Behandeln Sie Ereignisse nur mit einem Startdatum (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4).\nAktualisieren Sie Abhängigkeiten und beheben Sie weitere Probleme",
+                "ru": "Обрабатывать только события с датой начала (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nОбновите зависимости, исправьте еще несколько проблем",
+                "pt": "Trate apenas eventos com data de início (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nAtualize dependências, corrija mais alguns problemas",
+                "nl": "Behandel alleen gebeurtenissen met een startdatum (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nWerk de afhankelijkheden bij, los nog wat problemen op",
+                "fr": "Gérer uniquement les événements avec une date de début (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nMettre à jour les dépendances, résoudre d'autres problèmes",
+                "it": "Gestisci solo eventi con una data di inizio (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nAggiorna le dipendenze, risolvi altri problemi",
+                "es": "Solo maneja eventos con una fecha de inicio (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nActualice las dependencias, solucione algunos problemas más",
+                "pl": "Obsługuj tylko zdarzenia z datą rozpoczęcia (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nZaktualizuj zależności, napraw więcej problemów",
+                "zh-cn": "仅处理具有开始日期的事件（哨兵IOBROKER-ICAL-1，IOBROKER-ICAL-2，IOBROKER-ICAL-4）\n更新依赖关系，解决更多问题"
+            },
             "1.7.4": {
                 "en": "Fix multiple parsing",
                 "de": "Mehrfachanalyse korrigieren",
