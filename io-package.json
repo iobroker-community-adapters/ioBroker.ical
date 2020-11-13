@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.7.5",
+        "version": "1.8.0",
         "news": {
+            "1.8.0": {
+                "en": "Moved html options to separate tab\nAdded option to hide \"arrow\" on for running events\nAdded feature to include past events (in days)",
+                "de": "HTML-Optionen auf separate Registerkarte verschoben\nOption hinzugefügt, um \"Pfeil\" zum Ausführen von Ereignissen auszublenden\nFunktion hinzugefügt, um vergangene Ereignisse (in Tagen) einzuschließen",
+                "ru": "Параметры html перенесены в отдельную вкладку\nДобавлена возможность скрыть \"стрелку\" для бегущих событий\nДобавлена возможность включать прошлые события (в днях)",
+                "pt": "Opções de html movidas para guia separada\nAdicionada opção para ocultar a \"seta\" para eventos em execução\nAdicionado recurso para incluir eventos anteriores (em dias)",
+                "nl": "Verplaatst html-opties naar een apart tabblad\nOptie toegevoegd om \"pijl\" te verbergen voor lopende evenementen\nFunctie toegevoegd om eerdere evenementen (in dagen) op te nemen",
+                "fr": "Options html déplacées dans un onglet séparé\nAjout d'une option pour masquer la \"flèche\" pour les événements en cours\nAjout d'une fonctionnalité pour inclure les événements passés (en jours)",
+                "it": "Opzioni html spostate in una scheda separata\nAggiunta l'opzione per nascondere la \"freccia\" per gli eventi in esecuzione\nAggiunta funzionalità per includere eventi passati (in giorni)",
+                "es": "Se movieron las opciones html a una pestaña separada\nOpción agregada para ocultar la \"flecha\" para ejecutar eventos\nCaracterística agregada para incluir eventos pasados (en días)",
+                "pl": "Przeniesiono opcje html na oddzielną kartę\nDodano opcję ukrywania „strzałki” podczas imprez biegowych\nDodano funkcję umożliwiającą uwzględnienie przeszłych wydarzeń (w dniach)",
+                "zh-cn": "将html选项移动到单独的选项卡\n添加了隐藏“箭头”以运行事件的选项\n添加功能以包括过去的事件（以天为单位）"
+            },
             "1.7.5": {
                 "en": "Only handle events with a start date (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nUpdate dependencies, fix some more issues",
                 "de": "Behandeln Sie Ereignisse nur mit einem Startdatum (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4).\nAktualisieren Sie Abhängigkeiten und beheben Sie weitere Probleme",

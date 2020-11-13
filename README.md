@@ -25,7 +25,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 1.8.0 (2020-11-14)
 * (klein0r) Moved html options to separate tab
 * (klein0r) Added option to hide "arrow" on for running events
 * (klein0r) Added feature to include past events (in days)
