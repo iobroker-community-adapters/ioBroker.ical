@@ -25,6 +25,11 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
+### __WORK IN PROGRESS__
+* (klein0r) Moved html options to separate tab
+* (klein0r) Added option to hide "arrow" on for running events
+* (klein0r) Added feature to include past events (in days)
+
 ### 1.7.5 (2020-11-08)
 * (Apollon77) Only handle events with a start date (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)
 * (JensMaus) Update dependencies, fix some more issues

@@ -214,9 +214,12 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
                 if (data) {
                     adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
                     adapter.log.debug(JSON.stringify(data));
-                    const realnow    = new Date();
-                    const today      = new Date();
-                    today.setHours(0, 0, 0, 0);
+                    const realnow = new Date();
+
+                    const startpreview = new Date();
+                    startpreview.setDate(startpreview.getDate() - parseInt(adapter.config.daysPast, 10));
+                    startpreview.setHours(0, 0, 0, 0);
+
                     const endpreview = new Date();
                     endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
 
@@ -226,7 +229,7 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
                     now2.setHours(0, 0, 0, 0);
 
                     setImmediate(() =>
-                        processData(data, realnow, today, endpreview, now2, calName, filter, cb));
+                        processData(data, realnow, startpreview, endpreview, now2, calName, filter, cb));
                 } else {
                     // Ready with processing
                     cb(calName);
@@ -255,7 +258,7 @@ function addOffset(time, offset) {
     return new Date(time.getTime() + (offset * 60 * 1000));
 }
 
-function processData(data, realnow, today, endpreview, now2, calName, filter, cb) {
+function processData(data, realnow, startpreview, endpreview, now2, calName, filter, cb) {
     let processedEntries = 0;
     // TODO: next line unused - remove or use?
     let defaultTimezone;
@@ -290,7 +293,7 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
                 if (now2 < now3) {
                     now3 = now2;
                 }
-                adapter.log.debug('RRule event:' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; today:' + today + '; now2:' + now2 + '; now3:' + now3 + '; rule:' + JSON.stringify(rule));
+                adapter.log.debug('RRule event:' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; startpreview:' + startpreview + '; now2:' + now2 + '; now3:' + now3 + '; rule:' + JSON.stringify(rule));
 
                 let dates = [];
                 try {
@@ -348,7 +351,7 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
                         }
 
                         if (checkDate) {
-                            checkDates(ev2, endpreview, today, realnow, ' rrule ', calName, filter);
+                            checkDates(ev2, endpreview, startpreview, realnow, ' rrule ', calName, filter);
                         }
                     }
                 } else {
@@ -356,7 +359,7 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
                 }
             } else {
                 // No RRule event
-                checkDates(ev, endpreview, today, realnow, ' ', calName, filter);
+                checkDates(ev, endpreview, startpreview, realnow, ' ', calName, filter);
             }
         }
 
@@ -368,11 +371,11 @@ function processData(data, realnow, today, endpreview, now2, calName, filter, cb
         cb(calName);
     } else {
         setImmediate(() =>
-            processData(data, realnow, today, endpreview, now2, calName, filter, cb));
+            processData(data, realnow, startpreview, endpreview, now2, calName, filter, cb));
     }
 }
 
-function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
+function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter) {
     let fullDay = false;
     let reason;
     let date;
@@ -431,7 +434,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
     if (filter) {
         const content = 'SUMMARY:' + reason + '\nDESCRIPTION:' + ev.description + '\nLOCATION:'+ location;
         filter = new RegExp(filter.source, filter.flags);
-        if(filter.test(content)) {
+        if (filter.test(content)) {
             adapter.log.debug('Event filtered using ' + filter + ' by content: ' + content);
 
             return;
@@ -440,10 +443,13 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
 
     // Full day
     if (fullDay) {
-        // event start >= today  && < previewtime  or end > today && < previewtime ---> display
-        if ((ev.start < endpreview && ev.start >= today) || (ev.end > today && ev.end <= endpreview) || (ev.start < today && ev.end > today)) {
+
+        adapter.log.debug('Event (full day) processing. Start: ' + ev.start + ' End: ' + ev.end);
+
+        // event start >= startpreview  && < previewtime  or end > startpreview && < previewtime ---> display
+        if ((ev.start < endpreview && ev.start >= startpreview) || (ev.end > startpreview && ev.end <= endpreview) || (ev.start < startpreview && ev.end > startpreview)) {
             // check only full day events
-            if (checkForEvents(reason, today, ev, realnow)) {
+            if (checkForEvents(reason, startpreview, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, true);
 
                 insertSorted(datesArray, {
@@ -465,18 +471,21 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
 
                 adapter.log.debug('Event (full day) added : ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
             } else {
-                adapter.log.debug('Event (full day) does not displayed, because belongs to hidden user events: ' + reason);
+                adapter.log.debug('Event (full day) not displayed, because belongs to hidden user events: ' + reason);
             }
         } else {
             // filtered out, because does not belongs to specified time interval
-            adapter.log.debug('Event (full day) ' + JSON.stringify(rule) + ' ' +  reason + ' at ' + ev.start.toString() + ' filtered out, because does not belongs to specified time interval');
+            adapter.log.debug('Event (full day) ' + JSON.stringify(rule) + ' ' +  reason + ' at ' + ev.start.toString() + ' filtered out, does not belong to specified time interval');
         }
     } else {
+
+        adapter.log.debug('Event (time) processing. Start: ' + ev.start + ' End: ' + ev.end);
+
         // Event with time
-        // Start time >= today && Start time < preview time && End time >= now
-        if ((ev.start >= today && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
+        // Start time >= startpreview && Start time < preview time && End time >= now
+        if ((ev.start >= startpreview && ev.start < endpreview) || (ev.end >= startpreview && ev.end < endpreview) || (ev.start < startpreview && ev.end > endpreview)) {
             // Add to list only if not hidden
-            if (checkForEvents(reason, today, ev, realnow)) {
+            if (checkForEvents(reason, startpreview, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, false);
 
                 insertSorted(datesArray, {
@@ -495,6 +504,7 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
                     _calName: calName,
                     _calColor: adapter.config.calendars.find(x => x.name === calName).color
                 });
+
                 adapter.log.debug('Event with time added: ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
             } else {
                 adapter.log.debug('Event does not displayed, because belongs to hidden user events: ' + reason);
@@ -576,7 +586,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     return result;
 }
 
-function checkForEvents(reason, today, event, realnow) {
+function checkForEvents(reason, startpreview, event, realnow) {
     const oneDay = 24 * 60 * 60 * 1000;
     // show unknown events
     let result = true;
@@ -592,9 +602,9 @@ function checkForEvents(reason, today, event, realnow) {
             // If full day event
             // Follow processing only if event is today
             if (
-                ((!ev.type || ev.type === 'today') && event.end.getTime() > today.getTime() + (ev.day * oneDay) && event.start.getTime() < today.getTime() + (ev.day * oneDay) + oneDay) ||
+                ((!ev.type || ev.type === 'today') && event.end.getTime() > startpreview.getTime() + (ev.day * oneDay) && event.start.getTime() < startpreview.getTime() + (ev.day * oneDay) + oneDay) ||
                 (ev.type === 'now' && event.start <= realnow && realnow <= event.end) ||
-                (ev.type === 'later' && event.start > realnow && event.start.getTime() < today.getTime() + oneDay)
+                (ev.type === 'later' && event.start > realnow && event.start.getTime() < startpreview.getTime() + oneDay)
             ) {
                 adapter.log.debug((ev.type ? ev.type : 'day ' + ev.day) + ' Event with time: '  + event.start + ' ' + realnow + ' ' + event.end);
 
@@ -923,6 +933,7 @@ function formatDate(_date, _end, withTime, fullDay) {
     const endyear  = _end.getFullYear();
     let _time = '';
     const alreadyStarted = _date < new Date();
+    const arrowAlreadyStarted = adapter.config.arrowAlreadyStarted;
 
     if (withTime) {
         let hours   = _date.getHours();
@@ -1063,28 +1074,28 @@ function formatDate(_date, _end, withTime, fullDay) {
         }
         if (adapter.config.replaceDates) {
             if (_class === 'ical_today')    {
-                return {text: ((alreadyStarted && !todayOnly) ? '&#8594; ' : '') + _('today')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted && !todayOnly) ? '&#8594; ' : '') + _('today')    + _time, _class: _class};
             }
             if (_class === 'ical_tomorrow') {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('tomorrow') + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('tomorrow') + _time, _class: _class};
             }
             if (_class === 'ical_dayafter') {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('dayafter') + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('dayafter') + _time, _class: _class};
             }
             if (_class === 'ical_3days')    {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('3days')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('3days')    + _time, _class: _class};
             }
             if (_class === 'ical_4days')    {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('4days')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('4days')    + _time, _class: _class};
             }
             if (_class === 'ical_5days')    {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('5days')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('5days')    + _time, _class: _class};
             }
             if (_class === 'ical_6days')    {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('6days')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('6days')    + _time, _class: _class};
             }
             if (_class === 'ical_oneweek')  {
-                return {text: (alreadyStarted ? '&#8594; ' : '') + _('oneweek')  + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('oneweek')  + _time, _class: _class};
             }
         }
     } else {
@@ -1156,7 +1167,7 @@ function formatDate(_date, _end, withTime, fullDay) {
                 }
             }
 
-            text = '&#8594; ' + day + '.' + month + '.';
+            text = ((arrowAlreadyStarted) ? '&#8594; ' : '') + day + '.' + month + '.';
             if (!adapter.config.hideYear) {
                 text += year;
             }
@@ -1229,17 +1240,24 @@ function setState(id, val, cb) {
 // Show event as text
 function displayDates() {
     let count = 4;
+    const oneDay = 24 * 60 * 60 * 1000;
+
     const retFunc = function () {
         !--count && setTimeout(() => adapter.stop(), 5000);
     };
 
     let todayEventCounter = 0;
     let tomorrowEventCounter = 0;
+    let yesterdayEventCounter = 0;
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const oneDay = 24 * 60 * 60 * 1000;
+
     const tomorrow = new Date(today.getTime() + oneDay);
+    const yesterday = new Date(today.getTime() - oneDay);
+
     const dayAfterTomorrow = new Date(tomorrow.getTime() + oneDay);
+    const dayBeforeYesterday = new Date(yesterday.getTime() - oneDay);
 
     if (datesArray.length) {
         for (let t = 0; t < datesArray.length; t++) {
@@ -1248,6 +1266,9 @@ function displayDates() {
             }
             if (datesArray[t]._end.getTime() > tomorrow.getTime() && datesArray[t]._date.getTime() < dayAfterTomorrow.getTime()) {
                 tomorrowEventCounter++;
+            }
+            if (datesArray[t]._end.getTime() > yesterday.getTime() && datesArray[t]._date.getTime() < today.getTime()) {
+                yesterdayEventCounter++;
             }
         }
 
@@ -1259,8 +1280,10 @@ function displayDates() {
         adapter.setState('data.html',  {val: '', ack: true}, retFunc);
         adapter.setState('data.text',  {val: '', ack: true}, retFunc);
     }
+
     adapter.setState('data.count', {val: todayEventCounter, ack: true}, retFunc);
     adapter.setState('data.countTomorrow', {val: tomorrowEventCounter, ack: true}, retFunc);
+    adapter.setState('data.countYesterday', {val: yesterdayEventCounter, ack: true}, retFunc);
 
     // set not processed events to false
     for (let j = 0; j < events.length; j++) {

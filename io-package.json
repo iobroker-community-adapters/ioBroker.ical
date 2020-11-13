@@ -131,6 +131,7 @@
     },
     "native": {
         "daysPreview": 7,
+        "daysPast": 0,
         "colorize": true,
         "defColor": "white",
         "fulltime": " ",
@@ -140,6 +141,7 @@
         "everyCalOneColor": false,
         "forceFullday": false,
         "hideYear": false,
+        "arrowAlreadyStarted": true,
         "calendars": [
             {
                 "name": "calendar1",
@@ -247,6 +249,18 @@
             "type": "state",
             "common": {
                 "name": "Count of events for tomorrow",
+                "type": "number",
+                "role": "indicator",
+                "read": true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "data.countYesterday",
+            "type": "state",
+            "common": {
+                "name": "Count of events for yesterday",
                 "type": "number",
                 "role": "indicator",
                 "read": true,
