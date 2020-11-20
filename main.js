@@ -936,7 +936,7 @@ function formatDate(_date, _end, withTime, fullDay) {
     const endmonth = _end.getMonth() + 1;
     const endyear  = _end.getFullYear();
     let _time = '';
-    const alreadyStarted = _date < new Date();
+    const alreadyStarted = _date < new Date() && _end > new Date();
     const arrowAlreadyStarted = adapter.config.arrowAlreadyStarted;
 
     if (withTime) {
