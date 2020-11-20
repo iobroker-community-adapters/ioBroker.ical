@@ -218,7 +218,11 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
 
                     const startpreview = new Date();
                     startpreview.setDate(startpreview.getDate() - parseInt(adapter.config.daysPast, 10));
-                    startpreview.setHours(0, 0, 0, 0);
+
+                    // Start only at 00:00 when days past is greater 0, otherwise take the current time
+                    if (adapter.config.daysPast > 0) {
+                        startpreview.setHours(0, 0, 0, 0);
+                    }
 
                     const endpreview = new Date();
                     endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
