@@ -25,7 +25,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 1.8.1 (2020-11-20)
 * (klein0r) Fixed past event calculation in html view
 
 ### 1.8.0 (2020-11-14)

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.8.0",
+        "version": "1.8.1",
         "news": {
+            "1.8.1": {
+                "en": "Fixed past event calculation in html view",
+                "de": "Die Berechnung vergangener Ereignisse in der HTML-Ansicht wurde korrigiert",
+                "ru": "Исправлен расчет прошлого события в представлении html",
+                "pt": "Cálculo de evento passado corrigido na visualização html",
+                "nl": "Berekening van gebeurtenissen uit het verleden in html-weergave opgelost",
+                "fr": "Correction du calcul des événements passés dans la vue html",
+                "it": "Corretto il calcolo degli eventi passati nella visualizzazione html",
+                "es": "Cálculo fijo de eventos pasados en la vista html",
+                "pl": "Naprawiono obliczanie przeszłych zdarzeń w widoku html",
+                "zh-cn": "修复了HTML视图中过去的事件计算"
+            },
             "1.8.0": {
                 "en": "Moved html options to separate tab\nAdded option to hide \"arrow\" on for running events\nAdded feature to include past events (in days)",
                 "de": "HTML-Optionen auf separate Registerkarte verschoben\nOption hinzugefügt, um \"Pfeil\" zum Ausführen von Ereignissen auszublenden\nFunktion hinzugefügt, um vergangene Ereignisse (in Tagen) einzuschließen",
