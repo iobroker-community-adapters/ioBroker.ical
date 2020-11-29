@@ -103,11 +103,14 @@ const dictionary       = {
     '5week_left':{'en': 'Five weeks left',   'it': 'Cinque settimane rimaste',  'es': 'Quedan cinco semanas',  'pl': 'Pozostało pięć tygodni',    'fr': 'Cinq semaines à gauche',    'de': 'Noch fünf Wochen', 'ru': 'Ещё пять недель',		'nl': 'Over vijf weken'},
     '6week_left':{'en': 'Six weeks left',    'it': 'Sei settimane a sinistra',  'es': 'Seis semanas restantes','pl': 'Pozostało sześć tygodni',   'fr': 'Six semaines à gauche',     'de': 'Noch sechs Wochen','ru': 'Ещё шесть недель',	'nl': 'Over zes weken'},
     'left':      {'en': 'left',              'it': 'sinistra',                  'es': 'izquierda',             'pl': 'lewo',                      'fr': 'la gauche',                 'de': ' ',                'ru': 'осталось',			'nl': 'over'},
-    'still':     {'en': ' ',                 'it': '',                          'es': '',                      'pl': '',                          'fr': '',                          'de': 'Noch',             'ru': ' ',					'nl': 'nog'},
-    'days':      {'en': 'days',              'it': 'Giorni',                    'es': 'dias',                  'pl': 'dni',                       'fr': 'journées',                  'de': 'Tage',             'ru': 'дней',			'nl': 'dagen'},
+    'still':     {'en': ' ',                 'it': '',                          'es': '',                      'pl': '',                          'fr': '',                          'de': 'Noch',             'ru': ' ',                   'nl': 'nog'},
+    'days':      {'en': 'days',              'it': 'Giorni',                    'es': 'dias',                  'pl': 'dni',                       'fr': 'journées',                  'de': 'Tage',             'ru': 'дней',                'nl': 'dagen'},
     'day':       {'en': 'day',               'it': 'giorno',                    'es': 'día',                   'pl': 'dzień',                     'fr': 'journée',                   'de': 'Tag',              'ru': 'день',				'nl': 'dag'},
-    'hours':     {'en': 'hours',             'it': 'ore',                       'es': 'horas',                 'pl': 'godziny',                   'fr': 'heures',                    'de': 'Stunden',          'ru': 'часов',			'nl': 'uren'},
-    'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',		            'nl': 'uur'}
+    'hours':     {'en': 'hours',             'it': 'ore',                       'es': 'horas',                 'pl': 'godziny',                   'fr': 'heures',                    'de': 'Stunden',          'ru': 'часов',               'nl': 'uren'},
+    'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',		            'nl': 'uur'},
+    'minute':    {'en': 'minute',            'it': 'minuto',                    'es': 'minuto',                'pl': 'minuta',                    'fr': 'minute',                    'de': 'Minute',           'ru': 'минута',              'nl': 'minuut'},
+    'minutes':   {'en': 'minutes',           'it': 'minuti',                    'es': 'minutos',               'pl': 'minutos',                   'fr': 'minutes',                   'de': 'Minuten',          'ru': 'минуты',              'nl': 'minuten'}
+  }
 };
 
 function _(text) {
@@ -1107,10 +1110,11 @@ function formatDate(_date, _end, withTime, fullDay) {
     } else {
         // check if date is in the past and if so we show the end time instead
         _class = 'ical_today';
-        let daysleft = Math.round((_end - new Date())/(1000 * 60 * 60 * 24));
-        const hoursleft = Math.round((_end - new Date())/(1000 * 60 * 60));
+        let daysleft = Math.round((_end - new Date()) / (1000 * 60 * 60 * 24));
+        const hoursleft = Math.round((_end - new Date()) / (1000 * 60 * 60));
+        const minutesleft = Math.round((_end - new Date()) / (1000 * 60));
 
-        adapter.log.debug(`    time difference: ${daysleft}/${hoursleft} (${_date}-${_end})`);
+        adapter.log.debug(`    time difference: ${daysleft}/${hoursleft}/${minutesleft} (${_date}-${_end})`);
         if (adapter.config.forceFullday && daysleft < 1) {
             daysleft = 1;
         }
@@ -1144,7 +1148,7 @@ function formatDate(_date, _end, withTime, fullDay) {
                 } else {
                     text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft  + ' ' + (daysleft  === 1 ? _('day') : _('days')) + _left;
                 }
-            } else {
+            } else if (hoursleft >= 1) {
                 if (adapter.config.language === 'ru') {
                     const c = hoursleft % 10;
                     const cc = Math.floor(hoursleft / 10) % 10;
@@ -1158,6 +1162,12 @@ function formatDate(_date, _end, withTime, fullDay) {
                 } else {
                     text = (_('still') !== ' ' ? _('still') : '') + ' ' + hoursleft + ' ' + (hoursleft === 1 ? _('hour') : _('hours')) + _left;
                 }
+            } else {
+                //if (adapter.config.language === 'ru') {
+                    // Todo: Russian
+                //} else {
+                    text = (_('still') !== ' ' ? _('still') : '') + ' ' + minutesleft + ' ' + (minutesleft === 1 ? _('minute') : _('minutes')) + _left;
+                //}
             }
         } else {
             day   = _end.getDate();
