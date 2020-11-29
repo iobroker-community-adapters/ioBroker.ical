@@ -103,11 +103,13 @@ const dictionary       = {
     '5week_left':{'en': 'Five weeks left',   'it': 'Cinque settimane rimaste',  'es': 'Quedan cinco semanas',  'pl': 'Pozostało pięć tygodni',    'fr': 'Cinq semaines à gauche',    'de': 'Noch fünf Wochen', 'ru': 'Ещё пять недель',		'nl': 'Over vijf weken'},
     '6week_left':{'en': 'Six weeks left',    'it': 'Sei settimane a sinistra',  'es': 'Seis semanas restantes','pl': 'Pozostało sześć tygodni',   'fr': 'Six semaines à gauche',     'de': 'Noch sechs Wochen','ru': 'Ещё шесть недель',	'nl': 'Over zes weken'},
     'left':      {'en': 'left',              'it': 'sinistra',                  'es': 'izquierda',             'pl': 'lewo',                      'fr': 'la gauche',                 'de': ' ',                'ru': 'осталось',			'nl': 'over'},
-    'still':     {'en': ' ',                 'it': '',                          'es': '',                      'pl': '',                          'fr': '',                          'de': 'Noch',             'ru': ' ',					'nl': 'nog'},
-    'days':      {'en': 'days',              'it': 'Giorni',                    'es': 'dias',                  'pl': 'dni',                       'fr': 'journées',                  'de': 'Tage',             'ru': 'дней',			'nl': 'dagen'},
+    'still':     {'en': ' ',                 'it': '',                          'es': '',                      'pl': '',                          'fr': '',                          'de': 'Noch',             'ru': ' ',                   'nl': 'nog'},
+    'days':      {'en': 'days',              'it': 'Giorni',                    'es': 'dias',                  'pl': 'dni',                       'fr': 'journées',                  'de': 'Tage',             'ru': 'дней',                'nl': 'dagen'},
     'day':       {'en': 'day',               'it': 'giorno',                    'es': 'día',                   'pl': 'dzień',                     'fr': 'journée',                   'de': 'Tag',              'ru': 'день',				'nl': 'dag'},
-    'hours':     {'en': 'hours',             'it': 'ore',                       'es': 'horas',                 'pl': 'godziny',                   'fr': 'heures',                    'de': 'Stunden',          'ru': 'часов',			'nl': 'uren'},
-    'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',		            'nl': 'uur'}
+    'hours':     {'en': 'hours',             'it': 'ore',                       'es': 'horas',                 'pl': 'godziny',                   'fr': 'heures',                    'de': 'Stunden',          'ru': 'часов',               'nl': 'uren'},
+    'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',		            'nl': 'uur'},
+    'minute':    {'en': 'minute',            'it': 'minuto',                    'es': 'minuto',                'pl': 'minuta',                    'fr': 'minute',                    'de': 'Minute',           'ru': 'минута',              'nl': 'minuut'},
+    'minutes':   {'en': 'minutes',           'it': 'minuti',                    'es': 'minutos',               'pl': 'minutos',                   'fr': 'minutes',                   'de': 'Minuten',          'ru': 'минуты',              'nl': 'minuten'}
 };
 
 function _(text) {
@@ -218,14 +220,14 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
 
                     const startpreview = new Date();
                     startpreview.setDate(startpreview.getDate() - parseInt(adapter.config.daysPast, 10));
+                    startpreview.setHours(0, 0, 0, 0);
 
-                    // Start only at 00:00 when days past is greater 0, otherwise take the current time
-                    if (adapter.config.daysPast > 0) {
-                        startpreview.setHours(0, 0, 0, 0);
-                    }
+                    adapter.log.debug('checkICal: startpreview - ' + startpreview);
 
                     const endpreview = new Date();
                     endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
+
+                    adapter.log.debug('checkICal: endpreview - ' + startpreview);
 
                     const now2 = new Date();
 
@@ -451,9 +453,9 @@ function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter
         adapter.log.debug('Event (full day) processing. Start: ' + ev.start + ' End: ' + ev.end);
 
         // event start >= startpreview  && < previewtime  or end > startpreview && < previewtime ---> display
-        if ((ev.start < endpreview && ev.start >= startpreview) || (ev.end > startpreview && ev.end <= endpreview) || (ev.start < startpreview && ev.end > startpreview)) {
+        if ((ev.start < endpreview && ev.start >= startpreview) || (ev.end > startpreview && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // check only full day events
-            if (checkForEvents(reason, startpreview, ev, realnow)) {
+            if (checkForEvents(reason, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, true);
 
                 insertSorted(datesArray, {
@@ -487,9 +489,9 @@ function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter
 
         // Event with time
         // Start time >= startpreview && Start time < preview time && End time >= now
-        if ((ev.start >= startpreview && ev.start < endpreview) || (ev.end >= startpreview && ev.end < endpreview) || (ev.start < startpreview && ev.end > endpreview)) {
+        if ((ev.start >= startpreview && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // Add to list only if not hidden
-            if (checkForEvents(reason, startpreview, ev, realnow)) {
+            if (checkForEvents(reason, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, false);
 
                 insertSorted(datesArray, {
@@ -590,10 +592,12 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     return result;
 }
 
-function checkForEvents(reason, startpreview, event, realnow) {
+function checkForEvents(reason, event, realnow) {
     const oneDay = 24 * 60 * 60 * 1000;
     // show unknown events
     let result = true;
+    let today = new Date(realnow.getTime());
+    today.setHours(0, 0, 0, 0);
 
     // check if event exists in table
     for (let i = 0; i < events.length; i++) {
@@ -606,9 +610,9 @@ function checkForEvents(reason, startpreview, event, realnow) {
             // If full day event
             // Follow processing only if event is today
             if (
-                ((!ev.type || ev.type === 'today') && event.end.getTime() > startpreview.getTime() + (ev.day * oneDay) && event.start.getTime() < startpreview.getTime() + (ev.day * oneDay) + oneDay) ||
+                ((!ev.type || ev.type === 'today') && event.end.getTime() > today.getTime() + (ev.day * oneDay) && event.start.getTime() < today.getTime() + (ev.day * oneDay) + oneDay) ||
                 (ev.type === 'now' && event.start <= realnow && realnow <= event.end) ||
-                (ev.type === 'later' && event.start > realnow && event.start.getTime() < startpreview.getTime() + oneDay)
+                (ev.type === 'later' && event.start > realnow && event.start.getTime() < today.getTime() + oneDay)
             ) {
                 adapter.log.debug((ev.type ? ev.type : 'day ' + ev.day) + ' Event with time: '  + event.start + ' ' + realnow + ' ' + event.end);
 
@@ -1105,10 +1109,11 @@ function formatDate(_date, _end, withTime, fullDay) {
     } else {
         // check if date is in the past and if so we show the end time instead
         _class = 'ical_today';
-        let daysleft = Math.round((_end - new Date())/(1000 * 60 * 60 * 24));
-        const hoursleft = Math.round((_end - new Date())/(1000 * 60 * 60));
+        let daysleft = Math.round((_end - new Date()) / (1000 * 60 * 60 * 24));
+        const hoursleft = Math.round((_end - new Date()) / (1000 * 60 * 60));
+        const minutesleft = Math.round((_end - new Date()) / (1000 * 60));
 
-        adapter.log.debug(`    time difference: ${daysleft}/${hoursleft} (${_date}-${_end})`);
+        adapter.log.debug(`    time difference: ${daysleft}/${hoursleft}/${minutesleft} (${_date}-${_end})`);
         if (adapter.config.forceFullday && daysleft < 1) {
             daysleft = 1;
         }
@@ -1142,7 +1147,7 @@ function formatDate(_date, _end, withTime, fullDay) {
                 } else {
                     text = (_('still') !== ' ' ? _('still') : '') + ' ' + daysleft  + ' ' + (daysleft  === 1 ? _('day') : _('days')) + _left;
                 }
-            } else {
+            } else if (hoursleft >= 1) {
                 if (adapter.config.language === 'ru') {
                     const c = hoursleft % 10;
                     const cc = Math.floor(hoursleft / 10) % 10;
@@ -1156,6 +1161,12 @@ function formatDate(_date, _end, withTime, fullDay) {
                 } else {
                     text = (_('still') !== ' ' ? _('still') : '') + ' ' + hoursleft + ' ' + (hoursleft === 1 ? _('hour') : _('hours')) + _left;
                 }
+            } else {
+                //if (adapter.config.language === 'ru') {
+                    // Todo: Russian
+                //} else {
+                    text = (_('still') !== ' ' ? _('still') : '') + ' ' + minutesleft + ' ' + (minutesleft === 1 ? _('minute') : _('minutes')) + _left;
+                //}
             }
         } else {
             day   = _end.getDate();
@@ -1266,12 +1277,15 @@ function displayDates() {
     if (datesArray.length) {
         for (let t = 0; t < datesArray.length; t++) {
             if (datesArray[t]._end.getTime() > today.getTime() && datesArray[t]._date.getTime() < tomorrow.getTime()) {
+                adapter.log.debug('displayDates: TODAY     - ' + datesArray[t].event + ' (' + datesArray[t]._date + ')');
                 todayEventCounter++;
             }
             if (datesArray[t]._end.getTime() > tomorrow.getTime() && datesArray[t]._date.getTime() < dayAfterTomorrow.getTime()) {
+                adapter.log.debug('displayDates: TOMORROW  - ' + datesArray[t].event + ' (' + datesArray[t]._date + ')');
                 tomorrowEventCounter++;
             }
             if (datesArray[t]._end.getTime() > yesterday.getTime() && datesArray[t]._date.getTime() < today.getTime()) {
+                adapter.log.debug('displayDates: YESTERDAY - ' + datesArray[t].event + ' (' + datesArray[t]._date + ')');
                 yesterdayEventCounter++;
             }
         }
