@@ -218,14 +218,14 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
 
                     const startpreview = new Date();
                     startpreview.setDate(startpreview.getDate() - parseInt(adapter.config.daysPast, 10));
+                    startpreview.setHours(0, 0, 0, 0);
 
-                    // Start only at 00:00 when days past is greater 0, otherwise take the current time
-                    if (adapter.config.daysPast > 0) {
-                        startpreview.setHours(0, 0, 0, 0);
-                    }
+                    adapter.log.debug('checkICal: startpreview - ' + startpreview);
 
                     const endpreview = new Date();
                     endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
+
+                    adapter.log.debug('checkICal: endpreview - ' + startpreview);
 
                     const now2 = new Date();
 
@@ -451,9 +451,9 @@ function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter
         adapter.log.debug('Event (full day) processing. Start: ' + ev.start + ' End: ' + ev.end);
 
         // event start >= startpreview  && < previewtime  or end > startpreview && < previewtime ---> display
-        if ((ev.start < endpreview && ev.start >= startpreview) || (ev.end > startpreview && ev.end <= endpreview) || (ev.start < startpreview && ev.end > startpreview)) {
+        if ((ev.start < endpreview && ev.start >= startpreview) || (ev.end > startpreview && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // check only full day events
-            if (checkForEvents(reason, startpreview, ev, realnow)) {
+            if (checkForEvents(reason, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, true);
 
                 insertSorted(datesArray, {
@@ -487,9 +487,9 @@ function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter
 
         // Event with time
         // Start time >= startpreview && Start time < preview time && End time >= now
-        if ((ev.start >= startpreview && ev.start < endpreview) || (ev.end >= startpreview && ev.end < endpreview) || (ev.start < startpreview && ev.end > endpreview)) {
+        if ((ev.start >= startpreview && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // Add to list only if not hidden
-            if (checkForEvents(reason, startpreview, ev, realnow)) {
+            if (checkForEvents(reason, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, false);
 
                 insertSorted(datesArray, {
@@ -590,10 +590,12 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     return result;
 }
 
-function checkForEvents(reason, startpreview, event, realnow) {
+function checkForEvents(reason, event, realnow) {
     const oneDay = 24 * 60 * 60 * 1000;
     // show unknown events
     let result = true;
+    let today = new Date(realnow.getTime());
+    today.setHours(0, 0, 0, 0);
 
     // check if event exists in table
     for (let i = 0; i < events.length; i++) {
@@ -606,9 +608,9 @@ function checkForEvents(reason, startpreview, event, realnow) {
             // If full day event
             // Follow processing only if event is today
             if (
-                ((!ev.type || ev.type === 'today') && event.end.getTime() > startpreview.getTime() + (ev.day * oneDay) && event.start.getTime() < startpreview.getTime() + (ev.day * oneDay) + oneDay) ||
+                ((!ev.type || ev.type === 'today') && event.end.getTime() > today.getTime() + (ev.day * oneDay) && event.start.getTime() < today.getTime() + (ev.day * oneDay) + oneDay) ||
                 (ev.type === 'now' && event.start <= realnow && realnow <= event.end) ||
-                (ev.type === 'later' && event.start > realnow && event.start.getTime() < startpreview.getTime() + oneDay)
+                (ev.type === 'later' && event.start > realnow && event.start.getTime() < today.getTime() + oneDay)
             ) {
                 adapter.log.debug((ev.type ? ev.type : 'day ' + ev.day) + ' Event with time: '  + event.start + ' ' + realnow + ' ' + event.end);
 
@@ -1266,12 +1268,15 @@ function displayDates() {
     if (datesArray.length) {
         for (let t = 0; t < datesArray.length; t++) {
             if (datesArray[t]._end.getTime() > today.getTime() && datesArray[t]._date.getTime() < tomorrow.getTime()) {
+                adapter.log.debug('displayDates: TODAY     - ' + datesArray[t].event + ' (' + datesArray[t]._date + ')');
                 todayEventCounter++;
             }
             if (datesArray[t]._end.getTime() > tomorrow.getTime() && datesArray[t]._date.getTime() < dayAfterTomorrow.getTime()) {
+                adapter.log.debug('displayDates: TOMORROW  - ' + datesArray[t].event + ' (' + datesArray[t]._date + ')');
                 tomorrowEventCounter++;
             }
             if (datesArray[t]._end.getTime() > yesterday.getTime() && datesArray[t]._date.getTime() < today.getTime()) {
+                adapter.log.debug('displayDates: YESTERDAY - ' + datesArray[t].event + ' (' + datesArray[t]._date + ')');
                 yesterdayEventCounter++;
             }
         }
