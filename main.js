@@ -110,7 +110,6 @@ const dictionary       = {
     'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',		            'nl': 'uur'},
     'minute':    {'en': 'minute',            'it': 'minuto',                    'es': 'minuto',                'pl': 'minuta',                    'fr': 'minute',                    'de': 'Minute',           'ru': 'минута',              'nl': 'minuut'},
     'minutes':   {'en': 'minutes',           'it': 'minuti',                    'es': 'minutos',               'pl': 'minutos',                   'fr': 'minutes',                   'de': 'Minuten',          'ru': 'минуты',              'nl': 'minuten'}
-  }
 };
 
 function _(text) {
