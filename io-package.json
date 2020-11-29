@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.8.1",
+        "version": "1.8.2",
         "news": {
+            "1.8.2": {
+                "en": "Several fixes and optimizations",
+                "de": "Mehrere Korrekturen und Optimierungen",
+                "ru": "Несколько исправлений и оптимизаций",
+                "pt": "Várias correções e otimizações",
+                "nl": "Diverse fixes en optimalisaties",
+                "fr": "Plusieurs correctifs et optimisations",
+                "it": "Diverse correzioni e ottimizzazioni",
+                "es": "Varias correcciones y optimizaciones",
+                "pl": "Kilka poprawek i optymalizacji",
+                "zh-cn": "几个修复和优化"
+            },
             "1.8.1": {
                 "en": "Fixed past event calculation in html view",
                 "de": "Die Berechnung vergangener Ereignisse in der HTML-Ansicht wurde korrigiert",
