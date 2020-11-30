@@ -530,7 +530,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     const cmpDate = new Date(date.getTime());
     cmpDate.setHours(0, 0, 0, 0);
 
-    calName = calName.replace(' ', '_');
+    calName = (calName || '').replace(' ', '_');
 
     // colorize if needed
     if (adapter.config.colorize) {
