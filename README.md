@@ -27,6 +27,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ### __WORK IN PROGRESS__
 * (Apollon77) Prevent crash case (Sentry IOBROKER-ICAL-C)
+* (Apollon77) Upgrade node-ical
 
 ### 1.8.2 (2020-11-29)
 * (klein0r) Several fixes and optimizations
