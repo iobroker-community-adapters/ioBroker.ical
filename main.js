@@ -816,7 +816,14 @@ function syncUserEvents(callback) {
                                 display: configItem.display
                             }
                         },
-                        (err, id) => adapter.log.info('Event "' + id.id + '" created')
+                        (err, id) => {
+                            if (err) {
+                                adapter.log.warn('Event "' + toAdd[i].id + '" could ne be created: ' + err);
+                            }
+                            else {
+                                adapter.log.info('Event "' + id.id + '" created');
+                            }
+                        }
                     );
                 }
             }
