@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.8.3",
+        "version": "1.8.4",
         "news": {
+            "1.8.4": {
+                "en": "Prevent crash case (Sentry IOBROKER-ICAL-D)",
+                "de": "Absturz verhindern (Sentry IOBROKER-ICAL-D)",
+                "ru": "Случай предотвращения сбоя (Sentry IOBROKER-ICAL-D)",
+                "pt": "Prevenir caso de travamento (Sentry IOBROKER-ICAL-D)",
+                "nl": "Voorkom crash case (Sentry IOBROKER-ICAL-D)",
+                "fr": "Prévenir les cas de crash (Sentry IOBROKER-ICAL-D)",
+                "it": "Prevenire il crash case (Sentry IOBROKER-ICAL-D)",
+                "es": "Prevenir caso de accidente (Sentry IOBROKER-ICAL-D)",
+                "pl": "Zapobiegaj awariom (Sentry IOBROKER-ICAL-D)",
+                "zh-cn": "防止发生崩溃情况（Sentry IOBROKER-ICAL-D）"
+            },
             "1.8.3": {
                 "en": "Prevent crash case (Sentry IOBROKER-ICAL-C)\nUpgrade node-ical",
                 "de": "Absturz verhindern (Sentry IOBROKER-ICAL-C)\nAktualisieren Sie node-ical",

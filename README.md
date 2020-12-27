@@ -25,7 +25,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 1.8.4 (2020-12-27)
 * (Apollon77) Prevent crash case (Sentry IOBROKER-ICAL-D)
 
 ### 1.8.3 (2020-12-24)
