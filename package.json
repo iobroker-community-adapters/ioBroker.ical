@@ -31,7 +31,7 @@
     "@iobroker/adapter-core": "^2.4.0",
     "cloneextend": "^0.0.3",
     "moment-timezone": "^0.5.32",
-    "node-ical": "^0.12.4",
+    "node-ical": "^0.12.7",
     "request": "^2.88.2",
     "rrule": "^2.6.6"
   },
