@@ -25,6 +25,9 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
+### __WORK IN PROGRESS__
+* (Apollon77) update ical library to prevent problems with RRULE parsing
+
 ### 1.8.4 (2020-12-27)
 * (Apollon77) Prevent crash case (Sentry IOBROKER-ICAL-D)
 
