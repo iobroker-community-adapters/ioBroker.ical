@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.8.4",
+        "version": "1.8.5",
         "news": {
+            "1.8.5": {
+                "en": "update ical library to prevent problems with RRULE parsing",
+                "de": "Aktualisieren Sie die Bibliothek, um Probleme mit der RRULE-Analyse zu vermeiden",
+                "ru": "обновить библиотеку ical для предотвращения проблем с анализом RRULE",
+                "pt": "atualize a biblioteca ical para evitar problemas com a análise RRULE",
+                "nl": "update ical bibliotheek om problemen met RRULE-parsing te voorkomen",
+                "fr": "mettre à jour la bibliothèque ical pour éviter les problèmes avec l'analyse RRULE",
+                "it": "aggiorna la libreria ical per evitare problemi con l'analisi RRULE",
+                "es": "actualice la biblioteca ical para evitar problemas con el análisis RRULE",
+                "pl": "zaktualizuj bibliotekę ical, aby zapobiec problemom z analizowaniem RRULE",
+                "zh-cn": "更新ical库以防止RRULE解析出现问题"
+            },
             "1.8.4": {
                 "en": "Prevent crash case (Sentry IOBROKER-ICAL-D)",
                 "de": "Absturz verhindern (Sentry IOBROKER-ICAL-D)",
