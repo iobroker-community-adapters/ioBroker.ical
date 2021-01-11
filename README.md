@@ -25,7 +25,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 1.9.0 (2021-01-12)
 * (christofkac) Added option to ignore case when events are searched in calendars
 * (Apollon77) Prevent crash case (Sentry IOBROKER-ICAL-F)
 
