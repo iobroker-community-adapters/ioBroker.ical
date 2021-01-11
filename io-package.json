@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.8.5",
+        "version": "1.9.0",
         "news": {
+            "1.9.0": {
+                "en": "Added option to ignore case when events are searched in calendars\nPrevent crash case (Sentry IOBROKER-ICAL-F)",
+                "de": "Option hinzugefügt, um Groß- und Kleinschreibung zu ignorieren, wenn Ereignisse in Kalendern durchsucht werden\nAbsturz verhindern (Sentry IOBROKER-ICAL-F)",
+                "ru": "Добавлена возможность игнорировать регистр при поиске событий в календарях\nСлучай предотвращения сбоя (Sentry IOBROKER-ICAL-F)",
+                "pt": "Adicionada opção para ignorar maiúsculas e minúsculas quando eventos são pesquisados em calendários\nEvitar caso de travamento (Sentry IOBROKER-ICAL-F)",
+                "nl": "Optie toegevoegd om hoofdlettergebruik te negeren wanneer in agenda's naar gebeurtenissen wordt gezocht\nVoorkom crash case (Sentry IOBROKER-ICAL-F)",
+                "fr": "Ajout d'une option pour ignorer la casse lorsque les événements sont recherchés dans les calendriers\nPrévenir les cas de crash (Sentry IOBROKER-ICAL-F)",
+                "it": "Aggiunta opzione per ignorare le maiuscole / minuscole quando gli eventi vengono cercati nei calendari\nPrevenire il crash case (Sentry IOBROKER-ICAL-F)",
+                "es": "Opción agregada para ignorar el caso cuando se buscan eventos en calendarios\nPrevenir caso de accidente (Sentry IOBROKER-ICAL-F)",
+                "pl": "Dodano opcję ignorowania przypadków wyszukiwania wydarzeń w kalendarzach\nZapobiegaj awariom (Sentry IOBROKER-ICAL-F)",
+                "zh-cn": "新增了在日历中搜索事件时忽略大小写的选项\n防止发生崩溃情况（Sentry IOBROKER-ICAL-F）"
+            },
             "1.8.5": {
                 "en": "update ical library to prevent problems with RRULE parsing",
                 "de": "Aktualisieren Sie die Bibliothek, um Probleme mit der RRULE-Analyse zu vermeiden",
