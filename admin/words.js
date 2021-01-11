@@ -13,6 +13,17 @@ systemDictionary = {
         "es": "Configuración del adaptador iCal",
         "pl": "Ustawienia adaptera iCal"
     },
+    "Ignore case for event-search:": {
+        "en": "Ignore case for event-search",
+        "de": "Groß-/Kleinschreibung bei Event-Suche ignorieren",
+        "ru": "Ignore case for event-search",
+        "pt": "Ignore case for event-search",
+        "nl": "Ignore case for event-search",
+        "fr": "Ignore case for event-search",
+        "it": "Ignore case for event-search",
+        "es": "Ignore case for event-search",
+        "pl": "Ignore case for event-search"
+    },
     "Preview days:": {
         "en": "Preview days",
         "de": "Tagesvorschau",

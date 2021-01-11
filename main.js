@@ -593,6 +593,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
 }
 
 function checkForEvents(reason, event, realnow) {
+	const ignoreCaseInEventname = adapter.config.ignoreCaseInEventname;
     const oneDay = 24 * 60 * 60 * 1000;
     // show unknown events
     let result = true;
@@ -602,7 +603,7 @@ function checkForEvents(reason, event, realnow) {
     // check if event exists in table
     for (let i = 0; i < events.length; i++) {
         const ev = events[i];
-        if (reason.includes(ev.name)) {
+        if ((reason.includes(ev.name)) || (ignoreCaseInEventname && (reason.toLowerCase().includes(ev.name.toLowerCase())))) {
             // check if event should shown
             result = ev.display;
             adapter.log.debug('found event in table: ' + ev.name);

@@ -219,6 +219,7 @@
         "forceFullday": false,
         "hideYear": false,
         "arrowAlreadyStarted": true,
+        "ignoreCaseInEventname": false,
         "calendars": [
             {
                 "name": "calendar1",
