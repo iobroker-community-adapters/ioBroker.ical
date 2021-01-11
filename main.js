@@ -275,7 +275,7 @@ function processData(data, realnow, startpreview, endpreview, now2, calName, fil
         // only events with summary and a start date are interesting
         if ((ev.summary !== undefined) && (ev.type === 'VEVENT') && ev.start && ev.start instanceof Date) {
             adapter.log.debug('ev:' + JSON.stringify(ev));
-            if (!ev.end) {
+            if (!ev.end || !(ev.end instanceof Date)) {
                 ev.end = ce.clone(ev.start);
                 if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
                     ev.end.setDate(ev.end.getDate() + 1);

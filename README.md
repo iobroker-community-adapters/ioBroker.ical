@@ -25,6 +25,10 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
+### __WORK IN PROGRESS__
+* (christofkac) Added option to ignore case when events are searched in calendars
+* (Apollon77) Prevent crash case (Sentry IOBROKER-ICAL-F)
+
 ### 1.8.5 (2021-01-01)
 * (Apollon77) update ical library to prevent problems with RRULE parsing
 
