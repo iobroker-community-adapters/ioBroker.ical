@@ -29,7 +29,7 @@ function startAdapter(options) {
 
     Object.assign(options,{
         name:  adapterName,
-        stateChange:  function (id, state) {
+        stateChange:  async function (id, state) {
             if (!id || !state || state.ack || !state.val) {
                 return;
             }
@@ -52,11 +52,11 @@ function startAdapter(options) {
                     case 'check':
                         if (content[1]) {
                             adapter.log.info('checking "' + content[1] + '"');
-                            checkForEvents(content[1]);
+                            await checkForEvents(content[1]);
                         } else {
                             adapter.log.warn('check all events');
                             for (let i = 0; i < adapter.config.events.length; i++) {
-                                checkForEvents(adapter.config.events[i].name);
+                                await checkForEvents(adapter.config.events[i].name);
                             }
                         }
                         break;
@@ -264,7 +264,7 @@ function addOffset(time, offset) {
     return new Date(time.getTime() + (offset * 60 * 1000));
 }
 
-function processData(data, realnow, startpreview, endpreview, now2, calName, filter, cb) {
+async function processData(data, realnow, startpreview, endpreview, now2, calName, filter, cb) {
     let processedEntries = 0;
     // TODO: next line unused - remove or use?
     let defaultTimezone;
@@ -357,7 +357,7 @@ function processData(data, realnow, startpreview, endpreview, now2, calName, fil
                         }
 
                         if (checkDate) {
-                            checkDates(ev2, endpreview, startpreview, realnow, ' rrule ', calName, filter);
+                            await checkDates(ev2, endpreview, startpreview, realnow, ' rrule ', calName, filter);
                         }
                     }
                 } else {
@@ -365,7 +365,7 @@ function processData(data, realnow, startpreview, endpreview, now2, calName, fil
                 }
             } else {
                 // No RRule event
-                checkDates(ev, endpreview, startpreview, realnow, ' ', calName, filter);
+                await checkDates(ev, endpreview, startpreview, realnow, ' ', calName, filter);
             }
         }
 
@@ -381,7 +381,7 @@ function processData(data, realnow, startpreview, endpreview, now2, calName, fil
     }
 }
 
-function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter) {
+async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter) {
     let fullDay = false;
     let reason;
     let date;
@@ -455,7 +455,7 @@ function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter
         // event start >= startpreview  && < previewtime  or end > startpreview && < previewtime ---> display
         if ((ev.start < endpreview && ev.start >= startpreview) || (ev.end > startpreview && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // check only full day events
-            if (checkForEvents(reason, ev, realnow)) {
+            if (await checkForEvents(reason, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, true);
 
                 insertSorted(datesArray, {
@@ -491,7 +491,7 @@ function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter
         // Start time >= startpreview && Start time < preview time && End time >= now
         if ((ev.start >= startpreview && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // Add to list only if not hidden
-            if (checkForEvents(reason, ev, realnow)) {
+            if (await checkForEvents(reason, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, false);
 
                 insertSorted(datesArray, {
@@ -592,7 +592,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     return result;
 }
 
-function checkForEvents(reason, event, realnow) {
+async function checkForEvents(reason, event, realnow) {
 	const ignoreCaseInEventname = adapter.config.ignoreCaseInEventname;
     const oneDay = 24 * 60 * 60 * 1000;
     // show unknown events
@@ -628,8 +628,10 @@ function checkForEvents(reason, event, realnow) {
                         ev.state = true;
                         const name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
                         adapter.log.info('Set ' + name + ' to true');
-                        adapter.setState(name, {val: true, ack: true}, () =>
-                            ev.id && setState(ev.id, ev.on));
+                        await adapter.setStateAsync(name, {val: true, ack: true});
+                        if (ev.id) {
+                            await setState(ev.id, ev.on);
+                        }
                     }
                 }
             }
