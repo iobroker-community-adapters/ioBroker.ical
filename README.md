@@ -25,7 +25,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 1.9.1 (2021-01-30)
 * (Apollon77) try to make sure all code is executed before adapter is ended
 
 ### 1.9.0 (2021-01-12)

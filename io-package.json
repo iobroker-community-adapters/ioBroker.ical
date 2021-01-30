@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.9.0",
+        "version": "1.9.1",
         "news": {
+            "1.9.1": {
+                "en": "try to make sure all code is executed before adapter is ended",
+                "de": "Stellen Sie sicher, dass der gesamte Code ausgeführt wird, bevor der Adapter beendet wird",
+                "ru": "постарайтесь убедиться, что весь код выполняется до завершения работы адаптера",
+                "pt": "tente certificar-se de que todo o código seja executado antes que o adaptador seja encerrado",
+                "nl": "probeer ervoor te zorgen dat alle code wordt uitgevoerd voordat de adapter wordt beëindigd",
+                "fr": "essayez de vous assurer que tout le code est exécuté avant la fin de l'adaptateur",
+                "it": "prova ad assicurarti che tutto il codice venga eseguito prima che l'adattatore sia terminato",
+                "es": "intente asegurarse de que todo el código se ejecute antes de que finalice el adaptador",
+                "pl": "spróbuj się upewnić, że cały kod jest wykonywany przed zakończeniem działania adaptera",
+                "zh-cn": "尝试确保在适配器结束之前执行所有代码"
+            },
             "1.9.0": {
                 "en": "Added option to ignore case when events are searched in calendars\nPrevent crash case (Sentry IOBROKER-ICAL-F)",
                 "de": "Option hinzugefügt, um Groß- und Kleinschreibung zu ignorieren, wenn Ereignisse in Kalendern durchsucht werden\nAbsturz verhindern (Sentry IOBROKER-ICAL-F)",
