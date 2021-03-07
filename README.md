@@ -25,6 +25,9 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
+### __WORK IN PROGRESS__
+* (Apollon77) Prevent crash case when summary is not provided (Sentry IOBROKER-ICAL-K)
+
 ### 1.9.1 (2021-01-30)
 * (Apollon77) try to make sure all code is executed before adapter is ended
 

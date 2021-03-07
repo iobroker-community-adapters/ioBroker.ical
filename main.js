@@ -387,12 +387,12 @@ async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, 
     let date;
 
     // chech if sub parameter exists for outlook
-    if (Object.prototype.hasOwnProperty.call(ev.summary, 'val')) {
+    if (Object.prototype.hasOwnProperty.call(ev, 'summary') && Object.prototype.hasOwnProperty.call(ev.summary, 'val')) {
         // yes -> read reason
-        reason = ev.summary.val;
+        reason = ev.summary.val || '';
     } else {
         // no
-        reason = ev.summary;
+        reason = ev.summary || '';
     }
 
     const location = ev.location || '';
