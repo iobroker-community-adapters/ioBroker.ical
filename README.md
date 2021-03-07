@@ -25,7 +25,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 1.9.2 (2021-03-07)
 * (Apollon77) Prevent crash case when summary is not provided (Sentry IOBROKER-ICAL-K)
 
 ### 1.9.1 (2021-01-30)

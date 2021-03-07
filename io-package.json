@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.9.1",
+        "version": "1.9.2",
         "news": {
+            "1.9.2": {
+                "en": "Prevent crash case when summary is not provided (Sentry IOBROKER-ICAL-K)",
+                "de": "Verhindern Sie einen Absturz, wenn keine Zusammenfassung bereitgestellt wird (Sentry IOBROKER-ICAL-K).",
+                "ru": "Предотвращение сбоя при отсутствии сводки (Sentry IOBROKER-ICAL-K)",
+                "pt": "Evita o caso de travamento quando o resumo não é fornecido (Sentry IOBROKER-ICAL-K)",
+                "nl": "Voorkom een crash als er geen samenvatting wordt gegeven (Sentry IOBROKER-ICAL-K)",
+                "fr": "Empêcher les cas de crash lorsque le résumé n'est pas fourni (Sentry IOBROKER-ICAL-K)",
+                "it": "Prevenire il caso di arresto anomalo quando non viene fornito il riepilogo (Sentry IOBROKER-ICAL-K)",
+                "es": "Evitar caso de bloqueo cuando no se proporciona un resumen (Sentry IOBROKER-ICAL-K)",
+                "pl": "Zapobiegaj awariom, gdy podsumowanie nie jest dostarczane (Sentry IOBROKER-ICAL-K)",
+                "zh-cn": "未提供摘要时，防止发生崩溃情况（Sentry IOBROKER-ICAL-K）"
+            },
             "1.9.1": {
                 "en": "try to make sure all code is executed before adapter is ended",
                 "de": "Stellen Sie sicher, dass der gesamte Code ausgeführt wird, bevor der Adapter beendet wird",
