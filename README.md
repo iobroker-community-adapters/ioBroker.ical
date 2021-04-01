@@ -25,7 +25,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 1.9.3 (2021-04-01)
 * (Apollon77) Better handling of some ical cases 
 
 ### 1.9.2 (2021-03-07)
