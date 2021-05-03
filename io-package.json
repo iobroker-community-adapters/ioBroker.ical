@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.9.3",
+        "version": "1.9.4",
         "news": {
+            "1.9.4": {
+                "en": "Better handling of some ical cases",
+                "de": "Bessere Behandlung einiger Fälle",
+                "ru": "Лучшее рассмотрение некоторых случаев",
+                "pt": "Melhor tratamento de alguns casos ical",
+                "nl": "Betere afhandeling van enkele ical gevallen",
+                "fr": "Meilleure prise en charge de certains cas ical",
+                "it": "Migliore gestione di alcuni casi ical",
+                "es": "Mejor manejo de algunos casos ical",
+                "pl": "Lepsza obsługa niektórych przypadków",
+                "zh-cn": "更好地处理一些医疗案件"
+            },
             "1.9.3": {
                 "en": "Better handling of some ical cases",
                 "de": "Bessere Behandlung einiger Fälle",
