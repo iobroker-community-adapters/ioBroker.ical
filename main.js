@@ -383,7 +383,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
 
 async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter) {
     let fullDay = false;
-    let private = false;
+    let isPrivate = false;
     let reason;
     let date;
 
@@ -400,7 +400,7 @@ async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, 
     const location = ev.location || '';
 
     // check if sub parameter 'class' exists and contains PRIVATE
-    private = Object.prototype.hasOwnProperty.call(ev, 'class') && ev.class === "PRIVATE";
+    isPrivate = Object.prototype.hasOwnProperty.call(ev, 'class') && ev.class === "PRIVATE";
  
     // If not start point => ignore it
     if (!ev.start || !ev.start instanceof Date) {
@@ -473,7 +473,7 @@ async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, 
                     _section: ev.description,
                     _IDID:    ev.uid,
                     _allDay:  true,
-                    _private: private,
+                    _private: isPrivate,
                     _rule:    rule,
                     location: location,
                     // add additional Objects, so iobroker.occ can use it
@@ -510,7 +510,7 @@ async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, 
                     _section: ev.description,
                     _IDID:    ev.uid,
                     _allDay:  false,
-                    _private: private,
+                    _private: isPrivate,
                     _rule:    rule,
                     location: location,
                     // add additional Objects, so iobroker.occ can use it
