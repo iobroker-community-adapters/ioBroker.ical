@@ -39,16 +39,21 @@
     "@alcalzone/release-script": "^1.10.0",
     "chai": "^4.3.4",
     "chai-string": "^1.5.0",
+    "eslint": "^7.25.0",
     "gulp": "^4.0.2",
-    "mocha": "^8.3.2",
-    "eslint": "^7.25.0"
+    "mocha": "^8.3.2"
   },
   "bugs": {
     "url": "https://github.com/iobroker-community-adapters/ioBroker.ical/issues"
   },
   "main": "main.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --exit",
+    "test:js": "mocha --opts test/mocha.custom.opts",
+    "test:package": "mocha test/package --exit",
+    "test:unit": "mocha test/unit --exit",
+    "test:integration": "mocha test/integration --exit",
+    "test": "npm run test:js && npm run test:package",
+    "lint": "eslint",
     "release": "release-script"
   },
   "license": "MIT"

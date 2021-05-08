@@ -1,10 +1,7 @@
 ![Logo](admin/ical.png)
 # ioBroker iCal adapter
 
-[![Build Status](https://travis-ci.org/ioBroker/ioBroker.ical.svg?branch=master)](https://travis-ci.org/ioBroker/ioBroker.ical)
-![Number of Installations](http://iobroker.live/badges/ical-installed.svg) ![Number of Installations](http://iobroker.live/badges/ical-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
-[![Github Issues](http://githubbadges.herokuapp.com/ioBroker/ioBroker.ical/issues.svg)](https://github.com/ioBroker/ioBroker.ical/issues)
+[![Test and Release](https://github.com/iobroker-community-adapters/ioBroker.ical/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.ical/actions/workflows/test-and-release.yml) ![Number of Installations](http://iobroker.live/badges/ical-installed.svg) ![Number of Installations](http://iobroker.live/badges/ical-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical) [![Downloads](https://img.shields.io/npm/dm/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical) [![Github Issues](http://githubbadges.herokuapp.com/ioBroker/ioBroker.ical/issues.svg)](https://github.com/ioBroker/ioBroker.ical/issues)
 
 [![NPM](https://nodei.co/npm/iobroker.ical.png?downloads=true)](https://nodei.co/npm/iobroker.ical/)
 
@@ -24,6 +21,12 @@ Siehe deutsche [Version hier](docs/de/README.md).
 * fix timezone stuff in tests
 
 ## Changelog
+<!--
+	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
+-->
+### **WORK IN PROGRESS**
+* (jens-maus) updated dependencies
 
 ### 1.9.3 (2021-04-01)
 * (Apollon77) Better handling of some ical cases 
