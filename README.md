@@ -1,5 +1,5 @@
 ![Logo](admin/ical.png)
-# ioBroker iCal adapter
+# ioBroker.ical
 
 [![Test and Release](https://github.com/iobroker-community-adapters/ioBroker.ical/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.ical/actions/workflows/test-and-release.yml) ![Number of Installations](http://iobroker.live/badges/ical-installed.svg) ![Number of Installations](http://iobroker.live/badges/ical-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical) [![Downloads](https://img.shields.io/npm/dm/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
 
@@ -205,7 +205,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2020, bluefox <dogafox@gmail.com>
+Copyright (c) 2014-2021, bluefox <dogafox@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
