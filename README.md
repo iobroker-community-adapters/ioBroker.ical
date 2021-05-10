@@ -15,15 +15,13 @@ Siehe deutsche [Version hier](docs/de/README.md).
 * `data.trigger` doesn't support `check` option
 * fix timezone stuff in tests
 
-## Work in progress
-* (BasGo) Added analysis for private events
-
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+* (BasGo) added analysis for events marked as private in Google Calendar
 * (jens-maus) updated dependencies
 
 ### 1.9.3 (2021-04-01)
