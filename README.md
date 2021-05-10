@@ -15,6 +15,9 @@ Siehe deutsche [Version hier](docs/de/README.md).
 * `data.trigger` doesn't support `check` option
 * fix timezone stuff in tests
 
+## Work in progress
+* (BasGo) Added analysis for private events
+
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
