@@ -23,6 +23,9 @@ Siehe deutsche [Version hier](docs/de/README.md).
 * `data.trigger` doesn't support `check` option
 * fix timezone stuff in tests
 
+## Work in progress
+* (BasGo) Added analysis for private events
+
 ## Changelog
 
 ### 1.9.3 (2021-04-01)
