@@ -42,7 +42,7 @@
     "chai-string": "^1.5.0",
     "eslint": "^7.26.0",
     "gulp": "^4.0.2",
-    "mocha": "^8.4.0"
+    "mocha": "^9.0.0"
   },
   "bugs": {
     "url": "https://github.com/iobroker-community-adapters/ioBroker.ical/issues"
