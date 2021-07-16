@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.9.3",
+        "version": "1.10.0",
         "news": {
+            "1.10.0": {
+                "en": "IMPORTANT: data.table is now a stringified array!! Consider when using this value!\nOptimize for js-controller 3.3\nadded analysis for events marked as private in Google Calendar\nupdated dependencies",
+                "de": "WICHTIG: data.table ist jetzt ein stringifiziertes Array!! Berücksichtigen Sie bei der Verwendung dieses Wertes!\nOptimieren Sie für js-Controller 3.3\nAnalyse für Ereignisse hinzugefügt, die in Google Kalender als privat markiert sind\naktualisierte Abhängigkeiten",
+                "ru": "ВАЖНО: data.table теперь представляет собой строковый массив !! Учитывайте при использовании этого значения!\nОптимизировать под js-controller 3.3\nдобавлен анализ событий, отмеченных как частные в Календаре Google\nобновленные зависимости",
+                "pt": "IMPORTANTE: data.table agora é um array stringificado !! Considere ao usar este valor!\nOtimize para js-controller 3.3\nanálise adicionada para eventos marcados como privados no Google Agenda\ndependências atualizadas",
+                "nl": "BELANGRIJK: data.table is nu een stringified array!! Overweeg bij het gebruik van deze waarde!\nOptimaliseren voor js-controller 3.3\nanalyse toegevoegd voor afspraken die als privé zijn gemarkeerd in Google Agenda\nbijgewerkte afhankelijkheden",
+                "fr": "IMPORTANT : data.table est maintenant un tableau stringifié !! Tenez compte de l'utilisation de cette valeur !\nOptimiser pour js-controller 3.3\nanalyse ajoutée pour les événements marqués comme privés dans Google Agenda\ndépendances mises à jour",
+                "it": "IMPORTANTE: data.table ora è un array con stringhe!! Considera quando usi questo valore!\nOttimizza per js-controller 3.3\naggiunta analisi per eventi contrassegnati come privati in Google Calendar\ndipendenze aggiornate",
+                "es": "IMPORTANTE: ¡data.table ahora es una matriz en cadena! ¡Considere al usar este valor!\nOptimizar para js-controller 3.3\nanálisis agregado para eventos marcados como privados en Google Calendar\ndependencias actualizadas",
+                "pl": "WAŻNE: data.table jest teraz tablicą łańcuchową!! Rozważ użycie tej wartości!\nOptymalizacja dla kontrolera js 3.3\ndodano analizę wydarzeń oznaczonych jako prywatne w Kalendarzu Google\nzaktualizowane zależności",
+                "zh-cn": "重要提示：data.table 现在是一个字符串化的数组！！使用此值时请考虑！\n针对 js-controller 3.3 优化\n添加了对 Google 日历中标记为私人的事件的分析\n更新的依赖"
+            },
             "1.9.3": {
                 "en": "Better handling of some ical cases",
                 "de": "Bessere Behandlung einiger Fälle",

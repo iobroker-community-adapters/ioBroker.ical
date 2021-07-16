@@ -27,7 +27,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	### **WORK IN PROGRESS**
 -->
 
-### **WORK IN PROGRESS**
+### 1.10.0 (2021-07-16)
 * IMPORTANT: data.table is now a stringified array!! Consider when using this value!
 * (Apollon77) Optimize for js-controller 3.3
 * (BasGo) added analysis for events marked as private in Google Calendar
