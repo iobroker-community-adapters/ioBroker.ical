@@ -168,7 +168,8 @@
                 "fr": "Correction du problème avec UTC de jusqu'à dans les rendez-vous récurrents\nCorrection possible de la couleur vide\nAjout du mode compact",
                 "it": "Risolto il problema con UTC fino a quando in appuntamenti ricorrenti\nRisolto il possibile colore vuoto\nAggiunta modalità compatta",
                 "es": "Solucionado el problema con UTC de hasta en citas recurrentes\nPosible color vacio fijo\nModo compacto agregado",
-                "pl": "Naprawiono problem z UTC przed terminami cyklicznymi\nNaprawiono możliwy pusty kolor\nDodano tryb kompaktowy"
+                "pl": "Naprawiono problem z UTC przed terminami cyklicznymi\nNaprawiono możliwy pusty kolor\nDodano tryb kompaktowy",
+                "zh-cn": "修复了重复约会中 UTC 的问题\n"
             },
             "1.7.0": {
                 "en": "Add filter option\nAdd support of events for configured date period; changed state names from 'events.*' to 'events.0.today.*'\nAdd Count of events for tomorrow - state 'data.countTomorrow'\nEvents without time part and same start and end are interpreted as full day events\nRemove special chars from event states",
@@ -179,7 +180,8 @@
                 "fr": "Ajouter une option de filtre\nAjouter le support des événements pour la période configurée; changé les noms d'état de 'événements. *' à 'événements.0.aujourd'hui. *'\nAjouter le nombre d'événements pour demain - indiquez 'data.countTomorrow'\nLes événements sans heure, avec les mêmes débuts et fins sont interprétés comme des événements d'une journée complète\nSupprimer les caractères spéciaux des états d'événement",
                 "it": "Aggiungi l'opzione di filtro\nAggiungi il supporto degli eventi per il periodo di tempo configurato; cambiato i nomi di stato da 'eventi. *' a 'events.0.today. *'\nAggiungi il conteggio degli eventi per domani - stato 'data.countTomorrow'\nGli eventi senza parte del tempo e stesso inizio e fine sono interpretati come eventi di un giorno intero\nRimuovi caratteri speciali dagli stati degli eventi",
                 "es": "Añadir opción de filtro\nAñadir soporte de eventos para el período de fecha configurado; nombres de estado cambiados de 'eventos. *' a 'eventos.0.today. *'\nAgregar recuento de eventos para mañana: estado 'data.countTomorrow'\nLos eventos sin parte de la hora y el mismo inicio y final se interpretan como eventos de día completo\nEliminar caracteres especiales de estados de evento",
-                "pl": "Dodaj opcję filtru\nDodaj obsługę zdarzeń dla skonfigurowanego okresu daty; zmieniono nazwy stanów z \"events. *\" na \"events.0.today. *\"\nDodaj liczbę zdarzeń do jutra - stan \"data.countTomorrow\"\nZdarzenia bez części czasowej oraz ten sam początek i koniec są interpretowane jako wydarzenia całodniowe\nUsuń znaki specjalne ze stanów zdarzeń"
+                "pl": "Dodaj opcję filtru\nDodaj obsługę zdarzeń dla skonfigurowanego okresu daty; zmieniono nazwy stanów z \"events. *\" na \"events.0.today. *\"\nDodaj liczbę zdarzeń do jutra - stan \"data.countTomorrow\"\nZdarzenia bez części czasowej oraz ten sam początek i koniec są interpretowane jako wydarzenia całodniowe\nUsuń znaki specjalne ze stanów zdarzeń",
+                "zh-cn": "添加过滤选项\n"
             },
             "1.6.6": {
                 "en": "Fixed html for disabled colorize\nFixed timezone handling for events during change from daylight saving time back to standard time\nFixed: events without end date moved to different day",
@@ -190,7 +192,8 @@
                 "fr": "Correction du code HTML incorrect avec les couleurs désactivées\nCorrection du traitement du fuseau horaire pour les événements lors du passage de l'heure d'été à l'heure d'hiver\nCorrigé: événements sans date de fin déplacés vers un jour différent",
                 "it": "Risolto problema con l'HTML non corretto con i colori disattivati\nGestione del fuso orario fissa per eventi durante il passaggio dall'ora legale all'ora solare\nRisolto: eventi senza data di fine spostati in giorni diversi",
                 "es": "Se corrigió el HTML incorrecto con colores desactivados.\nManejo de zona horaria fija para eventos cuando se cambia de verano a invierno\nCorregido: los eventos sin fecha de finalización se trasladaron a otro día.",
-                "pl": "Naprawiono nieprawidłowy kod HTML z wyłączonymi kolorami\nNaprawiono obsługę strefy czasowej zdarzeń podczas zmiany czasu z letniego na zimowy\nNaprawiono: zdarzenia bez daty zakończenia przeniesione do innego dnia"
+                "pl": "Naprawiono nieprawidłowy kod HTML z wyłączonymi kolorami\nNaprawiono obsługę strefy czasowej zdarzeń podczas zmiany czasu z letniego na zimowy\nNaprawiono: zdarzenia bez daty zakończenia przeniesione do innego dnia",
+                "zh-cn": "修复了禁用着色的 html\n"
             }
         },
         "title": "iCal Calendar",
@@ -203,7 +206,8 @@
             "fr": "Calendrier iCal",
             "it": "Calendario iCal",
             "es": "Calendario iCal",
-            "pl": "Kalendarz iCal"
+            "pl": "Kalendarz iCal",
+            "zh-cn": "iCal 日历"
         },
         "desc": {
             "en": "This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal)",
@@ -214,7 +218,8 @@
             "fr": "Cet adaptateur permet de lire des fichiers .ics à partir d'URL spécifiques et de les analyser (Google Calendar ou iCal)",
             "it": "Questo adattatore consente di leggere i file .ics da URL specifici e di analizzarli (Google Calendar o iCal)",
             "es": "Este adaptador permite leer archivos .ics de una URL específica y analizarlos (Google Calendar o iCal)",
-            "pl": "Ten adapter umożliwia odczytanie plików .ics z określonego adresu URL i przeanalizowanie go (Kalendarz Google lub iCal)"
+            "pl": "Ten adapter umożliwia odczytanie plików .ics z określonego adresu URL i przeanalizowanie go (Kalendarz Google lub iCal)",
+            "zh-cn": "此适配器允许从特定 URL 读取 .ics 文件并对其进行解析（Google Calendar 或 iCal）"
         },
         "authors": [
             "bluefox <dogafox@gmail.com>",
@@ -243,6 +248,9 @@
         "subscribe": "ical.<INSTANCE>.trigger",
         "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.ical/master/admin/ical.png",
         "type": "date-and-time",
+        "connectionType": "local",
+        "dataSource": "poll",
+        "tier": 2,
         "plugins": {
             "sentry": {
                 "dsn": "https://82b5b68454d946149c547291365cbee3@sentry.iobroker.net/47"
@@ -400,8 +408,8 @@
             "common": {
                 "name": "JS iCal table",
                 "desc": "JS table: []",
-                "type": "object",
-                "role": "table",
+                "type": "array",
+                "role": "list",
                 "read": true,
                 "write": false
             },

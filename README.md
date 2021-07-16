@@ -1,15 +1,21 @@
 ![Logo](admin/ical.png)
 # ioBroker.ical
 
-[![Test and Release](https://github.com/iobroker-community-adapters/ioBroker.ical/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/iobroker-community-adapters/ioBroker.ical/actions/workflows/test-and-release.yml) ![Number of Installations](http://iobroker.live/badges/ical-installed.svg) ![Number of Installations](http://iobroker.live/badges/ical-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical) [![Downloads](https://img.shields.io/npm/dm/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
+![Number of Installations](http://iobroker.live/badges/ical-installed.svg)
+![Number of Installations](http://iobroker.live/badges/ical-stable.svg)
+[![NPM version](http://img.shields.io/npm/v/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
 
-[![NPM](https://nodei.co/npm/iobroker.ical.png?downloads=true)](https://nodei.co/npm/iobroker.ical/)
+![Test and Release](https://github.com/iobroker-community-adapters/ioBroker.ical/workflows/Test%20and%20Release/badge.svg)
+[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/ical/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
 
 This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal). 
 Alternatively it is possible to use a local `.ics` file (use absolute path to the file instead of URL)
 
 Read english [here](docs/en/README.md).
 Siehe deutsche [Version hier](docs/de/README.md).
+
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
 ## Todo
 * `data.trigger` doesn't support `check` option
@@ -20,7 +26,10 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
 ### **WORK IN PROGRESS**
+* IMPORTANT: data.table is now a stringified array!! Consider when using this value!
+* (Apollon77) Optimize for js-controller 3.3
 * (BasGo) added analysis for events marked as private in Google Calendar
 * (jens-maus) updated dependencies
 

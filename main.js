@@ -401,7 +401,7 @@ async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, 
 
     // check if sub parameter 'class' exists and contains PRIVATE
     isPrivate = Object.prototype.hasOwnProperty.call(ev, 'class') && ev.class === "PRIVATE";
- 
+
     // If not start point => ignore it
     if (!ev.start || !ev.start instanceof Date) {
         return;
@@ -1307,11 +1307,11 @@ function displayDates() {
             }
         }
 
-        adapter.setState('data.table', {val: datesArray, ack: true}, retFunc);
+        adapter.setState('data.table', {val: JSON.stringify(datesArray), ack: true}, retFunc);
         adapter.setState('data.html',  {val: brSeparatedList(datesArray), ack: true}, retFunc);
         adapter.setState('data.text',  {val: crlfSeparatedList(datesArray), ack: true}, retFunc);
     } else {
-        adapter.setState('data.table', {val: [], ack: true}, retFunc);
+        adapter.setState('data.table', {val: '[]', ack: true}, retFunc);
         adapter.setState('data.html',  {val: '', ack: true}, retFunc);
         adapter.setState('data.text',  {val: '', ack: true}, retFunc);
     }

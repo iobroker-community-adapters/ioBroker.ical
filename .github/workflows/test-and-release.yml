@@ -80,7 +80,6 @@ jobs:
       contains(github.event.head_commit.message, '[skip ci]') == false &&
       github.event_name == 'push' &&
       startsWith(github.ref, 'refs/tags/v')
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -108,9 +107,8 @@ jobs:
           export SENTRY_PROJECT=iobroker-ical
           export SENTRY_VERSION=iobroker.ical@${{ env.VERSION }}
           sentry-cli releases new $SENTRY_VERSION
+          sentry-cli releases set-commits $SENTRY_VERSION --auto
           sentry-cli releases finalize $SENTRY_VERSION
-        # Add the following line BEFORE finalize if repositories are connected in Sentry
-        # sentry-cli releases set-commits $SENTRY_VERSION --auto
 
         # Add the following line BEFORE finalize if sourcemap uploads are needed
         # sentry-cli releases files $SENTRY_VERSION upload-sourcemaps build/
