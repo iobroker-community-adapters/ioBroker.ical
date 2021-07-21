@@ -698,7 +698,7 @@ function syncUserEvents(callback) {
     const days = parseInt(adapter.config.daysPreview, 10) + 1;
 
     // Read all actual events
-    adapter.getStatesOf('', 'events', (err, states) => {
+    adapter.getStatesOf('', 'events', async (err, states) => {
         const toAdd = [];
         const toDel = [];
 
@@ -813,36 +813,32 @@ function syncUserEvents(callback) {
                     }
 
                     // Add or update state
-                    adapter.setObject(toAdd[i].id,
-                        {
-                            type: 'state',
-                            common: {
-                                name: toAdd[i].name,
-                                type: 'boolean',
-                                role: 'indicator'
-                            },
-                            native: {
-                                enabled: configItem.enabled,
-                                display: configItem.display
-                            }
-                        },
-                        (err, id) => {
-                            if (err) {
-                                adapter.log.warn('Event "' + toAdd[i].id + '" could ne be created: ' + err);
-                            }
-                            else {
-                                adapter.log.info('Event "' + id.id + '" created');
-                            }
-                        }
-                    );
+                    try {
+                        const id = await adapter.setObjectAsync(toAdd[i].id,
+                            {
+                                type: 'state',
+                                common: {
+                                    name: toAdd[i].name,
+                                    type: 'boolean',
+                                    role: 'indicator'
+                                },
+                                native: {
+                                    enabled: configItem.enabled,
+                                    display: configItem.display
+                                }
+                            });
+                        adapter.log.info('Event "' + id.id + '" created');
+                    } catch (err) {
+                        adapter.log.warn('Event "' + toAdd[i].id + '" could ne be created: ' + err);
+                    }
                 }
             }
         }
 
         // Remove states
         for (let i = 0; i < toDel.length; i++) {
-            adapter.delObject(toDel[i].id);
-            adapter.delState(toDel[i].id);
+            await adapter.delObjectAsync(toDel[i].id);
+            await adapter.delStateAsync(toDel[i].id);
         }
 
         for (let day = 0; day < days; day++) {
