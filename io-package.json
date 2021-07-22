@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.10.0",
+        "version": "1.10.1",
         "news": {
+            "1.10.1": {
+                "en": "Make sure all Event objects are created before values are written",
+                "de": "Stellen Sie sicher, dass alle Event-Objekte erstellt werden, bevor Werte geschrieben werden",
+                "ru": "Перед записью значений убедитесь, что все объекты событий созданы.",
+                "pt": "Certifique-se de que todos os objetos de evento sejam criados antes que os valores sejam gravados",
+                "nl": "Zorg ervoor dat alle Event-objecten zijn gemaakt voordat waarden worden geschreven",
+                "fr": "Assurez-vous que tous les objets Event sont créés avant l'écriture des valeurs",
+                "it": "Assicurati che tutti gli oggetti Evento siano creati prima che i valori vengano scritti",
+                "es": "Asegúrese de que todos los objetos de evento se creen antes de escribir los valores",
+                "pl": "Upewnij się, że wszystkie obiekty Event zostały utworzone przed zapisaniem wartości",
+                "zh-cn": "确保在写入值之前创建所有 Event 对象"
+            },
             "1.10.0": {
                 "en": "IMPORTANT: data.table is now a stringified array!! Consider when using this value!\nOptimize for js-controller 3.3\nadded analysis for events marked as private in Google Calendar\nupdated dependencies",
                 "de": "WICHTIG: data.table ist jetzt ein stringifiziertes Array!! Berücksichtigen Sie bei der Verwendung dieses Wertes!\nOptimieren Sie für js-Controller 3.3\nAnalyse für Ereignisse hinzugefügt, die in Google Kalender als privat markiert sind\naktualisierte Abhängigkeiten",

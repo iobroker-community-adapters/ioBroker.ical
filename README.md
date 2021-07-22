@@ -27,7 +27,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	### **WORK IN PROGRESS**
 -->
 
-### __WORK IN PROGRESS__
+### 1.10.1 (2021-07-22)
 * (Apollon77) Make sure all Event objects are created before values are written
 
 ### 1.10.0 (2021-07-16)
