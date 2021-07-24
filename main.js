@@ -286,11 +286,6 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                 const eventLength = ev.end.getTime() - ev.start.getTime();
 
                 const options = RRule.parseString(ev.rrule.toString());
-                // convert times temporary to UTC
-                options.dtstart = addOffset(ev.start, -getTimezoneOffset(ev.start));
-                if (options.until) {
-                    options.until = addOffset(options.until, -getTimezoneOffset(options.until));
-                }
                 adapter.log.debug('options:' + JSON.stringify(options));
 
                 const rule = new RRule(options);
@@ -1426,6 +1421,8 @@ function main() {
     normal  = '<span style="font-weight: bold' + (adapter.config.defColor ? ('; color: ' + adapter.config.defColor) : '') + '"><span class="icalNormal">';
 
     adapter.config.language = adapter.config.language || 'en';
+
+    adapter.log.info('Use Timezone: ' + moment.tz.guess() + ' / ' + JSON.stringify(moment.tz.zone(moment.tz.guess())));
 
     syncUserEvents(readAll);
 }
