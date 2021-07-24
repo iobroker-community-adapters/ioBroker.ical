@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.10.1",
+        "version": "1.10.2",
         "news": {
+            "1.10.2": {
+                "en": "(Apollon77/Feuersturm) Fix wrong times and dates introduced in 1.7.5.\nAllow Setting daysPast to be decreased to zero with button again",
+                "de": "(Apollon77/Feuersturm) Falsche Uhrzeiten und Datumsangaben behoben, die in 1.7.5 eingeführt wurden.\nErlauben Sie Setting daysPast wieder mit der Taste auf Null zu reduzieren",
+                "ru": "(Apollon77 / Feuersturm) Исправьте неправильное время и дату, введенные в 1.7.5.\nРазрешить уменьшению Setting daysPast до нуля с помощью кнопки снова",
+                "pt": "(Apollon77 / Feuersturm) Corrija horas e datas erradas introduzidas em 1.7.5.\nPermitir que a configuração diasPast seja reduzida a zero com o botão novamente",
+                "nl": "(Apollon77/Feuersturm) Herstel verkeerde tijden en datums geïntroduceerd in 1.7.5.\nSta toe dat Setting daysPast met de knop weer op nul wordt gezet",
+                "fr": "(Apollon77/Feuersturm) Correction d'heures et de dates erronées introduites dans la 1.7.5.\nAutoriser le réglage des jours passés à être réduit à zéro avec le bouton à nouveau",
+                "it": "(Apollon77/Feuersturm) Correggi orari e date errati introdotti in 1.7.5.\nConsenti di ridurre nuovamente a zero l'impostazione dei giorni passati con il pulsante",
+                "es": "(Apollon77 / Feuersturm) Corregir fechas y horas incorrectas introducidas en 1.7.5.\nPermita que Setting daysPast disminuya a cero con el botón nuevamente",
+                "pl": "(Apollon77/Feuersturm) Napraw błędne godziny i daty wprowadzone w 1.7.5.\nZezwól na ponowne zmniejszenie ustawienia daysPast do zera za pomocą przycisku",
+                "zh-cn": "(Apollon77/Feuersturm) 修复 1.7.5 中引入的错误时间和日期。\n允许再次使用按钮将设置 daysPast 减少为零"
+            },
             "1.10.1": {
                 "en": "Make sure all Event objects are created before values are written",
                 "de": "Stellen Sie sicher, dass alle Event-Objekte erstellt werden, bevor Werte geschrieben werden",
