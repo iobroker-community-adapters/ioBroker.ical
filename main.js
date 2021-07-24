@@ -323,7 +323,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
 
                         // Set end date based on length in ms
                         const end = new Date(start.getTime() + eventLength);
-                        ev2.end = addOffset(end, getTimezoneOffset(end));
+                        ev2.end = end;
 
                         adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
 
