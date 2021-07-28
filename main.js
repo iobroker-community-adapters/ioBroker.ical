@@ -318,11 +318,13 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
 
                         // replace date & time for each event in RRule
                         // convert time back to local times
-                        const start = dates[i];
-                        ev2.start = addOffset(start, getTimezoneOffset(start));
+                        ev2.start = dates[i];
+                        if (ev.datetype === 'date') {
+                            ev2.start = addOffset(ev2.start, getTimezoneOffset(ev2.start));
+                        }
 
                         // Set end date based on length in ms
-                        const end = new Date(start.getTime() + eventLength);
+                        const end = new Date(ev2.start.getTime() + eventLength);
                         ev2.end = end;
 
                         adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
