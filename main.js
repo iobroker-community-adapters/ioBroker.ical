@@ -294,6 +294,9 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                 if (now2 < now3) {
                     now3 = now2;
                 }
+                if (startpreview < now3) {
+                    now3 = startpreview;
+                }
                 adapter.log.debug('RRule event:' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; startpreview:' + startpreview.toString() + '; now2:' + now2.toString() + '; now3:' + now3.toString() + '; rule:' + JSON.stringify(rule));
 
                 let dates = [];
