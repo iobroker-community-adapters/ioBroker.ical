@@ -227,7 +227,7 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
                     const endpreview = new Date();
                     endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
 
-                    adapter.log.debug('checkICal: endpreview - ' + startpreview);
+                    adapter.log.debug('checkICal: endpreview - ' + endpreview);
 
                     const now2 = new Date();
 
@@ -294,7 +294,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                 if (now2 < now3) {
                     now3 = now2;
                 }
-                adapter.log.debug('RRule event:' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; startpreview:' + startpreview + '; now2:' + now2 + '; now3:' + now3 + '; rule:' + JSON.stringify(rule));
+                adapter.log.debug('RRule event:' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; startpreview:' + startpreview.toString() + '; now2:' + now2.toString() + '; now3:' + now3.toString() + '; rule:' + JSON.stringify(rule));
 
                 let dates = [];
                 try {
@@ -361,6 +361,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                     adapter.log.debug('no RRule events inside the time interval');
                 }
             } else {
+                adapter.log.debug('Single event:' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; startpreview:' + startpreview.toString() + '; realnow:' + realnow.toString());
                 // No RRule event
                 await checkDates(ev, endpreview, startpreview, realnow, ' ', calName, filter);
             }
