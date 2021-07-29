@@ -280,6 +280,9 @@
             "iCal",
             "calendar"
         ],
+        "adminUI": {
+            "config": "materialize"
+        },
         "allowInit": true,
         "subscribe": "ical.<INSTANCE>.trigger",
         "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.ical/master/admin/ical.png",

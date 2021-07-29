@@ -851,7 +851,7 @@ function syncUserEvents(callback) {
                     if (!day) {
                         count += 3;
                         initEvent(event.name, event.display, 0, 'today', null, null, null, () => !--count && callback());
-                        initEvent(event.name, event.display, 0, 'now',   null, null, null, () => !--count && callback());
+                        initEvent(event.name, event.display, 0, 'now',   event.id, event.on, event.off, () => !--count && callback());
                         initEvent(event.name, event.display, 0, 'later', null, null, null, () => !--count && callback());
                     } else {
                         count++;
@@ -1260,6 +1260,7 @@ function setState(id, val, cb) {
                 }
             }
 
+            adapter.log.debug(`Set ${id} to ${val}`);
             adapter.setForeignState(id, val, true, cb);
         } else {
             cb && cb();
