@@ -27,6 +27,12 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	### **WORK IN PROGRESS**
 -->
 
+### __WORK IN PROGRESS__
+* (Apollon77/Feuersturm) Fix other timezone issues
+* (Apollon77) Fix setting external States when events are active
+* (Apollon77) Also list recurring entries from the past
+* (Apollon77) Fix the event states for the days in future
+
 ### 1.10.2 (2021-07-25)
 * (Apollon77/Feuersturm) Fix wrong times and dates introduced in 1.7.5.
 * (Feuersturm) Allow Setting daysPast to be decreased to zero with button again

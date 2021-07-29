@@ -631,7 +631,7 @@ async function checkForEvents(reason, event, realnow) {
                     // nothing to do
                     adapter.log.debug('Event ' + ev.name + ' already processed');
                 } else {
-                    adapter.log.debug(`Checking event ${i} ${ev.name} = ${ev.processed}, state = ${ev.state}`);
+                    adapter.log.debug(`Checking event ${ev.day} ${ev.type}  ${ev.name} = ${ev.processed}, state = ${ev.state}`);
                     // Process event
                     ev.processed = true;
                     if (!ev.state) {
@@ -1319,7 +1319,7 @@ async function displayDates() {
 
     // set not processed events to false
     for (let j = 0; j < events.length; j++) {
-        adapter.log.debug(`Checking unprocessed event ${j} ${events[j].name} = ${events[j].processed}, state = ${events[j].state}`);
+        adapter.log.debug(`Checking unprocessed event ${events[j].day} ${events[j].type} ${events[j].name} = ${events[j].processed}, state = ${events[j].state}`);
         if (!events[j].processed && events[j].state) {
             const ev = events[j];
             ev.state = false;
