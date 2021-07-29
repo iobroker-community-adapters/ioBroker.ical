@@ -1242,32 +1242,31 @@ function formatDate(_date, _end, withTime, fullDay) {
 }
 
 async function setState(id, val, cb) {
-    if (!id) {
-        return cb & cb();
-    }
-    try {
-        const obj = await adapter.getForeignObjectAsync(id);
-        if (obj) {
-            // convert value
-            if (obj.common) {
-                if (val === 'null' || val === null || val === undefined) {
-                    val = null;
-                } else {
-                    if (obj.common.type === 'boolean') {
-                        val = val === true || val === 'true' || val === 1 || val === '1';
-                    } else if (obj.common.type === 'number') {
-                        val = parseFloat(val);
-                    } else if (obj.common.type === 'string') {
-                        val = val.toString();
+    if (id) {
+        try {
+            const obj = await adapter.getForeignObjectAsync(id);
+            if (obj) {
+                // convert value
+                if (obj.common) {
+                    if (val === 'null' || val === null || val === undefined) {
+                        val = null;
+                    } else {
+                        if (obj.common.type === 'boolean') {
+                            val = val === true || val === 'true' || val === 1 || val === '1';
+                        } else if (obj.common.type === 'number') {
+                            val = parseFloat(val);
+                        } else if (obj.common.type === 'string') {
+                            val = val.toString();
+                        }
                     }
                 }
-            }
 
-            adapter.log.info(`Set ${id} to ${val}`);
-            await adapter.setForeignStateAsync(id, val, true);
+                adapter.log.info(`Set ${id} to ${val}`);
+                await adapter.setForeignStateAsync(id, val, true);
+            }
+        } catch {
+            // Ignore error
         }
-    } catch {
-        // Ignore error
     }
     cb && cb();
 }
