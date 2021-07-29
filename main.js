@@ -496,7 +496,8 @@ async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, 
 
         // Event with time
         // Start time >= startpreview && Start time < preview time && End time >= now
-        if ((ev.start >= startpreview && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
+        if ((ev.start < endpreview && ev.start >= startpreview) || (ev.end > startpreview && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
+        // if ((ev.start >= startpreview && ev.start < endpreview && ev.end >= realnow) || (ev.end >= realnow && ev.end <= endpreview) || (ev.start < realnow && ev.end > realnow)) {
             // Add to list only if not hidden
             if (await checkForEvents(reason, ev, realnow)) {
                 date = formatDate(ev.start, ev.end, true, false);
@@ -628,7 +629,7 @@ async function checkForEvents(reason, event, realnow) {
                 // If yet processed
                 if (ev.processed) {
                     // nothing to do
-                    adapter.log.debug('Event ' + ev.name + ' yet processed');
+                    adapter.log.debug('Event ' + ev.name + ' already processed');
                 } else {
                     // Process event
                     ev.processed = true;
