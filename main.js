@@ -669,11 +669,12 @@ function initEvent(name, display, day, type, id, on, off, callback) {
 
     const stateName = 'events.' + day + '.' + (type ? type + '.' : '') + shrinkStateName(name);
 
-    adapter.getState(stateName, (err, state) => {
+    adapter.getState(stateName, async (err, state) => {
         if (err || !state) {
             obj.state = false;
-            adapter.setState(stateName, {val: false, ack: true}, () =>
-                setState(id, off, () => callback && callback(name)));
+            await adapter.setStateAsync(stateName, {val: false, ack: true});
+            await setState(id, off);
+            callback && callback(name)
         } else {
             obj.state = state.val;
             callback && callback(name);
@@ -1239,19 +1240,20 @@ function formatDate(_date, _end, withTime, fullDay) {
     };
 }
 
-function setState(id, val, cb) {
+async function setState(id, val, cb) {
     if (!id) {
         return cb & cb();
     }
-    adapter.getForeignObject(id, (err, obj) => {
-        if (!err && obj) {
+    try {
+        const obj = await adapter.getForeignObjectAsync(id);
+        if (obj) {
             // convert value
             if (obj.common) {
                 if (val === 'null' || val === null || val === undefined) {
                     val = null;
                 } else {
                     if (obj.common.type === 'boolean') {
-                        val = val === true || val === 'true' || val === 1  || val === '1';
+                        val = val === true || val === 'true' || val === 1 || val === '1';
                     } else if (obj.common.type === 'number') {
                         val = parseFloat(val);
                     } else if (obj.common.type === 'string') {
@@ -1260,22 +1262,18 @@ function setState(id, val, cb) {
                 }
             }
 
-            adapter.log.debug(`Set ${id} to ${val}`);
-            adapter.setForeignState(id, val, true, cb);
-        } else {
-            cb && cb();
+            adapter.log.info(`Set ${id} to ${val}`);
+            await adapter.setForeignStateAsync(id, val, true);
         }
-    });
+    } catch {
+        // Ignore error
+    }
+    cb && cb();
 }
 
 // Show event as text
-function displayDates() {
-    let count = 4;
+async function displayDates() {
     const oneDay = 24 * 60 * 60 * 1000;
-
-    const retFunc = function () {
-        !--count && setTimeout(() => adapter.stop(), 5000);
-    };
 
     let todayEventCounter = 0;
     let tomorrowEventCounter = 0;
@@ -1306,32 +1304,33 @@ function displayDates() {
             }
         }
 
-        adapter.setState('data.table', {val: JSON.stringify(datesArray), ack: true}, retFunc);
-        adapter.setState('data.html',  {val: brSeparatedList(datesArray), ack: true}, retFunc);
-        adapter.setState('data.text',  {val: crlfSeparatedList(datesArray), ack: true}, retFunc);
+        await adapter.setStateAsync('data.table', {val: JSON.stringify(datesArray), ack: true});
+        await adapter.setStateAsync('data.html',  {val: brSeparatedList(datesArray), ack: true});
+        await adapter.setStateAsync('data.text',  {val: crlfSeparatedList(datesArray), ack: true});
     } else {
-        adapter.setState('data.table', {val: '[]', ack: true}, retFunc);
-        adapter.setState('data.html',  {val: '', ack: true}, retFunc);
-        adapter.setState('data.text',  {val: '', ack: true}, retFunc);
+        await adapter.setStateAsync('data.table', {val: '[]', ack: true});
+        await adapter.setStateAsync('data.html',  {val: '', ack: true});
+        await adapter.setStateAsync('data.text',  {val: '', ack: true});
     }
 
-    adapter.setState('data.count', {val: todayEventCounter, ack: true}, retFunc);
-    adapter.setState('data.countTomorrow', {val: tomorrowEventCounter, ack: true}, retFunc);
-    adapter.setState('data.countYesterday', {val: yesterdayEventCounter, ack: true}, retFunc);
+    await adapter.setStateAsync('data.count', {val: todayEventCounter, ack: true});
+    await adapter.setStateAsync('data.countTomorrow', {val: tomorrowEventCounter, ack: true});
+    await adapter.setStateAsync('data.countYesterday', {val: yesterdayEventCounter, ack: true});
 
     // set not processed events to false
     for (let j = 0; j < events.length; j++) {
         if (!events[j].processed && events[j].state) {
             const ev = events[j];
-            count++;
             ev.state = false;
             // Set to false
             const name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
             adapter.log.info('Set ' + name + ' to false');
-            adapter.setState(name, {val: false, ack: true}, () =>
-                setState(ev.id, ev.off, retFunc));
+            await adapter.setStateAsync(name, {val: false, ack: true});
+            await setState(ev.id, ev.off);
         }
     }
+
+    setTimeout(() => adapter.stop(), 5000);
 }
 
 function insertSorted(arr, element) {
