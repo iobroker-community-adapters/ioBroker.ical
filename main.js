@@ -1319,7 +1319,7 @@ async function displayDates() {
 
     // set not processed events to false
     for (let j = 0; j < events.length; j++) {
-        adapter.log.debug(`Checking unprocessed event ${j} ${ev.name} = ${events[j].processed}, state = ${events[j].state}`);
+        adapter.log.debug(`Checking unprocessed event ${j} ${events[j].name} = ${events[j].processed}, state = ${events[j].state}`);
         if (!events[j].processed && events[j].state) {
             const ev = events[j];
             ev.state = false;
