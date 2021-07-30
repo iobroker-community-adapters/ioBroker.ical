@@ -27,7 +27,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	### **WORK IN PROGRESS**
 -->
 
-### __WORK IN PROGRESS__
+### 1.11.1 (2021-07-30)
 * (Apollon77) Adjust date length for full day events to the full day
 
 ### 1.11.0 (2021-07-30)

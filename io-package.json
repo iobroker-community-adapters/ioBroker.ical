@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.11.0",
+        "version": "1.11.1",
         "news": {
+            "1.11.1": {
+                "en": "Adjust date length for full day events to the full day",
+                "de": "Passen Sie die Datumslänge für ganztägige Ereignisse an den ganzen Tag an",
+                "ru": "Отрегулируйте длину даты для мероприятий на целый день до полного дня",
+                "pt": "Ajuste a duração da data para eventos de dia inteiro para o dia inteiro",
+                "nl": "Pas de datumlengte voor evenementen van een hele dag aan naar de hele dag",
+                "fr": "Ajuster la durée de la date pour les événements d'une journée complète à la journée complète",
+                "it": "Regola la durata della data per gli eventi dell'intera giornata sull'intera giornata",
+                "es": "Ajustar la duración de la fecha para eventos de día completo al día completo",
+                "pl": "Dostosuj długość daty dla wydarzeń całodniowych do pełnego dnia",
+                "zh-cn": "将全天事件的日期长度调整为全天"
+            },
             "1.11.0": {
                 "en": "Locally cache remote calendars to be used in case of request errors",
                 "de": "Remote-Kalender lokal zwischenspeichern, um bei Anforderungsfehlern verwendet zu werden",
@@ -230,18 +242,6 @@
                 "es": "fijamos una versión de dependencia específica, porque el paquete \"rrule\" está roto",
                 "pl": "przypinamy określoną wersję zależności, ponieważ pakiet „rrule” jest uszkodzony",
                 "zh-cn": "我们固定了特定的依赖版本，因为“ rrule”包已损坏"
-            },
-            "1.7.1": {
-                "en": "Fixed issue with UTC of until in recurring appointments\nFixed possible empty color\nAdded compact mode",
-                "de": "Problem mit UTC von bis in wiederkehrenden Terminen behoben\nMögliche leere Farbe behoben\nKompakter Modus hinzugefügt",
-                "ru": "Исправлена проблема с UTC до повторяющихся встреч\nИсправлен возможный пустой цвет\nДобавлен компактный режим",
-                "pt": "Corrigido o problema com o UTC de até em compromissos recorrentes\nCorrigida possível cor vazia\nAdicionado modo compacto",
-                "nl": "Probleem opgelost met UTC van tot in terugkerende afspraken\nVaste mogelijke lege kleur\nCompact-modus toegevoegd",
-                "fr": "Correction du problème avec UTC de jusqu'à dans les rendez-vous récurrents\nCorrection possible de la couleur vide\nAjout du mode compact",
-                "it": "Risolto il problema con UTC fino a quando in appuntamenti ricorrenti\nRisolto il possibile colore vuoto\nAggiunta modalità compatta",
-                "es": "Solucionado el problema con UTC de hasta en citas recurrentes\nPosible color vacio fijo\nModo compacto agregado",
-                "pl": "Naprawiono problem z UTC przed terminami cyklicznymi\nNaprawiono możliwy pusty kolor\nDodano tryb kompaktowy",
-                "zh-cn": "修复了重复约会中 UTC 的问题\n"
             }
         },
         "title": "iCal Calendar",
