@@ -314,7 +314,10 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
             }
             // aha, it is RRULE in the event --> process it
             if (ev.rrule !== undefined) {
-                const eventLength = ev.end.getTime() - ev.start.getTime();
+                let eventLength = ev.end.getTime() - ev.start.getTime();
+                if (ev.datetype === 'date') {
+                    eventLength = 24 * 60 * 60 * 1000; // if whole day then adjust length
+                }
 
                 const options = RRule.parseString(ev.rrule.toString());
                 adapter.log.debug('options:' + JSON.stringify(options));
