@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.10.2",
+        "version": "1.10.3",
         "news": {
+            "1.10.3": {
+                "en": "(Apollon77/Feuersturm) Fix other timezone issues\nFix setting external States when events are active\nAlso list recurring entries from the past\nFix the event states for the days in future",
+                "de": "(Apollon77/Feuersturm) Andere Zeitzonenprobleme beheben\nFestlegen externer Zustände bei aktiven Ereignissen behoben\nListen Sie auch wiederkehrende Einträge aus der Vergangenheit auf\nKorrigieren Sie die Ereigniszustände für die Tage in der Zukunft",
+                "ru": "(Apollon77 / Feuersturm) Исправить другие проблемы с часовым поясом\nИсправлена установка внешних состояний, когда события активны\nТакже перечислите повторяющиеся записи из прошлого\nИсправьте состояния событий для будущих дней",
+                "pt": "(Apollon77 / Feuersturm) Corrigir outros problemas de fuso horário\nCorreção de configuração de estados externos quando os eventos estão ativos\nTambém liste entradas recorrentes do passado\nCorrija os estados dos eventos para os dias futuros",
+                "nl": "(Apollon77/Feuersturm) Andere tijdzoneproblemen oplossen\nFix instellen van externe statussen wanneer gebeurtenissen actief zijn\nVermeld ook terugkerende items uit het verleden\nCorrigeer de gebeurtenisstatussen voor de komende dagen",
+                "fr": "(Apollon77/Feuersturm) Correction d'autres problèmes de fuseau horaire\nCorrection de la définition d'états externes lorsque les événements sont actifs\nRépertoriez également les entrées récurrentes du passé\nCorrige les états d'événement pour les jours à venir",
+                "it": "(Apollon77/Feuersturm) Risolvi altri problemi relativi al fuso orario\nRisolto il problema con l'impostazione degli stati esterni quando gli eventi sono attivi\nElenca anche le voci ricorrenti del passato\nCorreggi gli stati dell'evento per i giorni futuri",
+                "es": "(Apollon77 / Feuersturm) Soluciona otros problemas de zona horaria\nSe corrigió la configuración de estados externos cuando los eventos están activos\nTambién enumere las entradas recurrentes del pasado\nCorrija los estados del evento para los días futuros.",
+                "pl": "(Apollon77/Feuersturm) Napraw inne problemy ze strefą czasową\nNapraw ustawianie stanów zewnętrznych, gdy zdarzenia są aktywne\nWymień także powtarzające się wpisy z przeszłości\nNapraw stany zdarzeń na dni w przyszłości",
+                "zh-cn": "(Apollon77/Feuersturm) 修复其他时区问题\n修复在事件处于活动状态时设置外部状态\n还列出过去重复出现的条目\n修复未来几天的事件状态"
+            },
             "1.10.2": {
                 "en": "(Apollon77/Feuersturm) Fix wrong times and dates introduced in 1.7.5.\nAllow Setting daysPast to be decreased to zero with button again",
                 "de": "(Apollon77/Feuersturm) Falsche Uhrzeiten und Datumsangaben behoben, die in 1.7.5 eingeführt wurden.\nErlauben Sie Setting daysPast wieder mit der Taste auf Null zu reduzieren",
