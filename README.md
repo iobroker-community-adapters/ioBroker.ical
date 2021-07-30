@@ -27,6 +27,10 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	### **WORK IN PROGRESS**
 -->
 
+### __WORK IN PROGRESS__
+* (Apollon77) Make sure daysPast is correctly initialized if not provided
+* (Apollon77) When no calendar could be read then no events are updated/cleanup
+
 ### 1.10.3 (2021-07-30)
 * (Apollon77/Feuersturm) Fix other timezone issues
 * (Apollon77) Fix setting external States when events are active

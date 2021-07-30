@@ -205,7 +205,7 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
     getICal(urlOrFile, user, pass, sslignore, calName, (err, _data) => {
         if (err || !_data) {
             adapter.log.warn('Error reading "' + urlOrFile + '": ' + err);
-            cb(calName);
+            cb(err, calName);
             return;
         }
 
@@ -238,11 +238,12 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
                         processData(data, realnow, startpreview, endpreview, now2, calName, filter, cb));
                 } else {
                     // Ready with processing
-                    cb(calName);
+                    cb(null, calName);
                 }
             });
         } catch (e) {
             adapter.log.error('Cannot parse ics file: ' + e);
+            cb(err, calName);
         }
     });
 }
@@ -327,8 +328,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                         }
 
                         // Set end date based on length in ms
-                        const end = new Date(ev2.start.getTime() + eventLength);
-                        ev2.end = end;
+                        ev2.end = new Date(ev2.start.getTime() + eventLength);
 
                         adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
 
@@ -375,7 +375,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
         }
     }
     if (!Object.keys(data).length) {
-        cb(calName);
+        cb(null, calName);
     } else {
         setImmediate(() =>
             processData(data, realnow, startpreview, endpreview, now2, calName, filter, cb));
@@ -905,6 +905,7 @@ function buildFilter(filter, filterregex) {
 function readAll() {
     datesArray = [];
     let count = 0;
+    let errCnt = 0;
 
     // Set all events as not processed
     for (let j = 0; j < events.length; j++) {
@@ -923,9 +924,17 @@ function readAll() {
                     adapter.config.calendars[i].pass,
                     adapter.config.calendars[i].sslignore,
                     adapter.config.calendars[i].name,
-                    buildFilter(adapter.config.calendars[i].filter, adapter.config.calendars[i].filterregex), () => {
+                    buildFilter(adapter.config.calendars[i].filter, adapter.config.calendars[i].filterregex), (err) => {
+                        if (err) {
+                            errCnt++;
+                        }
                         // If all calendars are processed
                         if (!--count) {
+                            if (errCnt === adapter.config.calendars.length) {
+                                adapter.log.info('All calenders could not be processed, Do not clean up events');
+                                setTimeout(() => adapter.stop(), 5000);
+                                return;
+                            }
                             adapter.log.debug('displaying dates because of callback');
                             displayDates();
                         }
@@ -944,8 +953,14 @@ function readAll() {
 // Read one calendar
 function readOne(url) {
     datesArray = [];
-    checkICal(url, () =>
-        displayDates());
+    checkICal(url, (err) => {
+        if (err) {
+            adapter.log.info('Calender could not be processed, Do not clean up events.');
+            setTimeout(() => adapter.stop(), 5000);
+            return;
+        }
+        displayDates();
+    });
 }
 
 function formatDate(_date, _end, withTime, fullDay) {
@@ -1429,6 +1444,7 @@ function main() {
     normal  = '<span style="font-weight: bold' + (adapter.config.defColor ? ('; color: ' + adapter.config.defColor) : '') + '"><span class="icalNormal">';
 
     adapter.config.language = adapter.config.language || 'en';
+    adapter.config.daysPast = parseInt(adapter.config.daysPast) || 0;
 
     adapter.log.info('Use Timezone: ' + moment.tz.guess() + ' / ' + JSON.stringify(moment.tz.zone(moment.tz.guess())));
 
