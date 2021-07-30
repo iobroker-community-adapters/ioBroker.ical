@@ -187,9 +187,14 @@ function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
 
         // Call library function with the "auth object" and credentials provided
         request(options, (err, r, _data) => {
-            if (err || !_data) {
-                adapter.log.warn('Error reading from URL "' + urlOrFile + '": ' + ((err && err.code === 'ENOTFOUND') ? 'address not found!' : err));
-                cb && cb(err || 'Cannot read URL: "' + urlOrFile + '"');
+            if (err || !_data || (r && r.statusCode !== 200)) {
+                if (err) {
+                    adapter.log.warn('Error reading from URL "' + urlOrFile + '": ' + ((err && err.code === 'ENOTFOUND') ? 'address not found!' : err));
+                    return cb && cb(err || 'Cannot read URL: "' + urlOrFile + '"');
+                } else if (r) {
+                    adapter.log.warn('Error reading from URL "' + urlOrFile + '": Server responded HTTP-Statuscode=' + r.statusCode + ': ' + _data);
+                    cb && cb('Cannot read URL: "' + urlOrFile + '" HTTP-Status ' + r.statusCode);
+                }
             } else {
                 cb && cb(null, _data);
             }

@@ -30,6 +30,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 ### __WORK IN PROGRESS__
 * (Apollon77) Make sure daysPast is correctly initialized if not provided
 * (Apollon77) When no calendar could be read then no events are updated/cleanup
+* (Apollon77) Respect HTTP statuscode from server response too to detect errors
 
 ### 1.10.3 (2021-07-30)
 * (Apollon77/Feuersturm) Fix other timezone issues
