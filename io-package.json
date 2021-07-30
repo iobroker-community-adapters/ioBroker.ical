@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.10.3",
+        "version": "1.10.4",
         "news": {
+            "1.10.4": {
+                "en": "Make sure daysPast is correctly initialized if not provided\nWhen no calendar could be read then no events are updated/cleanup\nRespect HTTP statuscode from server response too to detect errors",
+                "de": "Stellen Sie sicher, dass daysPast korrekt initialisiert ist, wenn nicht angegeben\nWenn kein Kalender gelesen werden konnte, werden keine Ereignisse aktualisiert / bereinigt\nRespektieren Sie den HTTP-Statuscode auch aus der Serverantwort, um Fehler zu erkennen",
+                "ru": "Убедитесь, что daysPast правильно инициализирован, если не указан\nЕсли календарь не читается, события не обновляются / не очищаются.\nУважайте код состояния HTTP из ответа сервера, чтобы обнаруживать ошибки",
+                "pt": "Certifique-se de que daysPast foi inicializado corretamente, caso não seja fornecido\nQuando nenhum calendário pode ser lido, nenhum evento é atualizado / limpo\nRespeite o código de status HTTP da resposta do servidor também para detectar erros",
+                "nl": "Zorg ervoor dat daysPast correct is geïnitialiseerd als dit niet is opgegeven\nAls er geen kalender kan worden gelezen, worden er geen evenementen bijgewerkt/opgeruimd\nRespecteer ook de HTTP-statuscode van de serverreactie om fouten te detecteren",
+                "fr": "Assurez-vous que daysPast est correctement initialisé s'il n'est pas fourni\nLorsqu'aucun calendrier n'a pu être lu, aucun événement n'est mis à jour/nettoyé\nRespectez également le code d'état HTTP de la réponse du serveur pour détecter les erreurs",
+                "it": "Assicurati che daysPast sia inizializzato correttamente se non fornito\nQuando nessun calendario può essere letto, nessun evento viene aggiornato/pulito\nRispetta il codice di stato HTTP anche dalla risposta del server per rilevare gli errori",
+                "es": "Asegúrese de que daysPast se haya inicializado correctamente si no se proporciona\nCuando no se puede leer ningún calendario, no se actualizan / limpian eventos\nRespete el código de estado HTTP de la respuesta del servidor también para detectar errores",
+                "pl": "Upewnij się, że daysPast jest poprawnie zainicjowany, jeśli nie został podany\nGdy nie można odczytać żadnego kalendarza, żadne wydarzenia nie są aktualizowane/czyszczone\nPrzestrzegaj również kodu statusu HTTP z odpowiedzi serwera, aby wykryć błędy",
+                "zh-cn": "如果未提供，请确保 daysPast 已正确初始化\n当无法读取日历时，则不会更新/清理事件\n也尊重来自服务器响应的 HTTP 状态码以检测错误"
+            },
             "1.10.3": {
                 "en": "(Apollon77/Feuersturm) Fix other timezone issues\nFix setting external States when events are active\nAlso list recurring entries from the past\nFix the event states for the days in future",
                 "de": "(Apollon77/Feuersturm) Andere Zeitzonenprobleme beheben\nFestlegen externer Zustände bei aktiven Ereignissen behoben\nListen Sie auch wiederkehrende Einträge aus der Vergangenheit auf\nKorrigieren Sie die Ereigniszustände für die Tage in der Zukunft",
@@ -230,18 +242,6 @@
                 "es": "Añadir opción de filtro\nAñadir soporte de eventos para el período de fecha configurado; nombres de estado cambiados de 'eventos. *' a 'eventos.0.today. *'\nAgregar recuento de eventos para mañana: estado 'data.countTomorrow'\nLos eventos sin parte de la hora y el mismo inicio y final se interpretan como eventos de día completo\nEliminar caracteres especiales de estados de evento",
                 "pl": "Dodaj opcję filtru\nDodaj obsługę zdarzeń dla skonfigurowanego okresu daty; zmieniono nazwy stanów z \"events. *\" na \"events.0.today. *\"\nDodaj liczbę zdarzeń do jutra - stan \"data.countTomorrow\"\nZdarzenia bez części czasowej oraz ten sam początek i koniec są interpretowane jako wydarzenia całodniowe\nUsuń znaki specjalne ze stanów zdarzeń",
                 "zh-cn": "添加过滤选项\n"
-            },
-            "1.6.6": {
-                "en": "Fixed html for disabled colorize\nFixed timezone handling for events during change from daylight saving time back to standard time\nFixed: events without end date moved to different day",
-                "de": "Falsches HTML bei deaktivierten Farben behoben\nZeitzonenbehandlung für Ereignisse beim Wechsel von Sommer- auf Winterzeit behoben\nBehoben: Ereignisse ohne Enddatum wurden an einen anderen Tag verschoben",
-                "ru": "Исправлен неверный HTML с деактивированными цветами\nИсправлена обработка часовых поясов для событий при смене с лета на зимнее время\nИсправлено: события без даты окончания переместились на другой день",
-                "pt": "Corrigido HTML incorreto com cores desativadas.\nCorrigido o tratamento de fuso horário para eventos ao mudar do horário de verão para o horário de inverno.\nCorrigido: eventos sem data de término movidos para outro dia",
-                "nl": "Foutieve HTML opgelost met gedeactiveerde kleuren\nVaste tijdzoneafhandeling voor gebeurtenissen bij het wisselen van zomer- naar wintertijd\nOpgelost: evenementen zonder einddatum verplaatst naar een andere dag",
-                "fr": "Correction du code HTML incorrect avec les couleurs désactivées\nCorrection du traitement du fuseau horaire pour les événements lors du passage de l'heure d'été à l'heure d'hiver\nCorrigé: événements sans date de fin déplacés vers un jour différent",
-                "it": "Risolto problema con l'HTML non corretto con i colori disattivati\nGestione del fuso orario fissa per eventi durante il passaggio dall'ora legale all'ora solare\nRisolto: eventi senza data di fine spostati in giorni diversi",
-                "es": "Se corrigió el HTML incorrecto con colores desactivados.\nManejo de zona horaria fija para eventos cuando se cambia de verano a invierno\nCorregido: los eventos sin fecha de finalización se trasladaron a otro día.",
-                "pl": "Naprawiono nieprawidłowy kod HTML z wyłączonymi kolorami\nNaprawiono obsługę strefy czasowej zdarzeń podczas zmiany czasu z letniego na zimowy\nNaprawiono: zdarzenia bez daty zakończenia przeniesione do innego dnia",
-                "zh-cn": "修复了禁用着色的 html\n"
             }
         },
         "title": "iCal Calendar",
