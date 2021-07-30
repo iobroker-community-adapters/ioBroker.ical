@@ -19,9 +19,11 @@ const RRule       = require('rrule').RRule;
 const ical        = require('node-ical');
 const ce          = require('cloneextend');
 const moment      = require('moment-timezone');
+const crypto      = require('crypto');
+const fs          = require('fs');
+const path        = require('path');
 const adapterName = require('./package.json').name.split('.').pop();
-let request;
-let fs;
+const request     = require('request');
 let adapter;
 
 function startAdapter(options) {
@@ -154,7 +156,6 @@ Date.prototype.compare = function(b) {
 function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
     // Is it file or URL
     if (!urlOrFile.match(/^https?:\/\//)) {
-        fs = fs || require('fs');
         if (!fs.existsSync(urlOrFile)) {
             cb && cb('File does not exist: "' + urlOrFile + '"');
         } else {
@@ -167,7 +168,6 @@ function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
         }
 
     } else {
-        request = request || require('request');
         // Find out whether SSL certificate errors shall be ignored
         const options = {
             uri: urlOrFile
@@ -187,15 +187,40 @@ function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
 
         // Call library function with the "auth object" and credentials provided
         request(options, (err, r, _data) => {
+            const calHash = crypto.createHash('md5').update(user + pass + urlOrFile).digest('hex');
+            const cachedFilename = path.join(__dirname, calHash);
             if (err || !_data || (r && r.statusCode !== 200)) {
+                let cachedContent;
+                let cachedDate;
+                try {
+                    if (fs.existsSync(cachedFilename)) {
+                        cachedContent = fs.readFileSync(cachedFilename, 'utf-8');
+                        const stat = fs.statSync(cachedFilename);
+                        cachedDate = stat.mtime;
+                    }
+                } catch (err) {
+                    adapter.log.info('Cannot read cached calendar file for "' + urlOrFile + '": ' + err.message);
+                }
                 if (err) {
                     adapter.log.warn('Error reading from URL "' + urlOrFile + '": ' + ((err && err.code === 'ENOTFOUND') ? 'address not found!' : err));
-                    return cb && cb(err || 'Cannot read URL: "' + urlOrFile + '"');
+                    if (!cachedContent) {
+                        return cb && cb(err || 'Cannot read URL: "' + urlOrFile + '"');
+                    }
                 } else if (r) {
                     adapter.log.warn('Error reading from URL "' + urlOrFile + '": Server responded HTTP-Statuscode=' + r.statusCode + ': ' + _data);
-                    cb && cb('Cannot read URL: "' + urlOrFile + '" HTTP-Status ' + r.statusCode);
+                    if (!cachedContent) {
+                        return cb && cb('Cannot read URL: "' + urlOrFile + '" HTTP-Status ' + r.statusCode);
+                    }
                 }
+                adapter.log.info('Use cached File content for  for "' + urlOrFile + '" from ' + cachedDate);
+                cb && cb(null, cachedContent);
             } else {
+                try {
+                    fs.writeFileSync(cachedFilename, _data, 'utf-8');
+                    adapter.log.debug('Successfully cached content for calendar "' + urlOrFile + '" as ' + cachedFilename);
+                } catch (err) {
+                    // Ignore
+                }
                 cb && cb(null, _data);
             }
         });
