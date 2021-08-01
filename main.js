@@ -1479,7 +1479,7 @@ function main() {
     adapter.config.language = adapter.config.language || 'en';
     adapter.config.daysPast = parseInt(adapter.config.daysPast) || 0;
 
-    adapter.log.info('Use Timezone: ' + moment.tz.guess() + ' / ' + JSON.stringify(moment.tz.zone(moment.tz.guess())));
+    adapter.log.debug('Use Timezone: ' + moment.tz.guess() + ' / ' + JSON.stringify(moment.tz.zone(moment.tz.guess())));
 
     syncUserEvents(readAll);
 }
