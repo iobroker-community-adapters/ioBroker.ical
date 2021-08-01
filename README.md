@@ -27,7 +27,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	### **WORK IN PROGRESS**
 -->
 
-### __WORK IN PROGRESS__
+### 1.11.2 (2021-08-01)
 * (Apollon77) Change one logline to debug
 
 ### 1.11.1 (2021-07-30)
