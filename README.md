@@ -23,7 +23,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 <!--
-### **WORK IN PROGRESS**
+### 1.11.3 (2021-08-04)
 -->
 
 ### 1.11.2 (2021-08-01)

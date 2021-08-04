@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.11.2",
+        "version": "1.11.3",
         "news": {
+            "1.11.3": {
+                "en": "->",
+                "de": "->",
+                "ru": "->",
+                "pt": "->",
+                "nl": "->",
+                "fr": "->",
+                "it": "->",
+                "es": "->",
+                "pl": "->",
+                "zh-cn": "->"
+            },
             "1.11.2": {
                 "en": "Change one logline to debug",
                 "de": "Ändern Sie eine Protokollzeile in Debug",
@@ -230,18 +242,6 @@
                 "es": "Solo maneja eventos con una fecha de inicio (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nActualice las dependencias, solucione algunos problemas más",
                 "pl": "Obsługuj tylko zdarzenia z datą rozpoczęcia (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nZaktualizuj zależności, napraw więcej problemów",
                 "zh-cn": "仅处理具有开始日期的事件（哨兵IOBROKER-ICAL-1，IOBROKER-ICAL-2，IOBROKER-ICAL-4）\n更新依赖关系，解决更多问题"
-            },
-            "1.7.4": {
-                "en": "Fix multiple parsing",
-                "de": "Mehrfachanalyse korrigieren",
-                "ru": "Исправить множественный разбор",
-                "pt": "Corrigir análise múltipla",
-                "nl": "Herstel meerdere parsing",
-                "fr": "Correction de l'analyse multiple",
-                "it": "Correzione di più analisi",
-                "es": "Corregir análisis múltiple",
-                "pl": "Napraw wielokrotne analizowanie",
-                "zh-cn": "修复多个解析"
             }
         },
         "title": "iCal Calendar",
