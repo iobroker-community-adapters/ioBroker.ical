@@ -14,6 +14,10 @@
     {
       "name": "twonky4",
       "email": "twonky4@gmx.de"
+    },
+    {
+      "name": "jens-maus",
+      "email": "mail@jens-maus.de"
     }
   ],
   "homepage": "https://github.com/iobroker-community-adapters/ioBroker.ical",
@@ -30,7 +34,6 @@
   "dependencies": {
     "@iobroker/adapter-core": "^2.5.1",
     "cloneextend": "^0.0.3",
-    "moment-timezone": "^0.5.33",
     "node-ical": "^0.13.0",
     "request": "^2.88.2",
     "rrule": "^2.6.8"

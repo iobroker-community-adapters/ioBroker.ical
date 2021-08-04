@@ -18,7 +18,6 @@ const utils       = require('@iobroker/adapter-core');
 const RRule       = require('rrule').RRule;
 const ical        = require('node-ical');
 const ce          = require('cloneextend');
-const moment      = require('moment-timezone');
 const crypto      = require('crypto');
 const fs          = require('fs');
 const path        = require('path');
@@ -90,26 +89,26 @@ const preprewarn       = '<span style="font-weight: bold; color: yellow"><span c
 let   datesArray       = [];
 const events           = [];
 const dictionary       = {
-    'today':     {'en': 'Today',             'it': 'Oggi',                      'es': 'Hoy',                   'pl': 'Dzisiaj',                   'fr': 'Aujourd\'hui',              'de': 'Heute',            'ru': 'Сегодня',				'nl': 'Vandaag'},
-    'tomorrow':  {'en': 'Tomorrow',          'it': 'Domani',                    'es': 'Mañana',                'pl': 'Jutro',                     'fr': 'Demain',                    'de': 'Morgen',           'ru': 'Завтра',				'nl': 'Morgen'},
-    'dayafter':  {'en': 'Day After Tomorrow','it': 'Dopodomani',                'es': 'Pasado mañana',         'pl': 'Pojutrze',                  'fr': 'Après demain',              'de': 'Übermorgen',       'ru': 'Послезавтра',			'nl': 'Overmorgen'},
-    '3days':     {'en': 'In 3 days',         'it': 'In 3 giorni',               'es': 'En 3 días',             'pl': 'W 3 dni',                   'fr': 'Dans 3 jours',              'de': 'In 3 Tagen',       'ru': 'Через 2 дня',			'nl': 'Over 3 dagen'},
-    '4days':     {'en': 'In 4 days',         'it': 'In 4 giorni',               'es': 'En 4 días',             'pl': 'W 4 dni',                   'fr': 'Dans 4 jours',              'de': 'In 4 Tagen',       'ru': 'Через 3 дня',			'nl': 'Over 4 dagen'},
-    '5days':     {'en': 'In 5 days',         'it': 'In 5 giorni',               'es': 'En 5 días',             'pl': 'W ciągu 5 dni',             'fr': 'Dans 5 jours',              'de': 'In 5 Tagen',       'ru': 'Через 4 дня',			'nl': 'Over 5 dagen'},
-    '6days':     {'en': 'In 6 days',         'it': 'In 6 giorni',               'es': 'En 6 días',             'pl': 'W ciągu 6 dni',             'fr': 'Dans 6 jours',              'de': 'In 6 Tagen',       'ru': 'Через 5 дней',		'nl': 'Over 6 dagen'},
-    'oneweek':   {'en': 'In one week',       'it': 'In una settimana',          'es': 'En una semana',         'pl': 'W jeden tydzień',           'fr': 'Dans une semaine',          'de': 'In einer Woche',   'ru': 'Через неделю',		'nl': 'Binnen een week'},
-    '1week_left':{'en': 'One week left',     'it': 'Manca una settimana',       'es': 'Queda una semana',      'pl': 'Został jeden tydzień',      'fr': 'Reste une semaine',         'de': 'Noch eine Woche',  'ru': 'Ещё неделя',		    'nl': 'Over een week'},
-    '2week_left':{'en': 'Two weeks left',    'it': 'Due settimane rimaste',     'es': 'Dos semanas restantes', 'pl': 'Zostały dwa tygodnie',      'fr': 'Il reste deux semaines',    'de': 'Noch zwei Wochen', 'ru': 'Ещё две недели',		'nl': 'Over twee weken'},
-    '3week_left':{'en': 'Three weeks left',  'it': 'Tre settimane rimanenti',   'es': 'Tres semanas quedan',   'pl': 'Pozostały trzy tygodnie',   'fr': 'Trois semaines restantes',  'de': 'Noch drei Wochen', 'ru': 'Ещё три недели',	    'nl': 'Over drie weken'},
-    '4week_left':{'en': 'Four weeks left',   'it': 'Quattro settimane rimaste', 'es': 'Cuatro semanas quedan', 'pl': 'Pozostały cztery tygodnie', 'fr': 'Quatre semaines à gauche',  'de': 'Noch vier Wochen', 'ru': 'Ещё три недели',		'nl': 'Over vier weken'},
-    '5week_left':{'en': 'Five weeks left',   'it': 'Cinque settimane rimaste',  'es': 'Quedan cinco semanas',  'pl': 'Pozostało pięć tygodni',    'fr': 'Cinq semaines à gauche',    'de': 'Noch fünf Wochen', 'ru': 'Ещё пять недель',		'nl': 'Over vijf weken'},
-    '6week_left':{'en': 'Six weeks left',    'it': 'Sei settimane a sinistra',  'es': 'Seis semanas restantes','pl': 'Pozostało sześć tygodni',   'fr': 'Six semaines à gauche',     'de': 'Noch sechs Wochen','ru': 'Ещё шесть недель',	'nl': 'Over zes weken'},
-    'left':      {'en': 'left',              'it': 'sinistra',                  'es': 'izquierda',             'pl': 'lewo',                      'fr': 'la gauche',                 'de': ' ',                'ru': 'осталось',			'nl': 'over'},
+    'today':     {'en': 'Today',             'it': 'Oggi',                      'es': 'Hoy',                   'pl': 'Dzisiaj',                   'fr': 'Aujourd\'hui',              'de': 'Heute',            'ru': 'Сегодня',       'nl': 'Vandaag'},
+    'tomorrow':  {'en': 'Tomorrow',          'it': 'Domani',                    'es': 'Mañana',                'pl': 'Jutro',                     'fr': 'Demain',                    'de': 'Morgen',           'ru': 'Завтра',        'nl': 'Morgen'},
+    'dayafter':  {'en': 'Day After Tomorrow','it': 'Dopodomani',                'es': 'Pasado mañana',         'pl': 'Pojutrze',                  'fr': 'Après demain',              'de': 'Übermorgen',       'ru': 'Послезавтра',     'nl': 'Overmorgen'},
+    '3days':     {'en': 'In 3 days',         'it': 'In 3 giorni',               'es': 'En 3 días',             'pl': 'W 3 dni',                   'fr': 'Dans 3 jours',              'de': 'In 3 Tagen',       'ru': 'Через 2 дня',     'nl': 'Over 3 dagen'},
+    '4days':     {'en': 'In 4 days',         'it': 'In 4 giorni',               'es': 'En 4 días',             'pl': 'W 4 dni',                   'fr': 'Dans 4 jours',              'de': 'In 4 Tagen',       'ru': 'Через 3 дня',     'nl': 'Over 4 dagen'},
+    '5days':     {'en': 'In 5 days',         'it': 'In 5 giorni',               'es': 'En 5 días',             'pl': 'W ciągu 5 dni',             'fr': 'Dans 5 jours',              'de': 'In 5 Tagen',       'ru': 'Через 4 дня',     'nl': 'Over 5 dagen'},
+    '6days':     {'en': 'In 6 days',         'it': 'In 6 giorni',               'es': 'En 6 días',             'pl': 'W ciągu 6 dni',             'fr': 'Dans 6 jours',              'de': 'In 6 Tagen',       'ru': 'Через 5 дней',    'nl': 'Over 6 dagen'},
+    'oneweek':   {'en': 'In one week',       'it': 'In una settimana',          'es': 'En una semana',         'pl': 'W jeden tydzień',           'fr': 'Dans une semaine',          'de': 'In einer Woche',   'ru': 'Через неделю',    'nl': 'Binnen een week'},
+    '1week_left':{'en': 'One week left',     'it': 'Manca una settimana',       'es': 'Queda una semana',      'pl': 'Został jeden tydzień',      'fr': 'Reste une semaine',         'de': 'Noch eine Woche',  'ru': 'Ещё неделя',        'nl': 'Over een week'},
+    '2week_left':{'en': 'Two weeks left',    'it': 'Due settimane rimaste',     'es': 'Dos semanas restantes', 'pl': 'Zostały dwa tygodnie',      'fr': 'Il reste deux semaines',    'de': 'Noch zwei Wochen', 'ru': 'Ещё две недели',    'nl': 'Over twee weken'},
+    '3week_left':{'en': 'Three weeks left',  'it': 'Tre settimane rimanenti',   'es': 'Tres semanas quedan',   'pl': 'Pozostały trzy tygodnie',   'fr': 'Trois semaines restantes',  'de': 'Noch drei Wochen', 'ru': 'Ещё три недели',      'nl': 'Over drie weken'},
+    '4week_left':{'en': 'Four weeks left',   'it': 'Quattro settimane rimaste', 'es': 'Cuatro semanas quedan', 'pl': 'Pozostały cztery tygodnie', 'fr': 'Quatre semaines à gauche',  'de': 'Noch vier Wochen', 'ru': 'Ещё три недели',    'nl': 'Over vier weken'},
+    '5week_left':{'en': 'Five weeks left',   'it': 'Cinque settimane rimaste',  'es': 'Quedan cinco semanas',  'pl': 'Pozostało pięć tygodni',    'fr': 'Cinq semaines à gauche',    'de': 'Noch fünf Wochen', 'ru': 'Ещё пять недель',   'nl': 'Over vijf weken'},
+    '6week_left':{'en': 'Six weeks left',    'it': 'Sei settimane a sinistra',  'es': 'Seis semanas restantes','pl': 'Pozostało sześć tygodni',   'fr': 'Six semaines à gauche',     'de': 'Noch sechs Wochen','ru': 'Ещё шесть недель',  'nl': 'Over zes weken'},
+    'left':      {'en': 'left',              'it': 'sinistra',                  'es': 'izquierda',             'pl': 'lewo',                      'fr': 'la gauche',                 'de': ' ',                'ru': 'осталось',      'nl': 'over'},
     'still':     {'en': ' ',                 'it': '',                          'es': '',                      'pl': '',                          'fr': '',                          'de': 'Noch',             'ru': ' ',                   'nl': 'nog'},
     'days':      {'en': 'days',              'it': 'Giorni',                    'es': 'dias',                  'pl': 'dni',                       'fr': 'journées',                  'de': 'Tage',             'ru': 'дней',                'nl': 'dagen'},
-    'day':       {'en': 'day',               'it': 'giorno',                    'es': 'día',                   'pl': 'dzień',                     'fr': 'journée',                   'de': 'Tag',              'ru': 'день',				'nl': 'dag'},
+    'day':       {'en': 'day',               'it': 'giorno',                    'es': 'día',                   'pl': 'dzień',                     'fr': 'journée',                   'de': 'Tag',              'ru': 'день',        'nl': 'dag'},
     'hours':     {'en': 'hours',             'it': 'ore',                       'es': 'horas',                 'pl': 'godziny',                   'fr': 'heures',                    'de': 'Stunden',          'ru': 'часов',               'nl': 'uren'},
-    'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',		            'nl': 'uur'},
+    'hour':      {'en': 'hour',              'it': 'ora',                       'es': 'hora',                  'pl': 'godzina',                   'fr': 'heure',                     'de': 'Stunde',           'ru': 'час',               'nl': 'uur'},
     'minute':    {'en': 'minute',            'it': 'minuto',                    'es': 'minuto',                'pl': 'minuta',                    'fr': 'minute',                    'de': 'Minute',           'ru': 'минута',              'nl': 'minuut'},
     'minutes':   {'en': 'minutes',           'it': 'minuti',                    'es': 'minutos',               'pl': 'minutos',                   'fr': 'minutes',                   'de': 'Minuten',          'ru': 'минуты',              'nl': 'minuten'}
 };
@@ -278,19 +277,6 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
     });
 }
 
-function getTimezoneOffset(date) {
-    let offset = 0;
-    const zone = moment.tz.zone(moment.tz.guess());
-    if(zone && date) {
-        offset = zone.utcOffset(date.getTime());
-        adapter.log.debug('use offset ' + offset + ' for ' + date);
-    } else {
-        adapter.log.warn('no current timzone found: {zone:' + moment.tz.guess() + ', date: ' + date + '}');
-    }
-
-    return offset;
-}
-
 function addOffset(time, offset) {
     return new Date(time.getTime() + (offset * 60 * 1000));
 }
@@ -353,32 +339,44 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                         // use deep-copy otherwise setDate etc. overwrites data from different events
                         let ev2 = ce.clone(ev);
 
-                        // replace date & time for each event in RRule
-                        // convert time back to local times
+                        // we have to move the start time of our clone
+                        // to a time relative to the timezone of the start time
+                        // so that re-currence events are setup correctly and
+                        // that the later exdate check will match correctly.
                         ev2.start = dates[i];
                         if (ev.datetype === 'date') {
-                            ev2.start = addOffset(ev2.start, getTimezoneOffset(ev2.start));
+                            // make sure to set the time to 00:00:00 so that
+                            // this event will be recognized as a date event
+                            ev2.start.setHours(0,0,0,0);
+                        } else if (ev.datetype === 'date-time') {
+                            // add a time offset which is relative between
+                            // ev2 and ev because rrule seems to return dates in
+                            // local time only. And if not correctly the exdate
+                            // check later will not work correctly.
+                            ev2.start = addOffset(ev2.start, ev2.start.getTimezoneOffset() - ev.start.getTimezoneOffset());
                         }
 
                         // Set end date based on length in ms
                         ev2.end = new Date(ev2.start.getTime() + eventLength);
-
-                        adapter.log.debug('   ' + i + ': Event (' + JSON.stringify(ev2.exdate) + '):' + ev2.start.toString() + ' ' + ev2.end.toString());
 
                         // we have to check if there is an exdate array
                         // which defines dates that - if matched - should
                         // be excluded.
                         let checkDate = true;
                         if(ev2.exdate) {
+                            adapter.log.debug('   ' + i + ': Event (exdate: ' + JSON.stringify(Object.keys(ev2.exdate)) + '): ' + ev2.start.toString() + ' ' + ev2.end.toString());
                             for(const d in ev2.exdate) {
                                 const dd = new Date(ev2.exdate[d]);
                                 if (dd.getTime() === ev2.start.getTime()) {
                                     checkDate = false;
-                                    adapter.log.debug('   ' + i + ': sort out');
+                                    adapter.log.debug('   ' + i + ': exclude ' + dd.toString());
                                     break;
                                 }
                             }
+                        } else {
+                            adapter.log.debug('   ' + i + ': Event (NO exdate): ' + ev2.start.toString() + ' ' + ev2.end.toString());
                         }
+
                         if (checkDate && ev.recurrences) {
                             for(const dOri in ev.recurrences) {
                                 const d = new Date(dOri);
@@ -635,7 +633,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
 }
 
 async function checkForEvents(reason, event, realnow) {
-	const ignoreCaseInEventname = adapter.config.ignoreCaseInEventname;
+    const ignoreCaseInEventname = adapter.config.ignoreCaseInEventname;
     const oneDay = 24 * 60 * 60 * 1000;
     // show unknown events
     let result = true;
@@ -1478,8 +1476,6 @@ function main() {
 
     adapter.config.language = adapter.config.language || 'en';
     adapter.config.daysPast = parseInt(adapter.config.daysPast) || 0;
-
-    adapter.log.debug('Use Timezone: ' + moment.tz.guess() + ' / ' + JSON.stringify(moment.tz.zone(moment.tz.guess())));
 
     syncUserEvents(readAll);
 }
