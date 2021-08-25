@@ -23,11 +23,15 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ## Changelog
 <!--
-### 1.11.3 (2021-08-04)
+	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
 -->
 
 ### __WORK IN PROGRESS__
 * (Apollon77) fix cases where already ended entries where still listed
+
+### 1.11.3 (2021-08-04)
+* (JensMaus) fixed timezone related handling
 
 ### 1.11.2 (2021-08-01)
 * (Apollon77) Change one logline to debug
