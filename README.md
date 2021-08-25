@@ -29,6 +29,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ### __WORK IN PROGRESS__
 * (Apollon77) fix cases where already ended entries where still listed
+* (Apollon77) fix reported sentry crash cases (IOBROKER-ICAL-S, IOBROKER-ICAL-N)
 
 ### 1.11.3 (2021-08-04)
 * (JensMaus) fixed timezone related handling

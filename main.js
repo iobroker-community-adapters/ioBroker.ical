@@ -24,6 +24,7 @@ const path        = require('path');
 const adapterName = require('./package.json').name.split('.').pop();
 const request     = require('request');
 let adapter;
+let stopped       = false;
 
 function startAdapter(options) {
     options = options || {};
@@ -68,6 +69,7 @@ function startAdapter(options) {
             }
         },
         unload: function (callback) {
+            stopped = true;
             callback();
         },
         ready: function () {
@@ -227,11 +229,13 @@ function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
 }
 
 function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
+    if (stopped) return;
     if (typeof user === 'function') {
         cb = user;
         user = undefined;
     }
     getICal(urlOrFile, user, pass, sslignore, calName, (err, _data) => {
+        if (stopped) return;
         if (err || !_data) {
             adapter.log.warn('Error reading "' + urlOrFile + '": ' + err);
             cb(err, calName);
@@ -242,6 +246,7 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
 
         try {
             ical.parseICS(_data, (err, data) => {
+                if (stopped) return;
                 if (data) {
                     adapter.log.info('processing URL: ' + calName + ' ' + urlOrFile);
                     adapter.log.debug(JSON.stringify(data));
@@ -282,9 +287,8 @@ function addOffset(time, offset) {
 }
 
 async function processData(data, realnow, startpreview, endpreview, now2, calName, filter, cb) {
+    if (stopped) return;
     let processedEntries = 0;
-    // TODO: next line unused - remove or use?
-    let defaultTimezone;
     for (const k in data) {
         const ev = data[k];
         delete data[k];
@@ -415,7 +419,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
 
 async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, filter) {
     let fullDay = false;
-    let isPrivate = false;
+    let isPrivate;
     let reason;
     let date;
 
@@ -733,6 +737,7 @@ function syncUserEvents(callback) {
 
     // Read all actual events
     adapter.getStatesOf('', 'events', async (err, states) => {
+        if (stopped) return;
         const toAdd = [];
         const toDel = [];
 
@@ -817,8 +822,9 @@ function syncUserEvents(callback) {
                             }
 
                             // if settings does not changed
-                            if (states[j].native.enabled == event.enabled &&
-                                states[j].native.display == event.display) {
+                            if (states[j].native &&
+                                states[j].native.enabled === event.enabled &&
+                                states[j].native.display === event.display) {
                                 // remove it from "toAdd"
                                 removeFromToAdd(removeNameSpace(states[j]._id));
                             }
@@ -1318,6 +1324,7 @@ async function setState(id, val, cb) {
 
 // Show event as text
 async function displayDates() {
+    if (stopped) return;
     const oneDay = 24 * 60 * 60 * 1000;
 
     let todayEventCounter = 0;
@@ -1331,7 +1338,7 @@ async function displayDates() {
     const yesterday = new Date(today.getTime() - oneDay);
 
     const dayAfterTomorrow = new Date(tomorrow.getTime() + oneDay);
-    const dayBeforeYesterday = new Date(yesterday.getTime() - oneDay);
+    //const dayBeforeYesterday = new Date(yesterday.getTime() - oneDay);
 
     if (datesArray.length) {
         for (let t = 0; t < datesArray.length; t++) {
