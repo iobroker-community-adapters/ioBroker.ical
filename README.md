@@ -26,6 +26,9 @@ Siehe deutsche [Version hier](docs/de/README.md).
 ### 1.11.3 (2021-08-04)
 -->
 
+### __WORK IN PROGRESS__
+* (Apollon77) fix cases where already ended entries where still listed
+
 ### 1.11.2 (2021-08-01)
 * (Apollon77) Change one logline to debug
 
