@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "ical",
-        "version": "1.11.3",
+        "version": "1.11.4",
         "news": {
+            "1.11.4": {
+                "en": "fix cases where already ended entries where still listed\nfix reported sentry crash cases (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+                "de": "Fälle beheben, in denen bereits beendete Einträge noch aufgelistet wurden\ngemeldete Sentry-Crash-Fälle beheben (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+                "ru": "исправить случаи, когда уже законченные записи все еще перечислены\nисправить зарегистрированные случаи аварийного завершения работы часового (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+                "pt": "corrigir casos em que entradas já encerradas e ainda listadas\ncorrigir casos relatados de acidentes de sentinela (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+                "nl": "repareer gevallen waarin reeds beëindigde vermeldingen nog steeds worden vermeld\nrepareer gerapporteerde crashgevallen van schildwachten (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+                "fr": "corriger les cas où les entrées déjà terminées étaient toujours répertoriées\ncorrection des cas de plantage de sentinelle signalés (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+                "it": "correggere i casi in cui le voci già terminate erano ancora elencate\ncorreggere i casi di crash di sentinella segnalati (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+                "es": "Corregir casos en los que las entradas ya finalizadas todavía estaban en la lista.\narreglar casos de accidentes de centinela notificados (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+                "pl": "napraw przypadki, w których już zakończone wpisy były nadal wymienione\nnaprawiono zgłoszone przypadki awarii wartowników (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+                "zh-cn": "修复已经结束的条目仍然列出的情况\n修复报告的哨兵崩溃案例（IOBROKER-ICAL-S、IOBROKER-ICAL-N）"
+            },
             "1.11.3": {
                 "en": "->",
                 "de": "->",
@@ -230,18 +242,6 @@
                 "es": "Se movieron las opciones html a una pestaña separada\nOpción agregada para ocultar la \"flecha\" para ejecutar eventos\nCaracterística agregada para incluir eventos pasados (en días)",
                 "pl": "Przeniesiono opcje html na oddzielną kartę\nDodano opcję ukrywania „strzałki” podczas imprez biegowych\nDodano funkcję umożliwiającą uwzględnienie przeszłych wydarzeń (w dniach)",
                 "zh-cn": "将html选项移动到单独的选项卡\n添加了隐藏“箭头”以运行事件的选项\n添加功能以包括过去的事件（以天为单位）"
-            },
-            "1.7.5": {
-                "en": "Only handle events with a start date (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nUpdate dependencies, fix some more issues",
-                "de": "Behandeln Sie Ereignisse nur mit einem Startdatum (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4).\nAktualisieren Sie Abhängigkeiten und beheben Sie weitere Probleme",
-                "ru": "Обрабатывать только события с датой начала (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nОбновите зависимости, исправьте еще несколько проблем",
-                "pt": "Trate apenas eventos com data de início (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nAtualize dependências, corrija mais alguns problemas",
-                "nl": "Behandel alleen gebeurtenissen met een startdatum (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nWerk de afhankelijkheden bij, los nog wat problemen op",
-                "fr": "Gérer uniquement les événements avec une date de début (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nMettre à jour les dépendances, résoudre d'autres problèmes",
-                "it": "Gestisci solo eventi con una data di inizio (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nAggiorna le dipendenze, risolvi altri problemi",
-                "es": "Solo maneja eventos con una fecha de inicio (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nActualice las dependencias, solucione algunos problemas más",
-                "pl": "Obsługuj tylko zdarzenia z datą rozpoczęcia (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)\nZaktualizuj zależności, napraw więcej problemów",
-                "zh-cn": "仅处理具有开始日期的事件（哨兵IOBROKER-ICAL-1，IOBROKER-ICAL-2，IOBROKER-ICAL-4）\n更新依赖关系，解决更多问题"
             }
         },
         "title": "iCal Calendar",
