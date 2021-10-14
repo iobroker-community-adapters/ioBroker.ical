@@ -1,20 +1,18 @@
 ![Logo](admin/ical.png)
-# ioBroker iCal adapter
+# ioBroker.ical
 
-[![Build Status](https://travis-ci.org/ioBroker/ioBroker.ical.svg?branch=master)](https://travis-ci.org/ioBroker/ioBroker.ical)
-![Number of Installations](http://iobroker.live/badges/ical-installed.svg) ![Number of Installations](http://iobroker.live/badges/ical-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
+![Number of Installations](http://iobroker.live/badges/ical-installed.svg)
+![Number of Installations](http://iobroker.live/badges/ical-stable.svg)
+[![NPM version](http://img.shields.io/npm/v/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
+
+![Test and Release](https://github.com/iobroker-community-adapters/ioBroker.ical/workflows/Test%20and%20Release/badge.svg)
+[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/ical/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
-[![Github Issues](http://githubbadges.herokuapp.com/ioBroker/ioBroker.ical/issues.svg)](https://github.com/ioBroker/ioBroker.ical/issues)
-
-[![NPM](https://nodei.co/npm/iobroker.ical.png?downloads=true)](https://nodei.co/npm/iobroker.ical/)
-
-**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
 This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal). 
 Alternatively it is possible to use a local `.ics` file (use absolute path to the file instead of URL)
 
 Read english [here](docs/en/README.md).
-
 Siehe deutsche [Version hier](docs/de/README.md).
 
 **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
@@ -24,6 +22,88 @@ Siehe deutsche [Version hier](docs/de/README.md).
 * fix timezone stuff in tests
 
 ## Changelog
+<!--
+	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
+-->
+
+### 1.11.4 (2021-09-02)
+* (Apollon77) fix cases where already ended entries where still listed
+* (Apollon77) fix reported sentry crash cases (IOBROKER-ICAL-S, IOBROKER-ICAL-N)
+
+### 1.11.3 (2021-08-04)
+* (JensMaus) fixed timezone related handling
+
+### 1.11.2 (2021-08-01)
+* (Apollon77) Change one logline to debug
+
+### 1.11.1 (2021-07-30)
+* (Apollon77) Adjust date length for full day events to the full day
+
+### 1.11.0 (2021-07-30)
+* (Apollon77) Locally cache remote calendars to be used in case of request errors
+
+### 1.10.4 (2021-07-30)
+* (Apollon77) Make sure daysPast is correctly initialized if not provided
+* (Apollon77) When no calendar could be read then no events are updated/cleanup
+* (Apollon77) Respect HTTP statuscode from server response too to detect errors
+
+### 1.10.3 (2021-07-30)
+* (Apollon77/Feuersturm) Fix other timezone issues
+* (Apollon77) Fix setting external States when events are active
+* (Apollon77) Also list recurring entries from the past
+* (Apollon77) Fix the event states for the days in future
+
+### 1.10.2 (2021-07-25)
+* (Apollon77/Feuersturm) Fix wrong times and dates introduced in 1.7.5.
+* (Feuersturm) Allow Setting daysPast to be decreased to zero with button again
+
+### 1.10.1 (2021-07-22)
+* (Apollon77) Make sure all Event objects are created before values are written
+
+### 1.10.0 (2021-07-16)
+* IMPORTANT: data.table is now a stringified array!! Consider when using this value!
+* (Apollon77) Optimize for js-controller 3.3
+* (BasGo) added analysis for events marked as private in Google Calendar
+* (jens-maus) updated dependencies
+
+### 1.9.3 (2021-04-01)
+* (Apollon77) Better handling of some ical cases 
+
+### 1.9.2 (2021-03-07)
+* (Apollon77) Prevent crash case when summary is not provided (Sentry IOBROKER-ICAL-K)
+
+### 1.9.1 (2021-01-30)
+* (Apollon77) try to make sure all code is executed before adapter is ended
+
+### 1.9.0 (2021-01-12)
+* (christofkac) Added option to ignore case when events are searched in calendars
+* (Apollon77) Prevent crash case (Sentry IOBROKER-ICAL-F)
+
+### 1.8.5 (2021-01-01)
+* (Apollon77) update ical library to prevent problems with RRULE parsing
+
+### 1.8.4 (2020-12-27)
+* (Apollon77) Prevent crash case (Sentry IOBROKER-ICAL-D)
+
+### 1.8.3 (2020-12-24)
+* (Apollon77) Prevent crash case (Sentry IOBROKER-ICAL-C)
+* (Apollon77) Upgrade node-ical
+
+### 1.8.2 (2020-11-29)
+* (klein0r) Several fixes and optimizations
+
+### 1.8.1 (2020-11-20)
+* (klein0r) Fixed past event calculation in html view
+
+### 1.8.0 (2020-11-14)
+* (klein0r) Moved html options to separate tab
+* (klein0r) Added option to hide "arrow" on for running events
+* (klein0r) Added feature to include past events (in days)
+
+### 1.7.5 (2020-11-08)
+* (Apollon77) Only handle events with a start date (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)
+* (JensMaus) Update dependencies, fix some more issues
 
 ### 1.7.4 (2020-08-26)
 * (Apollon77) Fix multiple parsing
@@ -164,7 +244,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2020, bluefox <dogafox@gmail.com>
+Copyright (c) 2014-2021, bluefox <dogafox@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
