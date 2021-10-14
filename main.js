@@ -456,7 +456,8 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
                     location: location,
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName,
-                    _calColor: adapter.config.calendars.find(x => x.name === calName).color
+                    _calColor: adapter.config.calendars.find(x => x.name === calName).color,
+		    _object: ev
                 });
 
                 adapter.log.debug('Event (full day) added : ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
@@ -489,7 +490,8 @@ function checkDates(ev, endpreview, today, realnow, rule, calName, filter) {
                     location: location,
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName,
-                    _calColor: adapter.config.calendars.find(x => x.name === calName).color
+                    _calColor: adapter.config.calendars.find(x => x.name === calName).color,
+		    _object: ev
                 });
                 adapter.log.debug('Event with time added: ' + JSON.stringify(rule) + ' ' + reason + ' at ' + date.text);
             } else {
@@ -1302,6 +1304,7 @@ function insertSorted(arr, element) {
 
 function brSeparatedList(datesArray) {
     let text     = '';
+    let apptmBlock = '';
     const today    = new Date();
     const tomorrow = new Date();
     const dayAfter = new Date();
@@ -1321,13 +1324,23 @@ function brSeparatedList(datesArray) {
                 break;
             }
         }
-
+	  
+        var apptmColor = color;
+    
+        if (datesArray[i]._object['color'] != undefined) {
+            apptmColor = datesArray[i]._object['color'];
+        }
+	      
+	      if (adapter.config.addColorBox) {
+            apptmBlock = '<span style="background: ' + apptmColor + ';">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;';
+	      }
+	      
         const xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayAfter, color, datesArray[i]._calName);
 
         if (text) {
             text += '<br/>\n';
         }
-        text += xfix.prefix + date.text + xfix.suffix + ' ' + datesArray[i].event + '</span>' + (adapter.config.colorize ? '</span>' : '');
+        text += xfix.prefix + apptmBlock + date.text + xfix.suffix + ' ' + datesArray[i].event + '</span>' + (adapter.config.colorize ? '</span>' : '');
     }
 
     return text;
