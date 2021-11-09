@@ -27,6 +27,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	### **WORK IN PROGRESS**
 -->
 ### __WORK IN PROGRESS__
+* (jens-maus) updated node-ical to latest 0.14.1
 * (jens-maus) fix another issue where an already ended event is still listed
 
 ### 1.11.4 (2021-09-02)
