@@ -1,496 +1,340 @@
 {
-    "common": {
-        "name": "ical",
-        "version": "1.11.4",
-        "news": {
-            "1.11.4": {
-                "en": "fix cases where already ended entries where still listed\nfix reported sentry crash cases (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
-                "de": "Fälle beheben, in denen bereits beendete Einträge noch aufgelistet wurden\ngemeldete Sentry-Crash-Fälle beheben (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
-                "ru": "исправить случаи, когда уже законченные записи все еще перечислены\nисправить зарегистрированные случаи аварийного завершения работы часового (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
-                "pt": "corrigir casos em que entradas já encerradas e ainda listadas\ncorrigir casos relatados de acidentes de sentinela (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
-                "nl": "repareer gevallen waarin reeds beëindigde vermeldingen nog steeds worden vermeld\nrepareer gerapporteerde crashgevallen van schildwachten (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
-                "fr": "corriger les cas où les entrées déjà terminées étaient toujours répertoriées\ncorrection des cas de plantage de sentinelle signalés (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
-                "it": "correggere i casi in cui le voci già terminate erano ancora elencate\ncorreggere i casi di crash di sentinella segnalati (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
-                "es": "Corregir casos en los que las entradas ya finalizadas todavía estaban en la lista.\narreglar casos de accidentes de centinela notificados (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
-                "pl": "napraw przypadki, w których już zakończone wpisy były nadal wymienione\nnaprawiono zgłoszone przypadki awarii wartowników (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
-                "zh-cn": "修复已经结束的条目仍然列出的情况\n修复报告的哨兵崩溃案例（IOBROKER-ICAL-S、IOBROKER-ICAL-N）"
-            },
-            "1.11.3": {
-                "en": "->",
-                "de": "->",
-                "ru": "->",
-                "pt": "->",
-                "nl": "->",
-                "fr": "->",
-                "it": "->",
-                "es": "->",
-                "pl": "->",
-                "zh-cn": "->"
-            },
-            "1.11.2": {
-                "en": "Change one logline to debug",
-                "de": "Ändern Sie eine Protokollzeile in Debug",
-                "ru": "Измените одну строку журнала для отладки",
-                "pt": "Alterar uma linha de log para depurar",
-                "nl": "Eén loglijn wijzigen om te debuggen",
-                "fr": "Changer une ligne de connexion pour déboguer",
-                "it": "Cambia una logline in debug",
-                "es": "Cambiar un logline para depurar",
-                "pl": "Zmień jeden logline na debugowanie",
-                "zh-cn": "更改一个日志行以进行调试"
-            },
-            "1.11.1": {
-                "en": "Adjust date length for full day events to the full day",
-                "de": "Passen Sie die Datumslänge für ganztägige Ereignisse an den ganzen Tag an",
-                "ru": "Отрегулируйте длину даты для мероприятий на целый день до полного дня",
-                "pt": "Ajuste a duração da data para eventos de dia inteiro para o dia inteiro",
-                "nl": "Pas de datumlengte voor evenementen van een hele dag aan naar de hele dag",
-                "fr": "Ajuster la durée de la date pour les événements d'une journée complète à la journée complète",
-                "it": "Regola la durata della data per gli eventi dell'intera giornata sull'intera giornata",
-                "es": "Ajustar la duración de la fecha para eventos de día completo al día completo",
-                "pl": "Dostosuj długość daty dla wydarzeń całodniowych do pełnego dnia",
-                "zh-cn": "将全天事件的日期长度调整为全天"
-            },
-            "1.11.0": {
-                "en": "Locally cache remote calendars to be used in case of request errors",
-                "de": "Remote-Kalender lokal zwischenspeichern, um bei Anforderungsfehlern verwendet zu werden",
-                "ru": "Локальное кеширование удаленных календарей для использования в случае ошибок запроса",
-                "pt": "Armazenar em cache localmente calendários remotos para serem usados em caso de erros de solicitação",
-                "nl": "Lokaal cachen van externe agenda's om te gebruiken in het geval van verzoekfouten",
-                "fr": "Cachez localement les calendriers distants à utiliser en cas d'erreurs de demande",
-                "it": "Cache locali calendari remoti da utilizzare in caso di errori di richiesta",
-                "es": "Almacene en caché localmente los calendarios remotos para usarlos en caso de errores de solicitud",
-                "pl": "Lokalnie buforuj zdalne kalendarze, które mają być używane w przypadku błędów żądań",
-                "zh-cn": "本地缓存远程日历以备请求错误时使用"
-            },
-            "1.10.4": {
-                "en": "Make sure daysPast is correctly initialized if not provided\nWhen no calendar could be read then no events are updated/cleanup\nRespect HTTP statuscode from server response too to detect errors",
-                "de": "Stellen Sie sicher, dass daysPast korrekt initialisiert ist, wenn nicht angegeben\nWenn kein Kalender gelesen werden konnte, werden keine Ereignisse aktualisiert / bereinigt\nRespektieren Sie den HTTP-Statuscode auch aus der Serverantwort, um Fehler zu erkennen",
-                "ru": "Убедитесь, что daysPast правильно инициализирован, если не указан\nЕсли календарь не читается, события не обновляются / не очищаются.\nУважайте код состояния HTTP из ответа сервера, чтобы обнаруживать ошибки",
-                "pt": "Certifique-se de que daysPast foi inicializado corretamente, caso não seja fornecido\nQuando nenhum calendário pode ser lido, nenhum evento é atualizado / limpo\nRespeite o código de status HTTP da resposta do servidor também para detectar erros",
-                "nl": "Zorg ervoor dat daysPast correct is geïnitialiseerd als dit niet is opgegeven\nAls er geen kalender kan worden gelezen, worden er geen evenementen bijgewerkt/opgeruimd\nRespecteer ook de HTTP-statuscode van de serverreactie om fouten te detecteren",
-                "fr": "Assurez-vous que daysPast est correctement initialisé s'il n'est pas fourni\nLorsqu'aucun calendrier n'a pu être lu, aucun événement n'est mis à jour/nettoyé\nRespectez également le code d'état HTTP de la réponse du serveur pour détecter les erreurs",
-                "it": "Assicurati che daysPast sia inizializzato correttamente se non fornito\nQuando nessun calendario può essere letto, nessun evento viene aggiornato/pulito\nRispetta il codice di stato HTTP anche dalla risposta del server per rilevare gli errori",
-                "es": "Asegúrese de que daysPast se haya inicializado correctamente si no se proporciona\nCuando no se puede leer ningún calendario, no se actualizan / limpian eventos\nRespete el código de estado HTTP de la respuesta del servidor también para detectar errores",
-                "pl": "Upewnij się, że daysPast jest poprawnie zainicjowany, jeśli nie został podany\nGdy nie można odczytać żadnego kalendarza, żadne wydarzenia nie są aktualizowane/czyszczone\nPrzestrzegaj również kodu statusu HTTP z odpowiedzi serwera, aby wykryć błędy",
-                "zh-cn": "如果未提供，请确保 daysPast 已正确初始化\n当无法读取日历时，则不会更新/清理事件\n也尊重来自服务器响应的 HTTP 状态码以检测错误"
-            },
-            "1.10.3": {
-                "en": "(Apollon77/Feuersturm) Fix other timezone issues\nFix setting external States when events are active\nAlso list recurring entries from the past\nFix the event states for the days in future",
-                "de": "(Apollon77/Feuersturm) Andere Zeitzonenprobleme beheben\nFestlegen externer Zustände bei aktiven Ereignissen behoben\nListen Sie auch wiederkehrende Einträge aus der Vergangenheit auf\nKorrigieren Sie die Ereigniszustände für die Tage in der Zukunft",
-                "ru": "(Apollon77 / Feuersturm) Исправить другие проблемы с часовым поясом\nИсправлена установка внешних состояний, когда события активны\nТакже перечислите повторяющиеся записи из прошлого\nИсправьте состояния событий для будущих дней",
-                "pt": "(Apollon77 / Feuersturm) Corrigir outros problemas de fuso horário\nCorreção de configuração de estados externos quando os eventos estão ativos\nTambém liste entradas recorrentes do passado\nCorrija os estados dos eventos para os dias futuros",
-                "nl": "(Apollon77/Feuersturm) Andere tijdzoneproblemen oplossen\nFix instellen van externe statussen wanneer gebeurtenissen actief zijn\nVermeld ook terugkerende items uit het verleden\nCorrigeer de gebeurtenisstatussen voor de komende dagen",
-                "fr": "(Apollon77/Feuersturm) Correction d'autres problèmes de fuseau horaire\nCorrection de la définition d'états externes lorsque les événements sont actifs\nRépertoriez également les entrées récurrentes du passé\nCorrige les états d'événement pour les jours à venir",
-                "it": "(Apollon77/Feuersturm) Risolvi altri problemi relativi al fuso orario\nRisolto il problema con l'impostazione degli stati esterni quando gli eventi sono attivi\nElenca anche le voci ricorrenti del passato\nCorreggi gli stati dell'evento per i giorni futuri",
-                "es": "(Apollon77 / Feuersturm) Soluciona otros problemas de zona horaria\nSe corrigió la configuración de estados externos cuando los eventos están activos\nTambién enumere las entradas recurrentes del pasado\nCorrija los estados del evento para los días futuros.",
-                "pl": "(Apollon77/Feuersturm) Napraw inne problemy ze strefą czasową\nNapraw ustawianie stanów zewnętrznych, gdy zdarzenia są aktywne\nWymień także powtarzające się wpisy z przeszłości\nNapraw stany zdarzeń na dni w przyszłości",
-                "zh-cn": "(Apollon77/Feuersturm) 修复其他时区问题\n修复在事件处于活动状态时设置外部状态\n还列出过去重复出现的条目\n修复未来几天的事件状态"
-            },
-            "1.10.2": {
-                "en": "(Apollon77/Feuersturm) Fix wrong times and dates introduced in 1.7.5.\nAllow Setting daysPast to be decreased to zero with button again",
-                "de": "(Apollon77/Feuersturm) Falsche Uhrzeiten und Datumsangaben behoben, die in 1.7.5 eingeführt wurden.\nErlauben Sie Setting daysPast wieder mit der Taste auf Null zu reduzieren",
-                "ru": "(Apollon77 / Feuersturm) Исправьте неправильное время и дату, введенные в 1.7.5.\nРазрешить уменьшению Setting daysPast до нуля с помощью кнопки снова",
-                "pt": "(Apollon77 / Feuersturm) Corrija horas e datas erradas introduzidas em 1.7.5.\nPermitir que a configuração diasPast seja reduzida a zero com o botão novamente",
-                "nl": "(Apollon77/Feuersturm) Herstel verkeerde tijden en datums geïntroduceerd in 1.7.5.\nSta toe dat Setting daysPast met de knop weer op nul wordt gezet",
-                "fr": "(Apollon77/Feuersturm) Correction d'heures et de dates erronées introduites dans la 1.7.5.\nAutoriser le réglage des jours passés à être réduit à zéro avec le bouton à nouveau",
-                "it": "(Apollon77/Feuersturm) Correggi orari e date errati introdotti in 1.7.5.\nConsenti di ridurre nuovamente a zero l'impostazione dei giorni passati con il pulsante",
-                "es": "(Apollon77 / Feuersturm) Corregir fechas y horas incorrectas introducidas en 1.7.5.\nPermita que Setting daysPast disminuya a cero con el botón nuevamente",
-                "pl": "(Apollon77/Feuersturm) Napraw błędne godziny i daty wprowadzone w 1.7.5.\nZezwól na ponowne zmniejszenie ustawienia daysPast do zera za pomocą przycisku",
-                "zh-cn": "(Apollon77/Feuersturm) 修复 1.7.5 中引入的错误时间和日期。\n允许再次使用按钮将设置 daysPast 减少为零"
-            },
-            "1.10.1": {
-                "en": "Make sure all Event objects are created before values are written",
-                "de": "Stellen Sie sicher, dass alle Event-Objekte erstellt werden, bevor Werte geschrieben werden",
-                "ru": "Перед записью значений убедитесь, что все объекты событий созданы.",
-                "pt": "Certifique-se de que todos os objetos de evento sejam criados antes que os valores sejam gravados",
-                "nl": "Zorg ervoor dat alle Event-objecten zijn gemaakt voordat waarden worden geschreven",
-                "fr": "Assurez-vous que tous les objets Event sont créés avant l'écriture des valeurs",
-                "it": "Assicurati che tutti gli oggetti Evento siano creati prima che i valori vengano scritti",
-                "es": "Asegúrese de que todos los objetos de evento se creen antes de escribir los valores",
-                "pl": "Upewnij się, że wszystkie obiekty Event zostały utworzone przed zapisaniem wartości",
-                "zh-cn": "确保在写入值之前创建所有 Event 对象"
-            },
-            "1.10.0": {
-                "en": "IMPORTANT: data.table is now a stringified array!! Consider when using this value!\nOptimize for js-controller 3.3\nadded analysis for events marked as private in Google Calendar\nupdated dependencies",
-                "de": "WICHTIG: data.table ist jetzt ein stringifiziertes Array!! Berücksichtigen Sie bei der Verwendung dieses Wertes!\nOptimieren Sie für js-Controller 3.3\nAnalyse für Ereignisse hinzugefügt, die in Google Kalender als privat markiert sind\naktualisierte Abhängigkeiten",
-                "ru": "ВАЖНО: data.table теперь представляет собой строковый массив !! Учитывайте при использовании этого значения!\nОптимизировать под js-controller 3.3\nдобавлен анализ событий, отмеченных как частные в Календаре Google\nобновленные зависимости",
-                "pt": "IMPORTANTE: data.table agora é um array stringificado !! Considere ao usar este valor!\nOtimize para js-controller 3.3\nanálise adicionada para eventos marcados como privados no Google Agenda\ndependências atualizadas",
-                "nl": "BELANGRIJK: data.table is nu een stringified array!! Overweeg bij het gebruik van deze waarde!\nOptimaliseren voor js-controller 3.3\nanalyse toegevoegd voor afspraken die als privé zijn gemarkeerd in Google Agenda\nbijgewerkte afhankelijkheden",
-                "fr": "IMPORTANT : data.table est maintenant un tableau stringifié !! Tenez compte de l'utilisation de cette valeur !\nOptimiser pour js-controller 3.3\nanalyse ajoutée pour les événements marqués comme privés dans Google Agenda\ndépendances mises à jour",
-                "it": "IMPORTANTE: data.table ora è un array con stringhe!! Considera quando usi questo valore!\nOttimizza per js-controller 3.3\naggiunta analisi per eventi contrassegnati come privati in Google Calendar\ndipendenze aggiornate",
-                "es": "IMPORTANTE: ¡data.table ahora es una matriz en cadena! ¡Considere al usar este valor!\nOptimizar para js-controller 3.3\nanálisis agregado para eventos marcados como privados en Google Calendar\ndependencias actualizadas",
-                "pl": "WAŻNE: data.table jest teraz tablicą łańcuchową!! Rozważ użycie tej wartości!\nOptymalizacja dla kontrolera js 3.3\ndodano analizę wydarzeń oznaczonych jako prywatne w Kalendarzu Google\nzaktualizowane zależności",
-                "zh-cn": "重要提示：data.table 现在是一个字符串化的数组！！使用此值时请考虑！\n针对 js-controller 3.3 优化\n添加了对 Google 日历中标记为私人的事件的分析\n更新的依赖"
-            },
-            "1.9.3": {
-                "en": "Better handling of some ical cases",
-                "de": "Bessere Behandlung einiger Fälle",
-                "ru": "Лучшее рассмотрение некоторых случаев",
-                "pt": "Melhor tratamento de alguns casos ical",
-                "nl": "Betere afhandeling van enkele ical gevallen",
-                "fr": "Meilleure prise en charge de certains cas ical",
-                "it": "Migliore gestione di alcuni casi ical",
-                "es": "Mejor manejo de algunos casos ical",
-                "pl": "Lepsza obsługa niektórych przypadków",
-                "zh-cn": "更好地处理一些医疗案件"
-            },
-            "1.9.2": {
-                "en": "Prevent crash case when summary is not provided (Sentry IOBROKER-ICAL-K)",
-                "de": "Verhindern Sie einen Absturz, wenn keine Zusammenfassung bereitgestellt wird (Sentry IOBROKER-ICAL-K).",
-                "ru": "Предотвращение сбоя при отсутствии сводки (Sentry IOBROKER-ICAL-K)",
-                "pt": "Evita o caso de travamento quando o resumo não é fornecido (Sentry IOBROKER-ICAL-K)",
-                "nl": "Voorkom een crash als er geen samenvatting wordt gegeven (Sentry IOBROKER-ICAL-K)",
-                "fr": "Empêcher les cas de crash lorsque le résumé n'est pas fourni (Sentry IOBROKER-ICAL-K)",
-                "it": "Prevenire il caso di arresto anomalo quando non viene fornito il riepilogo (Sentry IOBROKER-ICAL-K)",
-                "es": "Evitar caso de bloqueo cuando no se proporciona un resumen (Sentry IOBROKER-ICAL-K)",
-                "pl": "Zapobiegaj awariom, gdy podsumowanie nie jest dostarczane (Sentry IOBROKER-ICAL-K)",
-                "zh-cn": "未提供摘要时，防止发生崩溃情况（Sentry IOBROKER-ICAL-K）"
-            },
-            "1.9.1": {
-                "en": "try to make sure all code is executed before adapter is ended",
-                "de": "Stellen Sie sicher, dass der gesamte Code ausgeführt wird, bevor der Adapter beendet wird",
-                "ru": "постарайтесь убедиться, что весь код выполняется до завершения работы адаптера",
-                "pt": "tente certificar-se de que todo o código seja executado antes que o adaptador seja encerrado",
-                "nl": "probeer ervoor te zorgen dat alle code wordt uitgevoerd voordat de adapter wordt beëindigd",
-                "fr": "essayez de vous assurer que tout le code est exécuté avant la fin de l'adaptateur",
-                "it": "prova ad assicurarti che tutto il codice venga eseguito prima che l'adattatore sia terminato",
-                "es": "intente asegurarse de que todo el código se ejecute antes de que finalice el adaptador",
-                "pl": "spróbuj się upewnić, że cały kod jest wykonywany przed zakończeniem działania adaptera",
-                "zh-cn": "尝试确保在适配器结束之前执行所有代码"
-            },
-            "1.9.0": {
-                "en": "Added option to ignore case when events are searched in calendars\nPrevent crash case (Sentry IOBROKER-ICAL-F)",
-                "de": "Option hinzugefügt, um Groß- und Kleinschreibung zu ignorieren, wenn Ereignisse in Kalendern durchsucht werden\nAbsturz verhindern (Sentry IOBROKER-ICAL-F)",
-                "ru": "Добавлена возможность игнорировать регистр при поиске событий в календарях\nСлучай предотвращения сбоя (Sentry IOBROKER-ICAL-F)",
-                "pt": "Adicionada opção para ignorar maiúsculas e minúsculas quando eventos são pesquisados em calendários\nEvitar caso de travamento (Sentry IOBROKER-ICAL-F)",
-                "nl": "Optie toegevoegd om hoofdlettergebruik te negeren wanneer in agenda's naar gebeurtenissen wordt gezocht\nVoorkom crash case (Sentry IOBROKER-ICAL-F)",
-                "fr": "Ajout d'une option pour ignorer la casse lorsque les événements sont recherchés dans les calendriers\nPrévenir les cas de crash (Sentry IOBROKER-ICAL-F)",
-                "it": "Aggiunta opzione per ignorare le maiuscole / minuscole quando gli eventi vengono cercati nei calendari\nPrevenire il crash case (Sentry IOBROKER-ICAL-F)",
-                "es": "Opción agregada para ignorar el caso cuando se buscan eventos en calendarios\nPrevenir caso de accidente (Sentry IOBROKER-ICAL-F)",
-                "pl": "Dodano opcję ignorowania przypadków wyszukiwania wydarzeń w kalendarzach\nZapobiegaj awariom (Sentry IOBROKER-ICAL-F)",
-                "zh-cn": "新增了在日历中搜索事件时忽略大小写的选项\n防止发生崩溃情况（Sentry IOBROKER-ICAL-F）"
-            },
-            "1.8.5": {
-                "en": "update ical library to prevent problems with RRULE parsing",
-                "de": "Aktualisieren Sie die Bibliothek, um Probleme mit der RRULE-Analyse zu vermeiden",
-                "ru": "обновить библиотеку ical для предотвращения проблем с анализом RRULE",
-                "pt": "atualize a biblioteca ical para evitar problemas com a análise RRULE",
-                "nl": "update ical bibliotheek om problemen met RRULE-parsing te voorkomen",
-                "fr": "mettre à jour la bibliothèque ical pour éviter les problèmes avec l'analyse RRULE",
-                "it": "aggiorna la libreria ical per evitare problemi con l'analisi RRULE",
-                "es": "actualice la biblioteca ical para evitar problemas con el análisis RRULE",
-                "pl": "zaktualizuj bibliotekę ical, aby zapobiec problemom z analizowaniem RRULE",
-                "zh-cn": "更新ical库以防止RRULE解析出现问题"
-            },
-            "1.8.4": {
-                "en": "Prevent crash case (Sentry IOBROKER-ICAL-D)",
-                "de": "Absturz verhindern (Sentry IOBROKER-ICAL-D)",
-                "ru": "Случай предотвращения сбоя (Sentry IOBROKER-ICAL-D)",
-                "pt": "Prevenir caso de travamento (Sentry IOBROKER-ICAL-D)",
-                "nl": "Voorkom crash case (Sentry IOBROKER-ICAL-D)",
-                "fr": "Prévenir les cas de crash (Sentry IOBROKER-ICAL-D)",
-                "it": "Prevenire il crash case (Sentry IOBROKER-ICAL-D)",
-                "es": "Prevenir caso de accidente (Sentry IOBROKER-ICAL-D)",
-                "pl": "Zapobiegaj awariom (Sentry IOBROKER-ICAL-D)",
-                "zh-cn": "防止发生崩溃情况（Sentry IOBROKER-ICAL-D）"
-            },
-            "1.8.3": {
-                "en": "Prevent crash case (Sentry IOBROKER-ICAL-C)\nUpgrade node-ical",
-                "de": "Absturz verhindern (Sentry IOBROKER-ICAL-C)\nAktualisieren Sie node-ical",
-                "ru": "Случай предотвращения сбоя (Sentry IOBROKER-ICAL-C)\nОбновление узла",
-                "pt": "Evitar caso de travamento (Sentry IOBROKER-ICAL-C)\nUpgrade node-ical",
-                "nl": "Voorkom crash case (Sentry IOBROKER-ICAL-C)\nUpgrade node-ical",
-                "fr": "Prévenir les cas de crash (Sentry IOBROKER-ICAL-C)\nMettre à niveau node-ical",
-                "it": "Prevenire il crash case (Sentry IOBROKER-ICAL-C)\nAggiorna node-ical",
-                "es": "Prevenir caso de accidente (Sentry IOBROKER-ICAL-C)\nActualizar node-ical",
-                "pl": "Zapobiegaj awariom (Sentry IOBROKER-ICAL-C)\nUaktualnij node-ical",
-                "zh-cn": "防止发生崩溃情况（Sentry IOBROKER-ICAL-C）\n升级节点"
-            },
-            "1.8.2": {
-                "en": "Several fixes and optimizations",
-                "de": "Mehrere Korrekturen und Optimierungen",
-                "ru": "Несколько исправлений и оптимизаций",
-                "pt": "Várias correções e otimizações",
-                "nl": "Diverse fixes en optimalisaties",
-                "fr": "Plusieurs correctifs et optimisations",
-                "it": "Diverse correzioni e ottimizzazioni",
-                "es": "Varias correcciones y optimizaciones",
-                "pl": "Kilka poprawek i optymalizacji",
-                "zh-cn": "几个修复和优化"
-            },
-            "1.8.1": {
-                "en": "Fixed past event calculation in html view",
-                "de": "Die Berechnung vergangener Ereignisse in der HTML-Ansicht wurde korrigiert",
-                "ru": "Исправлен расчет прошлого события в представлении html",
-                "pt": "Cálculo de evento passado corrigido na visualização html",
-                "nl": "Berekening van gebeurtenissen uit het verleden in html-weergave opgelost",
-                "fr": "Correction du calcul des événements passés dans la vue html",
-                "it": "Corretto il calcolo degli eventi passati nella visualizzazione html",
-                "es": "Cálculo fijo de eventos pasados en la vista html",
-                "pl": "Naprawiono obliczanie przeszłych zdarzeń w widoku html",
-                "zh-cn": "修复了HTML视图中过去的事件计算"
-            },
-            "1.8.0": {
-                "en": "Moved html options to separate tab\nAdded option to hide \"arrow\" on for running events\nAdded feature to include past events (in days)",
-                "de": "HTML-Optionen auf separate Registerkarte verschoben\nOption hinzugefügt, um \"Pfeil\" zum Ausführen von Ereignissen auszublenden\nFunktion hinzugefügt, um vergangene Ereignisse (in Tagen) einzuschließen",
-                "ru": "Параметры html перенесены в отдельную вкладку\nДобавлена возможность скрыть \"стрелку\" для бегущих событий\nДобавлена возможность включать прошлые события (в днях)",
-                "pt": "Opções de html movidas para guia separada\nAdicionada opção para ocultar a \"seta\" para eventos em execução\nAdicionado recurso para incluir eventos anteriores (em dias)",
-                "nl": "Verplaatst html-opties naar een apart tabblad\nOptie toegevoegd om \"pijl\" te verbergen voor lopende evenementen\nFunctie toegevoegd om eerdere evenementen (in dagen) op te nemen",
-                "fr": "Options html déplacées dans un onglet séparé\nAjout d'une option pour masquer la \"flèche\" pour les événements en cours\nAjout d'une fonctionnalité pour inclure les événements passés (en jours)",
-                "it": "Opzioni html spostate in una scheda separata\nAggiunta l'opzione per nascondere la \"freccia\" per gli eventi in esecuzione\nAggiunta funzionalità per includere eventi passati (in giorni)",
-                "es": "Se movieron las opciones html a una pestaña separada\nOpción agregada para ocultar la \"flecha\" para ejecutar eventos\nCaracterística agregada para incluir eventos pasados (en días)",
-                "pl": "Przeniesiono opcje html na oddzielną kartę\nDodano opcję ukrywania „strzałki” podczas imprez biegowych\nDodano funkcję umożliwiającą uwzględnienie przeszłych wydarzeń (w dniach)",
-                "zh-cn": "将html选项移动到单独的选项卡\n添加了隐藏“箭头”以运行事件的选项\n添加功能以包括过去的事件（以天为单位）"
-            }
-        },
-        "title": "iCal Calendar",
-        "titleLang": {
-            "en": "iCal Calendar",
-            "de": "iCal Kalender",
-            "ru": "Календарь iCal",
-            "pt": "Calendário iCal",
-            "nl": "iCal-agenda",
-            "fr": "Calendrier iCal",
-            "it": "Calendario iCal",
-            "es": "Calendario iCal",
-            "pl": "Kalendarz iCal",
-            "zh-cn": "iCal 日历"
-        },
-        "desc": {
-            "en": "This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal)",
-            "de": "iCal liest Kalender Files im .ics Format von einer URL (Google Calendar oder iCal)",
-            "ru": "iCal читает файлы в формате .ics по URL адресу (Google Calendar или iCal)",
-            "pt": "Este adaptador permite ler arquivos .ics de URL específico e analisá-lo (Google Calendar ou iCal)",
-            "nl": "Met deze adapter kunnen .ics-bestanden van een specifieke URL worden gelezen en geanalyseerd (Google Calendar of iCal)",
-            "fr": "Cet adaptateur permet de lire des fichiers .ics à partir d'URL spécifiques et de les analyser (Google Calendar ou iCal)",
-            "it": "Questo adattatore consente di leggere i file .ics da URL specifici e di analizzarli (Google Calendar o iCal)",
-            "es": "Este adaptador permite leer archivos .ics de una URL específica y analizarlos (Google Calendar o iCal)",
-            "pl": "Ten adapter umożliwia odczytanie plików .ics z określonego adresu URL i przeanalizowanie go (Kalendarz Google lub iCal)",
-            "zh-cn": "此适配器允许从特定 URL 读取 .ics 文件并对其进行解析（Google Calendar 或 iCal）"
-        },
-        "authors": [
-            "bluefox <dogafox@gmail.com>",
-            "Jens Maus <mail@jens-maus.de>",
-            "Apollon77 <ingo@fischer-ka.de>"
-        ],
-        "docs": {
-            "en": "docs/en/README.md",
-            "de": "docs/de/README.md"
-        },
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "mode": "schedule",
-        "schedule": "0,30 * * * *",
-        "loglevel": "info",
-        "readme": "https://github.com/iobroker-community-adapters/ioBroker.ical/blob/master/README.md",
-        "icon": "ical.png",
-        "materialize": true,
-        "compact": true,
-        "keywords": [
-            "web",
-            "iCal",
-            "calendar"
-        ],
-        "adminUI": {
-            "config": "materialize"
-        },
-        "allowInit": true,
-        "subscribe": "ical.<INSTANCE>.trigger",
-        "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.ical/master/admin/ical.png",
-        "type": "date-and-time",
-        "connectionType": "local",
-        "dataSource": "poll",
-        "tier": 2,
-        "plugins": {
-            "sentry": {
-                "dsn": "https://82b5b68454d946149c547291365cbee3@sentry.iobroker.net/47"
-            }
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ]
+  "common": {
+    "name": "ical",
+    "version": "1.11.5",
+    "news": {
+      "1.11.5": {
+        "en": "updated node-ical to latest 0.14.1\nfix another issue where an already ended event is still listed",
+        "de": "Node-ical auf neueste 0.14.1 . aktualisiert\nBehebung eines weiteren Problems, bei dem ein bereits beendetes Ereignis noch aufgeführt wird",
+        "ru": "обновлен node-ical до последней версии 0.14.1\nисправить другую проблему, когда уже завершившееся событие все еще отображается в списке",
+        "pt": "Nó-ical atualizado para a última 0.14.1\ncorrigir outro problema em que um evento já encerrado ainda está listado",
+        "nl": "bijgewerkte node-ical naar de laatste 0.14.1\neen ander probleem oplossen waarbij een reeds beëindigd evenement nog steeds wordt vermeld",
+        "fr": "Node-ical mis à jour à la dernière version 0.14.1\nrésoudre un autre problème où un événement déjà terminé est toujours répertorié",
+        "it": "aggiornato node-ical all'ultima 0.14.1\nrisolvere un altro problema in cui è ancora elencato un evento già terminato",
+        "es": "actualizado node-ical a la última versión 0.14.1\nsolucionar otro problema en el que un evento ya finalizado todavía aparece en la lista",
+        "pl": "zaktualizowano węzeł-ical do najnowszej wersji 0.14.1\nnapraw inny problem, w którym już zakończone wydarzenie jest nadal na liście",
+        "zh-cn": "将 node-ical 更新为最新的 0.14.1\n修复另一个问题，即仍列出已结束的事件"
+      },
+      "1.11.4": {
+        "en": "fix cases where already ended entries where still listed\nfix reported sentry crash cases (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+        "de": "Fälle beheben, in denen bereits beendete Einträge noch aufgelistet wurden\ngemeldete Sentry-Crash-Fälle beheben (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+        "ru": "исправить случаи, когда уже законченные записи все еще перечислены\nисправить зарегистрированные случаи аварийного завершения работы часового (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+        "pt": "corrigir casos em que entradas já encerradas e ainda listadas\ncorrigir casos relatados de acidentes de sentinela (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+        "nl": "repareer gevallen waarin reeds beëindigde vermeldingen nog steeds worden vermeld\nrepareer gerapporteerde crashgevallen van schildwachten (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+        "fr": "corriger les cas où les entrées déjà terminées étaient toujours répertoriées\ncorrection des cas de plantage de sentinelle signalés (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+        "it": "correggere i casi in cui le voci già terminate erano ancora elencate\ncorreggere i casi di crash di sentinella segnalati (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+        "es": "Corregir casos en los que las entradas ya finalizadas todavía estaban en la lista.\narreglar casos de accidentes de centinela notificados (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+        "pl": "napraw przypadki, w których już zakończone wpisy były nadal wymienione\nnaprawiono zgłoszone przypadki awarii wartowników (IOBROKER-ICAL-S, IOBROKER-ICAL-N)",
+        "zh-cn": "修复已经结束的条目仍然列出的情况\n修复报告的哨兵崩溃案例（IOBROKER-ICAL-S、IOBROKER-ICAL-N）"
+      },
+      "1.11.3": {
+        "en": "->",
+        "de": "->",
+        "ru": "->",
+        "pt": "->",
+        "nl": "->",
+        "fr": "->",
+        "it": "->",
+        "es": "->",
+        "pl": "->",
+        "zh-cn": "->"
+      },
+      "1.11.2": {
+        "en": "Change one logline to debug",
+        "de": "Ändern Sie eine Protokollzeile in Debug",
+        "ru": "Измените одну строку журнала для отладки",
+        "pt": "Alterar uma linha de log para depurar",
+        "nl": "Eén loglijn wijzigen om te debuggen",
+        "fr": "Changer une ligne de connexion pour déboguer",
+        "it": "Cambia una logline in debug",
+        "es": "Cambiar un logline para depurar",
+        "pl": "Zmień jeden logline na debugowanie",
+        "zh-cn": "更改一个日志行以进行调试"
+      },
+      "1.11.1": {
+        "en": "Adjust date length for full day events to the full day",
+        "de": "Passen Sie die Datumslänge für ganztägige Ereignisse an den ganzen Tag an",
+        "ru": "Отрегулируйте длину даты для мероприятий на целый день до полного дня",
+        "pt": "Ajuste a duração da data para eventos de dia inteiro para o dia inteiro",
+        "nl": "Pas de datumlengte voor evenementen van een hele dag aan naar de hele dag",
+        "fr": "Ajuster la durée de la date pour les événements d'une journée complète à la journée complète",
+        "it": "Regola la durata della data per gli eventi dell'intera giornata sull'intera giornata",
+        "es": "Ajustar la duración de la fecha para eventos de día completo al día completo",
+        "pl": "Dostosuj długość daty dla wydarzeń całodniowych do pełnego dnia",
+        "zh-cn": "将全天事件的日期长度调整为全天"
+      },
+      "1.11.0": {
+        "en": "Locally cache remote calendars to be used in case of request errors",
+        "de": "Remote-Kalender lokal zwischenspeichern, um bei Anforderungsfehlern verwendet zu werden",
+        "ru": "Локальное кеширование удаленных календарей для использования в случае ошибок запроса",
+        "pt": "Armazenar em cache localmente calendários remotos para serem usados em caso de erros de solicitação",
+        "nl": "Lokaal cachen van externe agenda's om te gebruiken in het geval van verzoekfouten",
+        "fr": "Cachez localement les calendriers distants à utiliser en cas d'erreurs de demande",
+        "it": "Cache locali calendari remoti da utilizzare in caso di errori di richiesta",
+        "es": "Almacene en caché localmente los calendarios remotos para usarlos en caso de errores de solicitud",
+        "pl": "Lokalnie buforuj zdalne kalendarze, które mają być używane w przypadku błędów żądań",
+        "zh-cn": "本地缓存远程日历以备请求错误时使用"
+      },
+      "1.10.4": {
+        "en": "Make sure daysPast is correctly initialized if not provided\nWhen no calendar could be read then no events are updated/cleanup\nRespect HTTP statuscode from server response too to detect errors",
+        "de": "Stellen Sie sicher, dass daysPast korrekt initialisiert ist, wenn nicht angegeben\nWenn kein Kalender gelesen werden konnte, werden keine Ereignisse aktualisiert / bereinigt\nRespektieren Sie den HTTP-Statuscode auch aus der Serverantwort, um Fehler zu erkennen",
+        "ru": "Убедитесь, что daysPast правильно инициализирован, если не указан\nЕсли календарь не читается, события не обновляются / не очищаются.\nУважайте код состояния HTTP из ответа сервера, чтобы обнаруживать ошибки",
+        "pt": "Certifique-se de que daysPast foi inicializado corretamente, caso não seja fornecido\nQuando nenhum calendário pode ser lido, nenhum evento é atualizado / limpo\nRespeite o código de status HTTP da resposta do servidor também para detectar erros",
+        "nl": "Zorg ervoor dat daysPast correct is geïnitialiseerd als dit niet is opgegeven\nAls er geen kalender kan worden gelezen, worden er geen evenementen bijgewerkt/opgeruimd\nRespecteer ook de HTTP-statuscode van de serverreactie om fouten te detecteren",
+        "fr": "Assurez-vous que daysPast est correctement initialisé s'il n'est pas fourni\nLorsqu'aucun calendrier n'a pu être lu, aucun événement n'est mis à jour/nettoyé\nRespectez également le code d'état HTTP de la réponse du serveur pour détecter les erreurs",
+        "it": "Assicurati che daysPast sia inizializzato correttamente se non fornito\nQuando nessun calendario può essere letto, nessun evento viene aggiornato/pulito\nRispetta il codice di stato HTTP anche dalla risposta del server per rilevare gli errori",
+        "es": "Asegúrese de que daysPast se haya inicializado correctamente si no se proporciona\nCuando no se puede leer ningún calendario, no se actualizan / limpian eventos\nRespete el código de estado HTTP de la respuesta del servidor también para detectar errores",
+        "pl": "Upewnij się, że daysPast jest poprawnie zainicjowany, jeśli nie został podany\nGdy nie można odczytać żadnego kalendarza, żadne wydarzenia nie są aktualizowane/czyszczone\nPrzestrzegaj również kodu statusu HTTP z odpowiedzi serwera, aby wykryć błędy",
+        "zh-cn": "如果未提供，请确保 daysPast 已正确初始化\n当无法读取日历时，则不会更新/清理事件\n也尊重来自服务器响应的 HTTP 状态码以检测错误"
+      }
     },
-    "native": {
-        "daysPreview": 7,
-        "daysPast": 0,
-        "colorize": true,
-        "defColor": "white",
-        "fulltime": " ",
-        "dataPaddingWithZeros": true,
-        "replaceDates": true,
-        "language": "",
-        "everyCalOneColor": false,
-        "forceFullday": false,
-        "hideYear": false,
-        "arrowAlreadyStarted": true,
-        "ignoreCaseInEventname": false,
-        "calendars": [
-            {
-                "name": "calendar1",
-                "url": "http://11111.ics",
-                "user": "username",
-                "pass": "password",
-                "sslignore": "ignore",
-                "color": "red",
-                "filter": "ignored events",
-                "filterregex": "no"
-            }
-        ],
-        "events": [
-            {
-                "name": "Vacation",
-                "enabled": true,
-                "display": false
-            }
-        ]
+    "title": "iCal Calendar",
+    "titleLang": {
+      "en": "iCal Calendar",
+      "de": "iCal Kalender",
+      "ru": "Календарь iCal",
+      "pt": "Calendário iCal",
+      "nl": "iCal-agenda",
+      "fr": "Calendrier iCal",
+      "it": "Calendario iCal",
+      "es": "Calendario iCal",
+      "pl": "Kalendarz iCal",
+      "zh-cn": "iCal 日历"
     },
-    "instanceObjects": [
-        {
-            "_id": "events",
-            "type": "channel",
-            "common": {
-                "name": "User events controlled from calendar"
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.0",
-            "type": "channel",
-            "common": {
-                "name": "User events of today, now and later today controlled from calendar"
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.0.today",
-            "type": "channel",
-            "common": {
-                "name": "User events of today controlled from calendar"
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.0.now",
-            "type": "channel",
-            "common": {
-                "name": "User events of now controlled from calendar"
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.0.later",
-            "type": "channel",
-            "common": {
-                "name": "User events later of today controlled from calendar"
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.1",
-            "type": "channel",
-            "common": {
-                "name": "User events of tomorrow controlled from calendar"
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.2",
-            "type": "channel",
-            "common": {
-                "name": "User events of the day after tomorrow controlled from calendar"
-            },
-            "native": {}
-        },
-        {
-            "_id": "trigger",
-            "type": "state",
-            "common": {
-                "name": "Commands to iCal",
-                "desc": "Commands: read [url], check [reason]",
-                "type": "string",
-                "read": true,
-                "write": true,
-                "role": "value"
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.count",
-            "type": "state",
-            "common": {
-                "name": "Count of events for today",
-                "type": "number",
-                "role": "indicator",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.countTomorrow",
-            "type": "state",
-            "common": {
-                "name": "Count of events for tomorrow",
-                "type": "number",
-                "role": "indicator",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.countYesterday",
-            "type": "state",
-            "common": {
-                "name": "Count of events for yesterday",
-                "type": "number",
-                "role": "indicator",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.table",
-            "type": "state",
-            "common": {
-                "name": "JS iCal table",
-                "desc": "JS table: []",
-                "type": "array",
-                "role": "list",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.html",
-            "type": "state",
-            "common": {
-                "name": "HTML iCal table",
-                "desc": "HTML table with events",
-                "type": "string",
-                "role": "html",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.text",
-            "type": "state",
-            "common": {
-                "name": "Text iCal table",
-                "desc": "Text table with events",
-                "type": "string",
-                "role": "text",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal)",
+      "de": "iCal liest Kalender Files im .ics Format von einer URL (Google Calendar oder iCal)",
+      "ru": "iCal читает файлы в формате .ics по URL адресу (Google Calendar или iCal)",
+      "pt": "Este adaptador permite ler arquivos .ics de URL específico e analisá-lo (Google Calendar ou iCal)",
+      "nl": "Met deze adapter kunnen .ics-bestanden van een specifieke URL worden gelezen en geanalyseerd (Google Calendar of iCal)",
+      "fr": "Cet adaptateur permet de lire des fichiers .ics à partir d'URL spécifiques et de les analyser (Google Calendar ou iCal)",
+      "it": "Questo adattatore consente di leggere i file .ics da URL specifici e di analizzarli (Google Calendar o iCal)",
+      "es": "Este adaptador permite leer archivos .ics de una URL específica y analizarlos (Google Calendar o iCal)",
+      "pl": "Ten adapter umożliwia odczytanie plików .ics z określonego adresu URL i przeanalizowanie go (Kalendarz Google lub iCal)",
+      "zh-cn": "此适配器允许从特定 URL 读取 .ics 文件并对其进行解析（Google Calendar 或 iCal）"
+    },
+    "authors": [
+      "bluefox <dogafox@gmail.com>",
+      "Jens Maus <mail@jens-maus.de>",
+      "Apollon77 <ingo@fischer-ka.de>"
+    ],
+    "docs": {
+      "en": "docs/en/README.md",
+      "de": "docs/de/README.md"
+    },
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "mode": "schedule",
+    "schedule": "0,30 * * * *",
+    "loglevel": "info",
+    "readme": "https://github.com/iobroker-community-adapters/ioBroker.ical/blob/master/README.md",
+    "icon": "ical.png",
+    "materialize": true,
+    "compact": true,
+    "keywords": [
+      "web",
+      "iCal",
+      "calendar"
+    ],
+    "adminUI": {
+      "config": "materialize"
+    },
+    "allowInit": true,
+    "subscribe": "ical.<INSTANCE>.trigger",
+    "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.ical/master/admin/ical.png",
+    "type": "date-and-time",
+    "connectionType": "local",
+    "dataSource": "poll",
+    "tier": 2,
+    "plugins": {
+      "sentry": {
+        "dsn": "https://82b5b68454d946149c547291365cbee3@sentry.iobroker.net/47"
+      }
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=2.0.0"
+      }
     ]
+  },
+  "native": {
+    "daysPreview": 7,
+    "daysPast": 0,
+    "colorize": true,
+    "defColor": "white",
+    "fulltime": " ",
+    "dataPaddingWithZeros": true,
+    "replaceDates": true,
+    "language": "",
+    "everyCalOneColor": false,
+    "forceFullday": false,
+    "hideYear": false,
+    "arrowAlreadyStarted": true,
+    "ignoreCaseInEventname": false,
+    "calendars": [
+      {
+        "name": "calendar1",
+        "url": "http://11111.ics",
+        "user": "username",
+        "pass": "password",
+        "sslignore": "ignore",
+        "color": "red",
+        "filter": "ignored events",
+        "filterregex": "no"
+      }
+    ],
+    "events": [
+      {
+        "name": "Vacation",
+        "enabled": true,
+        "display": false
+      }
+    ]
+  },
+  "instanceObjects": [
+    {
+      "_id": "events",
+      "type": "channel",
+      "common": {
+        "name": "User events controlled from calendar"
+      },
+      "native": {}
+    },
+    {
+      "_id": "events.0",
+      "type": "channel",
+      "common": {
+        "name": "User events of today, now and later today controlled from calendar"
+      },
+      "native": {}
+    },
+    {
+      "_id": "events.0.today",
+      "type": "channel",
+      "common": {
+        "name": "User events of today controlled from calendar"
+      },
+      "native": {}
+    },
+    {
+      "_id": "events.0.now",
+      "type": "channel",
+      "common": {
+        "name": "User events of now controlled from calendar"
+      },
+      "native": {}
+    },
+    {
+      "_id": "events.0.later",
+      "type": "channel",
+      "common": {
+        "name": "User events later of today controlled from calendar"
+      },
+      "native": {}
+    },
+    {
+      "_id": "events.1",
+      "type": "channel",
+      "common": {
+        "name": "User events of tomorrow controlled from calendar"
+      },
+      "native": {}
+    },
+    {
+      "_id": "events.2",
+      "type": "channel",
+      "common": {
+        "name": "User events of the day after tomorrow controlled from calendar"
+      },
+      "native": {}
+    },
+    {
+      "_id": "trigger",
+      "type": "state",
+      "common": {
+        "name": "Commands to iCal",
+        "desc": "Commands: read [url], check [reason]",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "role": "value"
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.count",
+      "type": "state",
+      "common": {
+        "name": "Count of events for today",
+        "type": "number",
+        "role": "indicator",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.countTomorrow",
+      "type": "state",
+      "common": {
+        "name": "Count of events for tomorrow",
+        "type": "number",
+        "role": "indicator",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.countYesterday",
+      "type": "state",
+      "common": {
+        "name": "Count of events for yesterday",
+        "type": "number",
+        "role": "indicator",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.table",
+      "type": "state",
+      "common": {
+        "name": "JS iCal table",
+        "desc": "JS table: []",
+        "type": "array",
+        "role": "list",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.html",
+      "type": "state",
+      "common": {
+        "name": "HTML iCal table",
+        "desc": "HTML table with events",
+        "type": "string",
+        "role": "html",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.text",
+      "type": "state",
+      "common": {
+        "name": "Text iCal table",
+        "desc": "Text table with events",
+        "type": "string",
+        "role": "text",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    }
+  ]
 }
