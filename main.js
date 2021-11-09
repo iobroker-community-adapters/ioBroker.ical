@@ -310,6 +310,15 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                 }
 
                 const options = RRule.parseString(ev.rrule.toString());
+
+                // the following workaround an issue in rule.between() later on where
+                // the time comparison between dtstart and until does not seem to work
+                // if both are not in the same DST zone (e.g. dtstart=2021-09-21T15:00:00.000Z
+                // until=2021-11-09T15:59:59.000Z) so that an event is still considered as TODAY
+                // even thought it ends one second before the next scheduled one.
+                if (options.until !== undefined && options.dtstart !== undefined) {
+                    options.until = addOffset(options.until, options.dtstart.getTimezoneOffset() - options.until.getTimezoneOffset());
+                }
                 adapter.log.debug('options:' + JSON.stringify(options));
 
                 const rule = new RRule(options);

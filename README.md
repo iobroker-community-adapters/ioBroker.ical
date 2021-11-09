@@ -26,13 +26,15 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### __WORK IN PROGRESS__
+* (jens-maus) fix another issue where an already ended event is still listed
 
 ### 1.11.4 (2021-09-02)
 * (Apollon77) fix cases where already ended entries where still listed
 * (Apollon77) fix reported sentry crash cases (IOBROKER-ICAL-S, IOBROKER-ICAL-N)
 
 ### 1.11.3 (2021-08-04)
-* (JensMaus) fixed timezone related handling
+* (jens-maus) fixed timezone related handling
 
 ### 1.11.2 (2021-08-01)
 * (Apollon77) Change one logline to debug
@@ -103,7 +105,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 ### 1.7.5 (2020-11-08)
 * (Apollon77) Only handle events with a start date (Sentry IOBROKER-ICAL-1, IOBROKER-ICAL-2, IOBROKER-ICAL-4)
-* (JensMaus) Update dependencies, fix some more issues
+* (jens-maus) Update dependencies, fix some more issues
 
 ### 1.7.4 (2020-08-26)
 * (Apollon77) Fix multiple parsing
