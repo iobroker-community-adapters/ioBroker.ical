@@ -34,9 +34,9 @@
   "dependencies": {
     "@iobroker/adapter-core": "^2.5.1",
     "cloneextend": "^0.0.3",
-    "node-ical": "^0.13.0",
+    "node-ical": "^0.14.0",
     "request": "^2.88.2",
-    "rrule": "^2.6.8"
+    "rrule": "^2.6.4"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.4.1",
