@@ -1,6 +1,4 @@
 {
-	// Boolean, number, string as is:
 	"dry": false,
-	// Arrays:
 	"plugins": ["iobroker"]
 }
