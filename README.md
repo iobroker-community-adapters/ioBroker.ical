@@ -26,7 +26,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### __WORK IN PROGRESS__
+### 1.11.5 (2021-11-09)
 * (jens-maus) updated node-ical to latest 0.14.1
 * (jens-maus) fix another issue where an already ended event is still listed
 
@@ -71,7 +71,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 * (jens-maus) updated dependencies
 
 ### 1.9.3 (2021-04-01)
-* (Apollon77) Better handling of some ical cases 
+* (Apollon77) Better handling of some ical cases
 
 ### 1.9.2 (2021-03-07)
 * (Apollon77) Prevent crash case when summary is not provided (Sentry IOBROKER-ICAL-K)
