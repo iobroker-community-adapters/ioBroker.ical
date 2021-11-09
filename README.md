@@ -26,7 +26,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### 1.11.5 (2021-11-09)
+### **WORK IN PROGRESS**
 * (jens-maus) updated node-ical to latest 0.14.1
 * (jens-maus) fix another issue where an already ended event is still listed
 
