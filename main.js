@@ -1322,7 +1322,7 @@ async function setState(id, val, cb) {
                 }
 
                 adapter.log.info(`Set ${id} to ${val}`);
-                await adapter.setForeignStateAsync(id, val, true);
+                await adapter.setForeignStateAsync(id, val, false);
             }
         } catch {
             // Ignore error
