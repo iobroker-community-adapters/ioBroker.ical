@@ -36,6 +36,7 @@
     "cloneextend": "^0.0.3",
     "node-ical": "^0.14.1",
     "request": "^2.88.2",
+    "json-schema": ">=0.4.0",
     "rrule": "^2.6.4"
   },
   "devDependencies": {
