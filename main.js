@@ -392,9 +392,9 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
 
                         if (checkDate && ev.recurrences) {
                             for(const dOri in ev.recurrences) {
-                                const d = new Date(dOri);
-                                if (d.getTime() === ev2.start.getTime()) {
-                                    ev2 = ce.clone(ev.recurrences[dOri]);
+                                const recurEvent = ev.recurrences[dOri];
+                                if (recurEvent.recurrenceid.getTime() === ev2.start.getTime()) {
+                                    ev2 = ce.clone(recurEvent);
                                     adapter.log.debug('   ' + i + ': different recurring found replaced with Event:' + ev2.start + ' ' + ev2.end);
                                 }
                             }
