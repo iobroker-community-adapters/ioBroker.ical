@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.11.5",
+    "version": "1.11.6",
     "news": {
+      "1.11.6": {
+        "en": "fixed incorrect recurrence event processing",
+        "de": "Fehlerhafte Verarbeitung von Wiederholungsereignissen behoben",
+        "ru": "исправлена некорректная обработка события повторения",
+        "pt": "corrigiu o processamento incorreto do evento de recorrência",
+        "nl": "foutieve verwerking van herhalingsgebeurtenissen verholpen",
+        "fr": "correction du traitement incorrect des événements de récurrence",
+        "it": "corretta elaborazione degli eventi di ricorrenza errata",
+        "es": "Se corrigió el procesamiento incorrecto de eventos de recurrencia.",
+        "pl": "naprawiono nieprawidłowe przetwarzanie zdarzeń rekurencyjnych",
+        "zh-cn": "修复了不正确的重复事件处理"
+      },
       "1.11.5": {
         "en": "updated node-ical to latest 0.14.1\nfix another issue where an already ended event is still listed",
         "de": "Node-ical auf neueste 0.14.1 . aktualisiert\nBehebung eines weiteren Problems, bei dem ein bereits beendetes Ereignis noch aufgeführt wird",
@@ -74,18 +86,6 @@
         "es": "Almacene en caché localmente los calendarios remotos para usarlos en caso de errores de solicitud",
         "pl": "Lokalnie buforuj zdalne kalendarze, które mają być używane w przypadku błędów żądań",
         "zh-cn": "本地缓存远程日历以备请求错误时使用"
-      },
-      "1.10.4": {
-        "en": "Make sure daysPast is correctly initialized if not provided\nWhen no calendar could be read then no events are updated/cleanup\nRespect HTTP statuscode from server response too to detect errors",
-        "de": "Stellen Sie sicher, dass daysPast korrekt initialisiert ist, wenn nicht angegeben\nWenn kein Kalender gelesen werden konnte, werden keine Ereignisse aktualisiert / bereinigt\nRespektieren Sie den HTTP-Statuscode auch aus der Serverantwort, um Fehler zu erkennen",
-        "ru": "Убедитесь, что daysPast правильно инициализирован, если не указан\nЕсли календарь не читается, события не обновляются / не очищаются.\nУважайте код состояния HTTP из ответа сервера, чтобы обнаруживать ошибки",
-        "pt": "Certifique-se de que daysPast foi inicializado corretamente, caso não seja fornecido\nQuando nenhum calendário pode ser lido, nenhum evento é atualizado / limpo\nRespeite o código de status HTTP da resposta do servidor também para detectar erros",
-        "nl": "Zorg ervoor dat daysPast correct is geïnitialiseerd als dit niet is opgegeven\nAls er geen kalender kan worden gelezen, worden er geen evenementen bijgewerkt/opgeruimd\nRespecteer ook de HTTP-statuscode van de serverreactie om fouten te detecteren",
-        "fr": "Assurez-vous que daysPast est correctement initialisé s'il n'est pas fourni\nLorsqu'aucun calendrier n'a pu être lu, aucun événement n'est mis à jour/nettoyé\nRespectez également le code d'état HTTP de la réponse du serveur pour détecter les erreurs",
-        "it": "Assicurati che daysPast sia inizializzato correttamente se non fornito\nQuando nessun calendario può essere letto, nessun evento viene aggiornato/pulito\nRispetta il codice di stato HTTP anche dalla risposta del server per rilevare gli errori",
-        "es": "Asegúrese de que daysPast se haya inicializado correctamente si no se proporciona\nCuando no se puede leer ningún calendario, no se actualizan / limpian eventos\nRespete el código de estado HTTP de la respuesta del servidor también para detectar errores",
-        "pl": "Upewnij się, że daysPast jest poprawnie zainicjowany, jeśli nie został podany\nGdy nie można odczytać żadnego kalendarza, żadne wydarzenia nie są aktualizowane/czyszczone\nPrzestrzegaj również kodu statusu HTTP z odpowiedzi serwera, aby wykryć błędy",
-        "zh-cn": "如果未提供，请确保 daysPast 已正确初始化\n当无法读取日历时，则不会更新/清理事件\n也尊重来自服务器响应的 HTTP 状态码以检测错误"
       }
     },
     "title": "iCal Calendar",

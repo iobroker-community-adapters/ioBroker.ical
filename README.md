@@ -26,7 +26,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.11.6 (2021-12-17)
 * (jens-maus) fixed incorrect recurrence event processing
 
 ### 1.11.5 (2021-11-09)
