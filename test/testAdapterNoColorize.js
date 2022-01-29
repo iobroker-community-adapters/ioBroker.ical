@@ -96,7 +96,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
 
         setupIcsFiles();
 
-        setup.setupController(function () {
+        setup.setupController(async function () {
             var config = setup.getAdapterConfig();
             // enable adapter
             config.common.enabled  = true;
@@ -138,7 +138,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
                 "display": false
             };
 
-            setup.setAdapterConfig(config.common, config.native);
+            await setup.setAdapterConfig(config.common, config.native);
 
             setup.startController(true, function(id, obj) {}, function (id, state) {
                 },
