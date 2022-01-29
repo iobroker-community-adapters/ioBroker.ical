@@ -257,7 +257,7 @@ describe('Test ' + adapterShortNameLog + ' adapter', function() {
         setupIcsFiles();
 
         setup.setupController(async function () {
-            var config = setup.getAdapterConfig();
+            var config = await setup.getAdapterConfig();
             // enable adapter
             config.common.enabled  = true;
             config.common.loglevel = 'silly';
