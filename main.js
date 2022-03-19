@@ -454,7 +454,7 @@ async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, 
     }
 
     // If not end point => assume 0:0:0 event and set to same as start
-    ev.end = ev.end || ev.start;
+    ev.end = ev.end || cd.clone(ev.start);
     if (!ev.end || !ev.end instanceof Date) {
         return;
     }
