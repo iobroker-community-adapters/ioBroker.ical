@@ -1178,7 +1178,7 @@ function formatDate(_date, _end, withTime, fullDay) {
         }
         if (adapter.config.replaceDates) {
             if (_class === 'ical_today')    {
-                return {text: ((arrowAlreadyStarted && alreadyStarted && !todayOnly) ? '&#8594; ' : '') + _('today')    + _time, _class: _class};
+                return {text: ((arrowAlreadyStarted && alreadyStarted && !todayOnly) ? '&#8594; ' : '') + _('today') + _time, _class: _class};
             }
             if (_class === 'ical_tomorrow') {
                 return {text: ((arrowAlreadyStarted && alreadyStarted) ? '&#8594; ' : '') + _('tomorrow') + _time, _class: _class};
@@ -1265,9 +1265,16 @@ function formatDate(_date, _end, withTime, fullDay) {
                 //}
             }
         } else {
-            day   = _end.getDate();
-            month = _end.getMonth() + 1;
-            year  = _end.getFullYear();
+            if (!withTime && _end.getHours() === 0 && _end.getMinutes() === 0 && _end.getSeconds() === 0) {
+                const secondBeforeEnd = new Date(_end.getTime() - 1000);
+                day   = secondBeforeEnd.getDate();
+                month = secondBeforeEnd.getMonth() + 1;
+                year  = secondBeforeEnd.getFullYear();
+            } else {
+                day = _end.getDate();
+                month = _end.getMonth() + 1;
+                year = _end.getFullYear();
+            }
 
             if (adapter.config.dataPaddingWithZeros) {
                 if (day < 10)   {
