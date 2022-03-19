@@ -1438,7 +1438,7 @@ function brSeparatedList(datesArray) {
         }
 
 	  
-        var apptmColor = color;
+        let apptmColor = color;
     
         if (datesArray[i]._object['color'] != undefined) {
             apptmColor = datesArray[i]._object['color'];
