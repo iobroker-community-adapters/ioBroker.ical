@@ -26,6 +26,10 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### __WORK IN PROGRESS__
+* (Apollon77) Add option to choose the ack flag set when updating foreign objects on events
+
 ### 1.11.6 (2021-12-17)
 * (jens-maus) fixed incorrect recurrence event processing
 
@@ -250,7 +254,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2021, bluefox <dogafox@gmail.com>
+Copyright (c) 2014-2022, bluefox <dogafox@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

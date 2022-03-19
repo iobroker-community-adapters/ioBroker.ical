@@ -155,6 +155,11 @@
       {
         "js-controller": ">=2.0.0"
       }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=3.0.0"
+      }
     ]
   },
   "native": {
@@ -187,7 +192,8 @@
       {
         "name": "Vacation",
         "enabled": true,
-        "display": false
+        "display": false,
+        "ack": false
       }
     ]
   },

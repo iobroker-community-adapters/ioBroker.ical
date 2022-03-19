@@ -73,6 +73,12 @@
             settings.calendars[c].filter = settings.calendars[c].filter || '';
         }
 
+        for (var e = 0; e < settings.events.length; e++) {
+            if (typeof settings.events[e].ack !== 'boolean') {
+                settings.events[e].ack = true;
+            }
+        }
+
         onChange(false);
 
         values2table('calendars', calendars, onChange);
@@ -134,7 +140,7 @@
                     <label class="translate" for="ignoreCaseInEventname">Ignore case for event-search:</label>
                 </div>
                 <div class="col s12 m4">
-				
+
                 </div>
             </div>
         </div>
@@ -154,7 +160,7 @@
                     <label class="translate" for="language">Language:</label>
                 </div>
                 <div class="col s12 m4">
-                    
+
                 </div>
             </div>
             <div class="row">
@@ -238,9 +244,10 @@
                         <tr>
                             <th data-name="name"     style="width: 80%"  class="translate">name</th>
                             <th data-name="enabled"  style="width: 70px"  data-style="width: 70px"  data-type="checkbox" class="translate">enabled</th>
-                            <th data-name="id"       style="width: 200px"  data-style="width: 300px" data-type="OID"      class="translate">Control ID</th>
+                            <th data-name="id"       style="width: 200px"  data-style="width: 300px" data-type="OID"      class="translate">Set ID</th>
                             <th data-name="on"       style="width: 50px"  data-style="width: 50px"  data-type="text"     class="translate">ON</th>
                             <th data-name="off"      style="width: 50px"  data-style="width: 50px"  data-type="text"     class="translate">OFF</th>
+                            <th data-name="ack"  style="width: 70px"  data-style="width: 70px"  data-type="checkbox" class="translate">Set Ack</th>
                             <th data-name="display"  style="width: 70px"  data-style="width: 70px"  data-type="checkbox" class="translate">display</th>
                             <th data-buttons="delete up down" style="width: 120px"></th>
                         </tr>

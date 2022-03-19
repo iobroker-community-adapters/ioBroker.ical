@@ -25,6 +25,7 @@ const adapterName = require('./package.json').name.split('.').pop();
 const request     = require('request');
 let adapter;
 let stopped       = false;
+let killTimeout = null;
 
 function startAdapter(options) {
     options = options || {};
@@ -683,7 +684,7 @@ async function checkForEvents(reason, event, realnow) {
                         adapter.log.info('Set ' + name + ' to true');
                         await adapter.setStateAsync(name, {val: true, ack: true});
                         if (ev.id) {
-                            await setState(ev.id, ev.on);
+                            await setState(ev.id, ev.on, ev.ack);
                         }
                     }
                 }
@@ -693,7 +694,7 @@ async function checkForEvents(reason, event, realnow) {
     return result;
 }
 
-function initEvent(name, display, day, type, id, on, off, callback) {
+function initEvent(name, display, day, type, id, on, off, ack, callback) {
     const obj = {
         name,
         processed: false,
@@ -707,6 +708,14 @@ function initEvent(name, display, day, type, id, on, off, callback) {
         obj.id = id;
         obj.off = off;
         obj.on = on;
+
+        if (typeof ack !== 'boolean') { // backward compatibility
+            ack = true;
+        } else {
+            ack = !!ack;
+        }
+
+        obj.ack = ack;
     }
 
     events.push(obj);
@@ -717,7 +726,7 @@ function initEvent(name, display, day, type, id, on, off, callback) {
         if (err || !state) {
             obj.state = false;
             await adapter.setStateAsync(stateName, {val: false, ack: true});
-            await setState(id, off);
+            await setState(id, off, ack);
             callback && callback(name)
         } else {
             obj.state = state.val;
@@ -897,12 +906,12 @@ function syncUserEvents(callback) {
                 if (event.enabled) {
                     if (!day) {
                         count += 3;
-                        initEvent(event.name, event.display, 0, 'today', null, null, null, () => !--count && callback());
-                        initEvent(event.name, event.display, 0, 'now',   event.id, event.on, event.off, () => !--count && callback());
-                        initEvent(event.name, event.display, 0, 'later', null, null, null, () => !--count && callback());
+                        initEvent(event.name, event.display, 0, 'today', null, null, null, null,() => !--count && callback());
+                        initEvent(event.name, event.display, 0, 'now',   event.id, event.on, event.off, event.ack,() => !--count && callback());
+                        initEvent(event.name, event.display, 0, 'later', null, null, null, null,() => !--count && callback());
                     } else {
                         count++;
-                        initEvent(event.name, event.display, day, null, null, null, null, () => !--count && callback());
+                        initEvent(event.name, event.display, day, null, null, null, null, null,() => !--count && callback());
                     }
                 }
             }
@@ -977,7 +986,11 @@ function readAll() {
                         if (!--count) {
                             if (errCnt === adapter.config.calendars.length) {
                                 adapter.log.info('All calenders could not be processed, Do not clean up events');
-                                setTimeout(() => adapter.stop(), 5000);
+                                killTimeout && clearTimeout(killTimeout);
+                                killTimeout = setTimeout(() => {
+                                    killTimeout = null;
+                                    adapter.stop();
+                                }, 5000);
                                 return;
                             }
                             adapter.log.debug('displaying dates because of callback');
@@ -1001,7 +1014,11 @@ function readOne(url) {
     checkICal(url, (err) => {
         if (err) {
             adapter.log.info('Calender could not be processed, Do not clean up events.');
-            setTimeout(() => adapter.stop(), 5000);
+            killTimeout && clearTimeout(killTimeout);
+            killTimeout = setTimeout(() => {
+                killTimeout = null;
+                adapter.stop();
+            }, 5000);
             return;
         }
         displayDates();
@@ -1301,7 +1318,7 @@ function formatDate(_date, _end, withTime, fullDay) {
     };
 }
 
-async function setState(id, val, cb) {
+async function setState(id, val, ack, cb) {
     if (id) {
         try {
             const obj = await adapter.getForeignObjectAsync(id);
@@ -1321,8 +1338,8 @@ async function setState(id, val, cb) {
                     }
                 }
 
-                adapter.log.info(`Set ${id} to ${val}`);
-                await adapter.setForeignStateAsync(id, val, true);
+                adapter.log.info(`Set ${id} to ${val} with ack=${ack}`);
+                await adapter.setForeignStateAsync(id, val, ack);
             }
         } catch {
             // Ignore error
@@ -1388,11 +1405,15 @@ async function displayDates() {
             const name = 'events.' + ev.day + '.' + (ev.type ? ev.type + '.' : '') + shrinkStateName(ev.name);
             adapter.log.info('Set ' + name + ' to false');
             await adapter.setStateAsync(name, {val: false, ack: true});
-            await setState(ev.id, ev.off);
+            await setState(ev.id, ev.off, ev.ack);
         }
     }
 
-    setTimeout(() => adapter.stop(), 5000);
+    killTimeout && clearTimeout(killTimeout);
+    killTimeout = setTimeout(() => {
+        killTimeout = null;
+        adapter.stop();
+    }, 5000);
 }
 
 function insertSorted(arr, element) {
