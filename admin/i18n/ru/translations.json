@@ -1,5 +1,6 @@
 {
     "Add arrow for started events:": "Добавить стрелку для начатых событий",
+    "Add event color if available:": "Используйте цвет события для поля, если он доступен",
     "Calendars": "Календари",
     "Colorize HTML:": "Раскрашивать HTML",
     "Default color for HTML:": "Цвет по умолчанию для HTML",

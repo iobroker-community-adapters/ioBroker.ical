@@ -1467,17 +1467,17 @@ function brSeparatedList(datesArray) {
             }
         }
 
-	  
+	    let apptmBlock = '';
         let apptmColor = color;
-    
-        if (datesArray[i]._object['color'] != undefined) {
+
+        if (datesArray[i]._object && datesArray[i]._object['color'] !== undefined) {
             apptmColor = datesArray[i]._object['color'];
         }
-	      
-	      if (adapter.config.addColorBox) {
+
+        if (adapter.config.addColorBox) {
             apptmBlock = '<span style="background: ' + apptmColor + ';">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;';
-	      }
-	      
+        }
+
         const xfix = colorizeDates(datesArray[i]._date, today, tomorrow, dayAfter, color, datesArray[i]._calName);
 
         if (text) {

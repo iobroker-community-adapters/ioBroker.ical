@@ -28,7 +28,8 @@ Siehe deutsche [Version hier](docs/de/README.md).
 -->
 
 ### __WORK IN PROGRESS__
-* (Apollon77) Add option to choose the ack flag set when updating foreign objects on events
+* (Apollon77/Scrounger) Add option to choose the ack flag set when updating foreign objects on events
+* (HSE83) use a color field from the calendar entry as color for display
 
 ### 1.11.6 (2021-12-17)
 * (jens-maus) fixed incorrect recurrence event processing
