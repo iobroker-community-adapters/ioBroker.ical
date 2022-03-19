@@ -307,7 +307,16 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
             if (ev.rrule !== undefined) {
                 let eventLength = ev.end.getTime() - ev.start.getTime();
                 if (ev.datetype === 'date') {
-                    eventLength = 24 * 60 * 60 * 1000; // if whole day then adjust length
+                    // If "whole day event" correct the eventlength to full days
+                    const calcStart = new Date(ev.start.getTime());
+                    calcStart.setHours(0,0,0,0);
+                    let calcEnd = new Date(ev.end.getTime());
+                    if (calcEnd.getHours() === 0 && calcEnd.getMinutes() === 0 && calcEnd.getSeconds() === 0) {
+                        // if end id 0:0:0 then it is considered exclusive, so reduce by 1s
+                        calcEnd = new Date(ev.end.getTime() - 1000);
+                    }
+                    calcEnd.setHours(23,59,59,0);
+                    eventLength = Math.ceil((calcEnd.getTime() - calcStart.getTime()) /( 24 * 60 * 60 * 1000)) * 24 * 60 * 60 * 1000;
                 }
 
                 const options = RRule.parseString(ev.rrule.toString());
@@ -377,7 +386,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                         // which defines dates that - if matched - should
                         // be excluded.
                         let checkDate = true;
-                        if(ev2.exdate) {
+                        if (ev2.exdate) {
                             adapter.log.debug('   ' + i + ': Event (exdate: ' + JSON.stringify(Object.keys(ev2.exdate)) + '): ' + ev2.start.toString() + ' ' + ev2.end.toString());
                             for(const d in ev2.exdate) {
                                 const dd = new Date(ev2.exdate[d]);

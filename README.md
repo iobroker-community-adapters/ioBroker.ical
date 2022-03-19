@@ -32,6 +32,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 * (HSE83) use a color field from the calendar entry as color for display
 * (Apollon77) When not replacing date with text and entry ends at 0:0:0 show the day before as end
 * (Apollon77) Fix issues when no end date is provided in the calendar entry (start and end are the same)
+* * (Apollon77) Correctly calculate length of multi day events
 
 ### 1.11.6 (2021-12-17)
 * (jens-maus) fixed incorrect recurrence event processing
