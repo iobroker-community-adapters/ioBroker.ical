@@ -1298,8 +1298,7 @@ function formatDate(_date, _end, withTime, fullDay) {
         } else {
             if (_end.getHours() === 0 && _end.getMinutes() === 0 && _end.getSeconds() === 0) {
                 const secondBeforeEnd = new Date(_end.getTime());
-                secondBeforeEnd.setDate(secondBeforeEnd.getDate() - 1);
-                secondBeforeEnd.setHours(23,59,59,0);
+                secondBeforeEnd.setSeconds(secondBeforeEnd.getSeconds() - 1);
                 day   = secondBeforeEnd.getDate();
                 month = secondBeforeEnd.getMonth() + 1;
                 year  = secondBeforeEnd.getFullYear();
