@@ -1296,7 +1296,7 @@ function formatDate(_date, _end, withTime, fullDay) {
                 //}
             }
         } else {
-            if (_end.getHours() === 0 && _end.getMinutes() === 0 && _end.getSeconds() === 0) {
+            if (_end.getHours() === 0 && _end.getMinutes() === 0 && _end.getSeconds() === 0 && fullDay) {
                 const secondBeforeEnd = new Date(_end.getTime());
                 secondBeforeEnd.setSeconds(secondBeforeEnd.getSeconds() - 1);
                 day   = secondBeforeEnd.getDate();
