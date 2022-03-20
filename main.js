@@ -1065,7 +1065,8 @@ function formatDate(_date, _end, withTime, fullDay) {
     const endmonth = _end.getMonth() + 1;
     const endyear  = _end.getFullYear();
     let _time = '';
-    const alreadyStarted = _date < new Date() && _end > new Date();
+    const now = new Date();
+    const alreadyStarted = _date < now && _end > now;
     const arrowAlreadyStarted = adapter.config.arrowAlreadyStarted;
 
     if (withTime) {
@@ -1295,6 +1296,7 @@ function formatDate(_date, _end, withTime, fullDay) {
                 //}
             }
         } else {
+            adapter.log.debug(`Check date: ${_end.getHours()}:${_end.getMinutes()}:${_end.getSeconds()}`);
             if (!withTime && _end.getHours() === 0 && _end.getMinutes() === 0 && _end.getSeconds() === 0) {
                 const secondBeforeEnd = new Date(_end.getTime());
                 secondBeforeEnd.setDate(secondBeforeEnd.getDate() - 1);
