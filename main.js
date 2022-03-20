@@ -391,6 +391,9 @@ options: ${JSON.stringify(options)}`
 
                         // Set end date based on length in ms
                         ev2.end = new Date(ev2.start.getTime() + eventLength);
+                        if (ev2.start.getTimezoneOffset() !== ev2.end.getTimezoneOffset()) { // DST difference, we need to correct it
+                            ev2.end = addOffset(ev2.end, ev2.end.getTimezoneOffset() - ev2.start.getTimezoneOffset());
+                        }
 
                         // we have to check if there is an exdate array
                         // which defines dates that - if matched - should
