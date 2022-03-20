@@ -1296,8 +1296,7 @@ function formatDate(_date, _end, withTime, fullDay) {
                 //}
             }
         } else {
-            adapter.log.debug(`Check date: ${_end.getHours()}:${_end.getMinutes()}:${_end.getSeconds()}`);
-            if (!withTime && _end.getHours() === 0 && _end.getMinutes() === 0 && _end.getSeconds() === 0) {
+            if (_end.getHours() === 0 && _end.getMinutes() === 0 && _end.getSeconds() === 0) {
                 const secondBeforeEnd = new Date(_end.getTime());
                 secondBeforeEnd.setDate(secondBeforeEnd.getDate() - 1);
                 secondBeforeEnd.setHours(23,59,59,0);
