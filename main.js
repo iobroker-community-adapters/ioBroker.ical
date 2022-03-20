@@ -305,7 +305,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
             adapter.log.debug(`ev: ${JSON.stringify(ev)}`);
             if (!ev.end || !(ev.end instanceof Date)) {
                 ev.end = new Date(ev.start.getTime());
-                if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
+                if (ev.start.getHours() === 0 && ev.start.getMinutes() === 0 && ev.start.getSeconds() === 0) {
                     ev.end.setDate(ev.end.getDate() + 1);
                 }
             }
@@ -431,7 +431,7 @@ options: ${JSON.stringify(options)}`
                     adapter.log.debug('no RRule events inside the time interval');
                 }
             } else {
-                adapter.log.debug(`Single event: ${ev.summary}; start:${ev.start.toString()}; endpreview:${endpreview.toString()}; startpreview:${startpreview.toString()}; realnow:${realnow.toString()}`);
+                adapter.log.debug(`Single event: ${ev.summary}; start:${ev.start}; end:${ev.end}; endpreview:${endpreview}; startpreview:${startpreview}; realnow:${realnow}`);
                 // No RRule event
                 await checkDates(ev, endpreview, startpreview, realnow, ' ', calName, filter);
             }
@@ -476,18 +476,18 @@ async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, 
     }
 
     // If not end point => assume 0:0:0 event and set to same as start
-    ev.end = ev.end || new Date(ev.start.getTime());
+    ev.end = new Date(ev.end.getTime()) || new Date(ev.start.getTime());
     if (!ev.end || !ev.end instanceof Date) {
         return;
     }
 
     // If full day
-    if (!ev.start.getHours() &&
-        !ev.start.getMinutes() &&
-        !ev.start.getSeconds() &&
-        !ev.end.getHours() &&
-        !ev.end.getMinutes() &&
-        !ev.end.getSeconds()
+    if (ev.start.getHours() === 0 &&
+        ev.start.getMinutes() === 0 &&
+        ev.start.getSeconds() === 0 &&
+        ev.end.getHours() === 0 &&
+        ev.end.getMinutes() === 0 &&
+        ev.end.getSeconds() === 0
     ) {
         // interpreted as one day; RFC says end date must be after start date
         if (ev.end.getTime() === ev.start.getTime() && ev.datetype === 'date') {
