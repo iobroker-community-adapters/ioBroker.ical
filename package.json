@@ -34,6 +34,7 @@
   "dependencies": {
     "@iobroker/adapter-core": "^2.6.0",
     "node-ical": "^0.14.1",
+    "cloneextend": "^0.0.3",
     "request": "^2.88.2",
     "json-schema": "^0.4.0",
     "rrule": "2.6.4"

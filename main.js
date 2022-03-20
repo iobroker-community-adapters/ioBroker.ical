@@ -17,6 +17,7 @@
 const utils       = require('@iobroker/adapter-core');
 const RRule       = require('rrule').RRule;
 const ical        = require('node-ical');
+const ce          = require('cloneextend');
 const crypto      = require('crypto');
 const fs          = require('fs');
 const path        = require('path');
@@ -301,7 +302,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
 
         // only events with summary and a start date are interesting
         if ((ev.summary !== undefined) && (ev.type === 'VEVENT') && ev.start && ev.start instanceof Date) {
-            adapter.log.debug(`ev:${JSON.stringify(ev)}`);
+            adapter.log.debug(`ev: ${JSON.stringify(ev)}`);
             if (!ev.end || !(ev.end instanceof Date)) {
                 ev.end = new Date(ev.start.getTime());
                 if (!ev.start.getHours() && !ev.start.getMinutes() && !ev.start.getSeconds()) {
@@ -369,7 +370,7 @@ options: ${JSON.stringify(options)}`
                 if (dates.length > 0) {
                     for (let i = 0; i < dates.length; i++) {
                         // use deep-copy otherwise setDate etc. overwrites data from different events
-                        let ev2 = new Date(ev);
+                        let ev2 = ce.clone(ev);
 
                         // we have to move the start time of our clone
                         // to a time relative to the timezone of the start time
@@ -413,7 +414,7 @@ options: ${JSON.stringify(options)}`
                             for(const dOri in ev.recurrences) {
                                 const recurEvent = ev.recurrences[dOri];
                                 if (recurEvent.recurrenceid.getTime() === ev2.start.getTime()) {
-                                    ev2 = new Date(recurEvent.getTime());
+                                    ev2 = ce.clone(recurEvent);
                                     adapter.log.debug(`   ${i}: different recurring found replaced with Event:${ev2.start} ${ev2.end}`);
                                 }
                             }
