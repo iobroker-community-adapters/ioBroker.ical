@@ -34,6 +34,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 * (Apollon77) Fix issues when no end date is provided in the calendar entry (start and end are the same)
 * (Apollon77) Correctly calculate length of multi day events
 * (Apollon77) Respect DST changes in some calculations to prevent strange effects
+* (Apollon77) Also parse ics Files with different line endings again
 
 ### 1.11.6 (2021-12-17)
 * (jens-maus) fixed incorrect recurrence event processing
