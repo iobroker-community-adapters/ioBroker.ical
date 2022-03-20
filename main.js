@@ -313,10 +313,13 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                     let calcEnd = new Date(ev.end.getTime());
                     if (calcEnd.getHours() === 0 && calcEnd.getMinutes() === 0 && calcEnd.getSeconds() === 0) {
                         // if end id 0:0:0 then it is considered exclusive, so reduce by 1s
-                        calcEnd = new Date(ev.end.getTime() - 1000);
+                        calcEnd = new Date(ev.end.getTime());
+                        calcEnd.setDate(calcEnd.getDate() - 1);
+                        adapter.log.debug(`Adjust enddate to exclude 0:0:0 for eventlength`);
                     }
                     calcEnd.setHours(23,59,59,0);
                     eventLength = Math.ceil((calcEnd.getTime() - calcStart.getTime()) /( 24 * 60 * 60 * 1000)) * 24 * 60 * 60 * 1000;
+                    adapter.log.debug(`Calculated Date Eventlength = ${eventLength} for ${calcStart.toString()} - ${calcEnd.toString()}`);
                 }
 
                 const options = RRule.parseString(ev.rrule.toString());
@@ -1275,10 +1278,13 @@ function formatDate(_date, _end, withTime, fullDay) {
             }
         } else {
             if (!withTime && _end.getHours() === 0 && _end.getMinutes() === 0 && _end.getSeconds() === 0) {
-                const secondBeforeEnd = new Date(_end.getTime() - 1000);
+                const secondBeforeEnd = new Date(_end.getTime());
+                secondBeforeEnd.setDate(secondBeforeEnd.getDate() - 1);
+                secondBeforeEnd.setHours(23,59,59,0);
                 day   = secondBeforeEnd.getDate();
                 month = secondBeforeEnd.getMonth() + 1;
                 year  = secondBeforeEnd.getFullYear();
+                adapter.log.debug(`Adjust enddate to exclude 0:0:0 end: ${secondBeforeEnd.toString()}`);
             } else {
                 day = _end.getDate();
                 month = _end.getMonth() + 1;
