@@ -369,7 +369,7 @@ options: ${JSON.stringify(options)}`
                 if (dates.length > 0) {
                     for (let i = 0; i < dates.length; i++) {
                         // use deep-copy otherwise setDate etc. overwrites data from different events
-                        let ev2 = new Date(ev.getTime());
+                        let ev2 = new Date(ev);
 
                         // we have to move the start time of our clone
                         // to a time relative to the timezone of the start time
