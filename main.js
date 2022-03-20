@@ -418,7 +418,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                     adapter.log.debug('no RRule events inside the time interval');
                 }
             } else {
-                adapter.log.debug('Single event:' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; startpreview:' + startpreview.toString() + '; realnow:' + realnow.toString());
+                adapter.log.debug('Single event: ' + ev.summary + '; start:' + ev.start.toString() + '; endpreview:' + endpreview.toString() + '; startpreview:' + startpreview.toString() + '; realnow:' + realnow.toString());
                 // No RRule event
                 await checkDates(ev, endpreview, startpreview, realnow, ' ', calName, filter);
             }
@@ -463,7 +463,7 @@ async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, 
     }
 
     // If not end point => assume 0:0:0 event and set to same as start
-    ev.end = ev.end || cd.clone(ev.start);
+    ev.end = ev.end || ce.clone(ev.start);
     if (!ev.end || !ev.end instanceof Date) {
         return;
     }
