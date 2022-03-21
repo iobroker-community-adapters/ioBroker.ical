@@ -26,8 +26,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### __WORK IN PROGRESS__
+### 1.12.0 (2022-03-21)
 * (Apollon77/Scrounger) Add option to choose the ack flag set when updating foreign objects on events
 * (HSE83) use a color field from the calendar entry as color for display
 * (Apollon77) When no Arrow for already running events is shown and dates are not replaced with words display the start date in the list and not the end date
