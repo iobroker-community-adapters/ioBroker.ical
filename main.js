@@ -1151,7 +1151,11 @@ function formatDate(_date, _end, withTime, fullDay) {
     }
     adapter.log.debug(`    todayOnly = ${todayOnly}: (${_date}-${_end}), alreadyStarted=${alreadyStarted}`);
 
-    if (todayOnly || !alreadyStarted) {
+    if (todayOnly || !alreadyStarted || (!arrowAlreadyStarted && !adapter.config.replaceDates)) {
+        if (alreadyStarted) {
+            _class = 'ical_today';
+        }
+
         if (day   === d.getDate() &&
             month === (d.getMonth() + 1) &&
             year  === d.getFullYear()) {
