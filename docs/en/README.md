@@ -35,7 +35,7 @@ Meaning of the options in the config file:
 
 - `preview`: 7 # means that appointments are displayed 7 days in advance
 - `runEveryMinutes`: 30 # means that the adapter automatically rewists the calendar every 30 minutes. If 0 is not read automatically
-- `colorize`: true # Today's appointments will be colored red, tomorrow's appointments will be orange, this option overrides the option everyCalOneColor
+- `colorize`: true # Today's appointments  and appointments which are currently running will be colored red, tomorrow's appointments will be orange, this option overrides the option everyCalOneColor
 - `debug`: false # if true, extended output is written to the CCU.IO log
 - `defColor`:` white` # sets the default color of the calendar entries
 - `fulltime`: ` ` # determines by which string the time 00:00 is replaced for all day appointments. For spaces (between the quotes), the time is omitted for all-day appointments
