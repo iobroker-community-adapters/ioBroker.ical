@@ -614,7 +614,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     // colorize if needed
     if (adapter.config.colorize) {
         // today
-        if (cmpDate.compare(today) === 0) {
+        if (cmpDate.compare(today) <= 0) {
             result.prefix = warn;
             // If configured every calendar has own color
             if (adapter.config.everyCalOneColor) {
