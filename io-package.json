@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.12.0",
+    "version": "1.12.1",
     "news": {
+      "1.12.1": {
+        "en": "Adjust colorize of dates to also show dates started in the past with todays color",
+        "de": "Passen Sie die Farbgebung von Daten an, um auch in der Vergangenheit begonnene Daten in der heutigen Farbe anzuzeigen",
+        "ru": "Отрегулируйте цвет дат, чтобы также отображать даты, начавшиеся в прошлом, с сегодняшним цветом",
+        "pt": "Ajuste a coloração das datas para também mostrar as datas iniciadas no passado com a cor de hoje",
+        "nl": "Pas de kleur van datums aan om ook datums weer te geven die in het verleden zijn begonnen met de kleur van vandaag",
+        "fr": "Ajustez la colorisation des dates pour afficher également les dates commencées dans le passé avec la couleur d'aujourd'hui",
+        "it": "Regola la colorazione delle date per mostrare anche le date iniziate in passato con il colore di oggi",
+        "es": "Ajuste el color de las fechas para mostrar también las fechas que comenzaron en el pasado con el color de hoy",
+        "pl": "Dostosuj kolorowanie dat, aby wyświetlać również daty rozpoczęte w przeszłości z dzisiejszym kolorem",
+        "zh-cn": "调整日期的颜色以使用今天的颜色显示过去开始的日期"
+      },
       "1.12.0": {
         "en": "Add option to choose the ack flag set when updating foreign objects on events\nuse a color field from the calendar entry as color for display\nWhen no Arrow for already running events is shown and dates are not replaced with words display the start date in the list and not the end date\nWhen not replacing date with words and entry ends at 0:0:0 show the day before as end\nFix issues when no end date is provided in the calendar entry (start and end are the same)\nCorrectly calculate length of multi day events\nRespect DST changes in some calculations to prevent strange effects\nParse ics Files with different line endings again",
         "de": "Option hinzugefügt, um das Ack-Flag auszuwählen, wenn Fremdobjekte bei Ereignissen aktualisiert werden\nVerwenden Sie ein Farbfeld aus dem Kalendereintrag als Farbe für die Anzeige\nWenn kein Pfeil für bereits laufende Ereignisse angezeigt wird und Datumsangaben nicht durch Wörter ersetzt werden, wird das Startdatum in der Liste und nicht das Enddatum angezeigt\nWenn das Datum nicht durch Wörter ersetzt wird und der Eintrag um 0:0:0 endet, wird der Vortag als Ende angezeigt\nBehebung von Problemen, wenn im Kalendereintrag kein Enddatum angegeben ist (Start und Ende sind gleich)\nBerechnen Sie die Länge von mehrtägigen Veranstaltungen richtig\nBeachten Sie bei einigen Berechnungen Sommerzeitänderungen, um seltsame Effekte zu vermeiden\nAnalysieren Sie ics-Dateien mit unterschiedlichen Zeilenenden erneut",
@@ -74,18 +86,6 @@
         "es": "Cambiar un logline para depurar",
         "pl": "Zmień jeden logline na debugowanie",
         "zh-cn": "更改一个日志行以进行调试"
-      },
-      "1.11.1": {
-        "en": "Adjust date length for full day events to the full day",
-        "de": "Passen Sie die Datumslänge für ganztägige Ereignisse an den ganzen Tag an",
-        "ru": "Отрегулируйте длину даты для мероприятий на целый день до полного дня",
-        "pt": "Ajuste a duração da data para eventos de dia inteiro para o dia inteiro",
-        "nl": "Pas de datumlengte voor evenementen van een hele dag aan naar de hele dag",
-        "fr": "Ajuster la durée de la date pour les événements d'une journée complète à la journée complète",
-        "it": "Regola la durata della data per gli eventi dell'intera giornata sull'intera giornata",
-        "es": "Ajustar la duración de la fecha para eventos de día completo al día completo",
-        "pl": "Dostosuj długość daty dla wydarzeń całodniowych do pełnego dnia",
-        "zh-cn": "将全天事件的日期长度调整为全天"
       }
     },
     "title": "iCal Calendar",
