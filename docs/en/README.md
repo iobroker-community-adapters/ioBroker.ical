@@ -49,7 +49,10 @@ Meaning of the options in the config file:
 - `Events`:
   - `name`:" vacation ":
   - `enabled`: true # determines if the event will be edited
+  - `Set ID`: An additional state can be entered here, which is updated when the event is active
+  - `On / Off`: Here, an alternative value can be written to the state stored under 'Set ID'
   - `display`: false # determines whether the event is also displayed in the iCalEvents, or only evaluated
+  - `Set Ack`: false # Ack "off" controls the state, e.g. to switch something. #true Ack "on" updates the value
   
   By setting an event (in this example "vacation"), the calendars are searched for the string "vacation".
   If an appointment with the keyword "vacation" is in a calendar, then automatically a state with the
@@ -57,6 +60,12 @@ Meaning of the options in the config file:
   A status is created for each day of the preview period. Danger!
   It is searched for a substring, i. an entry in the calendar "vacation" is recognized as well as a
   Entry "holiday parents". This must be taken into account when setting the events.
+  
+- Explanation of the states under ical.0.events.0
+  - The event in the path ical.0.events.0.later is set to true if it is still happening today but has not started yet
+  - The event in path ical.0.events.0.now is set to true if it is currently active
+  - The event in the path ical.0.events.0.today is set to true if the event is active today
+
   
 By adjusting the CSS in the VIS, the styles of today's (standard red) and tomorrow's dates (standard orange) can be set:
 - `iCalWarn` - Newline calendar entry today
