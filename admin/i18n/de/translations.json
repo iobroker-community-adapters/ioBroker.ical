@@ -19,7 +19,7 @@
     "Use by full day:": "Ersetze 00:00 mit",
     "color": "Farbe",
     "display": "anzeigen",
-    "enabled": "aktiviert",
+    "enabled": "Aktiviert",
     "filter": "Filter",
     "filterregex": "Filter als regulärer Ausdruck",
     "iCal adapter settings": "iCal Adapter Einstellungen",
