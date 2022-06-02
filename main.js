@@ -1239,7 +1239,7 @@ function formatDate(_date, _end, withTime, fullDay) {
     } else {
         // check if date is in the past and if so we show the end time instead
         _class = 'ical_today';
-        const dateDiff = (treatAsUTC(_end.getTime()) - Date.now());
+        const dateDiff = (treatAsUTC(_end.getTime()) - treatAsUTC(Date.now()));
         let daysleft = Math.round( dateDiff/ (1000 * 60 * 60 * 24));
         const hoursleft = Math.round(dateDiff / (1000 * 60 * 60));
         const minutesleft = Math.round(dateDiff / (1000 * 60));

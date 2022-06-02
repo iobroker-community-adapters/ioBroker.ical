@@ -26,6 +26,10 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### __WORK IN PROGRESS__
+* (Apollon77) Fix displaying rest-time of event in one case
+
 ### 1.12.1 (2022-03-22)
 * (Apollon77) Adjust colorize of dates to also show dates started in the past with todays color
 
