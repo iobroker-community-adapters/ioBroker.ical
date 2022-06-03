@@ -26,8 +26,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### __WORK IN PROGRESS__
+### 1.12.2 (2022-06-03)
 * (Apollon77) Fix displaying rest-time of event in one case
 
 ### 1.12.1 (2022-03-22)

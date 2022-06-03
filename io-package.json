@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.12.1",
+    "version": "1.12.2",
     "news": {
+      "1.12.2": {
+        "en": "Fix displaying rest-time of event in one case",
+        "de": "Anzeige der Ruhezeit des Ereignisses in einem Fall behoben",
+        "ru": "Исправлено отображение времени отдыха события в одном случае",
+        "pt": "Corrigida a exibição do tempo de descanso do evento em um caso",
+        "nl": "Repareer de weergave van de rusttijd van de gebeurtenis in één geval",
+        "fr": "Correction de l'affichage du temps de repos de l'événement dans un cas",
+        "it": "Risolto il problema con la visualizzazione del tempo di riposo dell'evento in un caso",
+        "es": "Corrección que muestra el tiempo de descanso del evento en un caso",
+        "pl": "Naprawiono wyświetlanie czasu spoczynku zdarzenia w jednym przypadku",
+        "zh-cn": "修复在一种情况下显示事件的休息时间"
+      },
       "1.12.1": {
         "en": "Adjust colorize of dates to also show dates started in the past with todays color",
         "de": "Passen Sie die Farbgebung von Daten an, um auch in der Vergangenheit begonnene Daten in der heutigen Farbe anzuzeigen",
@@ -74,18 +86,6 @@
         "es": "->",
         "pl": "->",
         "zh-cn": "->"
-      },
-      "1.11.2": {
-        "en": "Change one logline to debug",
-        "de": "Ändern Sie eine Protokollzeile in Debug",
-        "ru": "Измените одну строку журнала для отладки",
-        "pt": "Alterar uma linha de log para depurar",
-        "nl": "Eén loglijn wijzigen om te debuggen",
-        "fr": "Changer une ligne de connexion pour déboguer",
-        "it": "Cambia una logline in debug",
-        "es": "Cambiar un logline para depurar",
-        "pl": "Zmień jeden logline na debugowanie",
-        "zh-cn": "更改一个日志行以进行调试"
       }
     },
     "title": "iCal Calendar",
