@@ -206,7 +206,18 @@
             "_id": "events",
             "type": "channel",
             "common": {
-                "name": "User events controlled from calendar"
+                "name": {
+                    "en": "User events controlled from calendar",
+                    "de": "Benutzerereignisse vom Kalender gesteuert",
+                    "ru": "События пользователя контролируются из календаря",
+                    "pt": "Eventos do usuário controlados a partir do calendário",
+                    "nl": "User evenementen gecontroleerd van kalender",
+                    "fr": "Utilisateurs contrôlés à partir du calendrier",
+                    "it": "Eventi utente controllati dal calendario",
+                    "es": "Eventos de usuario controlados desde el calendario",
+                    "pl": "Rozgrywki użytkownicy kontrolują kalendarz",
+                    "zh-cn": "B. 按日历开列的使用活动"
+                }
             },
             "native": {}
         },
@@ -214,7 +225,18 @@
             "_id": "events.0",
             "type": "channel",
             "common": {
-                "name": "User events of today, now and later today controlled from calendar"
+                "name": {
+                    "en": "Events of today, now and later today (controlled by calendar)",
+                    "de": "Ereignisse von heute, jetzt und später (durch Kalender kontrolliert)",
+                    "ru": "События сегодня, сейчас и позже сегодня (контролируется календарем)",
+                    "pt": "Eventos de hoje, agora e mais tarde hoje (controlado pelo calendário)",
+                    "nl": "De gebeurtenissen van vandaag en later vandaag",
+                    "fr": "Évènements d'aujourd'hui, maintenant et plus tard aujourd'hui (contrôlé par calendrier)",
+                    "it": "Eventi di oggi, oggi e più tardi (controllati dal calendario)",
+                    "es": "Eventos de hoy, ahora y más tarde (controlados por calendario)",
+                    "pl": "Dzisiaj, dziś i później (kontrolowane przez kalendarz)",
+                    "zh-cn": "今天、现在和以后的活动(按日历排列)"
+                }
             },
             "native": {}
         },
@@ -222,7 +244,18 @@
             "_id": "events.0.today",
             "type": "channel",
             "common": {
-                "name": "User events of today controlled from calendar"
+                "name": {
+                    "en": "Events of today (controlled by calendar)",
+                    "de": "Ereignisse von heute (durch Kalender kontrolliert)",
+                    "ru": "События сегодняшнего дня (контролируется календарем)",
+                    "pt": "Eventos de hoje (controlado pelo calendário)",
+                    "nl": "De gebeurtenissen van vandaag",
+                    "fr": "Événements d'aujourd'hui (contrôlés par calendrier)",
+                    "it": "Eventi di oggi (controllati dal calendario)",
+                    "es": "Eventos de hoy (controlados por calendario)",
+                    "pl": "Wydarzenia (kontrolowane przez kalendarz)",
+                    "zh-cn": "今天的活动(按日历排列)"
+                }
             },
             "native": {}
         },
@@ -230,7 +263,18 @@
             "_id": "events.0.now",
             "type": "channel",
             "common": {
-                "name": "User events of now controlled from calendar"
+                "name": {
+                    "en": "Events now (controlled by calendar)",
+                    "de": "Ereignisse jetzt (nach Kalender kontrolliert)",
+                    "ru": "События сейчас (управляемые календарем)",
+                    "pt": "Eventos agora (controlado pelo calendário)",
+                    "nl": "Avonds nu gecontroleerd door kalender",
+                    "fr": "Évènements maintenant (contrôlés par calendrier)",
+                    "it": "Eventi (controllati dal calendario)",
+                    "es": "Eventos ahora (controlados por calendario)",
+                    "pl": "Wydarzenia (kontrolowane przez kalendarz)",
+                    "zh-cn": "目前的活动(按日历进行)"
+                }
             },
             "native": {}
         },
@@ -238,23 +282,18 @@
             "_id": "events.0.later",
             "type": "channel",
             "common": {
-                "name": "User events later of today controlled from calendar"
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.1",
-            "type": "channel",
-            "common": {
-                "name": "User events of tomorrow controlled from calendar"
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.2",
-            "type": "channel",
-            "common": {
-                "name": "User events of the day after tomorrow controlled from calendar"
+                "name": {
+                    "en": "Events later today (controlled by calendar)",
+                    "de": "Ereignisse später (durch Kalender kontrolliert)",
+                    "ru": "События позже сегодня (управляемые календарем)",
+                    "pt": "Eventos mais tarde hoje (controlado pelo calendário)",
+                    "nl": "Dingen later vandaag",
+                    "fr": "Événements plus tard aujourd'hui (contrôlés par calendrier)",
+                    "it": "Eventi più tardi (controllati dal calendario)",
+                    "es": "Eventos más tarde hoy (controlado por calendario)",
+                    "pl": "Wydarzenia później (kontrolowane przez kalendarz)",
+                    "zh-cn": "今天晚些时候的活动(按日历排列)"
+                }
             },
             "native": {}
         },
@@ -262,7 +301,18 @@
             "_id": "trigger",
             "type": "state",
             "common": {
-                "name": "Commands to iCal",
+                "name": {
+                    "en": "Command",
+                    "de": "Befehl",
+                    "ru": "Команда",
+                    "pt": "Comando",
+                    "nl": "Commando",
+                    "fr": "Commandant",
+                    "it": "Comando",
+                    "es": "Comando",
+                    "pl": "Dowództwo",
+                    "zh-cn": "指挥"
+                },
                 "desc": "Commands: read [url], check [reason]",
                 "type": "string",
                 "read": true,
@@ -275,7 +325,18 @@
             "_id": "data.count",
             "type": "state",
             "common": {
-                "name": "Count of events for today",
+                "name": {
+                    "en": "Number of events today",
+                    "de": "Anzahl der Ereignisse heute",
+                    "ru": "Количество событий сегодня",
+                    "pt": "Número de eventos hoje",
+                    "nl": "Nummer van gebeurtenissen vandaag",
+                    "fr": "Nombre d'événements aujourd'hui",
+                    "it": "Numero di eventi oggi",
+                    "es": "Número de eventos hoy",
+                    "pl": "Liczba wydarzeń współczesnych",
+                    "zh-cn": "今天活动次数"
+                },
                 "type": "number",
                 "role": "indicator",
                 "read": true,
@@ -287,7 +348,18 @@
             "_id": "data.countTomorrow",
             "type": "state",
             "common": {
-                "name": "Count of events for tomorrow",
+                "name": {
+                    "en": "Number of events tomorrow",
+                    "de": "Anzahl der Ereignisse morgen",
+                    "ru": "Количество событий завтра",
+                    "pt": "Número de eventos amanhã",
+                    "nl": "Nummer van gebeurtenissen morgen",
+                    "fr": "Nombre d'événements demain",
+                    "it": "Numero di eventi domani",
+                    "es": "Número de eventos mañana",
+                    "pl": "Liczba jutroów",
+                    "zh-cn": "明天事件数目"
+                },
                 "type": "number",
                 "role": "indicator",
                 "read": true,
@@ -299,7 +371,18 @@
             "_id": "data.countYesterday",
             "type": "state",
             "common": {
-                "name": "Count of events for yesterday",
+                "name": {
+                    "en": "Number of events yesterday",
+                    "de": "Anzahl der Ereignisse gestern",
+                    "ru": "Количество событий вчера",
+                    "pt": "Número de eventos ontem",
+                    "nl": "Nummer van gebeurtenissen gisteren",
+                    "fr": "Nombre d'événements hier",
+                    "it": "Numero di eventi di ieri",
+                    "es": "Número de eventos ayer",
+                    "pl": "Liczba wydarzeń yesterday",
+                    "zh-cn": "昨天活动次数"
+                },
                 "type": "number",
                 "role": "indicator",
                 "read": true,
@@ -311,7 +394,18 @@
             "_id": "data.table",
             "type": "state",
             "common": {
-                "name": "JS iCal table",
+                "name": {
+                    "en": "Calendar data as array",
+                    "de": "Kalenderdaten als Array",
+                    "ru": "Данные календаря как массив",
+                    "pt": "Dados do calendário como array",
+                    "nl": "Calendar data als Array",
+                    "fr": "Données du calendrier comme tableau",
+                    "it": "Dati del calendario come array",
+                    "es": "Datos de calendario como matriz",
+                    "pl": "Kalendarz danych jako tablica",
+                    "zh-cn": "数字数据作为范围"
+                },
                 "desc": "JS table: []",
                 "type": "array",
                 "role": "list",
@@ -324,7 +418,18 @@
             "_id": "data.html",
             "type": "state",
             "common": {
-                "name": "HTML iCal table",
+                "name": {
+                    "en": "Calendar data as HTML",
+                    "de": "Kalenderdaten als HTML",
+                    "ru": "Данные календаря как HTML",
+                    "pt": "Dados do calendário como HTML",
+                    "nl": "Calendar data als HTML",
+                    "fr": "Données du calendrier en HTML",
+                    "it": "Dati del calendario come HTML",
+                    "es": "Datos del calendario como HTML",
+                    "pl": "Kalendarz danych jako HTML",
+                    "zh-cn": "HTML的基准数据"
+                },
                 "desc": "HTML table with events",
                 "type": "string",
                 "role": "html",
@@ -337,7 +442,18 @@
             "_id": "data.text",
             "type": "state",
             "common": {
-                "name": "Text iCal table",
+                "name": {
+                    "en": "Calendar data as Text",
+                    "de": "Kalenderdaten als Text",
+                    "ru": "Календарь данных как текст",
+                    "pt": "Dados do calendário como texto",
+                    "nl": "Calendar data als Text",
+                    "fr": "Données du calendrier comme texte",
+                    "it": "Dati del calendario come testo",
+                    "es": "Datos del calendario como texto",
+                    "pl": "Kalendarzowe dane jako tekst",
+                    "zh-cn": "作为案文的简历数据"
+                },
                 "desc": "Text table with events",
                 "type": "string",
                 "role": "text",

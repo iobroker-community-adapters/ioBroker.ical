@@ -233,7 +233,7 @@
                         },
                         {
                             "type": "text",
-                            "attr": "password",
+                            "attr": "pass",
                             "width": "10%",
                             "title": {
                                 "en": "Password",
