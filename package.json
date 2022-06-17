@@ -72,8 +72,11 @@
     "test:integration": "mocha test/integration --exit",
     "test": "npm run test:js && npm run test:package",
     "lint": "eslint",
+    "translate": "translate-adapter",
     "release": "release-script",
-    "translate": "translate-adapter"
+    "release-patch": "release-script patch --yes",
+    "release-minor": "release-script minor --yes",
+    "release-major": "release-script major --yes"
   },
   "license": "MIT"
 }
