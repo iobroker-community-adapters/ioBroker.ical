@@ -26,6 +26,9 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (klein0r) Added Admin 5 UI
+
 ### 1.12.2 (2022-06-03)
 * (Apollon77) Fix displaying rest-time of event in one case
 

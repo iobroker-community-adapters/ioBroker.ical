@@ -11,7 +11,7 @@
     "Hide Year": "隐藏年份",
     "Ignore Certificate errors": "忽略证书错误",
     "Ignore case for event-search": "忽略事件搜索的大小写",
-    "Language:": "语",
+    "Language": "语",
     "Padding date with '0'": "用“0”填充日期",
     "Past days": "过去的日子",
     "Preview days": "预览天数",
@@ -28,5 +28,7 @@
     "sslignore": "忽略 SSL 错误",
     "url": "日历 URL 或文件名",
     "user": "用户名",
-    "Options": "选项"
+    "Options": "选项",
+    "Set ID": "设置名称",
+    "Set Ack": "设置确认"
 }

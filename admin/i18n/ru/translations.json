@@ -11,7 +11,7 @@
     "Hide Year": "Скрывать год",
     "Ignore Certificate errors": "Игнорировать ошибки сертификата",
     "Ignore case for event-search": "Ignore case for event-search",
-    "Language:": "Язык",
+    "Language": "Язык",
     "Padding date with '0'": "Дополнять даты c '0'",
     "Past days": "Прошедшие дни",
     "Preview days": "На сколько дней",
@@ -28,5 +28,7 @@
     "sslignore": "Игнор ошибок SSL",
     "url": "URL календаря или имя файла",
     "user": "Имя пользователя",
-    "Options": "Опции"
+    "Options": "Опции",
+    "Set ID": "Установить идентификатор",
+    "Set Ack": "Установить подтверждение"
 }

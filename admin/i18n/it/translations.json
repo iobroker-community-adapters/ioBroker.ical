@@ -11,7 +11,7 @@
     "Hide Year": "Nascondi anno",
     "Ignore Certificate errors": "Ignora errori del certificato",
     "Ignore case for event-search": "Ignore case for event-search",
-    "Language:": "linguaggio",
+    "Language": "linguaggio",
     "Padding date with '0'": "Data di riempimento con '0'",
     "Past days": "Giorni passati",
     "Preview days": "Giorni di anteprima",
@@ -28,5 +28,7 @@
     "sslignore": "Ignora errori SSL",
     "url": "URL del calendario o nome del file",
     "user": "Nome utente",
-    "Options": "Opzioni"
+    "Options": "Opzioni",
+    "Set ID": "Imposta l'ID",
+    "Set Ack": "Imposta Rispondi"
 }

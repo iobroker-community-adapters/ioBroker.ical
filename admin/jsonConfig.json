@@ -1,0 +1,494 @@
+{
+    "i18n": true,
+    "type": "tabs",
+    "items": {
+        "_options": {
+            "type": "panel",
+            "label": "Options",
+            "items": {
+                "daysPreview": {
+                    "newLine": true,
+                    "type": "number",
+                    "min": 0,
+                    "step": 1,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Preview days"
+                },
+                "daysPast": {
+                    "type": "number",
+                    "min": 0,
+                    "step": 1,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "trim": false,
+                    "label": "Past days"
+                },
+                "ignoreCaseInEventname": {
+                    "type": "checkbox",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "trim": false,
+                    "label": "Ignore case for event-search"
+                }
+            }
+        },
+        "_html": {
+            "type": "panel",
+            "label": "HTML settings",
+            "items": {
+                "language": {
+                    "type": "select",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "options": [
+                        {
+                            "label": "English",
+                            "value": "en"
+                        },
+                        {
+                            "label": "Deutsch",
+                            "value": "de"
+                        },
+                        {
+                            "label": "русский",
+                            "value": "ru"
+                        },
+                        {
+                            "label": "Portugues",
+                            "value": "pt"
+                        },
+                        {
+                            "label": "Nederlands",
+                            "value": "nl"
+                        },
+                        {
+                            "label": "français",
+                            "value": "fr"
+                        },
+                        {
+                            "label": "Italiano",
+                            "value": "it"
+                        },
+                        {
+                            "label": "Espanol",
+                            "value": "es"
+                        }
+                    ],
+                    "default": "en",
+                    "label": "Language"
+                },
+                "fulltime": {
+                    "type": "text",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Use by full day"
+                },
+                "defColor": {
+                    "type": "text",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Default color for HTML"
+                },
+                "dataPaddingWithZeros": {
+                    "type": "checkbox",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Padding date with '0'"
+                },
+                "replaceDates": {
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Replace dates with words"
+                },
+                "everyCalOneColor": {
+                    "type": "checkbox",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Every calendar has own color"
+                },
+                "colorize": {
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Colorize HTML"
+                },
+                "forceFullday": {
+                    "type": "checkbox",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Hide Start-End of events"
+                },
+                "hideYear": {
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Hide Year"
+                },
+                "arrowAlreadyStarted": {
+                    "type": "checkbox",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Add arrow for started events"
+                },
+                "addColorBox": {
+                    "type": "checkbox",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Add event color if available"
+                }
+            }
+        },
+        "_calendars": {
+            "type": "panel",
+            "label": "Calendars",
+            "items": {
+                "calendars": {
+                    "type": "table",
+                    "sm": 12,
+                    "md": 12,
+                    "lg": 12,
+                    "label": "Calendars",
+                    "items": [
+                        {
+                            "type": "text",
+                            "attr": "name",
+                            "width": "15%",
+                            "title": {
+                                "en": "name",
+                                "de": "Name",
+                                "ru": "имя",
+                                "pt": "nome",
+                                "nl": "naam",
+                                "fr": "Nom",
+                                "it": "nome",
+                                "es": "nombre",
+                                "pl": "Nazwa",
+                                "zh-cn": "姓名"
+                            },
+                            "filter": true,
+                            "sort": true,
+                            "default": "My Calendar"
+                        },
+                        {
+                            "type": "text",
+                            "attr": "url",
+                            "width": "20%",
+                            "title": {
+                                "en": "Calendar URL or file name",
+                                "de": "Kalender URL oder Dateiname",
+                                "ru": "Календарь URL или имя файла",
+                                "pt": "Calendário URL ou nome de arquivo",
+                                "nl": "Calendar URL of dossier naam",
+                                "fr": "URL de calendrier ou nom de fichier",
+                                "it": "URL del calendario o nome del file",
+                                "es": "Calendario URL o nombre de archivo",
+                                "pl": "Calendar URL lub nazwy plików",
+                                "zh-cn": "卡伦·URL或档案"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": ""
+                        },
+                        {
+                            "type": "text",
+                            "attr": "user",
+                            "width": "10%",
+                            "title": {
+                                "en": "User name",
+                                "de": "Benutzername",
+                                "ru": "Имя пользователя",
+                                "pt": "Nome do utilizador",
+                                "nl": "Noem",
+                                "fr": "Nom de l ' utilisateur",
+                                "it": "Nome utente",
+                                "es": "Nombre de usuario",
+                                "pl": "Imię User",
+                                "zh-cn": "使用名称"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": false
+                        },
+                        {
+                            "type": "text",
+                            "attr": "password",
+                            "width": "10%",
+                            "title": {
+                                "en": "Password",
+                                "de": "Passwort",
+                                "ru": "Пароль",
+                                "pt": "Senha",
+                                "nl": "Wachtwoord",
+                                "fr": "Mot de passe",
+                                "it": "Password",
+                                "es": "Contraseña",
+                                "pl": "Password",
+                                "zh-cn": "护照"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": false
+                        },
+                        {
+                            "type": "checkbox",
+                            "attr": "sslignore",
+                            "width": "10%",
+                            "title": {
+                                "en": "Ignore SSL errors",
+                                "de": "SSL-Fehler ignorieren",
+                                "ru": "Игнорировать ошибки SSL",
+                                "pt": "Ignorar erros SSL",
+                                "nl": "Negeer SSL fouten",
+                                "fr": "Ignore les erreurs SSL",
+                                "it": "Ignora errori SSL",
+                                "es": "Ignorar errores SSL",
+                                "pl": "Ignore SSL error",
+                                "zh-cn": "Ignore SSL错误"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": false
+                        },
+                        {
+                            "type": "color",
+                            "attr": "color",
+                            "width": "10%",
+                            "title": {
+                                "en": "Color",
+                                "de": "Farbe",
+                                "ru": "Цвет",
+                                "pt": "Cor",
+                                "nl": "Kleur",
+                                "fr": "Couleur",
+                                "it": "Colore",
+                                "es": "Color",
+                                "pl": "Kolor",
+                                "zh-cn": "颜色"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": "#000000"
+                        },
+                        {
+                            "type": "text",
+                            "attr": "filter",
+                            "width": "15%",
+                            "title": {
+                                "en": "Filter",
+                                "de": "Filter",
+                                "ru": "Фильтр",
+                                "pt": "Filtro",
+                                "nl": "Filter",
+                                "fr": "Filtre",
+                                "it": "Filtro",
+                                "es": "Filtro",
+                                "pl": "Filter",
+                                "zh-cn": "电影"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": "ignored events"
+                        },
+                        {
+                            "type": "checkbox",
+                            "attr": "filterregex",
+                            "width": "10%",
+                            "title": {
+                                "en": "Filter as regular expression",
+                                "de": "Filter als regulärer Ausdruck",
+                                "ru": "Фильтр как регулярное выражение",
+                                "pt": "Filtrar como expressão regular",
+                                "nl": "Filter als regelmatige uitdrukking",
+                                "fr": "Filtrer comme expression régulière",
+                                "it": "Filtra come espressione normale",
+                                "es": "Filtro como expresión regular",
+                                "pl": "Filter jako zwykły wyraz wyrażenia",
+                                "zh-cn": "过滤为正则表达式"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": false
+                        }
+                    ]
+                }
+            }
+        },
+        "_events": {
+            "type": "panel",
+            "label": "Events",
+            "items": {
+                "events": {
+                    "type": "table",
+                    "sm": 12,
+                    "md": 12,
+                    "lg": 12,
+                    "label": "Events",
+                    "items": [
+                        {
+                            "type": "text",
+                            "attr": "name",
+                            "width": "20%",
+                            "title": {
+                                "en": "name",
+                                "de": "Name",
+                                "ru": "имя",
+                                "pt": "nome",
+                                "nl": "naam",
+                                "fr": "Nom",
+                                "it": "nome",
+                                "es": "nombre",
+                                "pl": "Nazwa",
+                                "zh-cn": "姓名"
+                            },
+                            "filter": true,
+                            "sort": true,
+                            "default": ""
+                        },
+                        {
+                            "type": "checkbox",
+                            "attr": "enabled",
+                            "width": "10%",
+                            "title": {
+                                "en": "Active",
+                                "de": "Aktiv",
+                                "ru": "Активно",
+                                "pt": "Activo",
+                                "nl": "Active",
+                                "fr": "Active",
+                                "it": "Attivo",
+                                "es": "Activo",
+                                "pl": "Aktywny",
+                                "zh-cn": "精算师"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": false
+                        },
+                        {
+                            "type": "objectId",
+                            "attr": "id",
+                            "width": "20%",
+                            "title": {
+                                "en": "Set ID",
+                                "de": "Set ID",
+                                "ru": "Установить ID",
+                                "pt": "Definir ID",
+                                "nl": "ID",
+                                "fr": "Set ID",
+                                "it": "Set ID",
+                                "es": "Establecer ID",
+                                "pl": "Set Identity (ang.)",
+                                "zh-cn": "导 言"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": ""
+                        },
+                        {
+                            "type": "text",
+                            "attr": "on",
+                            "width": "15%",
+                            "title": {
+                                "en": "ON",
+                                "de": "EIN",
+                                "ru": "НА",
+                                "pt": "VAMOS",
+                                "nl": "ON",
+                                "fr": "ON",
+                                "it": "ON",
+                                "es": "ON",
+                                "pl": "ON",
+                                "zh-cn": "目录"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": ""
+                        },
+                        {
+                            "type": "text",
+                            "attr": "off",
+                            "width": "15%",
+                            "title": {
+                                "en": "OFF",
+                                "de": "AUS",
+                                "ru": "ПРЕДЛОЖЕНИЕ",
+                                "pt": "O QUE FOI",
+                                "nl": "OFF",
+                                "fr": "OFF",
+                                "it": "UFFICIO",
+                                "es": "OFF",
+                                "pl": "OFF",
+                                "zh-cn": "导 言"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": ""
+                        },
+                        {
+                            "type": "checkbox",
+                            "attr": "ack",
+                            "width": "10%",
+                            "title": {
+                                "en": "Set Ack",
+                                "de": "Set Ack",
+                                "ru": "Набор Ack",
+                                "pt": "Definir Ack",
+                                "nl": "Set Ack",
+                                "fr": "Set Ack",
+                                "it": "Set Ack",
+                                "es": "Set Ack",
+                                "pl": "Set Ack",
+                                "zh-cn": "A. 定 标"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": false
+                        },
+                        {
+                            "type": "checkbox",
+                            "attr": "display",
+                            "width": "10%",
+                            "title": {
+                                "en": "Display",
+                                "de": "Anzeigen",
+                                "ru": "Показать",
+                                "pt": "Exposição",
+                                "nl": "Vertaling:",
+                                "fr": "Afficher",
+                                "it": "Visualizza",
+                                "es": "Visualización",
+                                "pl": "Display",
+                                "zh-cn": "缺点"
+                            },
+                            "filter": false,
+                            "sort": false,
+                            "default": false
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

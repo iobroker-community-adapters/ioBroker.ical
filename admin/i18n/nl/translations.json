@@ -11,7 +11,7 @@
     "Hide Year": "Jaar verbergen",
     "Ignore Certificate errors": "Certificaat fout negeren",
     "Ignore case for event-search": "Ignore case for event-search",
-    "Language:": "Taal",
+    "Language": "Taal",
     "Padding date with '0'": "Datum opvullen met '0'",
     "Past days": "Vorige dagen",
     "Preview days": "Vooruitzicht",
@@ -28,5 +28,7 @@
     "sslignore": "SSL fout negeren",
     "url": "Agend URL of bestandsnaam",
     "user": "Gebruikersnaam",
-    "Options": "Opties"
+    "Options": "Opties",
+    "Set ID": "ID instellen",
+    "Set Ack": "Set Ack"
 }
