@@ -464,11 +464,10 @@ async function checkDates(ev, endpreview, startpreview, realnow, rule, calName, 
         reason = ev.summary || '';
     }
 
-
     const location = ev.location || '';
 
     // check if sub parameter 'class' exists and contains PRIVATE
-    isPrivate = Object.prototype.hasOwnProperty.call(ev, 'class') && ev.class === "PRIVATE";
+    isPrivate = Object.prototype.hasOwnProperty.call(ev, 'class') && ev.class === 'PRIVATE';
 
     // If not start point => ignore it
     if (!ev.start || !ev.start instanceof Date) {
@@ -549,7 +548,7 @@ LOCATION:${location}`;
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName,
                     _calColor: adapter.config.calendars.find(x => x.name === calName).color,
-		    _object: ev
+                    _object: ev
                 });
 
                 adapter.log.debug(`Event (full day) added : ${JSON.stringify(rule)} ${reason} at ${date.text}`);
@@ -587,7 +586,7 @@ LOCATION:${location}`;
                     // add additional Objects, so iobroker.occ can use it
                     _calName: calName,
                     _calColor: adapter.config.calendars.find(x => x.name === calName).color,
-		    _object: ev
+                    _object: ev
                 });
 
                 adapter.log.debug(`Event with time added: ${JSON.stringify(rule)} ${reason} at ${date.text}`);
@@ -758,7 +757,7 @@ function initEvent(name, display, day, type, id, on, off, ack, callback) {
             obj.state = false;
             await adapter.setStateAsync(stateName, {val: false, ack: true});
             await setState(id, off, ack);
-            callback && callback(name)
+            callback && callback(name);
         } else {
             obj.state = state.val;
             callback && callback(name);
@@ -1294,9 +1293,9 @@ function formatDate(_date, _end, withTime, fullDay) {
                 }
             } else {
                 //if (adapter.config.language === 'ru') {
-                    // Todo: Russian
+                // Todo: Russian
                 //} else {
-                    text = `${_('still') !== ' ' ? _('still') : ''} ${minutesleft} ${minutesleft === 1 ? _('minute') : _('minutes')}${_left}`;
+                text = `${_('still') !== ' ' ? _('still') : ''} ${minutesleft} ${minutesleft === 1 ? _('minute') : _('minutes')}${_left}`;
                 //}
             }
         } else {
@@ -1514,7 +1513,7 @@ function brSeparatedList(datesArray) {
             }
         }
 
-	    let apptmBlock = '';
+        let apptmBlock = '';
         let apptmColor = color;
 
         if (datesArray[i]._object && datesArray[i]._object['color'] !== undefined) {
