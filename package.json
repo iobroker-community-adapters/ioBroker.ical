@@ -18,6 +18,10 @@
     {
       "name": "jens-maus",
       "email": "mail@jens-maus.de"
+    },
+    {
+      "name": "Matthias Kleine",
+      "email": "info@haus-automatisierung.com"
     }
   ],
   "homepage": "https://github.com/iobroker-community-adapters/ioBroker.ical",

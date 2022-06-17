@@ -115,8 +115,10 @@
         },
         "authors": [
             "bluefox <dogafox@gmail.com>",
+            "Apollon77 <ingo@fischer-ka.de>",
+            "twonky4 <twonky4@gmx.de>",
             "Jens Maus <mail@jens-maus.de>",
-            "Apollon77 <ingo@fischer-ka.de>"
+            "Matthias Kleine <info@haus-automatisierung.com>"
         ],
         "docs": {
             "en": "docs/en/README.md",
