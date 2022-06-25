@@ -1446,6 +1446,8 @@ async function displayDates() {
             }
         }
 
+        adapter.log.debug(`Dates array (data.table): ${JSON.stringify(datesArray)}`);
+
         await adapter.setStateAsync('data.table', {val: JSON.stringify(datesArray), ack: true});
         await adapter.setStateAsync('data.html',  {val: brSeparatedList(datesArray), ack: true});
         await adapter.setStateAsync('data.text',  {val: crlfSeparatedList(datesArray), ack: true});

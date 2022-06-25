@@ -1,9 +1,12 @@
 {
     "env": {
         "es6": true,
-        "node": true
+        "node": true,
+        "mocha": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended"
+    ],
     "rules": {
         "indent": [
             "error",
@@ -46,6 +49,6 @@
         "no-trailing-spaces": "error"
     },
     "parserOptions": {
-        "ecmaVersion": 2019
+        "ecmaVersion": 2018
     }
 }
