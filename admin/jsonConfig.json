@@ -232,7 +232,9 @@
                             "default": false
                         },
                         {
-                            "type": "text",
+                            "type": "password",
+                            "repeat": false,
+                            "visible": false,
                             "attr": "pass",
                             "width": "10%",
                             "title": {
