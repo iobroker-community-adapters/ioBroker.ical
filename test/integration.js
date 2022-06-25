@@ -2,10 +2,12 @@
 
 const path = require('path');
 const { tests, IntegrationTestHarness } = require('@iobroker/testing');
-const setupIcsToday = require(__dirname + '/lib/setupIcsToday');
 const chai = require('chai');
 chai.use(require('chai-string'));
 const expect = chai.expect;
+
+const setupIcsToday = require(__dirname + '/lib/setupIcsToday');
+const setupIcsEvent = require(__dirname + '/lib/setupIcsEvent');
 
 // Run integration tests - See https://github.com/ioBroker/testing for a detailed explanation and further options
 tests.integration(path.join(__dirname, '..'), {
@@ -27,7 +29,6 @@ tests.integration(path.join(__dirname, '..'), {
                     native: {
                         daysPreview: 7,
                         daysPast: 0,
-                        colorize: true,
                         fulltime: '',
                         replaceDates: false,
                         hideYear: true,
@@ -35,8 +36,8 @@ tests.integration(path.join(__dirname, '..'), {
                             {
                                 name: 'calendar-today',
                                 url: __dirname + '/data/today.ics',
-                                user: 'username',
-                                pass: 'password',
+                                user: '',
+                                pass: '',
                                 sslignore: 'ignore',
                                 color: 'orange'
                             }
@@ -89,7 +90,6 @@ tests.integration(path.join(__dirname, '..'), {
             });
 
             it('Check event count', async function () {
-                this.timeout(10000);
 
                 /*
                     * TestEvent
@@ -188,7 +188,164 @@ tests.integration(path.join(__dirname, '..'), {
                 expect(dataTableObj[9].date).to.endsWith('. 22:00-02:00');
                 expect(dataTableObj[9].date).to.not.have.string('+1');
                 expect(dataTableObj[9]._allDay).to.be.false;
+
             });
+        });
+
+        suite('Test Event', getHarness => {
+            /**
+             * @type {IntegrationTestHarness}
+             */
+            let harness;
+            before(async function () {
+                this.timeout(60000);
+
+                setupIcsEvent.setup();
+                harness = getHarness();
+
+                harness.changeAdapterConfig(harness.adapterName, {
+                    native: {
+                        daysPreview: 2,
+                        daysPast: 0,
+                        fulltime: '',
+                        replaceDates: false,
+                        hideYear: true,
+                        calendars: [
+                            {
+                                name: 'calendar-event',
+                                url: __dirname + '/data/event.ics',
+                                user: '',
+                                pass: '',
+                                sslignore: 'ignore',
+                                color: 'red'
+                            }
+                        ],
+                        events: [
+                            {
+                                name: 'EventThreeDays',
+                                enabled: true,
+                                display: false
+                            },
+                            {
+                                name: 'Event Now',
+                                enabled: true,
+                                display: true
+                            },
+                            {
+                                name: 'EventDisabled',
+                                enabled: false,
+                                display: true
+                            },
+                            {
+                                name: 'EventLater',
+                                enabled: true,
+                                display: true
+                            },
+                            {
+                                name: 'EventNextDay1',
+                                enabled: true,
+                                display: true
+                            },
+                            {
+                                name: 'EventNextDay2',
+                                enabled: true,
+                                display: true
+                            },
+                            {
+                                name: 'EventNextDay3',
+                                enabled: true,
+                                display: true
+                            }
+                        ]
+                    }
+                });
+
+                return new Promise(resolve => {
+                    harness.startAdapterAndWait()
+                        .then(() => {
+                            expect(harness.isAdapterRunning()).to.be.true;
+                            expect(harness.isControllerRunning()).to.be.true;
+
+                            // Wait for adapter stop
+                            harness.on('stateChange', async (id, state) => {
+                                if (
+                                    id === `system.adapter.${harness.adapterName}.0.alive` &&
+                                    state &&
+                                    state.val === false
+                                ) {
+                                    setTimeout(() => {
+                                        resolve();
+                                    }, 2000);
+                                }
+                            });
+                        });
+                });
+            });
+
+            it('Check event count', async function () {
+
+                const stateDataCount = await harness.states.getStateAsync(`${harness.adapterName}.0.data.count`);
+                expect(stateDataCount.val).to.be.equal(3);
+
+                const stateDataCountTomorrow = await harness.states.getStateAsync(`${harness.adapterName}.0.data.countTomorrow`);
+                expect(stateDataCountTomorrow.val).to.be.equal(1);
+
+            });
+
+            const eventTests = [
+                {name: 'ical.0.events.0.later.EventThreeDays', value: false},
+                {name: 'ical.0.events.0.today.EventThreeDays', value: true},
+                {name: 'ical.0.events.0.now.EventThreeDays', value: true},
+                {name: 'ical.0.events.1.EventThreeDays', value: true},
+                {name: 'ical.0.events.2.EventThreeDays', value: false},
+                {name: 'ical.0.events.0.later.EventNow', value: false},
+                {name: 'ical.0.events.0.today.EventNow', value: true},
+                {name: 'ical.0.events.0.now.EventNow', value: true},
+                {name: 'ical.0.events.1.EventNow', value: false},
+                {name: 'ical.0.events.2.EventNow', value: false},
+                {name: 'ical.0.events.0.later.EventDisabled', value: undefined},
+                {name: 'ical.0.events.0.today.EventDisabled', value: undefined},
+                {name: 'ical.0.events.0.now.EventDisabled', value: undefined},
+                {name: 'ical.0.events.1.EventDisabled', value: undefined},
+                {name: 'ical.0.events.2.EventDisabled', value: undefined},
+                {name: 'ical.0.events.0.later.EventLater', value: true},
+                {name: 'ical.0.events.0.today.EventLater', value: true},
+                {name: 'ical.0.events.0.now.EventLater', value: false},
+                {name: 'ical.0.events.1.EventLater', value: false},
+                {name: 'ical.0.events.2.EventLater', value: false},
+                {name: 'ical.0.events.0.later.EventNextDay1', value: false},
+                {name: 'ical.0.events.0.today.EventNextDay1', value: false},
+                {name: 'ical.0.events.0.now.EventNextDay1', value: false},
+                {name: 'ical.0.events.1.EventNextDay1', value: true},
+                {name: 'ical.0.events.2.EventNextDay1', value: false},
+                {name: 'ical.0.events.0.later.EventNextDay2', value: false},
+                {name: 'ical.0.events.0.today.EventNextDay2', value: false},
+                {name: 'ical.0.events.0.now.EventNextDay2', value: false},
+                {name: 'ical.0.events.1.EventNextDay2', value: false},
+                {name: 'ical.0.events.2.EventNextDay2', value: true},
+                {name: 'ical.0.events.0.later.EventNextDay3', value: false},
+                {name: 'ical.0.events.0.today.EventNextDay3', value: false},
+                {name: 'ical.0.events.0.now.EventNextDay3', value: false},
+                {name: 'ical.0.events.1.EventNextDay3', value: false},
+                {name: 'ical.0.events.2.EventNextDay3', value: false}
+            ];
+
+            for (let t = 0; t < eventTests.length; t++) {
+                it(`Checking event "${eventTests[t].name}"`, function (done) {
+
+                    harness.states.getState(eventTests[t].name, function (err, state) {
+                        expect(err).to.be.not.ok;
+                        if (eventTests[t].value === undefined) {
+                            expect(state).to.be.null;
+                        } else {
+                            expect(state.val).to.be.equals(eventTests[t].value);
+                        }
+
+                        done();
+                    });
+
+                });
+            }
         });
     }
 });
