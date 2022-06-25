@@ -162,16 +162,16 @@ tests.integration(path.join(__dirname, '..'), {
                         expect(dataTableObj[3].date).to.endsWith('. 00:00');
                         expect(dataTableObj[3]._allDay).to.be.true;
 
-                        expect(dataTableObj[4].event).to.be.equal('MorgenVoll');
-                        expect(dataTableObj[4]._section).to.be.equal('MorgenVoll');
-                        expect(dataTableObj[4].date).to.endsWith('. 00:00-00:00');
-                        expect(dataTableObj[4]._allDay).to.be.true;
+                        expect(dataTableObj[4].event).to.be.equal('SameDay');
+                        expect(dataTableObj[4]._section).to.be.equal('SameDay');
+                        expect(dataTableObj[4].date).to.endsWith('59');
+                        // expect(dataTableObj[4].date).to.endsWith('. 23:58-23:59'); TZ Conversion, TODO
+                        expect(dataTableObj[4]._allDay).to.be.false;
 
-                        expect(dataTableObj[5].event).to.be.equal('SameDay');
-                        expect(dataTableObj[5]._section).to.be.equal('SameDay');
-                        expect(dataTableObj[5].date).to.endsWith('59');
-                        // expect(dataTableObj[5].date).to.endsWith('. 23:58-23:59'); TZ Conversion, TODO
-                        expect(dataTableObj[5]._allDay).to.be.false;
+                        expect(dataTableObj[5].event).to.be.equal('MorgenVoll');
+                        expect(dataTableObj[5]._section).to.be.equal('MorgenVoll');
+                        expect(dataTableObj[5].date).to.endsWith('. 00:00-00:00');
+                        expect(dataTableObj[5]._allDay).to.be.true;
 
                         expect(dataTableObj[6].event).to.be.equal('Reminder');
                         expect(dataTableObj[6]._section).to.be.equal('Reminder');
