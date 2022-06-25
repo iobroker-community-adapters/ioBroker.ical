@@ -3,7 +3,10 @@
 const fs = require('fs');
 
 module.exports.setup = function () {
-    fs.unlinkSync(__dirname + '/../data/today.ics');
+    const fileName = __dirname + '/../data/today.ics';
+    if (fs.existsSync(fileName)) {
+        fs.unlinkSync(fileName);
+    }
 
     const d0 = new Date();
     d0.setDate(d0.getDate() - 1);
@@ -237,5 +240,6 @@ module.exports.setup = function () {
     data += 'END:VEVENT\n';
 
     data += 'END:VCALENDAR\n';
-    fs.writeFileSync(__dirname + '/../data/today.ics', data);
-}
+
+    fs.writeFileSync(fileName, data);
+};
