@@ -386,7 +386,7 @@
                             },
                             "filter": false,
                             "sort": false,
-                            "default": false
+                            "default": true
                         },
                         {
                             "type": "objectId",

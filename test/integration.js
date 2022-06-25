@@ -101,8 +101,27 @@ tests.integration(path.join(__dirname, '..'), {
                     .then(async (exitCode) => {
                         // expect(exitCode).to.equal(11);
 
+                        /*
+                         * TestEvent
+                         * MyEvent BlaEvent
+                         * FulldayWithSameDate
+                         * Today Event
+                         * SameDay
+                        */
                         const stateDataCount = await harness.states.getStateAsync(`${harness.adapterName}.0.data.count`);
-                        expect(stateDataCount.val).to.be.equal(4);
+                        expect(stateDataCount.val).to.be.equal(5);
+
+                        /*
+                         * TestEvent
+                         * MyEvent BlaEvent
+                         * MorgenVoll
+                         * Reminder
+                         * InDay2
+                         * TestUserEvent1
+                         * OverEvent
+                        */
+                        const stateDataCountTomorrow = await harness.states.getStateAsync(`${harness.adapterName}.0.data.countTomorrow`);
+                        expect(stateDataCountTomorrow.val).to.be.equal(7);
 
                         const stateVacationEventToday = await harness.states.getStateAsync(`${harness.adapterName}.0.events.0.today.Vacation`);
                         expect(stateVacationEventToday.val).to.be.true;
