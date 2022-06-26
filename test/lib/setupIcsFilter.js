@@ -9,7 +9,7 @@ module.exports.setup = function () {
         fs.unlinkSync(fileName);
     }
 
-    // yesterday
+    // tomorrow
     const d = newDate().plus({day: 1});
     const m = d.toFormat('MM');
     const day = d.toFormat('dd');
@@ -78,6 +78,8 @@ module.exports.setup = function () {
     data += 'TRANSP:TRANSPARENT\n';
     data += 'UID:ec1cbf54-1aae-44bc-8c23-b27668f2be30\n';
     data += 'END:VEVENT\n';
+
+    data += 'END:VCALENDAR\n';
 
     fs.writeFileSync(fileName, data);
 };
