@@ -41,7 +41,7 @@
     "cloneextend": "^0.0.3",
     "json-schema": "^0.4.0",
     "node-ical": "^0.15.1",
-    "rrule": "^2.6.9"
+    "rrule": "2.6.9"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.5.9",
