@@ -8,6 +8,7 @@ const expect = chai.expect;
 
 const setupIcsToday = require(__dirname + '/lib/setupIcsToday');
 const setupIcsEvent = require(__dirname + '/lib/setupIcsEvent');
+const setupIcsFilter = require(__dirname + '/lib/setupIcsFilter');
 
 // Run integration tests - See https://github.com/ioBroker/testing for a detailed explanation and further options
 tests.integration(path.join(__dirname, '..'), {
@@ -346,6 +347,90 @@ tests.integration(path.join(__dirname, '..'), {
 
                 });
             }
+        });
+
+        suite('Test Filter', getHarness => {
+            /**
+             * @type {IntegrationTestHarness}
+             */
+            let harness;
+            before(async function () {
+                this.timeout(60000);
+
+                setupIcsFilter.setup();
+                harness = getHarness();
+
+                harness.changeAdapterConfig(harness.adapterName, {
+                    native: {
+                        daysPreview: 2,
+                        daysPast: 0,
+                        fulltime: '',
+                        replaceDates: false,
+                        hideYear: true,
+                        calendars: [
+                            {
+                                name: 'calendar-filter',
+                                url: __dirname + '/data/filter.ics',
+                                user: '',
+                                pass: '',
+                                sslignore: 'ignore',
+                                color: 'red',
+                                filter: 'Description-1;Summary-2 ;Location-3',
+                                filterregex: false
+                            }
+                        ],
+                        events: [
+                            {
+                                name: 'Vacation',
+                                enabled: true,
+                                display: false
+                            }
+                        ]
+                    }
+                });
+
+                return new Promise(resolve => {
+                    harness.startAdapterAndWait()
+                        .then(() => {
+                            expect(harness.isAdapterRunning()).to.be.true;
+                            expect(harness.isControllerRunning()).to.be.true;
+
+                            // Wait for adapter stop
+                            harness.on('stateChange', async (id, state) => {
+                                if (
+                                    id === `system.adapter.${harness.adapterName}.0.alive` &&
+                                    state &&
+                                    state.val === false
+                                ) {
+                                    setTimeout(() => {
+                                        resolve();
+                                    }, 2000);
+                                }
+                            });
+                        });
+                });
+            });
+
+            it('Check event count', async function () {
+
+                const stateDataCount = await harness.states.getStateAsync(`${harness.adapterName}.0.data.count`);
+                expect(stateDataCount.val).to.be.equal(0);
+
+                const stateDataCountTomorrow = await harness.states.getStateAsync(`${harness.adapterName}.0.data.countTomorrow`);
+                expect(stateDataCountTomorrow.val).to.be.equal(1);
+
+            });
+
+            it('Check data table', async function () {
+
+                const stateDataTable = await harness.states.getStateAsync(`${harness.adapterName}.0.data.table`);
+                const dataTableObj = JSON.parse(stateDataTable.val);
+
+                expect(dataTableObj[0].event).to.be.equal('Test-Filter-Summary-4');
+                expect(dataTableObj[0]._section).to.be.equal('Test-Filter-Description-4');
+                expect(dataTableObj[0].location).to.be.equal('Test-Filter-Location-4');
+
+            });
         });
     }
 });
