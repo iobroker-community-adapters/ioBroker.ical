@@ -72,9 +72,6 @@ tests.integration(path.join(__dirname, '..'), {
                 return new Promise(resolve => {
                     harness.startAdapterAndWait()
                         .then(() => {
-                            expect(harness.isAdapterRunning()).to.be.true;
-                            expect(harness.isControllerRunning()).to.be.true;
-
                             // Wait for adapter stop
                             harness.on('stateChange', async (id, state) => {
                                 if (
@@ -265,9 +262,6 @@ tests.integration(path.join(__dirname, '..'), {
                 return new Promise(resolve => {
                     harness.startAdapterAndWait()
                         .then(() => {
-                            expect(harness.isAdapterRunning()).to.be.true;
-                            expect(harness.isControllerRunning()).to.be.true;
-
                             // Wait for adapter stop
                             harness.on('stateChange', async (id, state) => {
                                 if (
@@ -393,9 +387,6 @@ tests.integration(path.join(__dirname, '..'), {
                 return new Promise(resolve => {
                     harness.startAdapterAndWait()
                         .then(() => {
-                            expect(harness.isAdapterRunning()).to.be.true;
-                            expect(harness.isControllerRunning()).to.be.true;
-
                             // Wait for adapter stop
                             harness.on('stateChange', async (id, state) => {
                                 if (
@@ -477,9 +468,6 @@ tests.integration(path.join(__dirname, '..'), {
                 return new Promise(resolve => {
                     harness.startAdapterAndWait()
                         .then(() => {
-                            expect(harness.isAdapterRunning()).to.be.true;
-                            expect(harness.isControllerRunning()).to.be.true;
-
                             // Wait for adapter stop
                             harness.on('stateChange', async (id, state) => {
                                 if (
