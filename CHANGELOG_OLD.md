@@ -1,4 +1,7 @@
 # Older changes
+## 1.11.6 (2021-12-17)
+* (jens-maus) fixed incorrect recurrence event processing
+
 ## 1.11.5 (2021-11-09)
 * (jens-maus) updated node-ical to latest 0.14.1
 * (jens-maus) fix another issue where an already ended event is still listed

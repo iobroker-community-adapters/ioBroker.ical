@@ -26,7 +26,7 @@ Siehe deutsche [Version hier](docs/de/README.md).
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.13.1 (2022-06-27)
 * (klein0r) Changed request library
 
 ### 1.13.0 (2022-06-17)
@@ -48,9 +48,6 @@ Siehe deutsche [Version hier](docs/de/README.md).
 * (Apollon77) Correctly calculate length of multi day events
 * (Apollon77) Respect DST changes in some calculations to prevent strange effects
 * (Apollon77) Parse ics Files with different line endings again
-
-### 1.11.6 (2021-12-17)
-* (jens-maus) fixed incorrect recurrence event processing
 
 ## License
 
