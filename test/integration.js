@@ -12,6 +12,26 @@ const setupIcsFilter = require(__dirname + '/lib/setupIcsFilter');
 const setupIcsFilterRegex = require(__dirname + '/lib/setupIcsFilterRegex');
 const setupIcsForceFullDay = require(__dirname + '/lib/setupIcsForceFullDay');
 
+async function startAdapterAndWaitForStop(harness) {
+    return new Promise(resolve => {
+        harness.startAdapterAndWait()
+            .then(() => {
+                // Wait for adapter stop
+                harness.on('stateChange', async (id, state) => {
+                    if (
+                        id === `system.adapter.${harness.adapterName}.0.alive` &&
+                        state &&
+                        state.val === false
+                    ) {
+                        setTimeout(() => {
+                            resolve(true);
+                        }, 2000);
+                    }
+                });
+            });
+    });
+}
+
 // Run integration tests - See https://github.com/ioBroker/testing for a detailed explanation and further options
 tests.integration(path.join(__dirname, '..'), {
     allowedExitCodes: [11],
@@ -30,23 +50,7 @@ tests.integration(path.join(__dirname, '..'), {
                 harness = getHarness();
                 harness.changeAdapterConfig(harness.adapterName, setupIcsToday.getInstanceConfig());
 
-                return new Promise(resolve => {
-                    harness.startAdapterAndWait()
-                        .then(() => {
-                            // Wait for adapter stop
-                            harness.on('stateChange', async (id, state) => {
-                                if (
-                                    id === `system.adapter.${harness.adapterName}.0.alive` &&
-                                    state &&
-                                    state.val === false
-                                ) {
-                                    setTimeout(() => {
-                                        resolve();
-                                    }, 2000);
-                                }
-                            });
-                        });
-                });
+                return startAdapterAndWaitForStop(harness);
             });
 
             it('Check event count', async function () {
@@ -165,23 +169,7 @@ tests.integration(path.join(__dirname, '..'), {
                 harness = getHarness();
                 harness.changeAdapterConfig(harness.adapterName, setupIcsEvent.getInstanceConfig());
 
-                return new Promise(resolve => {
-                    harness.startAdapterAndWait()
-                        .then(() => {
-                            // Wait for adapter stop
-                            harness.on('stateChange', async (id, state) => {
-                                if (
-                                    id === `system.adapter.${harness.adapterName}.0.alive` &&
-                                    state &&
-                                    state.val === false
-                                ) {
-                                    setTimeout(() => {
-                                        resolve();
-                                    }, 2000);
-                                }
-                            });
-                        });
-                });
+                return startAdapterAndWaitForStop(harness);
             });
 
             it('Check event count', async function () {
@@ -263,23 +251,7 @@ tests.integration(path.join(__dirname, '..'), {
                 harness = getHarness();
                 harness.changeAdapterConfig(harness.adapterName, setupIcsFilter.getInstanceConfig());
 
-                return new Promise(resolve => {
-                    harness.startAdapterAndWait()
-                        .then(() => {
-                            // Wait for adapter stop
-                            harness.on('stateChange', async (id, state) => {
-                                if (
-                                    id === `system.adapter.${harness.adapterName}.0.alive` &&
-                                    state &&
-                                    state.val === false
-                                ) {
-                                    setTimeout(() => {
-                                        resolve();
-                                    }, 2000);
-                                }
-                            });
-                        });
-                });
+                return startAdapterAndWaitForStop(harness);
             });
 
             it('Check event count', async function () {
@@ -317,23 +289,7 @@ tests.integration(path.join(__dirname, '..'), {
                 harness = getHarness();
                 harness.changeAdapterConfig(harness.adapterName, setupIcsFilterRegex.getInstanceConfig());
 
-                return new Promise(resolve => {
-                    harness.startAdapterAndWait()
-                        .then(() => {
-                            // Wait for adapter stop
-                            harness.on('stateChange', async (id, state) => {
-                                if (
-                                    id === `system.adapter.${harness.adapterName}.0.alive` &&
-                                    state &&
-                                    state.val === false
-                                ) {
-                                    setTimeout(() => {
-                                        resolve();
-                                    }, 2000);
-                                }
-                            });
-                        });
-                });
+                return startAdapterAndWaitForStop(harness);
             });
 
             it('Check event count', async function () {
@@ -371,23 +327,7 @@ tests.integration(path.join(__dirname, '..'), {
                 harness = getHarness();
                 harness.changeAdapterConfig(harness.adapterName, setupIcsForceFullDay.getInstanceConfig());
 
-                return new Promise(resolve => {
-                    harness.startAdapterAndWait()
-                        .then(() => {
-                            // Wait for adapter stop
-                            harness.on('stateChange', async (id, state) => {
-                                if (
-                                    id === `system.adapter.${harness.adapterName}.0.alive` &&
-                                    state &&
-                                    state.val === false
-                                ) {
-                                    setTimeout(() => {
-                                        resolve();
-                                    }, 2000);
-                                }
-                            });
-                        });
-                });
+                return startAdapterAndWaitForStop(harness);
             });
 
             it('Check event count', async function () {
