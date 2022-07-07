@@ -3,8 +3,40 @@
 const fs = require('fs');
 const { newDate } = require('./setupDate');
 
+const fileName = __dirname + '/../data/filter_regex.ics';
+
+module.exports.getInstanceConfig = function() {
+    return {
+        native: {
+            daysPreview: 2,
+            daysPast: 0,
+            fulltime: '',
+            replaceDates: false,
+            hideYear: true,
+            calendars: [
+                {
+                    name: 'calendar-filter-regex',
+                    url: fileName,
+                    user: '',
+                    pass: '',
+                    sslignore: 'ignore',
+                    color: 'red',
+                    filter: '/(SUMMARY:.*)\\s*(DESCRIPTION:.*)\\s*(LOCATION:(?!Test-Filter-Location-4).*)/',
+                    filterregex: true
+                }
+            ],
+            events: [
+                {
+                    name: 'Vacation',
+                    enabled: true,
+                    display: false
+                }
+            ]
+        }
+    };
+};
+
 module.exports.setup = function () {
-    const fileName = __dirname + '/../data/filter_regex.ics';
     if (fs.existsSync(fileName)) {
         fs.unlinkSync(fileName);
     }

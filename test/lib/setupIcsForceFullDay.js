@@ -3,8 +3,53 @@
 const fs = require('fs');
 const { newDate } = require('./setupDate');
 
+const fileName = __dirname + '/../data/force_fullday.ics';
+
+module.exports.getInstanceConfig = function() {
+    return {
+        native: {
+            daysPreview: 2,
+            daysPast: 0,
+            replaceDates: false,
+            hideYear: true,
+            forceFullday: true,
+            calendars: [
+                {
+                    name: 'calendar-force-fullday',
+                    url: fileName,
+                    user: '',
+                    pass: '',
+                    sslignore: 'ignore',
+                    color: 'red'
+                }
+            ],
+            events: [
+                {
+                    name: 'Vacation',
+                    enabled: true,
+                    display: false
+                },
+                {
+                    name: 'MyEvent',
+                    enabled: true,
+                    display: true
+                },
+                {
+                    name: 'TestEvent',
+                    enabled: true,
+                    display: true
+                },
+                {
+                    name: 'InDayEvent',
+                    enabled: true,
+                    display: false
+                }
+            ]
+        }
+    };
+};
+
 module.exports.setup = function () {
-    const fileName = __dirname + '/../data/force_fullday.ics';
     if (fs.existsSync(fileName)) {
         fs.unlinkSync(fileName);
     }

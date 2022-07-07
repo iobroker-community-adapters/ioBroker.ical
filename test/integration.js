@@ -26,49 +26,9 @@ tests.integration(path.join(__dirname, '..'), {
                 this.timeout(60000);
 
                 setupIcsToday.setup();
-                harness = getHarness();
 
-                harness.changeAdapterConfig(harness.adapterName, {
-                    native: {
-                        daysPreview: 7,
-                        daysPast: 0,
-                        fulltime: '',
-                        replaceDates: false,
-                        hideYear: true,
-                        calendars: [
-                            {
-                                name: 'calendar-today',
-                                url: __dirname + '/data/today.ics',
-                                user: '',
-                                pass: '',
-                                sslignore: 'ignore',
-                                color: 'orange'
-                            }
-                        ],
-                        events: [
-                            {
-                                name: 'Vacation',
-                                enabled: true,
-                                display: false
-                            },
-                            {
-                                name: 'MyEvent',
-                                enabled: true,
-                                display: true
-                            },
-                            {
-                                name: 'TestEvent',
-                                enabled: true,
-                                display: true
-                            },
-                            {
-                                name: 'InDayEvent',
-                                enabled: true,
-                                display: false
-                            }
-                        ]
-                    }
-                });
+                harness = getHarness();
+                harness.changeAdapterConfig(harness.adapterName, setupIcsToday.getInstanceConfig());
 
                 return new Promise(resolve => {
                     harness.startAdapterAndWait()
@@ -201,64 +161,9 @@ tests.integration(path.join(__dirname, '..'), {
                 this.timeout(60000);
 
                 setupIcsEvent.setup();
-                harness = getHarness();
 
-                harness.changeAdapterConfig(harness.adapterName, {
-                    native: {
-                        daysPreview: 2,
-                        daysPast: 0,
-                        fulltime: '',
-                        replaceDates: false,
-                        hideYear: true,
-                        calendars: [
-                            {
-                                name: 'calendar-event',
-                                url: __dirname + '/data/event.ics',
-                                user: '',
-                                pass: '',
-                                sslignore: 'ignore',
-                                color: 'red'
-                            }
-                        ],
-                        events: [
-                            {
-                                name: 'EventThreeDays',
-                                enabled: true,
-                                display: false
-                            },
-                            {
-                                name: 'Event Now',
-                                enabled: true,
-                                display: true
-                            },
-                            {
-                                name: 'EventDisabled',
-                                enabled: false,
-                                display: true
-                            },
-                            {
-                                name: 'EventLater',
-                                enabled: true,
-                                display: true
-                            },
-                            {
-                                name: 'EventNextDay1',
-                                enabled: true,
-                                display: true
-                            },
-                            {
-                                name: 'EventNextDay2',
-                                enabled: true,
-                                display: true
-                            },
-                            {
-                                name: 'EventNextDay3',
-                                enabled: true,
-                                display: true
-                            }
-                        ]
-                    }
-                });
+                harness = getHarness();
+                harness.changeAdapterConfig(harness.adapterName, setupIcsEvent.getInstanceConfig());
 
                 return new Promise(resolve => {
                     harness.startAdapterAndWait()
@@ -354,36 +259,9 @@ tests.integration(path.join(__dirname, '..'), {
                 this.timeout(60000);
 
                 setupIcsFilter.setup();
-                harness = getHarness();
 
-                harness.changeAdapterConfig(harness.adapterName, {
-                    native: {
-                        daysPreview: 2,
-                        daysPast: 0,
-                        fulltime: '',
-                        replaceDates: false,
-                        hideYear: true,
-                        calendars: [
-                            {
-                                name: 'calendar-filter',
-                                url: __dirname + '/data/filter.ics',
-                                user: '',
-                                pass: '',
-                                sslignore: 'ignore',
-                                color: 'red',
-                                filter: 'Description-1;Summary-2 ;Location-3',
-                                filterregex: false
-                            }
-                        ],
-                        events: [
-                            {
-                                name: 'Vacation',
-                                enabled: true,
-                                display: false
-                            }
-                        ]
-                    }
-                });
+                harness = getHarness();
+                harness.changeAdapterConfig(harness.adapterName, setupIcsFilter.getInstanceConfig());
 
                 return new Promise(resolve => {
                     harness.startAdapterAndWait()
@@ -435,36 +313,9 @@ tests.integration(path.join(__dirname, '..'), {
                 this.timeout(60000);
 
                 setupIcsFilterRegex.setup();
-                harness = getHarness();
 
-                harness.changeAdapterConfig(harness.adapterName, {
-                    native: {
-                        daysPreview: 2,
-                        daysPast: 0,
-                        fulltime: '',
-                        replaceDates: false,
-                        hideYear: true,
-                        calendars: [
-                            {
-                                name: 'calendar-filter-regex',
-                                url: __dirname + '/data/filter_regex.ics',
-                                user: '',
-                                pass: '',
-                                sslignore: 'ignore',
-                                color: 'red',
-                                filter: '/(SUMMARY:.*)\\s*(DESCRIPTION:.*)\\s*(LOCATION:(?!Test-Filter-Location-4).*)/',
-                                filterregex: true
-                            }
-                        ],
-                        events: [
-                            {
-                                name: 'Vacation',
-                                enabled: true,
-                                display: false
-                            }
-                        ]
-                    }
-                });
+                harness = getHarness();
+                harness.changeAdapterConfig(harness.adapterName, setupIcsFilterRegex.getInstanceConfig());
 
                 return new Promise(resolve => {
                     harness.startAdapterAndWait()
@@ -516,49 +367,9 @@ tests.integration(path.join(__dirname, '..'), {
                 this.timeout(60000);
 
                 setupIcsForceFullDay.setup();
-                harness = getHarness();
 
-                harness.changeAdapterConfig(harness.adapterName, {
-                    native: {
-                        daysPreview: 2,
-                        daysPast: 0,
-                        replaceDates: false,
-                        hideYear: true,
-                        forceFullday: true,
-                        calendars: [
-                            {
-                                name: 'calendar-force-fullday',
-                                url: __dirname + '/data/force_fullday.ics',
-                                user: '',
-                                pass: '',
-                                sslignore: 'ignore',
-                                color: 'red'
-                            }
-                        ],
-                        events: [
-                            {
-                                name: 'Vacation',
-                                enabled: true,
-                                display: false
-                            },
-                            {
-                                name: 'MyEvent',
-                                enabled: true,
-                                display: true
-                            },
-                            {
-                                name: 'TestEvent',
-                                enabled: true,
-                                display: true
-                            },
-                            {
-                                name: 'InDayEvent',
-                                enabled: true,
-                                display: false
-                            }
-                        ]
-                    }
-                });
+                harness = getHarness();
+                harness.changeAdapterConfig(harness.adapterName, setupIcsForceFullDay.getInstanceConfig());
 
                 return new Promise(resolve => {
                     harness.startAdapterAndWait()

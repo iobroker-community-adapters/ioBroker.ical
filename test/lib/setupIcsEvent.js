@@ -3,8 +3,68 @@
 const fs = require('fs');
 const { newDate } = require('./setupDate');
 
+const fileName = __dirname + '/../data/event.ics';
+
+module.exports.getInstanceConfig = function() {
+    return {
+        native: {
+            daysPreview: 2,
+            daysPast: 0,
+            fulltime: '',
+            replaceDates: false,
+            hideYear: true,
+            calendars: [
+                {
+                    name: 'calendar-event',
+                    url: fileName,
+                    user: '',
+                    pass: '',
+                    sslignore: 'ignore',
+                    color: 'red'
+                }
+            ],
+            events: [
+                {
+                    name: 'EventThreeDays',
+                    enabled: true,
+                    display: false
+                },
+                {
+                    name: 'Event Now',
+                    enabled: true,
+                    display: true
+                },
+                {
+                    name: 'EventDisabled',
+                    enabled: false,
+                    display: true
+                },
+                {
+                    name: 'EventLater',
+                    enabled: true,
+                    display: true
+                },
+                {
+                    name: 'EventNextDay1',
+                    enabled: true,
+                    display: true
+                },
+                {
+                    name: 'EventNextDay2',
+                    enabled: true,
+                    display: true
+                },
+                {
+                    name: 'EventNextDay3',
+                    enabled: true,
+                    display: true
+                }
+            ]
+        }
+    };
+};
+
 module.exports.setup = function () {
-    const fileName = __dirname + '/../data/event.ics';
     if (fs.existsSync(fileName)) {
         fs.unlinkSync(fileName);
     }

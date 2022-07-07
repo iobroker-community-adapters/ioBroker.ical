@@ -3,8 +3,40 @@
 const fs = require('fs');
 const { newDate } = require('./setupDate');
 
+const fileName = __dirname + '/../data/filter.ics';
+
+module.exports.getInstanceConfig = function() {
+    return {
+        native: {
+            daysPreview: 2,
+            daysPast: 0,
+            fulltime: '',
+            replaceDates: false,
+            hideYear: true,
+            calendars: [
+                {
+                    name: 'calendar-filter',
+                    url: fileName,
+                    user: '',
+                    pass: '',
+                    sslignore: 'ignore',
+                    color: 'red',
+                    filter: 'Description-1;Summary-2 ;Location-3',
+                    filterregex: false
+                }
+            ],
+            events: [
+                {
+                    name: 'Vacation',
+                    enabled: true,
+                    display: false
+                }
+            ]
+        }
+    };
+};
+
 module.exports.setup = function () {
-    const fileName = __dirname + '/../data/filter.ics';
     if (fs.existsSync(fileName)) {
         fs.unlinkSync(fileName);
     }
