@@ -10,6 +10,7 @@ const setupIcsToday = require(__dirname + '/lib/setupIcsToday');
 const setupIcsEvent = require(__dirname + '/lib/setupIcsEvent');
 const setupIcsFilter = require(__dirname + '/lib/setupIcsFilter');
 const setupIcsFilterRegex = require(__dirname + '/lib/setupIcsFilterRegex');
+const setupIcsForceFullDay = require(__dirname + '/lib/setupIcsForceFullDay');
 
 // Run integration tests - See https://github.com/ioBroker/testing for a detailed explanation and further options
 tests.integration(path.join(__dirname, '..'), {
@@ -505,5 +506,155 @@ tests.integration(path.join(__dirname, '..'), {
 
             });
         });
+
+        suite('Test Force Full Day', getHarness => {
+            /**
+             * @type {IntegrationTestHarness}
+             */
+            let harness;
+            before(async function () {
+                this.timeout(60000);
+
+                setupIcsForceFullDay.setup();
+                harness = getHarness();
+
+                harness.changeAdapterConfig(harness.adapterName, {
+                    native: {
+                        daysPreview: 2,
+                        daysPast: 0,
+                        replaceDates: false,
+                        hideYear: true,
+                        forceFullday: true,
+                        calendars: [
+                            {
+                                name: 'calendar-force-fullday',
+                                url: __dirname + '/data/force_fullday.ics',
+                                user: '',
+                                pass: '',
+                                sslignore: 'ignore',
+                                color: 'red'
+                            }
+                        ],
+                        events: [
+                            {
+                                name: 'Vacation',
+                                enabled: true,
+                                display: false
+                            },
+                            {
+                                name: 'MyEvent',
+                                enabled: true,
+                                display: true
+                            },
+                            {
+                                name: 'TestEvent',
+                                enabled: true,
+                                display: true
+                            },
+                            {
+                                name: 'InDayEvent',
+                                enabled: true,
+                                display: false
+                            }
+                        ]
+                    }
+                });
+
+                return new Promise(resolve => {
+                    harness.startAdapterAndWait()
+                        .then(() => {
+                            // Wait for adapter stop
+                            harness.on('stateChange', async (id, state) => {
+                                if (
+                                    id === `system.adapter.${harness.adapterName}.0.alive` &&
+                                    state &&
+                                    state.val === false
+                                ) {
+                                    setTimeout(() => {
+                                        resolve();
+                                    }, 2000);
+                                }
+                            });
+                        });
+                });
+            });
+
+            it('Check event count', async function () {
+
+                const stateDataCount = await harness.states.getStateAsync(`${harness.adapterName}.0.data.count`);
+                expect(stateDataCount.val).to.be.equal(4);
+
+                const stateDataCountTomorrow = await harness.states.getStateAsync(`${harness.adapterName}.0.data.countTomorrow`);
+                expect(stateDataCountTomorrow.val).to.be.equal(7);
+
+            });
+
+            it('Check data table', async function () {
+
+                const stateDataTable = await harness.states.getStateAsync(`${harness.adapterName}.0.data.table`);
+                const dataTableObj = JSON.parse(stateDataTable.val);
+
+                expect(dataTableObj[0].date.substr(0, 8)).to.be.equal('&#8594; ');
+                expect(dataTableObj[0].date).to.not.have.string('. 00:00');
+                expect(dataTableObj[0].event).to.be.equal('TestEvent');
+                expect(dataTableObj[0]._section).to.be.equal('TestEvent');
+                expect(dataTableObj[0]._allDay).to.be.true;
+
+                expect(dataTableObj[1].date).to.not.have.string('. 00:00', '&#8594; ');
+                expect(dataTableObj[1].date.indexOf('. 00:00')).to.be.equal(-1);
+                expect(dataTableObj[1].event).to.be.equal('Today Event');
+                expect(dataTableObj[1]._section).to.be.equal('Today Event');
+                expect(dataTableObj[1]._allDay).to.be.true;
+
+                expect(dataTableObj[2].date.substr(0, 8)).to.be.equal('&#8594; ');
+                expect(dataTableObj[2].date).to.not.have.string('. 00:00');
+                expect(dataTableObj[2].event).to.be.equal('MyEvent BlaEvent');
+                expect(dataTableObj[2]._section).to.be.equal('MyEvent BlaEvent');
+                expect(dataTableObj[2]._allDay).to.be.true;
+
+                expect(dataTableObj[3].date).to.not.have.string('. 23:58-23:59');
+                expect(dataTableObj[3].event).to.be.equal('SameDay');
+                expect(dataTableObj[3]._section).to.be.equal('SameDay');
+                expect(dataTableObj[3]._allDay).to.be.true;
+
+                expect(dataTableObj[4].date).to.not.have.string('. 22:00-02:00+1');
+                expect(dataTableObj[4].event).to.be.equal('OverEvent');
+                expect(dataTableObj[4]._section).to.be.equal('OverEvent');
+                expect(dataTableObj[4]._allDay).to.be.true;
+
+                expect(dataTableObj[5].date).to.not.have.string('. 00:00');
+                expect(dataTableObj[5].event).to.be.equal('MorgenVoll');
+                expect(dataTableObj[5]._section).to.be.equal('MorgenVoll');
+                expect(dataTableObj[5]._allDay).to.be.true;
+
+                expect(dataTableObj[6].date).to.not.have.string('. 18:00-20:00');
+                expect(dataTableObj[6].event).to.be.equal('InDay2');
+                expect(dataTableObj[6]._section).to.be.equal('InDay2');
+                expect(dataTableObj[6]._allDay).to.be.true;
+
+                expect(dataTableObj[7].date).to.not.have.string('. 10:00');
+                expect(dataTableObj[7].event).to.be.equal('Reminder');
+                expect(dataTableObj[7]._section).to.be.equal('Reminder');
+                expect(dataTableObj[7]._allDay).to.be.true;
+
+                expect(dataTableObj[8].date).to.not.have.string('. 19:30-20:30');
+                expect(dataTableObj[8].event).to.be.equal('TestUserEvent1');
+                expect(dataTableObj[8]._section).to.be.equal('TestUserEvent1');
+                expect(dataTableObj[8]._allDay).to.be.true;
+
+            });
+        });
+
+        /*
+         * TODO: Migrate
+         * https://github.com/iobroker-community-adapters/ioBroker.ical/blob/v1.13.0/test/testAdapterFulltimeReplace.js
+         * https://github.com/iobroker-community-adapters/ioBroker.ical/blob/v1.13.0/test/testAdapterNoColorize.js
+         * https://github.com/iobroker-community-adapters/ioBroker.ical/blob/v1.13.0/test/testAdapterRecurringException.js
+         * https://github.com/iobroker-community-adapters/ioBroker.ical/blob/v1.13.0/test/testAdapterRecurringFullDay.js
+         * https://github.com/iobroker-community-adapters/ioBroker.ical/blob/v1.13.0/test/testAdapterRecurringInvalidTimezones.js
+         * https://github.com/iobroker-community-adapters/ioBroker.ical/blob/v1.13.0/test/testAdapterRecurringWithoutTimezones.js
+         * https://github.com/iobroker-community-adapters/ioBroker.ical/blob/v1.13.0/test/testAdapterReplaceDates.js
+        */
+
     }
 });

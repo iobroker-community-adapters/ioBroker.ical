@@ -185,8 +185,8 @@ module.exports.setup = function () {
     data += 'UID:7defc9a5-a1c8-419d-a05c-58cf98e83cdb\n';
     data += 'DESCRIPTION:TestUserEvent1\n';
     data += 'SUMMARY:TestUserEvent1\n';
-    data += 'DTSTART;TZID=' + d1.zoneName + ':' + d2.toFormat('yyyy') + m2 + day2 + 'T193000\n';
-    data += 'DTEND;TZID=' + d1.zoneName + ':' + d2.toFormat('yyyy') + m2 + day2 + 'T203000\n';
+    data += 'DTSTART;TZID=' + d2.zoneName + ':' + d2.toFormat('yyyy') + m2 + day2 + 'T193000\n';
+    data += 'DTEND;TZID=' + d2.zoneName + ':' + d2.toFormat('yyyy') + m2 + day2 + 'T203000\n';
     data += 'TRANSP:OPAQUE\n';
     data += 'SEQUENCE:4\n';
     data += 'X-MOZ-GENERATION:4\n';
