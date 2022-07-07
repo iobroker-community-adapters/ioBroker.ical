@@ -12,10 +12,13 @@
 This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal). 
 Alternatively it is possible to use a local `.ics` file (use absolute path to the file instead of URL)
 
-Read english [here](docs/en/README.md).
-Siehe deutsche [Version hier](docs/de/README.md).
-
 **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
+
+## Documentation
+
+[🇺🇸 Documentation](./docs/en/README.md)
+
+[🇩🇪 Dokumentation](./docs/de/README.md)
 
 ## Todo
 * `data.trigger` doesn't support `check` option
