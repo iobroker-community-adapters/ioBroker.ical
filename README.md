@@ -29,8 +29,7 @@ Alternatively it is possible to use a local `.ics` file (use absolute path to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### __WORK IN PROGRESS__
+### 1.13.2 (2022-08-29)
 * (Apollon77) fix strange log messages by downgrading RRule again
 
 ### 1.13.1 (2022-06-27)
@@ -45,16 +44,6 @@ Alternatively it is possible to use a local `.ics` file (use absolute path to th
 
 ### 1.12.1 (2022-03-22)
 * (Apollon77) Adjust colorize of dates to also show dates started in the past with todays color
-
-### 1.12.0 (2022-03-21)
-* (Apollon77/Scrounger) Add option to choose the ack flag set when updating foreign objects on events
-* (HSE83) use a color field from the calendar entry as color for display
-* (Apollon77) When no Arrow for already running events is shown and dates are not replaced with words display the start date in the list and not the end date
-* (Apollon77) When not replacing date with words and entry ends at 0:0:0 show the day before as end
-* (Apollon77) Fix issues when no end date is provided in the calendar entry (start and end are the same)
-* (Apollon77) Correctly calculate length of multi day events
-* (Apollon77) Respect DST changes in some calculations to prevent strange effects
-* (Apollon77) Parse ics Files with different line endings again
 
 ## License
 
