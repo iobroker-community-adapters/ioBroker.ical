@@ -29,6 +29,10 @@ Alternatively it is possible to use a local `.ics` file (use absolute path to th
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### __WORK IN PROGRESS__
+* (Apollon77) fix strange log messages by downgrading RRule again
+
 ### 1.13.1 (2022-06-27)
 * (klein0r) Changed request library
 
