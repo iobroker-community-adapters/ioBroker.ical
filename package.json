@@ -36,7 +36,7 @@
     "url": "https://github.com/iobroker-community-adapters/ioBroker.ical"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.6.2",
+    "@iobroker/adapter-core": "^2.6.6",
     "axios": "^0.27.2",
     "cloneextend": "^0.0.3",
     "json-schema": "^0.4.0",
