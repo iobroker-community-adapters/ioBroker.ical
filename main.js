@@ -22,7 +22,7 @@ const crypto      = require('crypto');
 const fs          = require('fs');
 const path        = require('path');
 const adapterName = require('./package.json').name.split('.').pop();
-const axios       = require('axios').default;
+const axios       = require('axios');
 const https       = require('https');
 
 let adapter;
