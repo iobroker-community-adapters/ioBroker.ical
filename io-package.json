@@ -131,7 +131,6 @@
     "loglevel": "info",
     "readme": "https://github.com/iobroker-community-adapters/ioBroker.ical/blob/master/README.md",
     "icon": "ical.png",
-    "materialize": true,
     "compact": true,
     "keywords": [
       "web",

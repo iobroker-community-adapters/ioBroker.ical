@@ -32,6 +32,7 @@ Alternatively it is possible to use a local `.ics` file (use absolute path to th
 
 ### **WORK IN PROGRESS**
 * (klein0r) Use color picker in adapter settings
+* (klein0r) Dropped Admin 4 UI
 
 ### 1.13.2 (2022-08-29)
 * (Apollon77) fix strange log messages by downgrading RRule again
