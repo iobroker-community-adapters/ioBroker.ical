@@ -168,7 +168,7 @@
     "daysPreview": 7,
     "daysPast": 0,
     "colorize": true,
-    "defColor": "white",
+    "defColor": "#FFFFFF",
     "fulltime": " ",
     "dataPaddingWithZeros": true,
     "replaceDates": true,

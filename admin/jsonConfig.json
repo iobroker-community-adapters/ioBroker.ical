@@ -92,7 +92,7 @@
                     "label": "Use by full day"
                 },
                 "defColor": {
-                    "type": "text",
+                    "type": "color",
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
