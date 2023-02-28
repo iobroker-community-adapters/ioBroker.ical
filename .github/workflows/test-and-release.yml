@@ -11,7 +11,7 @@ on:
       - "v[0-9]+.[0-9]+.[0-9]+"
       # pre-releases
       - "v[0-9]+.[0-9]+.[0-9]+-**"
-  pull_request: {}
+    pull_request: {}
 
 # Cancel previous PR/branch runs when a new commit is pushed
 concurrency:
@@ -62,20 +62,21 @@ jobs:
       startsWith(github.ref, 'refs/tags/v')
 
     runs-on: ubuntu-latest
+    # Write permissions are required to create Github releases
+    permissions:
+      contents: write
 
     steps:
       - uses: ioBroker/testing-action-deploy@v1
         with:
           node-version: '16.x'
-          # Uncomment the following line if your adapter cannot be installed using 'npm ci'
-          # install-command: 'npm install'
           npm-token: ${{ secrets.NPM_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-          # When using Sentry for error reporting, Sentry can be informed about new releases
-          # To enable create a API-Token in Sentry (User settings, API keys)
-          # Enter this token as a GitHub secret (with name SENTRY_AUTH_TOKEN) in the repository options
-          # Then uncomment and customize the following block:
+          
+        # When using Sentry for error reporting, Sentry can be informed about new releases
+        # To enable create a API-Token in Sentry (User settings, API keys)
+        # Enter this token as a GitHub secret (with name SENTRY_AUTH_TOKEN) in the repository options
+        # Then uncomment and customize the following block:
           sentry: true
           sentry-token: ${{ secrets.SENTRY_AUTH_TOKEN }}
           sentry-project: "iobroker-ical"
