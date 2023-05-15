@@ -9,10 +9,11 @@
 [![Translation status](https://weblate.iobroker.net/widgets/adapters/-/ical/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.ical.svg)](https://www.npmjs.com/package/iobroker.ical)
 
-This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal). 
-Alternatively it is possible to use a local `.ics` file (use absolute path to the file instead of URL)
+ioBroker.ical is an adapter for the ioBroker automation platform focusing on iCalendar files, widely used for storing and sharing calendar data. It allows users to read iCalendar files locally or from a specified URL and parse it.  
 
-**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
+With ioBroker.ical, you can perform various actions based on calendar events, such as triggering smart home devices, sending notifications, or executing specific scripts or routines. For example, you could create automation rules that turn on the lights when a specific event is about to start or send a reminder notification for an upcoming appointment.  
+
+Sentry reporting, starting with js-controller 3.0, means that this adapter can use Sentry libraries to report exceptions and code errors to developers automatically. For more details and how to disable error reporting, see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry). 
 
 ## Documentation
 
@@ -33,7 +34,7 @@ Alternatively it is possible to use a local `.ics` file (use absolute path to th
 ### **WORK IN PROGRESS**
 * (klein0r) Use color picker in adapter settings
 * (klein0r) Dropped Admin 4 UI
-* (klein0r) Added Ukranian language
+* (klein0r) Added Ukrainian language
 
 ### 1.13.2 (2022-08-29)
 * (Apollon77) fix strange log messages by downgrading RRule again
@@ -49,7 +50,7 @@ Alternatively it is possible to use a local `.ics` file (use absolute path to th
 * (Apollon77) Fix displaying rest-time of event in one case
 
 ### 1.12.1 (2022-03-22)
-* (Apollon77) Adjust colorize of dates to also show dates started in the past with todays color
+* (Apollon77) Adjust colorize of dates to also show dates started in the past with today's color
 
 ## License
 
