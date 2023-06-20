@@ -1,4 +1,7 @@
 # Older changes
+## 1.12.1 (2022-03-22)
+* (Apollon77) Adjust colorize of dates to also show dates started in the past with today's color
+
 ## 1.12.0 (2022-03-21)
 * (Apollon77/Scrounger) Add option to choose the ack flag set when updating foreign objects on events
 * (HSE83) use a color field from the calendar entry as color for display

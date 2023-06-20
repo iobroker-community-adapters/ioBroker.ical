@@ -1,6 +1,6 @@
 {
   "name": "iobroker.ical",
-  "version": "1.13.2",
+  "version": "1.13.3",
   "description": "Allows read information from google calender and from iCal.",
   "author": {
     "name": "bluefox",

@@ -30,8 +30,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.13.3 (2023-06-20)
 * (jens-maus) updated node-ical to latest 0.16.1
 * (klein0r) Use color picker in adapter settings
 * (klein0r) Dropped Admin 4 UI
@@ -49,9 +48,6 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 
 ### 1.12.2 (2022-06-03)
 * (Apollon77) Fix displaying rest-time of event in one case
-
-### 1.12.1 (2022-03-22)
-* (Apollon77) Adjust colorize of dates to also show dates started in the past with today's color
 
 ## License
 

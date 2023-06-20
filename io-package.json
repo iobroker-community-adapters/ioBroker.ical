@@ -1,488 +1,488 @@
 {
-    "common": {
-        "name": "ical",
-        "version": "1.13.2",
-        "news": {
-            "1.13.2": {
-                "en": "fix strange log messages by downgrading RRule again",
-                "de": "seltsame Log-Nachrichten durch Downgrading RRule wieder beheben",
-                "ru": "исправить странные сообщения журнала путем понижать RRule снова",
-                "pt": "corrigir mensagens de log estranhas por downgrading RRule novamente",
-                "nl": "vertaling:",
-                "fr": "corriger des messages étranges en dégradant RRule à nouveau",
-                "it": "correggere i messaggi di registro strani degradando di nuovo RRule",
-                "es": "solucionar extraños mensajes de registro por la reducción de RRule de nuevo",
-                "pl": "naprawić dziwne wiadomości logowe poprzez zdegradowanie RRule'a ponownie",
-                "uk": "виправити дивні повідомлення журналу, знову знизивши RRule",
-                "zh-cn": "f 照常逻辑信息,再降解后再降解。"
-            },
-            "1.13.1": {
-                "en": "Changed request library",
-                "de": "Bibliothek der geänderten Anfrage",
-                "ru": "Измененная библиотека запросов",
-                "pt": "Biblioteca de solicitação alterada",
-                "nl": "Verandering van verzoek bibliotheek",
-                "fr": "Changed request library",
-                "it": "Libreria richiesta modificata",
-                "es": "Biblioteca de solicitud modificada",
-                "pl": "Zmiennikowa biblioteka",
-                "uk": "Змінена бібліотека запитів",
-                "zh-cn": "更改要求图书馆"
-            },
-            "1.13.0": {
-                "en": "Added Admin 5 UI\nTranslated all object names",
-                "de": "Admin 5 UI\nAlle Objektnamen übersetzt",
-                "ru": "Добавлено Admin 5 UI\nПереведено все названия объектов",
-                "pt": "Adicionado administrador 5 UI\nTraduzido todos os nomes de objetos",
-                "nl": "Admin 5 UI\nVertaald alle objectnamen",
-                "fr": "Ajout d'Admin 5 UI\nTranslated all object names",
-                "it": "Aggiunto 5 UI\nTradotto tutti i nomi degli oggetti",
-                "es": "Admin 5 UI\nTraducir todos los nombres de objetos",
-                "pl": "Admin 5\nPrzetłumaczył wszystkie nazwy obiektowe",
-                "uk": "Додано інтерфейс адміністратора 5\nПерекладено всі назви об'єктів",
-                "zh-cn": "增删5 UI\n所有物体的名称"
-            },
-            "1.12.2": {
-                "en": "Fix displaying rest-time of event in one case",
-                "de": "Anzeige der Ruhezeit des Ereignisses in einem Fall behoben",
-                "ru": "Исправлено отображение времени отдыха события в одном случае",
-                "pt": "Corrigida a exibição do tempo de descanso do evento em um caso",
-                "nl": "Repareer de weergave van de rusttijd van de gebeurtenis in één geval",
-                "fr": "Correction de l'affichage du temps de repos de l'événement dans un cas",
-                "it": "Risolto il problema con la visualizzazione del tempo di riposo dell'evento in un caso",
-                "es": "Corrección que muestra el tiempo de descanso del evento en un caso",
-                "pl": "Naprawiono wyświetlanie czasu spoczynku zdarzenia w jednym przypadku",
-                "uk": "Виправлено відображення часу відпочинку події в одному випадку",
-                "zh-cn": "修复在一种情况下显示事件的休息时间"
-            },
-            "1.12.1": {
-                "en": "Adjust colorize of dates to also show dates started in the past with todays color",
-                "de": "Passen Sie die Farbgebung von Daten an, um auch in der Vergangenheit begonnene Daten in der heutigen Farbe anzuzeigen",
-                "ru": "Отрегулируйте цвет дат, чтобы также отображать даты, начавшиеся в прошлом, с сегодняшним цветом",
-                "pt": "Ajuste a coloração das datas para também mostrar as datas iniciadas no passado com a cor de hoje",
-                "nl": "Pas de kleur van datums aan om ook datums weer te geven die in het verleden zijn begonnen met de kleur van vandaag",
-                "fr": "Ajustez la colorisation des dates pour afficher également les dates commencées dans le passé avec la couleur d'aujourd'hui",
-                "it": "Regola la colorazione delle date per mostrare anche le date iniziate in passato con il colore di oggi",
-                "es": "Ajuste el color de las fechas para mostrar también las fechas que comenzaron en el pasado con el color de hoy",
-                "pl": "Dostosuj kolorowanie dat, aby wyświetlać również daty rozpoczęte w przeszłości z dzisiejszym kolorem",
-                "uk": "Налаштуйте колір дат, щоб також відображати дати, розпочаті в минулому, сьогоднішнім кольором",
-                "zh-cn": "调整日期的颜色以使用今天的颜色显示过去开始的日期"
-            },
-            "1.12.0": {
-                "en": "Add option to choose the ack flag set when updating foreign objects on events\nuse a color field from the calendar entry as color for display\nWhen no Arrow for already running events is shown and dates are not replaced with words display the start date in the list and not the end date\nWhen not replacing date with words and entry ends at 0:0:0 show the day before as end\nFix issues when no end date is provided in the calendar entry (start and end are the same)\nCorrectly calculate length of multi day events\nRespect DST changes in some calculations to prevent strange effects\nParse ics Files with different line endings again",
-                "de": "Option hinzugefügt, um das Ack-Flag auszuwählen, wenn Fremdobjekte bei Ereignissen aktualisiert werden\nVerwenden Sie ein Farbfeld aus dem Kalendereintrag als Farbe für die Anzeige\nWenn kein Pfeil für bereits laufende Ereignisse angezeigt wird und Datumsangaben nicht durch Wörter ersetzt werden, wird das Startdatum in der Liste und nicht das Enddatum angezeigt\nWenn das Datum nicht durch Wörter ersetzt wird und der Eintrag um 0:0:0 endet, wird der Vortag als Ende angezeigt\nBehebung von Problemen, wenn im Kalendereintrag kein Enddatum angegeben ist (Start und Ende sind gleich)\nBerechnen Sie die Länge von mehrtägigen Veranstaltungen richtig\nBeachten Sie bei einigen Berechnungen Sommerzeitänderungen, um seltsame Effekte zu vermeiden\nAnalysieren Sie ics-Dateien mit unterschiedlichen Zeilenenden erneut",
-                "ru": "Добавить возможность выбора набора флагов подтверждения при обновлении внешних объектов в событиях.\nиспользовать поле цвета из записи календаря в качестве цвета для отображения\nКогда стрелка для уже запущенных событий не отображается и даты не заменены словами, в списке отображается дата начала, а не дата окончания\nЕсли дата не заменяется словами, а запись заканчивается на 0:0:0, показывать предыдущий день как конец\nИсправление проблем, когда в записи календаря не указана дата окончания (начало и конец совпадают)\nПравильно рассчитать продолжительность многодневных мероприятий\nУчитывайте изменения летнего времени в некоторых расчетах, чтобы предотвратить странные эффекты.\nПовторный анализ файлов ics с разными окончаниями строк",
-                "pt": "Adicionar opção para escolher o sinalizador de confirmação definido ao atualizar objetos estrangeiros em eventos\nuse um campo de cor da entrada do calendário como cor para exibição\nQuando nenhuma Seta para eventos já em execução é mostrada e as datas não são substituídas por palavras exibe a data de início na lista e não a data de término\nQuando não substitui a data por palavras e a entrada termina às 0:0:0 mostra o dia anterior como final\nCorrigir problemas quando nenhuma data de término é fornecida na entrada do calendário (início e término são iguais)\nCalcular corretamente a duração de eventos de vários dias\nRespeite as alterações do horário de verão em alguns cálculos para evitar efeitos estranhos\nAnalisar arquivos ics com diferentes finais de linha novamente",
-                "nl": "Optie toevoegen om de ack-vlag te kiezen die is ingesteld bij het bijwerken van vreemde objecten op gebeurtenissen\ngebruik een kleurveld uit het agenda-item als kleur voor weergave\nAls er geen pijl voor reeds lopende evenementen wordt weergegeven en datums niet worden vervangen door woorden, wordt de startdatum in de lijst weergegeven en niet de einddatum\nAls de datum niet wordt vervangen door woorden en de invoer eindigt op 0:0:0 toon de dag ervoor als einde\nProblemen oplossen wanneer er geen einddatum is opgegeven in het agenda-item (begin en einde zijn hetzelfde)\nDe lengte van meerdaagse evenementen correct berekenen\nRespecteer zomertijdveranderingen in sommige berekeningen om vreemde effecten te voorkomen\nParseer ics-bestanden met andere regeleindes opnieuw",
-                "fr": "Ajouter une option pour choisir l'indicateur d'accusé de réception défini lors de la mise à jour d'objets étrangers sur des événements\nutiliser un champ de couleur de l'entrée du calendrier comme couleur d'affichage\nLorsqu'aucune flèche pour les événements déjà en cours n'est affichée et que les dates ne sont pas remplacées par des mots, affichez la date de début dans la liste et non la date de fin\nLorsque vous ne remplacez pas la date par des mots et que l'entrée se termine à 0: 0: 0, affichez la veille comme fin\nRésoudre les problèmes lorsqu'aucune date de fin n'est fournie dans l'entrée de calendrier (le début et la fin sont identiques)\nCalculer correctement la durée des événements de plusieurs jours\nRespectez les changements d'heure d'été dans certains calculs pour éviter des effets étranges\nAnalyser à nouveau les fichiers ics avec des fins de ligne différentes",
-                "it": "Aggiungi l'opzione per scegliere il flag di riconoscimento impostato durante l'aggiornamento di oggetti estranei sugli eventi\nutilizzare un campo colore dalla voce del calendario come colore per la visualizzazione\nQuando non viene visualizzata alcuna freccia per eventi già in corso e le date non vengono sostituite con parole, viene visualizzata la data di inizio nell'elenco e non la data di fine\nQuando non si sostituisce la data con le parole e l'immissione termina alle 0:0:0, mostrare il giorno prima come fine\nRisolvi i problemi quando non viene fornita una data di fine nella voce del calendario (inizio e fine sono gli stessi)\nCalcola correttamente la durata degli eventi di più giorni\nRispettare le modifiche dell'ora legale in alcuni calcoli per evitare strani effetti\nAnalizza nuovamente i file ics con terminazioni di riga diverse",
-                "es": "Agregue la opción para elegir el conjunto de indicadores de reconocimiento al actualizar objetos extraños en eventos\nuse un campo de color de la entrada del calendario como color para mostrar\nCuando no se muestra ninguna flecha para eventos que ya se están ejecutando y las fechas no se reemplazan con palabras, se muestra la fecha de inicio en la lista y no la fecha de finalización.\nCuando no se reemplaza la fecha con palabras y la entrada finaliza en 0:0:0, se muestra el día anterior como final\nSolucionar problemas cuando no se proporciona una fecha de finalización en la entrada del calendario (el inicio y el final son los mismos)\nCalcular correctamente la duración de los eventos de varios días\nRespete los cambios de horario de verano en algunos cálculos para evitar efectos extraños\nAnalizar archivos ics con diferentes finales de línea nuevamente",
-                "pl": "Dodano opcję wyboru flagi potwierdzenia ustawionej podczas aktualizowania obcych obiektów na zdarzeniach\nużyj pola koloru z pozycji kalendarza jako koloru do wyświetlania\nGdy nie ma strzałki dla już trwających wydarzeń, a daty nie są zastępowane słowami, wyświetlaj datę rozpoczęcia na liście, a nie datę zakończenia\nGdy nie zastępujesz daty słowami, a wpis kończy się o 0:0:0, pokaż dzień wcześniej jako koniec\nNapraw problemy, gdy we wpisie kalendarza nie podano daty zakończenia (początek i koniec są takie same)\nPrawidłowo oblicz długość wydarzeń wielodniowych\nPrzestrzegaj zmian czasu letniego w niektórych obliczeniach, aby zapobiec dziwnym efektom\nPrzeanalizuj ponownie pliki z różnymi zakończeniami linii",
-                "uk": "Додайте опцію вибору прапора підтвердження під час оновлення сторонніх об’єктів у подіях\nвикористовувати колірне поле з запису календаря як колір для відображення\nЯкщо стрілка для вже запущених подій не відображається, а дати не замінено словами, у списку відображатиметься дата початку, а не дата завершення\nЯкщо дата не замінюється словами, а запис закінчується на 0:0:0, показуйте попередній день як кінець\nВиправлення проблем, коли в записі календаря не вказано дату завершення (початок і кінець однакові)\nПравильно розрахувати тривалість багатоденних подій\nДотримуйтеся змін літнього часу в деяких обчисленнях, щоб запобігти дивним ефектам\nЗнову проаналізуйте ics файли з різними закінченнями рядків",
-                "zh-cn": "添加选项以在更新事件上的外来对象时选择 ack 标志集\n使用日历条目中的颜色字段作为显示颜色\n如果未显示已运行事件的箭头且日期未替换为单词，则在列表中显示开始日期而不是结束日期\n当不用单词替换日期并且条目在 0:0:0 结束时，将前一天显示为结束\n修复日历条目中未提供结束日期时的问题（开始和结束时间相同）\n正确计算多日事件的长度\n在某些计算中尊重 DST 更改以防止出现奇怪的影响\n再次解析具有不同行尾的 ics 文件"
-            },
-            "1.11.6": {
-                "en": "fixed incorrect recurrence event processing",
-                "de": "Fehlerhafte Verarbeitung von Wiederholungsereignissen behoben",
-                "ru": "исправлена некорректная обработка события повторения",
-                "pt": "corrigiu o processamento incorreto do evento de recorrência",
-                "nl": "foutieve verwerking van herhalingsgebeurtenissen verholpen",
-                "fr": "correction du traitement incorrect des événements de récurrence",
-                "it": "corretta elaborazione degli eventi di ricorrenza errata",
-                "es": "Se corrigió el procesamiento incorrecto de eventos de recurrencia.",
-                "pl": "naprawiono nieprawidłowe przetwarzanie zdarzeń rekurencyjnych",
-                "uk": "виправлена ​​некоректна обробка подій повторення",
-                "zh-cn": "修复了不正确的重复事件处理"
-            }
-        },
-        "title": "iCal Calendar",
-        "titleLang": {
-            "en": "iCal Calendar",
-            "de": "iCal Kalender",
-            "ru": "Календарь iCal",
-            "pt": "Calendário iCal",
-            "nl": "iCal-agenda",
-            "fr": "Calendrier iCal",
-            "it": "Calendario iCal",
-            "es": "Calendario iCal",
-            "pl": "Kalendarz iCal",
-            "uk": "Календар iCal",
-            "zh-cn": "iCal 日历"
-        },
-        "desc": {
-            "en": "This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal)",
-            "de": "iCal liest Kalender Files im .ics Format von einer URL (Google Calendar oder iCal)",
-            "ru": "iCal читает файлы в формате .ics по URL адресу (Google Calendar или iCal)",
-            "pt": "Este adaptador permite ler arquivos .ics de URL específico e analisá-lo (Google Calendar ou iCal)",
-            "nl": "Met deze adapter kunnen .ics-bestanden van een specifieke URL worden gelezen en geanalyseerd (Google Calendar of iCal)",
-            "fr": "Cet adaptateur permet de lire des fichiers .ics à partir d'URL spécifiques et de les analyser (Google Calendar ou iCal)",
-            "it": "Questo adattatore consente di leggere i file .ics da URL specifici e di analizzarli (Google Calendar o iCal)",
-            "es": "Este adaptador permite leer archivos .ics de una URL específica y analizarlos (Google Calendar o iCal)",
-            "pl": "Ten adapter umożliwia odczytanie plików .ics z określonego adresu URL i przeanalizowanie go (Kalendarz Google lub iCal)",
-            "uk": "Цей адаптер дозволяє читати файли .ics із певної URL-адреси та аналізувати їх (Google Calendar або iCal)",
-            "zh-cn": "此适配器允许从特定 URL 读取 .ics 文件并对其进行解析（Google Calendar 或 iCal）"
-        },
-        "authors": [
-            "bluefox <dogafox@gmail.com>",
-            "Apollon77 <ingo@fischer-ka.de>",
-            "twonky4 <twonky4@gmx.de>",
-            "Jens Maus <mail@jens-maus.de>",
-            "Matthias Kleine <info@haus-automatisierung.com>"
-        ],
-        "docs": {
-            "en": "docs/en/README.md",
-            "de": "docs/de/README.md"
-        },
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "mode": "schedule",
-        "schedule": "0,30 * * * *",
-        "loglevel": "info",
-        "readme": "https://github.com/iobroker-community-adapters/ioBroker.ical/blob/master/README.md",
-        "icon": "ical.png",
-        "compact": true,
-        "keywords": [
-            "web",
-            "iCal",
-            "calendar"
-        ],
-        "adminUI": {
-            "config": "json"
-        },
-        "allowInit": true,
-        "subscribe": "ical.<INSTANCE>.trigger",
-        "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.ical/master/admin/ical.png",
-        "type": "date-and-time",
-        "connectionType": "local",
-        "dataSource": "poll",
-        "tier": 2,
-        "plugins": {
-            "sentry": {
-                "dsn": "https://82b5b68454d946149c547291365cbee3@sentry.iobroker.net/47"
-            }
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=5.3.2"
-            }
-        ]
+  "common": {
+    "name": "ical",
+    "version": "1.13.3",
+    "news": {
+      "1.13.3": {
+        "en": "updated node-ical to latest 0.16.1\nUse color picker in adapter settings\nDropped Admin 4 UI\nAdded Ukrainian language",
+        "de": "aktualisiert kinematisch auf neuste 0,16,1\nVerwenden Sie Farbwähler in Adaptereinstellungen\nAdmin 4 UI fallen lassen\nUkrainische Sprache",
+        "ru": "обновленный node-ical до последней 0.16.1\nИспользуйте цвет пикер в настройках адаптера\nDropped Админ 4 UI\nДобавлен украинский язык",
+        "pt": "atualizado node-ical para mais recente 0.16.1\nUse o seletor de cores nas configurações do adaptador\nAdmin Dropped 4 UI\nAdicionado idioma ucraniano",
+        "nl": "vertaling: 0.16.1\nGebruik kleurenpikker in adapter setting\nDrop Admin 4 UI\nVoeg Oekraïense taal toe",
+        "fr": "mise à jour node-ical to latest 0,16.1\nUtiliser le cueilleur de couleur dans les réglages de l'adaptateur\nDropped Admin 4 UI\nAjout de la langue ukrainienne",
+        "it": "aggiornato nodo-ical al più recente 0.16.1\nUtilizzare il raccoglitore di colore nelle impostazioni dell'adattatore\nAmministrazioni a goccia 4 UI\nAggiunto lingua ucraina",
+        "es": "actualizado nodo-ical a último 0.16.1\nUse el selector de color en la configuración del adaptador\nAdmin 4 UI\nIdioma ucraniano añadido",
+        "pl": "uaktualnianie węzła 0,16.1\nUżycie koloru w ustawieniach adapterowych\nDropped Admin 4\nJęzyk ukraiński",
+        "uk": "оновлений вузол-ical в останні роки 0 товар(ов) - 0.00 р\nВикористання кольорового пікера в налаштуваннях адаптера\nПоза «69»\nУкраїнська мова",
+        "zh-cn": "最新资料 0.16.1\nB. 在适应环境中使用颜色的采样\nDrodmin 4 UI\n增加乌克兰语"
+      },
+      "1.13.2": {
+        "en": "fix strange log messages by downgrading RRule again",
+        "de": "seltsame Log-Nachrichten durch Downgrading RRule wieder beheben",
+        "ru": "исправить странные сообщения журнала путем понижать RRule снова",
+        "pt": "corrigir mensagens de log estranhas por downgrading RRule novamente",
+        "nl": "vertaling:",
+        "fr": "corriger des messages étranges en dégradant RRule à nouveau",
+        "it": "correggere i messaggi di registro strani degradando di nuovo RRule",
+        "es": "solucionar extraños mensajes de registro por la reducción de RRule de nuevo",
+        "pl": "naprawić dziwne wiadomości logowe poprzez zdegradowanie RRule'a ponownie",
+        "uk": "виправити дивні повідомлення журналу, знову знизивши RRule",
+        "zh-cn": "f 照常逻辑信息,再降解后再降解。"
+      },
+      "1.13.1": {
+        "en": "Changed request library",
+        "de": "Bibliothek der geänderten Anfrage",
+        "ru": "Измененная библиотека запросов",
+        "pt": "Biblioteca de solicitação alterada",
+        "nl": "Verandering van verzoek bibliotheek",
+        "fr": "Changed request library",
+        "it": "Libreria richiesta modificata",
+        "es": "Biblioteca de solicitud modificada",
+        "pl": "Zmiennikowa biblioteka",
+        "uk": "Змінена бібліотека запитів",
+        "zh-cn": "更改要求图书馆"
+      },
+      "1.13.0": {
+        "en": "Added Admin 5 UI\nTranslated all object names",
+        "de": "Admin 5 UI\nAlle Objektnamen übersetzt",
+        "ru": "Добавлено Admin 5 UI\nПереведено все названия объектов",
+        "pt": "Adicionado administrador 5 UI\nTraduzido todos os nomes de objetos",
+        "nl": "Admin 5 UI\nVertaald alle objectnamen",
+        "fr": "Ajout d'Admin 5 UI\nTranslated all object names",
+        "it": "Aggiunto 5 UI\nTradotto tutti i nomi degli oggetti",
+        "es": "Admin 5 UI\nTraducir todos los nombres de objetos",
+        "pl": "Admin 5\nPrzetłumaczył wszystkie nazwy obiektowe",
+        "uk": "Додано інтерфейс адміністратора 5\nПерекладено всі назви об'єктів",
+        "zh-cn": "增删5 UI\n所有物体的名称"
+      },
+      "1.12.2": {
+        "en": "Fix displaying rest-time of event in one case",
+        "de": "Anzeige der Ruhezeit des Ereignisses in einem Fall behoben",
+        "ru": "Исправлено отображение времени отдыха события в одном случае",
+        "pt": "Corrigida a exibição do tempo de descanso do evento em um caso",
+        "nl": "Repareer de weergave van de rusttijd van de gebeurtenis in één geval",
+        "fr": "Correction de l'affichage du temps de repos de l'événement dans un cas",
+        "it": "Risolto il problema con la visualizzazione del tempo di riposo dell'evento in un caso",
+        "es": "Corrección que muestra el tiempo de descanso del evento en un caso",
+        "pl": "Naprawiono wyświetlanie czasu spoczynku zdarzenia w jednym przypadku",
+        "uk": "Виправлено відображення часу відпочинку події в одному випадку",
+        "zh-cn": "修复在一种情况下显示事件的休息时间"
+      },
+      "1.12.1": {
+        "en": "Adjust colorize of dates to also show dates started in the past with todays color",
+        "de": "Passen Sie die Farbgebung von Daten an, um auch in der Vergangenheit begonnene Daten in der heutigen Farbe anzuzeigen",
+        "ru": "Отрегулируйте цвет дат, чтобы также отображать даты, начавшиеся в прошлом, с сегодняшним цветом",
+        "pt": "Ajuste a coloração das datas para também mostrar as datas iniciadas no passado com a cor de hoje",
+        "nl": "Pas de kleur van datums aan om ook datums weer te geven die in het verleden zijn begonnen met de kleur van vandaag",
+        "fr": "Ajustez la colorisation des dates pour afficher également les dates commencées dans le passé avec la couleur d'aujourd'hui",
+        "it": "Regola la colorazione delle date per mostrare anche le date iniziate in passato con il colore di oggi",
+        "es": "Ajuste el color de las fechas para mostrar también las fechas que comenzaron en el pasado con el color de hoy",
+        "pl": "Dostosuj kolorowanie dat, aby wyświetlać również daty rozpoczęte w przeszłości z dzisiejszym kolorem",
+        "uk": "Налаштуйте колір дат, щоб також відображати дати, розпочаті в минулому, сьогоднішнім кольором",
+        "zh-cn": "调整日期的颜色以使用今天的颜色显示过去开始的日期"
+      },
+      "1.12.0": {
+        "en": "Add option to choose the ack flag set when updating foreign objects on events\nuse a color field from the calendar entry as color for display\nWhen no Arrow for already running events is shown and dates are not replaced with words display the start date in the list and not the end date\nWhen not replacing date with words and entry ends at 0:0:0 show the day before as end\nFix issues when no end date is provided in the calendar entry (start and end are the same)\nCorrectly calculate length of multi day events\nRespect DST changes in some calculations to prevent strange effects\nParse ics Files with different line endings again",
+        "de": "Option hinzugefügt, um das Ack-Flag auszuwählen, wenn Fremdobjekte bei Ereignissen aktualisiert werden\nVerwenden Sie ein Farbfeld aus dem Kalendereintrag als Farbe für die Anzeige\nWenn kein Pfeil für bereits laufende Ereignisse angezeigt wird und Datumsangaben nicht durch Wörter ersetzt werden, wird das Startdatum in der Liste und nicht das Enddatum angezeigt\nWenn das Datum nicht durch Wörter ersetzt wird und der Eintrag um 0:0:0 endet, wird der Vortag als Ende angezeigt\nBehebung von Problemen, wenn im Kalendereintrag kein Enddatum angegeben ist (Start und Ende sind gleich)\nBerechnen Sie die Länge von mehrtägigen Veranstaltungen richtig\nBeachten Sie bei einigen Berechnungen Sommerzeitänderungen, um seltsame Effekte zu vermeiden\nAnalysieren Sie ics-Dateien mit unterschiedlichen Zeilenenden erneut",
+        "ru": "Добавить возможность выбора набора флагов подтверждения при обновлении внешних объектов в событиях.\nиспользовать поле цвета из записи календаря в качестве цвета для отображения\nКогда стрелка для уже запущенных событий не отображается и даты не заменены словами, в списке отображается дата начала, а не дата окончания\nЕсли дата не заменяется словами, а запись заканчивается на 0:0:0, показывать предыдущий день как конец\nИсправление проблем, когда в записи календаря не указана дата окончания (начало и конец совпадают)\nПравильно рассчитать продолжительность многодневных мероприятий\nУчитывайте изменения летнего времени в некоторых расчетах, чтобы предотвратить странные эффекты.\nПовторный анализ файлов ics с разными окончаниями строк",
+        "pt": "Adicionar opção para escolher o sinalizador de confirmação definido ao atualizar objetos estrangeiros em eventos\nuse um campo de cor da entrada do calendário como cor para exibição\nQuando nenhuma Seta para eventos já em execução é mostrada e as datas não são substituídas por palavras exibe a data de início na lista e não a data de término\nQuando não substitui a data por palavras e a entrada termina às 0:0:0 mostra o dia anterior como final\nCorrigir problemas quando nenhuma data de término é fornecida na entrada do calendário (início e término são iguais)\nCalcular corretamente a duração de eventos de vários dias\nRespeite as alterações do horário de verão em alguns cálculos para evitar efeitos estranhos\nAnalisar arquivos ics com diferentes finais de linha novamente",
+        "nl": "Optie toevoegen om de ack-vlag te kiezen die is ingesteld bij het bijwerken van vreemde objecten op gebeurtenissen\ngebruik een kleurveld uit het agenda-item als kleur voor weergave\nAls er geen pijl voor reeds lopende evenementen wordt weergegeven en datums niet worden vervangen door woorden, wordt de startdatum in de lijst weergegeven en niet de einddatum\nAls de datum niet wordt vervangen door woorden en de invoer eindigt op 0:0:0 toon de dag ervoor als einde\nProblemen oplossen wanneer er geen einddatum is opgegeven in het agenda-item (begin en einde zijn hetzelfde)\nDe lengte van meerdaagse evenementen correct berekenen\nRespecteer zomertijdveranderingen in sommige berekeningen om vreemde effecten te voorkomen\nParseer ics-bestanden met andere regeleindes opnieuw",
+        "fr": "Ajouter une option pour choisir l'indicateur d'accusé de réception défini lors de la mise à jour d'objets étrangers sur des événements\nutiliser un champ de couleur de l'entrée du calendrier comme couleur d'affichage\nLorsqu'aucune flèche pour les événements déjà en cours n'est affichée et que les dates ne sont pas remplacées par des mots, affichez la date de début dans la liste et non la date de fin\nLorsque vous ne remplacez pas la date par des mots et que l'entrée se termine à 0: 0: 0, affichez la veille comme fin\nRésoudre les problèmes lorsqu'aucune date de fin n'est fournie dans l'entrée de calendrier (le début et la fin sont identiques)\nCalculer correctement la durée des événements de plusieurs jours\nRespectez les changements d'heure d'été dans certains calculs pour éviter des effets étranges\nAnalyser à nouveau les fichiers ics avec des fins de ligne différentes",
+        "it": "Aggiungi l'opzione per scegliere il flag di riconoscimento impostato durante l'aggiornamento di oggetti estranei sugli eventi\nutilizzare un campo colore dalla voce del calendario come colore per la visualizzazione\nQuando non viene visualizzata alcuna freccia per eventi già in corso e le date non vengono sostituite con parole, viene visualizzata la data di inizio nell'elenco e non la data di fine\nQuando non si sostituisce la data con le parole e l'immissione termina alle 0:0:0, mostrare il giorno prima come fine\nRisolvi i problemi quando non viene fornita una data di fine nella voce del calendario (inizio e fine sono gli stessi)\nCalcola correttamente la durata degli eventi di più giorni\nRispettare le modifiche dell'ora legale in alcuni calcoli per evitare strani effetti\nAnalizza nuovamente i file ics con terminazioni di riga diverse",
+        "es": "Agregue la opción para elegir el conjunto de indicadores de reconocimiento al actualizar objetos extraños en eventos\nuse un campo de color de la entrada del calendario como color para mostrar\nCuando no se muestra ninguna flecha para eventos que ya se están ejecutando y las fechas no se reemplazan con palabras, se muestra la fecha de inicio en la lista y no la fecha de finalización.\nCuando no se reemplaza la fecha con palabras y la entrada finaliza en 0:0:0, se muestra el día anterior como final\nSolucionar problemas cuando no se proporciona una fecha de finalización en la entrada del calendario (el inicio y el final son los mismos)\nCalcular correctamente la duración de los eventos de varios días\nRespete los cambios de horario de verano en algunos cálculos para evitar efectos extraños\nAnalizar archivos ics con diferentes finales de línea nuevamente",
+        "pl": "Dodano opcję wyboru flagi potwierdzenia ustawionej podczas aktualizowania obcych obiektów na zdarzeniach\nużyj pola koloru z pozycji kalendarza jako koloru do wyświetlania\nGdy nie ma strzałki dla już trwających wydarzeń, a daty nie są zastępowane słowami, wyświetlaj datę rozpoczęcia na liście, a nie datę zakończenia\nGdy nie zastępujesz daty słowami, a wpis kończy się o 0:0:0, pokaż dzień wcześniej jako koniec\nNapraw problemy, gdy we wpisie kalendarza nie podano daty zakończenia (początek i koniec są takie same)\nPrawidłowo oblicz długość wydarzeń wielodniowych\nPrzestrzegaj zmian czasu letniego w niektórych obliczeniach, aby zapobiec dziwnym efektom\nPrzeanalizuj ponownie pliki z różnymi zakończeniami linii",
+        "uk": "Додайте опцію вибору прапора підтвердження під час оновлення сторонніх об’єктів у подіях\nвикористовувати колірне поле з запису календаря як колір для відображення\nЯкщо стрілка для вже запущених подій не відображається, а дати не замінено словами, у списку відображатиметься дата початку, а не дата завершення\nЯкщо дата не замінюється словами, а запис закінчується на 0:0:0, показуйте попередній день як кінець\nВиправлення проблем, коли в записі календаря не вказано дату завершення (початок і кінець однакові)\nПравильно розрахувати тривалість багатоденних подій\nДотримуйтеся змін літнього часу в деяких обчисленнях, щоб запобігти дивним ефектам\nЗнову проаналізуйте ics файли з різними закінченнями рядків",
+        "zh-cn": "添加选项以在更新事件上的外来对象时选择 ack 标志集\n使用日历条目中的颜色字段作为显示颜色\n如果未显示已运行事件的箭头且日期未替换为单词，则在列表中显示开始日期而不是结束日期\n当不用单词替换日期并且条目在 0:0:0 结束时，将前一天显示为结束\n修复日历条目中未提供结束日期时的问题（开始和结束时间相同）\n正确计算多日事件的长度\n在某些计算中尊重 DST 更改以防止出现奇怪的影响\n再次解析具有不同行尾的 ics 文件"
+      }
     },
-    "native": {
-        "daysPreview": 7,
-        "daysPast": 0,
-        "colorize": true,
-        "defColor": "#FFFFFF",
-        "fulltime": " ",
-        "dataPaddingWithZeros": true,
-        "replaceDates": true,
-        "language": "",
-        "everyCalOneColor": false,
-        "forceFullday": false,
-        "hideYear": false,
-        "arrowAlreadyStarted": true,
-        "ignoreCaseInEventname": false,
-        "addColorBox": false,
-        "calendars": [
-            {
-                "name": "calendar1",
-                "url": "http://11111.ics",
-                "user": "",
-                "pass": "",
-                "sslignore": false,
-                "color": "#FF0000",
-                "filter": "ignored events",
-                "filterregex": false
-            }
-        ],
-        "events": [
-            {
-                "name": "Vacation",
-                "enabled": true,
-                "id": "",
-                "on": "",
-                "off": "",
-                "display": false,
-                "ack": false
-            }
-        ]
+    "title": "iCal Calendar",
+    "titleLang": {
+      "en": "iCal Calendar",
+      "de": "iCal Kalender",
+      "ru": "Календарь iCal",
+      "pt": "Calendário iCal",
+      "nl": "iCal-agenda",
+      "fr": "Calendrier iCal",
+      "it": "Calendario iCal",
+      "es": "Calendario iCal",
+      "pl": "Kalendarz iCal",
+      "uk": "Календар iCal",
+      "zh-cn": "iCal 日历"
     },
-    "instanceObjects": [
-        {
-            "_id": "events",
-            "type": "channel",
-            "common": {
-                "name": {
-                    "en": "User events controlled from calendar",
-                    "de": "Benutzerereignisse vom Kalender gesteuert",
-                    "ru": "События пользователя контролируются из календаря",
-                    "pt": "Eventos do usuário controlados a partir do calendário",
-                    "nl": "User evenementen gecontroleerd van kalender",
-                    "fr": "Utilisateurs contrôlés à partir du calendrier",
-                    "it": "Eventi utente controllati dal calendario",
-                    "es": "Eventos de usuario controlados desde el calendario",
-                    "pl": "Rozgrywki użytkownicy kontrolują kalendarz",
-                    "uk": "Заходи користувачів, що контролюються з календаря",
-                    "zh-cn": "B. 按日历开列的使用活动"
-                }
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.0",
-            "type": "channel",
-            "common": {
-                "name": {
-                    "en": "Events of today, now and later today (controlled by calendar)",
-                    "de": "Ereignisse von heute, jetzt und später (durch Kalender kontrolliert)",
-                    "ru": "События сегодня, сейчас и позже сегодня (контролируется календарем)",
-                    "pt": "Eventos de hoje, agora e mais tarde hoje (controlado pelo calendário)",
-                    "nl": "De gebeurtenissen van vandaag en later vandaag",
-                    "fr": "Évènements d'aujourd'hui, maintenant et plus tard aujourd'hui (contrôlé par calendrier)",
-                    "it": "Eventi di oggi, oggi e più tardi (controllati dal calendario)",
-                    "es": "Eventos de hoy, ahora y más tarde (controlados por calendario)",
-                    "pl": "Dzisiaj, dziś i później (kontrolowane przez kalendarz)",
-                    "uk": "Події сьогодні, тепер і пізніше сьогодні (контрольований календарем)",
-                    "zh-cn": "今天、现在和以后的活动(按日历排列)"
-                }
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.0.today",
-            "type": "channel",
-            "common": {
-                "name": {
-                    "en": "Events of today (controlled by calendar)",
-                    "de": "Ereignisse von heute (durch Kalender kontrolliert)",
-                    "ru": "События сегодняшнего дня (контролируется календарем)",
-                    "pt": "Eventos de hoje (controlado pelo calendário)",
-                    "nl": "De gebeurtenissen van vandaag",
-                    "fr": "Événements d'aujourd'hui (contrôlés par calendrier)",
-                    "it": "Eventi di oggi (controllati dal calendario)",
-                    "es": "Eventos de hoy (controlados por calendario)",
-                    "pl": "Wydarzenia (kontrolowane przez kalendarz)",
-                    "uk": "Події сьогодні (контрольовані календарем)",
-                    "zh-cn": "今天的活动(按日历排列)"
-                }
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.0.now",
-            "type": "channel",
-            "common": {
-                "name": {
-                    "en": "Events now (controlled by calendar)",
-                    "de": "Ereignisse jetzt (nach Kalender kontrolliert)",
-                    "ru": "События сейчас (управляемые календарем)",
-                    "pt": "Eventos agora (controlado pelo calendário)",
-                    "nl": "Avonds nu gecontroleerd door kalender",
-                    "fr": "Évènements maintenant (contrôlés par calendrier)",
-                    "it": "Eventi (controllati dal calendario)",
-                    "es": "Eventos ahora (controlados por calendario)",
-                    "pl": "Wydarzenia (kontrolowane przez kalendarz)",
-                    "uk": "Події тепер (контрольовані календарем)",
-                    "zh-cn": "目前的活动(按日历进行)"
-                }
-            },
-            "native": {}
-        },
-        {
-            "_id": "events.0.later",
-            "type": "channel",
-            "common": {
-                "name": {
-                    "en": "Events later today (controlled by calendar)",
-                    "de": "Ereignisse später (durch Kalender kontrolliert)",
-                    "ru": "События позже сегодня (управляемые календарем)",
-                    "pt": "Eventos mais tarde hoje (controlado pelo calendário)",
-                    "nl": "Dingen later vandaag",
-                    "fr": "Événements plus tard aujourd'hui (contrôlés par calendrier)",
-                    "it": "Eventi più tardi (controllati dal calendario)",
-                    "es": "Eventos más tarde hoy (controlado por calendario)",
-                    "pl": "Wydarzenia później (kontrolowane przez kalendarz)",
-                    "uk": "Останні події (контрольовані календарем)",
-                    "zh-cn": "今天晚些时候的活动(按日历排列)"
-                }
-            },
-            "native": {}
-        },
-        {
-            "_id": "trigger",
-            "type": "state",
-            "common": {
-                "name": {
-                    "en": "Command",
-                    "de": "Befehl",
-                    "ru": "Команда",
-                    "pt": "Comando",
-                    "nl": "Commando",
-                    "fr": "Commandant",
-                    "it": "Comando",
-                    "es": "Comando",
-                    "pl": "Dowództwo",
-                    "uk": "Про компанію",
-                    "zh-cn": "指挥"
-                },
-                "desc": "Commands: read [url], check [reason]",
-                "type": "string",
-                "read": true,
-                "write": true,
-                "role": "value"
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.count",
-            "type": "state",
-            "common": {
-                "name": {
-                    "en": "Number of events today",
-                    "de": "Anzahl der Ereignisse heute",
-                    "ru": "Количество событий сегодня",
-                    "pt": "Número de eventos hoje",
-                    "nl": "Nummer van gebeurtenissen vandaag",
-                    "fr": "Nombre d'événements aujourd'hui",
-                    "it": "Numero di eventi oggi",
-                    "es": "Número de eventos hoy",
-                    "pl": "Liczba wydarzeń współczesnych",
-                    "uk": "Кількість подій сьогодні",
-                    "zh-cn": "今天活动次数"
-                },
-                "type": "number",
-                "role": "indicator",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.countTomorrow",
-            "type": "state",
-            "common": {
-                "name": {
-                    "en": "Number of events tomorrow",
-                    "de": "Anzahl der Ereignisse morgen",
-                    "ru": "Количество событий завтра",
-                    "pt": "Número de eventos amanhã",
-                    "nl": "Nummer van gebeurtenissen morgen",
-                    "fr": "Nombre d'événements demain",
-                    "it": "Numero di eventi domani",
-                    "es": "Número de eventos mañana",
-                    "pl": "Liczba jutroów",
-                    "uk": "Кількість заходів завтра",
-                    "zh-cn": "明天事件数目"
-                },
-                "type": "number",
-                "role": "indicator",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.countYesterday",
-            "type": "state",
-            "common": {
-                "name": {
-                    "en": "Number of events yesterday",
-                    "de": "Anzahl der Ereignisse gestern",
-                    "ru": "Количество событий вчера",
-                    "pt": "Número de eventos ontem",
-                    "nl": "Nummer van gebeurtenissen gisteren",
-                    "fr": "Nombre d'événements hier",
-                    "it": "Numero di eventi di ieri",
-                    "es": "Número de eventos ayer",
-                    "pl": "Liczba wydarzeń yesterday",
-                    "uk": "Кількість подій",
-                    "zh-cn": "昨天活动次数"
-                },
-                "type": "number",
-                "role": "indicator",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.table",
-            "type": "state",
-            "common": {
-                "name": {
-                    "en": "Calendar data as array",
-                    "de": "Kalenderdaten als Array",
-                    "ru": "Данные календаря как массив",
-                    "pt": "Dados do calendário como array",
-                    "nl": "Calendar data als Array",
-                    "fr": "Données du calendrier comme tableau",
-                    "it": "Dati del calendario come array",
-                    "es": "Datos de calendario como matriz",
-                    "pl": "Kalendarz danych jako tablica",
-                    "uk": "Дані календаря в масиві",
-                    "zh-cn": "数字数据作为范围"
-                },
-                "desc": "JS table: []",
-                "type": "array",
-                "role": "list",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.html",
-            "type": "state",
-            "common": {
-                "name": {
-                    "en": "Calendar data as HTML",
-                    "de": "Kalenderdaten als HTML",
-                    "ru": "Данные календаря как HTML",
-                    "pt": "Dados do calendário como HTML",
-                    "nl": "Calendar data als HTML",
-                    "fr": "Données du calendrier en HTML",
-                    "it": "Dati del calendario come HTML",
-                    "es": "Datos del calendario como HTML",
-                    "pl": "Kalendarz danych jako HTML",
-                    "uk": "Дані календаря як HTML",
-                    "zh-cn": "HTML的基准数据"
-                },
-                "desc": "HTML table with events",
-                "type": "string",
-                "role": "html",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "data.text",
-            "type": "state",
-            "common": {
-                "name": {
-                    "en": "Calendar data as Text",
-                    "de": "Kalenderdaten als Text",
-                    "ru": "Календарь данных как текст",
-                    "pt": "Dados do calendário como texto",
-                    "nl": "Calendar data als Text",
-                    "fr": "Données du calendrier comme texte",
-                    "it": "Dati del calendario come testo",
-                    "es": "Datos del calendario como texto",
-                    "pl": "Kalendarzowe dane jako tekst",
-                    "uk": "Інформація про календар як текст",
-                    "zh-cn": "作为案文的简历数据"
-                },
-                "desc": "Text table with events",
-                "type": "string",
-                "role": "text",
-                "read": true,
-                "write": false
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "This adapter allows to read .ics files from specific URL and parse it (Google Calendar or iCal)",
+      "de": "iCal liest Kalender Files im .ics Format von einer URL (Google Calendar oder iCal)",
+      "ru": "iCal читает файлы в формате .ics по URL адресу (Google Calendar или iCal)",
+      "pt": "Este adaptador permite ler arquivos .ics de URL específico e analisá-lo (Google Calendar ou iCal)",
+      "nl": "Met deze adapter kunnen .ics-bestanden van een specifieke URL worden gelezen en geanalyseerd (Google Calendar of iCal)",
+      "fr": "Cet adaptateur permet de lire des fichiers .ics à partir d'URL spécifiques et de les analyser (Google Calendar ou iCal)",
+      "it": "Questo adattatore consente di leggere i file .ics da URL specifici e di analizzarli (Google Calendar o iCal)",
+      "es": "Este adaptador permite leer archivos .ics de una URL específica y analizarlos (Google Calendar o iCal)",
+      "pl": "Ten adapter umożliwia odczytanie plików .ics z określonego adresu URL i przeanalizowanie go (Kalendarz Google lub iCal)",
+      "uk": "Цей адаптер дозволяє читати файли .ics із певної URL-адреси та аналізувати їх (Google Calendar або iCal)",
+      "zh-cn": "此适配器允许从特定 URL 读取 .ics 文件并对其进行解析（Google Calendar 或 iCal）"
+    },
+    "authors": [
+      "bluefox <dogafox@gmail.com>",
+      "Apollon77 <ingo@fischer-ka.de>",
+      "twonky4 <twonky4@gmx.de>",
+      "Jens Maus <mail@jens-maus.de>",
+      "Matthias Kleine <info@haus-automatisierung.com>"
+    ],
+    "docs": {
+      "en": "docs/en/README.md",
+      "de": "docs/de/README.md"
+    },
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "mode": "schedule",
+    "schedule": "0,30 * * * *",
+    "loglevel": "info",
+    "readme": "https://github.com/iobroker-community-adapters/ioBroker.ical/blob/master/README.md",
+    "icon": "ical.png",
+    "compact": true,
+    "keywords": [
+      "web",
+      "iCal",
+      "calendar"
+    ],
+    "adminUI": {
+      "config": "json"
+    },
+    "allowInit": true,
+    "subscribe": "ical.<INSTANCE>.trigger",
+    "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.ical/master/admin/ical.png",
+    "type": "date-and-time",
+    "connectionType": "local",
+    "dataSource": "poll",
+    "tier": 2,
+    "plugins": {
+      "sentry": {
+        "dsn": "https://82b5b68454d946149c547291365cbee3@sentry.iobroker.net/47"
+      }
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=2.0.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.3.2"
+      }
     ]
+  },
+  "native": {
+    "daysPreview": 7,
+    "daysPast": 0,
+    "colorize": true,
+    "defColor": "#FFFFFF",
+    "fulltime": " ",
+    "dataPaddingWithZeros": true,
+    "replaceDates": true,
+    "language": "",
+    "everyCalOneColor": false,
+    "forceFullday": false,
+    "hideYear": false,
+    "arrowAlreadyStarted": true,
+    "ignoreCaseInEventname": false,
+    "addColorBox": false,
+    "calendars": [
+      {
+        "name": "calendar1",
+        "url": "http://11111.ics",
+        "user": "",
+        "pass": "",
+        "sslignore": false,
+        "color": "#FF0000",
+        "filter": "ignored events",
+        "filterregex": false
+      }
+    ],
+    "events": [
+      {
+        "name": "Vacation",
+        "enabled": true,
+        "id": "",
+        "on": "",
+        "off": "",
+        "display": false,
+        "ack": false
+      }
+    ]
+  },
+  "instanceObjects": [
+    {
+      "_id": "events",
+      "type": "channel",
+      "common": {
+        "name": {
+          "en": "User events controlled from calendar",
+          "de": "Benutzerereignisse vom Kalender gesteuert",
+          "ru": "События пользователя контролируются из календаря",
+          "pt": "Eventos do usuário controlados a partir do calendário",
+          "nl": "User evenementen gecontroleerd van kalender",
+          "fr": "Utilisateurs contrôlés à partir du calendrier",
+          "it": "Eventi utente controllati dal calendario",
+          "es": "Eventos de usuario controlados desde el calendario",
+          "pl": "Rozgrywki użytkownicy kontrolują kalendarz",
+          "uk": "Заходи користувачів, що контролюються з календаря",
+          "zh-cn": "B. 按日历开列的使用活动"
+        }
+      },
+      "native": {}
+    },
+    {
+      "_id": "events.0",
+      "type": "channel",
+      "common": {
+        "name": {
+          "en": "Events of today, now and later today (controlled by calendar)",
+          "de": "Ereignisse von heute, jetzt und später (durch Kalender kontrolliert)",
+          "ru": "События сегодня, сейчас и позже сегодня (контролируется календарем)",
+          "pt": "Eventos de hoje, agora e mais tarde hoje (controlado pelo calendário)",
+          "nl": "De gebeurtenissen van vandaag en later vandaag",
+          "fr": "Évènements d'aujourd'hui, maintenant et plus tard aujourd'hui (contrôlé par calendrier)",
+          "it": "Eventi di oggi, oggi e più tardi (controllati dal calendario)",
+          "es": "Eventos de hoy, ahora y más tarde (controlados por calendario)",
+          "pl": "Dzisiaj, dziś i później (kontrolowane przez kalendarz)",
+          "uk": "Події сьогодні, тепер і пізніше сьогодні (контрольований календарем)",
+          "zh-cn": "今天、现在和以后的活动(按日历排列)"
+        }
+      },
+      "native": {}
+    },
+    {
+      "_id": "events.0.today",
+      "type": "channel",
+      "common": {
+        "name": {
+          "en": "Events of today (controlled by calendar)",
+          "de": "Ereignisse von heute (durch Kalender kontrolliert)",
+          "ru": "События сегодняшнего дня (контролируется календарем)",
+          "pt": "Eventos de hoje (controlado pelo calendário)",
+          "nl": "De gebeurtenissen van vandaag",
+          "fr": "Événements d'aujourd'hui (contrôlés par calendrier)",
+          "it": "Eventi di oggi (controllati dal calendario)",
+          "es": "Eventos de hoy (controlados por calendario)",
+          "pl": "Wydarzenia (kontrolowane przez kalendarz)",
+          "uk": "Події сьогодні (контрольовані календарем)",
+          "zh-cn": "今天的活动(按日历排列)"
+        }
+      },
+      "native": {}
+    },
+    {
+      "_id": "events.0.now",
+      "type": "channel",
+      "common": {
+        "name": {
+          "en": "Events now (controlled by calendar)",
+          "de": "Ereignisse jetzt (nach Kalender kontrolliert)",
+          "ru": "События сейчас (управляемые календарем)",
+          "pt": "Eventos agora (controlado pelo calendário)",
+          "nl": "Avonds nu gecontroleerd door kalender",
+          "fr": "Évènements maintenant (contrôlés par calendrier)",
+          "it": "Eventi (controllati dal calendario)",
+          "es": "Eventos ahora (controlados por calendario)",
+          "pl": "Wydarzenia (kontrolowane przez kalendarz)",
+          "uk": "Події тепер (контрольовані календарем)",
+          "zh-cn": "目前的活动(按日历进行)"
+        }
+      },
+      "native": {}
+    },
+    {
+      "_id": "events.0.later",
+      "type": "channel",
+      "common": {
+        "name": {
+          "en": "Events later today (controlled by calendar)",
+          "de": "Ereignisse später (durch Kalender kontrolliert)",
+          "ru": "События позже сегодня (управляемые календарем)",
+          "pt": "Eventos mais tarde hoje (controlado pelo calendário)",
+          "nl": "Dingen later vandaag",
+          "fr": "Événements plus tard aujourd'hui (contrôlés par calendrier)",
+          "it": "Eventi più tardi (controllati dal calendario)",
+          "es": "Eventos más tarde hoy (controlado por calendario)",
+          "pl": "Wydarzenia później (kontrolowane przez kalendarz)",
+          "uk": "Останні події (контрольовані календарем)",
+          "zh-cn": "今天晚些时候的活动(按日历排列)"
+        }
+      },
+      "native": {}
+    },
+    {
+      "_id": "trigger",
+      "type": "state",
+      "common": {
+        "name": {
+          "en": "Command",
+          "de": "Befehl",
+          "ru": "Команда",
+          "pt": "Comando",
+          "nl": "Commando",
+          "fr": "Commandant",
+          "it": "Comando",
+          "es": "Comando",
+          "pl": "Dowództwo",
+          "uk": "Про компанію",
+          "zh-cn": "指挥"
+        },
+        "desc": "Commands: read [url], check [reason]",
+        "type": "string",
+        "read": true,
+        "write": true,
+        "role": "value"
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.count",
+      "type": "state",
+      "common": {
+        "name": {
+          "en": "Number of events today",
+          "de": "Anzahl der Ereignisse heute",
+          "ru": "Количество событий сегодня",
+          "pt": "Número de eventos hoje",
+          "nl": "Nummer van gebeurtenissen vandaag",
+          "fr": "Nombre d'événements aujourd'hui",
+          "it": "Numero di eventi oggi",
+          "es": "Número de eventos hoy",
+          "pl": "Liczba wydarzeń współczesnych",
+          "uk": "Кількість подій сьогодні",
+          "zh-cn": "今天活动次数"
+        },
+        "type": "number",
+        "role": "indicator",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.countTomorrow",
+      "type": "state",
+      "common": {
+        "name": {
+          "en": "Number of events tomorrow",
+          "de": "Anzahl der Ereignisse morgen",
+          "ru": "Количество событий завтра",
+          "pt": "Número de eventos amanhã",
+          "nl": "Nummer van gebeurtenissen morgen",
+          "fr": "Nombre d'événements demain",
+          "it": "Numero di eventi domani",
+          "es": "Número de eventos mañana",
+          "pl": "Liczba jutroów",
+          "uk": "Кількість заходів завтра",
+          "zh-cn": "明天事件数目"
+        },
+        "type": "number",
+        "role": "indicator",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.countYesterday",
+      "type": "state",
+      "common": {
+        "name": {
+          "en": "Number of events yesterday",
+          "de": "Anzahl der Ereignisse gestern",
+          "ru": "Количество событий вчера",
+          "pt": "Número de eventos ontem",
+          "nl": "Nummer van gebeurtenissen gisteren",
+          "fr": "Nombre d'événements hier",
+          "it": "Numero di eventi di ieri",
+          "es": "Número de eventos ayer",
+          "pl": "Liczba wydarzeń yesterday",
+          "uk": "Кількість подій",
+          "zh-cn": "昨天活动次数"
+        },
+        "type": "number",
+        "role": "indicator",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.table",
+      "type": "state",
+      "common": {
+        "name": {
+          "en": "Calendar data as array",
+          "de": "Kalenderdaten als Array",
+          "ru": "Данные календаря как массив",
+          "pt": "Dados do calendário como array",
+          "nl": "Calendar data als Array",
+          "fr": "Données du calendrier comme tableau",
+          "it": "Dati del calendario come array",
+          "es": "Datos de calendario como matriz",
+          "pl": "Kalendarz danych jako tablica",
+          "uk": "Дані календаря в масиві",
+          "zh-cn": "数字数据作为范围"
+        },
+        "desc": "JS table: []",
+        "type": "array",
+        "role": "list",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.html",
+      "type": "state",
+      "common": {
+        "name": {
+          "en": "Calendar data as HTML",
+          "de": "Kalenderdaten als HTML",
+          "ru": "Данные календаря как HTML",
+          "pt": "Dados do calendário como HTML",
+          "nl": "Calendar data als HTML",
+          "fr": "Données du calendrier en HTML",
+          "it": "Dati del calendario come HTML",
+          "es": "Datos del calendario como HTML",
+          "pl": "Kalendarz danych jako HTML",
+          "uk": "Дані календаря як HTML",
+          "zh-cn": "HTML的基准数据"
+        },
+        "desc": "HTML table with events",
+        "type": "string",
+        "role": "html",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "data.text",
+      "type": "state",
+      "common": {
+        "name": {
+          "en": "Calendar data as Text",
+          "de": "Kalenderdaten als Text",
+          "ru": "Календарь данных как текст",
+          "pt": "Dados do calendário como texto",
+          "nl": "Calendar data als Text",
+          "fr": "Données du calendrier comme texte",
+          "it": "Dati del calendario come testo",
+          "es": "Datos del calendario como texto",
+          "pl": "Kalendarzowe dane jako tekst",
+          "uk": "Інформація про календар як текст",
+          "zh-cn": "作为案文的简历数据"
+        },
+        "desc": "Text table with events",
+        "type": "string",
+        "role": "text",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    }
+  ]
 }
