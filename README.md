@@ -32,6 +32,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 -->
 
 ### **WORK IN PROGRESS**
+* (jens-maus) updated node-ical to latest 0.16.1
 * (klein0r) Use color picker in adapter settings
 * (klein0r) Dropped Admin 4 UI
 * (klein0r) Added Ukrainian language
@@ -56,7 +57,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2022, bluefox <dogafox@gmail.com>
+Copyright (c) 2014-2023, bluefox <dogafox@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
