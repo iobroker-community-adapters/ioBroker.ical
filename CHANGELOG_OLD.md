@@ -1,4 +1,7 @@
 # Older changes
+## 1.12.2 (2022-06-03)
+* (Apollon77) Fix displaying rest-time of event in one case
+
 ## 1.12.1 (2022-03-22)
 * (Apollon77) Adjust colorize of dates to also show dates started in the past with today's color
 
