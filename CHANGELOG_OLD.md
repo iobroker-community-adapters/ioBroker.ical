@@ -1,4 +1,8 @@
 # Older changes
+## 1.13.0 (2022-06-17)
+* (klein0r) Added Admin 5 UI
+* (klein0r) Translated all object names
+
 ## 1.12.2 (2022-06-03)
 * (Apollon77) Fix displaying rest-time of event in one case
 

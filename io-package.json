@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.13.4",
+    "version": "1.13.5",
     "news": {
+      "1.13.5": {
+        "en": "updated node-ical to latest 0.17.1",
+        "de": "aktualisiert kinematisch auf neuste 0,17.1",
+        "ru": "обновленный node-ical до последней 0.17.1",
+        "pt": "atualizado node-ical para mais recente 0.17.1",
+        "nl": "vertaling: 0.17.1",
+        "fr": "mise à jour node-ical to latest 0.17.1",
+        "it": "aggiornato nodo-ical al più recente 0,15",
+        "es": "actualizado nodo-ical a último 0.17.1",
+        "pl": "uaktualnianie węzła 0,17.1",
+        "uk": "оновлений вузол-ical в останні роки 0 товар(ов) - 0.00 р",
+        "zh-cn": "最新资料 0.17.1"
+      },
       "1.13.4": {
         "en": "updated node-ical to latest 0.17.0\nupdated dependencies",
         "de": "aktualisierte node-ical auf neueste 0.17.0\naktualisierte abhängigkeiten",
@@ -80,19 +93,6 @@
         "pl": "Naprawiono wyświetlanie czasu spoczynku zdarzenia w jednym przypadku",
         "uk": "Виправлено відображення часу відпочинку події в одному випадку",
         "zh-cn": "修复在一种情况下显示事件的休息时间"
-      },
-      "1.12.1": {
-        "en": "Adjust colorize of dates to also show dates started in the past with todays color",
-        "de": "Passen Sie die Farbgebung von Daten an, um auch in der Vergangenheit begonnene Daten in der heutigen Farbe anzuzeigen",
-        "ru": "Отрегулируйте цвет дат, чтобы также отображать даты, начавшиеся в прошлом, с сегодняшним цветом",
-        "pt": "Ajuste a coloração das datas para também mostrar as datas iniciadas no passado com a cor de hoje",
-        "nl": "Pas de kleur van datums aan om ook datums weer te geven die in het verleden zijn begonnen met de kleur van vandaag",
-        "fr": "Ajustez la colorisation des dates pour afficher également les dates commencées dans le passé avec la couleur d'aujourd'hui",
-        "it": "Regola la colorazione delle date per mostrare anche le date iniziate in passato con il colore di oggi",
-        "es": "Ajuste el color de las fechas para mostrar también las fechas que comenzaron en el pasado con el color de hoy",
-        "pl": "Dostosuj kolorowanie dat, aby wyświetlać również daty rozpoczęte w przeszłości z dzisiejszym kolorem",
-        "uk": "Налаштуйте колір дат, щоб також відображати дати, розпочаті в минулому, сьогоднішнім кольором",
-        "zh-cn": "调整日期的颜色以使用今天的颜色显示过去开始的日期"
       }
     },
     "title": "iCal Calendar",
