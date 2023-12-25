@@ -32,7 +32,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.13.6 (2023-12-25)
 * (mcm1957) Incorrect jsonConfig has been fixed [#602]
 * (mcm1957) Dependencies have been updated
 
@@ -51,9 +51,6 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 
 ### 1.13.2 (2022-08-29)
 * (Apollon77) fix strange log messages by downgrading RRule again
-
-### 1.13.1 (2022-06-27)
-* (klein0r) Changed request library
 
 ## License
 

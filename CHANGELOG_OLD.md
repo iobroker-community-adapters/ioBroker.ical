@@ -1,4 +1,7 @@
 # Older changes
+## 1.13.1 (2022-06-27)
+* (klein0r) Changed request library
+
 ## 1.13.0 (2022-06-17)
 * (klein0r) Added Admin 5 UI
 * (klein0r) Translated all object names

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.13.5",
+    "version": "1.13.6",
     "news": {
+      "1.13.6": {
+        "en": "Incorrect jsonConfig has been fixed [#602]\nDependencies have been updated",
+        "de": "Fehler in jsonConfig wurde behoben [#602]\nAbhängigkeiten wurden aktualisiert",
+        "ru": "Неправильный jsonConfig был исправлен [#602]\nВ зависимости были обновлены",
+        "pt": "JsonConfig incorreto foi corrigido [#602]\nAs dependências foram atualizadas",
+        "nl": "Incorrect JsonConfig is gerepareerd\nAfhankelijkheid",
+        "fr": "Incorrect jsonConfig a été corrigé [#602]\nLes dépendances ont été mises à jour",
+        "it": "JsonConfig non corretto è stato fissato [#602]\nLe dipendenze sono state aggiornate",
+        "es": "JsonConfig incorrecto ha sido fijado [#602]\nSe han actualizado las dependencias",
+        "pl": "Incorrect jsonConfig został ustalony jako #602\nZależności zostały zaktualizowane",
+        "uk": "[#602]\nОновлено залежність",
+        "zh-cn": "错误的 json Config已确定[第602号]\n已更新了属地"
+      },
       "1.13.5": {
         "en": "updated node-ical to latest 0.17.1",
         "de": "aktualisiert kinematisch auf neuste 0,17.1",
@@ -80,19 +93,6 @@
         "pl": "Admin 5\nPrzetłumaczył wszystkie nazwy obiektowe",
         "uk": "Додано інтерфейс адміністратора 5\nПерекладено всі назви об'єктів",
         "zh-cn": "增删5 UI\n所有物体的名称"
-      },
-      "1.12.2": {
-        "en": "Fix displaying rest-time of event in one case",
-        "de": "Anzeige der Ruhezeit des Ereignisses in einem Fall behoben",
-        "ru": "Исправлено отображение времени отдыха события в одном случае",
-        "pt": "Corrigida a exibição do tempo de descanso do evento em um caso",
-        "nl": "Repareer de weergave van de rusttijd van de gebeurtenis in één geval",
-        "fr": "Correction de l'affichage du temps de repos de l'événement dans un cas",
-        "it": "Risolto il problema con la visualizzazione del tempo di riposo dell'evento in un caso",
-        "es": "Corrección que muestra el tiempo de descanso del evento en un caso",
-        "pl": "Naprawiono wyświetlanie czasu spoczynku zdarzenia w jednym przypadku",
-        "uk": "Виправлено відображення часу відпочинку події в одному випадку",
-        "zh-cn": "修复在一种情况下显示事件的休息时间"
       }
     },
     "title": "iCal Calendar",
