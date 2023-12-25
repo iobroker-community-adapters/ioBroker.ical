@@ -21,15 +21,21 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 
 [🇩🇪 Dokumentation](./docs/de/README.md)
 
+<!-- 
 ## Todo
 * `data.trigger` doesn't support `check` option
 * fix timezone stuff in tests
+-->
 
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (mcm1957) Incorrect jsonConfig has been fixed [#602]
+* (mcm1957) Dependencies have been updated
+
 ### 1.13.5 (2023-12-15)
 * (jens-maus) updated node-ical to latest 0.17.1
 

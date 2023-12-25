@@ -23,7 +23,6 @@
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "trim": false,
                     "label": "Past days"
                 },
                 "ignoreCaseInEventname": {
@@ -32,7 +31,6 @@
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
-                    "trim": false,
                     "label": "Ignore case for event-search"
                 }
             }
