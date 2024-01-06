@@ -178,6 +178,12 @@ function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
             url: urlOrFile
         };
 
+        if (adapter.config.customUserAgentEnabled && adapter.config.customUserAgent) {
+            options.headers = {
+                'User-Agent': adapter.config.customUserAgent
+            };
+        }
+
         if (sslignore === 'ignore' || sslignore === 'true' || sslignore === true) {
             options.httpsAgent = new https.Agent({
                 rejectUnauthorized: false

@@ -195,10 +195,12 @@
         "pass": "",
         "sslignore": false,
         "color": "#FF0000",
-        "filter": "ignored events",
+        "filter": "",
         "filterregex": false
       }
     ],
+    "customUserAgentEnabled": false,
+    "customUserAgent": "Mozilla/5.0 (X11; Linux i686; rv:109.0) Gecko/20100101 Firefox/121.0",
     "events": [
       {
         "name": "Vacation",

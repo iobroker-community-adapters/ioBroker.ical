@@ -30,5 +30,7 @@
     "user": "Username",
     "Options": "Options",
     "Set ID": "Set ID",
-    "Set Ack": "Set Ack"
+    "Set Ack": "Set Ack",
+    "Use custom user agent": "Use custom user agent",
+    "User agent HTTP header": "User agent HTTP header"
 }

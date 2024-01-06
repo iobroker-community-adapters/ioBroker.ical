@@ -340,6 +340,22 @@
                             "default": false
                         }
                     ]
+                },
+                "customUserAgentEnabled": {
+                    "type": "checkbox",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Use custom user agent"
+                },
+                "customUserAgent": {
+                    "hidden": "!data.customUserAgentEnabled",
+                    "type": "text",
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 8,
+                    "label": "User agent HTTP header"
                 }
             }
         },
