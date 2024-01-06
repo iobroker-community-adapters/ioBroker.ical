@@ -157,10 +157,18 @@ Date.prototype.compare = function(b) {
     );
 };
 
-function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
+async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
     // Is it file or URL
     if (!urlOrFile.match(/^https?:\/\//)) {
-        if (!fs.existsSync(urlOrFile)) {
+        const ioFileExists = await adapter.fileExistsAsync(adapter.namespace, urlOrFile);
+        if (ioFileExists) {
+            try {
+                const ioFile = await adapter.readFileAsync(adapter.namespace, urlOrFile);
+                cb(null, ioFile.file.toString());
+            } catch (e) {
+                cb && cb(`Cannot read ioBroker file "${urlOrFile}": ${e}`);
+            }
+        } else if (!fs.existsSync(urlOrFile)) {
             cb && cb(`File does not exist: "${urlOrFile}"`);
         } else {
             try {

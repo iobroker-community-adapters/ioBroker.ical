@@ -34,6 +34,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 -->
 ### **WORK IN PROGRESS**
 * (klein0r) Allow to set custom http user agent
+* (klein0r) Added option to use files tab for calendar files
 
 ### 1.13.6 (2023-12-25)
 * (mcm1957) Incorrect jsonConfig has been fixed [#602]
