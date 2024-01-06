@@ -30,5 +30,7 @@
     "user": "Gebruikersnaam",
     "Options": "Opties",
     "Set ID": "ID instellen",
-    "Set Ack": "Set Ack"
+    "Set Ack": "Set Ack",
+    "Use custom user agent": "Gebruik een aangepaste user-agent",
+    "User agent HTTP header": "HTTP-header van gebruikersagent"
 }

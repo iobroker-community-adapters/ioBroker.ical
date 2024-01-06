@@ -30,5 +30,7 @@
     "user": "Nome utente",
     "Options": "Opzioni",
     "Set ID": "Imposta l'ID",
-    "Set Ack": "Imposta Rispondi"
+    "Set Ack": "Imposta Rispondi",
+    "Use custom user agent": "Utilizza l'agente utente personalizzato",
+    "User agent HTTP header": "Intestazione HTTP dell'agente utente"
 }

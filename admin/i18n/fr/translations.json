@@ -30,5 +30,7 @@
     "user": "Nom d'utilisateur",
     "Options": "Choix",
     "Set ID": "Définir l'identifiant",
-    "Set Ack": "Confirmer"
+    "Set Ack": "Confirmer",
+    "Use custom user agent": "Utiliser un agent utilisateur personnalisé",
+    "User agent HTTP header": "En-tête HTTP de l'agent utilisateur"
 }

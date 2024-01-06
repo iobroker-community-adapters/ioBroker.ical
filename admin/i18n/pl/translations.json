@@ -30,5 +30,7 @@
     "user": "Nazwa Użytkownika",
     "Options": "Opcje",
     "Set ID": "Ustaw ID",
-    "Set Ack": "Ustaw Potwierdź"
+    "Set Ack": "Ustaw Potwierdź",
+    "Use custom user agent": "Użyj niestandardowego klienta użytkownika",
+    "User agent HTTP header": "Nagłówek HTTP agenta użytkownika"
 }

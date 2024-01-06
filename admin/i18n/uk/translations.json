@@ -30,5 +30,7 @@
     "user": "Ім'я користувача",
     "Options": "Опції",
     "Set ID": "Встановити ID",
-    "Set Ack": "Установити Ack"
+    "Set Ack": "Установити Ack",
+    "Use custom user agent": "Використовуйте спеціальний агент користувача",
+    "User agent HTTP header": "HTTP-заголовок агента користувача"
 }

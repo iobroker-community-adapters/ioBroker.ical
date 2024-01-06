@@ -30,5 +30,7 @@
     "user": "用户名",
     "Options": "选项",
     "Set ID": "设置名称",
-    "Set Ack": "设置确认"
+    "Set Ack": "设置确认",
+    "Use custom user agent": "使用自定义用户代理",
+    "User agent HTTP header": "用户代理 HTTP 标头"
 }

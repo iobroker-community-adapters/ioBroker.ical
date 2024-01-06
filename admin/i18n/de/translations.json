@@ -30,5 +30,7 @@
     "user": "Benutzername",
     "Options": "Optionen",
     "Set ID": "ID festlegen",
-    "Set Ack": "Bestätigen"
+    "Set Ack": "Bestätigen",
+    "Use custom user agent": "Benutzerdefinierter User-Agent",
+    "User agent HTTP header": "User-Agent HTTP-Header"
 }

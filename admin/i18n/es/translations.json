@@ -30,5 +30,7 @@
     "user": "Nombre de usuario",
     "Options": "Opciones",
     "Set ID": "Pon la identificacion",
-    "Set Ack": "Establecer acuse de recibo"
+    "Set Ack": "Establecer acuse de recibo",
+    "Use custom user agent": "Utilice un agente de usuario personalizado",
+    "User agent HTTP header": "Encabezado HTTP del agente de usuario"
 }
