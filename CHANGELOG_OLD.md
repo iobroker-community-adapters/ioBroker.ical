@@ -1,4 +1,7 @@
 # Older changes
+## 1.13.2 (2022-08-29)
+* (Apollon77) fix strange log messages by downgrading RRule again
+
 ## 1.13.1 (2022-06-27)
 * (klein0r) Changed request library
 

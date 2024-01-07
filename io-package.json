@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.13.6",
+    "version": "1.14.0",
     "news": {
+      "1.14.0": {
+        "en": "Allow to set custom http user agent\nAdded option to use files tab for calendar files",
+        "de": "Erlauben Sie, benutzerdefinierte http-Benutzer-Agent\nOption hinzugefügt, um Dateien Tab für Kalenderdateien zu verwenden",
+        "ru": "Разрешить настроить пользовательский\nДобавлена возможность использования вкладки файлов для календарных файлов",
+        "pt": "Permitir definir agente de usuário http personalizado\nOpção adicionada para usar a guia de arquivos para arquivos de calendário",
+        "nl": "Aangepaste http-gebruikeragent instellen\nToegevoegd optie om bestanden te gebruiken tabblad voor agendabestanden",
+        "fr": "Permettre de définir un agent utilisateur http personnalisé\nAjout d'une option pour utiliser l'onglet fichiers pour les fichiers calendrier",
+        "it": "Consentire di impostare personalizzato http user agent\nAggiunta opzione per utilizzare scheda file per i file del calendario",
+        "es": "Permitir establecer un agente de usuario http personalizado\nOpción adicional para usar la pestaña de archivos para archivos de calendario",
+        "pl": "Zezwalaj na ustawianie niestandardowych użytkowników http\nDodano opcję użycia zakładki plików do plików kalendarza",
+        "uk": "Дозвольте встановити користувальницький агент\nДодана можливість використовувати вкладку файлів для календарних файлів",
+        "zh-cn": "允许设置自定义 http 用户代理\n为日历文件使用文件标签添加了选项"
+      },
       "1.13.6": {
         "en": "Incorrect jsonConfig has been fixed [#602]\nDependencies have been updated",
         "de": "Fehler in jsonConfig wurde behoben [#602]\nAbhängigkeiten wurden aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Zmiennikowa biblioteka",
         "uk": "Змінена бібліотека запитів",
         "zh-cn": "更改要求图书馆"
-      },
-      "1.13.0": {
-        "en": "Added Admin 5 UI\nTranslated all object names",
-        "de": "Admin 5 UI\nAlle Objektnamen übersetzt",
-        "ru": "Добавлено Admin 5 UI\nПереведено все названия объектов",
-        "pt": "Adicionado administrador 5 UI\nTraduzido todos os nomes de objetos",
-        "nl": "Admin 5 UI\nVertaald alle objectnamen",
-        "fr": "Ajout d'Admin 5 UI\nTranslated all object names",
-        "it": "Aggiunto 5 UI\nTradotto tutti i nomi degli oggetti",
-        "es": "Admin 5 UI\nTraducir todos los nombres de objetos",
-        "pl": "Admin 5\nPrzetłumaczył wszystkie nazwy obiektowe",
-        "uk": "Додано інтерфейс адміністратора 5\nПерекладено всі назви об'єктів",
-        "zh-cn": "增删5 UI\n所有物体的名称"
       }
     },
     "title": "iCal Calendar",

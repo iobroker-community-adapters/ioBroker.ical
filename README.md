@@ -32,7 +32,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.14.0 (2024-01-07)
 * (klein0r) Allow to set custom http user agent
 * (klein0r) Added option to use files tab for calendar files
 
@@ -52,9 +52,6 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 * (klein0r) Use color picker in adapter settings
 * (klein0r) Dropped Admin 4 UI
 * (klein0r) Added Ukrainian language
-
-### 1.13.2 (2022-08-29)
-* (Apollon77) fix strange log messages by downgrading RRule again
 
 ## License
 
