@@ -32,6 +32,9 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (klein0r) Create dummy file in files tab
+
 ### 1.14.0 (2024-01-07)
 * (klein0r) Allow to set custom http user agent
 * (klein0r) Added option to use files tab for calendar files

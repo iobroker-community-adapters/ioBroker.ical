@@ -1604,6 +1604,14 @@ function main() {
     adapter.config.language = adapter.config.language || 'en';
     adapter.config.daysPast = parseInt(adapter.config.daysPast) || 0;
 
+    const helpFilePath = '/UPLOAD_FILES_HERE.txt';
+    adapter.fileExistsAsync(adapter.namespace, helpFilePath)
+        .then(fileExists => {
+            if (!fileExists) {
+                adapter.writeFileAsync(adapter.namespace, helpFilePath, 'Place your *.ics files in this directory');
+            }
+        });
+
     syncUserEvents(readAll);
 }
 
