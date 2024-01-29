@@ -11,6 +11,7 @@ const setupIcsEvent = require(__dirname + '/lib/setupIcsEvent');
 const setupIcsFilter = require(__dirname + '/lib/setupIcsFilter');
 const setupIcsFilterRegex = require(__dirname + '/lib/setupIcsFilterRegex');
 const setupIcsForceFullDay = require(__dirname + '/lib/setupIcsForceFullDay');
+const setupIcsRecurring = require(__dirname + '/lib/setupIcsRecurring');
 
 async function startAdapterAndWaitForStop(harness) {
     return new Promise(resolve => {
@@ -220,15 +221,15 @@ tests.integration(path.join(__dirname, '..'), {
                 {name: 'ical.0.events.2.EventNextDay3', value: false}
             ];
 
-            for (let t = 0; t < eventTests.length; t++) {
-                it(`Checking event "${eventTests[t].name}"`, function (done) {
+            for (const event of eventTests) {
+                it(`Checking event "${event.name}"`, function (done) {
 
-                    harness.states.getState(eventTests[t].name, function (err, state) {
+                    harness.states.getState(event.name, function (err, state) {
                         expect(err).to.be.not.ok;
-                        if (eventTests[t].value === undefined) {
+                        if (event.value === undefined) {
                             expect(state).to.be.null;
                         } else {
-                            expect(state.val).to.be.equals(eventTests[t].value);
+                            expect(state.val).to.be.equals(event.value);
                         }
 
                         done();
@@ -392,6 +393,33 @@ tests.integration(path.join(__dirname, '..'), {
                 expect(dataTableObj[8].event).to.be.equal('TestUserEvent1');
                 expect(dataTableObj[8]._section).to.be.equal('TestUserEvent1');
                 expect(dataTableObj[8]._allDay).to.be.true;
+
+            });
+        });
+
+        suite('Test Recurring', getHarness => {
+            /**
+             * @type {IntegrationTestHarness}
+             */
+            let harness;
+            before(async function () {
+                this.timeout(60000);
+
+                setupIcsRecurring.setup();
+
+                harness = getHarness();
+                harness.changeAdapterConfig(harness.adapterName, setupIcsRecurring.getInstanceConfig());
+
+                return startAdapterAndWaitForStop(harness);
+            });
+
+            it('Check event table', async function () {
+
+                const stateDataTable = await harness.states.getStateAsync(`${harness.adapterName}.0.data.table`);
+                const eventTable = JSON.parse(stateDataTable.val);
+
+                expect(eventTable).to.be.an('array');
+                expect(eventTable).to.have.lengthOf.at.least(25); // 364 days preview, every 2 weeks
 
             });
         });
