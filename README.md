@@ -34,6 +34,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 -->
 ### **WORK IN PROGRESS**
 * (klein0r) Create dummy file in files tab
+* (klein0r) Fixed recurring events
 
 ### 1.14.0 (2024-01-07)
 * (klein0r) Allow to set custom http user agent
