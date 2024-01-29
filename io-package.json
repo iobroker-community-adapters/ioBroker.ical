@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.14.1",
+    "version": "1.14.2",
     "news": {
+      "1.14.2": {
+        "en": "update node-ical to latest 0.17.2",
+        "de": "update node-ical bis neueste 0,17.2",
+        "ru": "обновление узла к последней 0.17.2",
+        "pt": "atualizar node-ical para mais recente 0,17.2",
+        "nl": "update node-ical naar nieuwste 0,17,2",
+        "fr": "mettre à jour noeud-ical à la dernière 0.17.2",
+        "it": "aggiornamento nodo-ical a più tardi 0.17.2",
+        "es": "actualización node-ical a última 0.17.2",
+        "pl": "aktualizacja node- ical do najnowszej 0, 17, 2",
+        "uk": "оновлення вершини-ical до останнього 0.17.2 км",
+        "zh-cn": "将节点更新为最新的 0.17.2 (中文(简体) )"
+      },
       "1.14.1": {
         "en": "Create dummy file in files tab\nFixed recurring events",
         "de": "Erstellen Sie Dummy-Datei in Dateien Tab\nFeste wiederkehrende Ereignisse",
@@ -80,19 +93,6 @@
         "pl": "uaktualnianie węzła 0,16.1\nUżycie koloru w ustawieniach adapterowych\nDropped Admin 4\nJęzyk ukraiński",
         "uk": "оновлений вузол-ical в останні роки 0 товар(ов) - 0.00 р\nВикористання кольорового пікера в налаштуваннях адаптера\nПоза «69»\nУкраїнська мова",
         "zh-cn": "最新资料 0.16.1\nB. 在适应环境中使用颜色的采样\nDrodmin 4 UI\n增加乌克兰语"
-      },
-      "1.13.2": {
-        "en": "fix strange log messages by downgrading RRule again",
-        "de": "seltsame Log-Nachrichten durch Downgrading RRule wieder beheben",
-        "ru": "исправить странные сообщения журнала путем понижать RRule снова",
-        "pt": "corrigir mensagens de log estranhas por downgrading RRule novamente",
-        "nl": "vertaling:",
-        "fr": "corriger des messages étranges en dégradant RRule à nouveau",
-        "it": "correggere i messaggi di registro strani degradando di nuovo RRule",
-        "es": "solucionar extraños mensajes de registro por la reducción de RRule de nuevo",
-        "pl": "naprawić dziwne wiadomości logowe poprzez zdegradowanie RRule'a ponownie",
-        "uk": "виправити дивні повідомлення журналу, знову знизивши RRule",
-        "zh-cn": "f 照常逻辑信息,再降解后再降解。"
       }
     },
     "title": "iCal Calendar",

@@ -32,7 +32,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.14.2 (2024-01-29)
 * (jens-maus) update node-ical to latest 0.17.2
 
 ### 1.14.1 (2024-01-29)
@@ -49,10 +49,6 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 
 ### 1.13.5 (2023-12-15)
 * (jens-maus) updated node-ical to latest 0.17.1
-
-### 1.13.4 (2023-12-10)
-* (jens-maus) updated node-ical to latest 0.17.0
-* (jens-maus) updated dependencies
 
 ## License
 

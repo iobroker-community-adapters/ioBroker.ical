@@ -1,4 +1,8 @@
 # Older changes
+## 1.13.4 (2023-12-10)
+* (jens-maus) updated node-ical to latest 0.17.0
+* (jens-maus) updated dependencies
+
 ## 1.13.3 (2023-06-20)
 * (jens-maus) updated node-ical to latest 0.16.1
 * (klein0r) Use color picker in adapter settings
