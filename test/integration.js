@@ -1,6 +1,6 @@
 'use strict';
 
-const path = require('path');
+const path = require('node:path');
 const { tests, IntegrationTestHarness } = require('@iobroker/testing');
 const chai = require('chai');
 chai.use(require('chai-string'));

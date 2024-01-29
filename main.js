@@ -1,29 +1,17 @@
-/**
- *      ioBroker.iCal
- *      Copyright 2015-2020, bluefox <dogafox@gmail.com>
- *
- *      Based on ccu.io vader722 adapter.
- *      https://github.com/hobbyquaker/ccu.io/tree/master/adapter/ical
- *
- */
-
-/* jshint -W097 */
-/* jshint strict:false */
-/* jshint esversion: 6 */
-/* jslint node: true */
 'use strict';
 
-// Get common adapter utils
-const utils       = require('@iobroker/adapter-core');
-const RRule       = require('rrule').RRule;
 const ical        = require('node-ical');
-const ce          = require('cloneextend');
-const crypto      = require('crypto');
-const fs          = require('fs');
-const path        = require('path');
+const crypto      = require('node:crypto');
+const fs          = require('node:fs');
+const path        = require('node:path');
+const https       = require('node:https');
+
+const utils       = require('@iobroker/adapter-core');
 const adapterName = require('./package.json').name.split('.').pop();
+
+const RRule       = require('rrule').RRule;
+const ce          = require('cloneextend');
 const axios       = require('axios');
-const https       = require('https');
 
 let adapter;
 let stopped       = false;
