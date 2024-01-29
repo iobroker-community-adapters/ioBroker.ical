@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.14.0",
+    "version": "1.14.1",
     "news": {
+      "1.14.1": {
+        "en": "Create dummy file in files tab\nFixed recurring events",
+        "de": "Erstellen Sie Dummy-Datei in Dateien Tab\nFeste wiederkehrende Ereignisse",
+        "ru": "Создать файл dummy в вкладке\nИсправленные повторяющиеся события",
+        "pt": "Criar arquivo fictício na guia de arquivos\nCorrigido eventos recorrentes",
+        "nl": "Pummelbestand aanmaken in tabblad bestanden\nVaste terugkerende gebeurtenissen",
+        "fr": "Créer un fichier fictif dans l'onglet fichiers\nÉvénements récurrents fixes",
+        "it": "Crea file fittizio nella scheda file\nEventi ricorrenti fissi",
+        "es": "Crear archivo dummy en la pestaña archivos\nActos recurrentes fijos",
+        "pl": "Utwórz plik atrapy w zakładce pliki\nNaprawiono powtarzające się zdarzenia",
+        "uk": "Створіть файл dummy у вкладці файлів\nВиправлено повторювані події",
+        "zh-cn": "在文件标签中创建模拟文件\n固定经常性活动"
+      },
       "1.14.0": {
         "en": "Allow to set custom http user agent\nAdded option to use files tab for calendar files",
         "de": "Erlauben Sie, benutzerdefinierte http-Benutzer-Agent\nOption hinzugefügt, um Dateien Tab für Kalenderdateien zu verwenden",
@@ -80,19 +93,6 @@
         "pl": "naprawić dziwne wiadomości logowe poprzez zdegradowanie RRule'a ponownie",
         "uk": "виправити дивні повідомлення журналу, знову знизивши RRule",
         "zh-cn": "f 照常逻辑信息,再降解后再降解。"
-      },
-      "1.13.1": {
-        "en": "Changed request library",
-        "de": "Bibliothek der geänderten Anfrage",
-        "ru": "Измененная библиотека запросов",
-        "pt": "Biblioteca de solicitação alterada",
-        "nl": "Verandering van verzoek bibliotheek",
-        "fr": "Changed request library",
-        "it": "Libreria richiesta modificata",
-        "es": "Biblioteca de solicitud modificada",
-        "pl": "Zmiennikowa biblioteka",
-        "uk": "Змінена бібліотека запитів",
-        "zh-cn": "更改要求图书馆"
       }
     },
     "title": "iCal Calendar",
