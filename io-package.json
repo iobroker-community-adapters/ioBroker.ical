@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.14.2",
+    "version": "1.14.3",
     "news": {
+      "1.14.3": {
+        "en": "update node-ical to latest 0.18.0",
+        "de": "update node-ical auf neueste 0.18.0",
+        "ru": "обновление узла к последнему 0.18.0",
+        "pt": "atualização node-ical para mais recente 0.18.0",
+        "nl": "node-ical updaten naar de laatste 0.18.0",
+        "fr": "mettre à jour noeud-ical à la dernière 0.18.0",
+        "it": "aggiornamento nodo-ical al più recente 0.18.0",
+        "es": "actualización node-ical al último 0.18.0",
+        "pl": "aktualizacja nodeical do najnowszej wersji 0.18.0",
+        "uk": "оновлення вершини-ical до останньої 0.18.0",
+        "zh-cn": "将节点更新为最新0.1.8"
+      },
       "1.14.2": {
         "en": "update node-ical to latest 0.17.2",
         "de": "update node-ical bis neueste 0,17.2",
@@ -80,19 +93,6 @@
         "pl": "uaktualnić węzeł do 0.17.0\nzależności aktualizacji",
         "uk": "оновлений вузол-ical to last 0.17.0\nоновлені залежності",
         "zh-cn": "最新资料\n二. 最新依赖"
-      },
-      "1.13.3": {
-        "en": "updated node-ical to latest 0.16.1\nUse color picker in adapter settings\nDropped Admin 4 UI\nAdded Ukrainian language",
-        "de": "aktualisiert kinematisch auf neuste 0,16,1\nVerwenden Sie Farbwähler in Adaptereinstellungen\nAdmin 4 UI fallen lassen\nUkrainische Sprache",
-        "ru": "обновленный node-ical до последней 0.16.1\nИспользуйте цвет пикер в настройках адаптера\nDropped Админ 4 UI\nДобавлен украинский язык",
-        "pt": "atualizado node-ical para mais recente 0.16.1\nUse o seletor de cores nas configurações do adaptador\nAdmin Dropped 4 UI\nAdicionado idioma ucraniano",
-        "nl": "vertaling: 0.16.1\nGebruik kleurenpikker in adapter setting\nDrop Admin 4 UI\nVoeg Oekraïense taal toe",
-        "fr": "mise à jour node-ical to latest 0,16.1\nUtiliser le cueilleur de couleur dans les réglages de l'adaptateur\nDropped Admin 4 UI\nAjout de la langue ukrainienne",
-        "it": "aggiornato nodo-ical al più recente 0.16.1\nUtilizzare il raccoglitore di colore nelle impostazioni dell'adattatore\nAmministrazioni a goccia 4 UI\nAggiunto lingua ucraina",
-        "es": "actualizado nodo-ical a último 0.16.1\nUse el selector de color en la configuración del adaptador\nAdmin 4 UI\nIdioma ucraniano añadido",
-        "pl": "uaktualnianie węzła 0,16.1\nUżycie koloru w ustawieniach adapterowych\nDropped Admin 4\nJęzyk ukraiński",
-        "uk": "оновлений вузол-ical в останні роки 0 товар(ов) - 0.00 р\nВикористання кольорового пікера в налаштуваннях адаптера\nПоза «69»\nУкраїнська мова",
-        "zh-cn": "最新资料 0.16.1\nB. 在适应环境中使用颜色的采样\nDrodmin 4 UI\n增加乌克兰语"
       }
     },
     "title": "iCal Calendar",

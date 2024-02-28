@@ -1,4 +1,7 @@
 # Older changes
+## 1.13.5 (2023-12-15)
+* (jens-maus) updated node-ical to latest 0.17.1
+
 ## 1.13.4 (2023-12-10)
 * (jens-maus) updated node-ical to latest 0.17.0
 * (jens-maus) updated dependencies
