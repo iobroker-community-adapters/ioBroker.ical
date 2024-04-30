@@ -32,7 +32,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.15.0 (2024-04-30)
 * (mcm1957) Adapter requires node.js >= 18 and js-controller >= 5 now
 * (mcm1957) Dependencies have been updated
 
@@ -49,10 +49,6 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 ### 1.14.0 (2024-01-07)
 * (klein0r) Allow to set custom http user agent
 * (klein0r) Added option to use files tab for calendar files
-
-### 1.13.6 (2023-12-25)
-* (mcm1957) Incorrect jsonConfig has been fixed [#602]
-* (mcm1957) Dependencies have been updated
 
 ## License
 

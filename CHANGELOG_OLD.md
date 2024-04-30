@@ -1,4 +1,8 @@
 # Older changes
+## 1.13.6 (2023-12-25)
+* (mcm1957) Incorrect jsonConfig has been fixed [#602]
+* (mcm1957) Dependencies have been updated
+
 ## 1.13.5 (2023-12-15)
 * (jens-maus) updated node-ical to latest 0.17.1
 

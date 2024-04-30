@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.14.3",
+    "version": "1.15.0",
     "news": {
+      "1.15.0": {
+        "en": "Adapter requires node.js >= 18 and js-controller >= 5 now\nDependencies have been updated",
+        "de": "Adapter benötigt node.js >= 18 und js-controller >= 5 jetzt\nAbhängigkeiten wurden aktualisiert",
+        "ru": "Адаптер требует node.js >= 18 и js-контроллер >= 5 сейчас\nЗависимость обновлена",
+        "pt": "Adapter requer node.js >= 18 e js-controller >= 5 agora\nAs dependências foram atualizadas",
+        "nl": "Voor adaptor zijn node.js < 18 en js-controller > Nu 5\nAfhankelijkheden zijn bijgewerkt",
+        "fr": "L'adaptateur nécessite node.js >= 18 et js-controller >= 5 maintenant\nLes dépendances ont été actualisées",
+        "it": "Adattatore richiede node.js >= 18 e js-controller >= 5 ora\nLe dipendenze sono state aggiornate",
+        "es": "Adaptador requiere node.js √≥= 18 y js-controller 5 ahora\nSe han actualizado las dependencias",
+        "pl": "Adapter wymaga node.js > = 18 i kontroler js- > = 5 teraz\nZaktualizowano zależności",
+        "uk": "Адаптер вимагає node.js >= 18 і js-controller >= 5 тепер\nЗалежність було оновлено",
+        "zh-cn": "适配器需要节点.js QQ18和js控制器 QQ 现在5号\n依赖关系已更新"
+      },
       "1.14.3": {
         "en": "update node-ical to latest 0.18.0",
         "de": "update node-ical auf neueste 0.18.0",
@@ -80,19 +93,6 @@
         "pl": "uaktualnianie węzła 0,17.1",
         "uk": "оновлений вузол-ical в останні роки 0 товар(ов) - 0.00 р",
         "zh-cn": "最新资料 0.17.1"
-      },
-      "1.13.4": {
-        "en": "updated node-ical to latest 0.17.0\nupdated dependencies",
-        "de": "aktualisierte node-ical auf neueste 0.17.0\naktualisierte abhängigkeiten",
-        "ru": "обновленный node-ical до последней 0.17.0\nобновленные зависимости",
-        "pt": "atualizado node-ical para mais recente 0.17.0\ndependências atualizadas",
-        "nl": "vertaling:\nvertaling:",
-        "fr": "mise à jour node-ical au plus tard 0.17.0\ndépendances actualisées",
-        "it": "aggiornato nodo-ical al più recente 0.17.0\ndipendenze aggiornate",
-        "es": "actualizado nodo-ical al último 0.17.0\ndependencias actualizadas",
-        "pl": "uaktualnić węzeł do 0.17.0\nzależności aktualizacji",
-        "uk": "оновлений вузол-ical to last 0.17.0\nоновлені залежності",
-        "zh-cn": "最新资料\n二. 最新依赖"
       }
     },
     "titleLang": {
