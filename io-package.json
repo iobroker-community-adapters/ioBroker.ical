@@ -95,7 +95,6 @@
         "zh-cn": "最新资料\n二. 最新依赖"
       }
     },
-    "title": "iCal Calendar",
     "titleLang": {
       "en": "iCal Calendar",
       "de": "iCal Kalender",
@@ -133,7 +132,10 @@
       "en": "docs/en/README.md",
       "de": "docs/de/README.md"
     },
-    "license": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "platform": "Javascript/Node.js",
     "mode": "schedule",
     "schedule": "0,30 * * * *",
@@ -163,12 +165,12 @@
     },
     "dependencies": [
       {
-        "js-controller": ">=3.3.22"
+        "js-controller": ">=5.0.19"
       }
     ],
     "globalDependencies": [
       {
-        "admin": ">=5.3.2"
+        "admin": ">=6.13.16"
       }
     ]
   },
