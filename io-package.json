@@ -152,7 +152,6 @@
       "config": "json"
     },
     "allowInit": true,
-    "subscribe": "ical.<INSTANCE>.trigger",
     "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.ical/master/admin/ical.png",
     "type": "date-and-time",
     "connectionType": "local",
@@ -334,31 +333,6 @@
           "uk": "Останні події (контрольовані календарем)",
           "zh-cn": "今天晚些时候的活动(按日历排列)"
         }
-      },
-      "native": {}
-    },
-    {
-      "_id": "trigger",
-      "type": "state",
-      "common": {
-        "name": {
-          "en": "Command",
-          "de": "Befehl",
-          "ru": "Команда",
-          "pt": "Comando",
-          "nl": "Commando",
-          "fr": "Commandant",
-          "it": "Comando",
-          "es": "Comando",
-          "pl": "Dowództwo",
-          "uk": "Про компанію",
-          "zh-cn": "指挥"
-        },
-        "desc": "Commands: read [url], check [reason]",
-        "type": "string",
-        "read": true,
-        "write": true,
-        "role": "value"
       },
       "native": {}
     },

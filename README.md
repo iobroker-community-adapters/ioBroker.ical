@@ -23,7 +23,6 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 
 <!-- 
 ## Todo
-* `data.trigger` doesn't support `check` option
 * fix timezone stuff in tests
 -->
 
@@ -32,6 +31,9 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (klein0r) Breaking change: Removed trigger state (subscribe is deprecated in js-controller 6.x)
+
 ### 1.15.0 (2024-04-30)
 * (mcm1957) Adapter requires node.js >= 18 and js-controller >= 5 now
 * (mcm1957) Dependencies have been updated

@@ -22,43 +22,6 @@ function startAdapter(options) {
 
     Object.assign(options,{
         name:  adapterName,
-        stateChange:  async function (id, state) {
-            if (!id || !state || state.ack || !state.val) {
-                return;
-            }
-
-            if (id === `${adapter.namespace}.trigger`) {
-                const content = state.val.split(' ');
-                // One time read all calendars
-                switch (content[0]) {
-                    case 'read':
-                        if (content[1]) {
-                            adapter.log.info(`reading iCal from URL: "${content[1]}"`);
-                            readOne(content[1]);
-                        } else {
-                            adapter.log.info('reading one time from all calendars');
-                            readAll();
-                        }
-                        break;
-
-                    // FIXME: checkForEvents not supporting call with only 1 parameter
-                    case 'check':
-                        if (content[1]) {
-                            adapter.log.info(`checking "${content[1]}"`);
-                            await checkForEvents(content[1]);
-                        } else {
-                            adapter.log.warn('check all events');
-                            for (let i = 0; i < adapter.config.events.length; i++) {
-                                await checkForEvents(adapter.config.events[i].name);
-                            }
-                        }
-                        break;
-
-                    default:
-                        adapter.log.warn(`Unknown command in trigger: "${state.val}"`);
-                }
-            }
-        },
         unload: function (callback) {
             stopped = true;
             callback();
@@ -1599,6 +1562,8 @@ function main() {
                 adapter.writeFileAsync(adapter.namespace, helpFilePath, 'Place your *.ics files in this directory');
             }
         });
+
+    adapter.delObjectAsync('trigger'); // removed deprecated subscribe state (created in previous versions)
 
     syncUserEvents(readAll);
 }
