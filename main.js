@@ -653,6 +653,7 @@ function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
 
 async function checkForEvents(reason, event, realnow) {
     const ignoreCaseInEventname = adapter.config.ignoreCaseInEventname;
+    const exactMatchInEventname = adapter.config.exactMatchInEventname;
     // show unknown events
     let result = true;
     let today = new Date(realnow.getTime());
@@ -663,7 +664,19 @@ async function checkForEvents(reason, event, realnow) {
     // check if event exists in table
     for (let i = 0; i < events.length; i++) {
         const ev = events[i];
-        if ((reason.includes(ev.name)) || (ignoreCaseInEventname && (reason.toLowerCase().includes(ev.name.toLowerCase())))) {
+        let evFound = false;
+        if (exactMatchInEventname) {
+            // calendar entry must be exactly the same as the event
+            if ((reason === ev.name) || (ignoreCaseInEventname && (reason.toLowerCase() === ev.name.toLowerCase()))) {
+                evFound = true;
+            }
+        } else {
+            // event is included in the calendar entry
+            if ((reason.includes(ev.name)) || (ignoreCaseInEventname && (reason.toLowerCase().includes(ev.name.toLowerCase())))) {
+                evFound = true;
+            }
+        }
+        if (evFound) {
             // check if event should shown
             result = ev.display;
             adapter.log.debug(`found event in table: ${ev.name}, day=${ev.day}`);

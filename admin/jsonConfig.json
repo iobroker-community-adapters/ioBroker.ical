@@ -32,6 +32,14 @@
                     "md": 4,
                     "lg": 4,
                     "label": "Ignore case for event-search"
+                },
+                "exactMatchInEventname": {
+                    "type": "checkbox",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 4,
+                    "label": "Exact Match for event-search"
                 }
             }
         },
