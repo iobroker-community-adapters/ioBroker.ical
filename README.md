@@ -32,7 +32,9 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+* (jens-maus) update node-ical to latest 0.20.0
 * (klein0r) Breaking change: Removed trigger state (subscribe is deprecated in js-controller 6.x)
+* (simatec) Responsive design added
 
 ### 1.15.0 (2024-04-30)
 * (mcm1957) Adapter requires node.js >= 18 and js-controller >= 5 now
