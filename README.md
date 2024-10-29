@@ -32,6 +32,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+* (cvoelkel76) add checkbox to allow to exactly match a calender event.
 * (jens-maus) update node-ical to latest 0.20.0
 * (klein0r) Breaking change: Removed trigger state (subscribe is deprecated in js-controller 6.x)
 * (simatec) Responsive design added

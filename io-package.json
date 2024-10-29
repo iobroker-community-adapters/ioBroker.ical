@@ -187,6 +187,7 @@
     "hideYear": false,
     "arrowAlreadyStarted": true,
     "ignoreCaseInEventname": false,
+    "exactMatchInEventname": false,
     "addColorBox": false,
     "calendars": [
       {
