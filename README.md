@@ -31,7 +31,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.16.0 (2024-10-29)
 * (cvoelkel76) add checkbox to allow to exactly match a calender event.
 * (jens-maus) update node-ical to latest 0.20.0
 * (klein0r) Breaking change: Removed trigger state (subscribe is deprecated in js-controller 6.x)
@@ -50,10 +50,6 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 ### 1.14.1 (2024-01-29)
 * (klein0r) Create dummy file in files tab
 * (klein0r) Fixed recurring events
-
-### 1.14.0 (2024-01-07)
-* (klein0r) Allow to set custom http user agent
-* (klein0r) Added option to use files tab for calendar files
 
 ## License
 

@@ -1,4 +1,8 @@
 # Older changes
+## 1.14.0 (2024-01-07)
+* (klein0r) Allow to set custom http user agent
+* (klein0r) Added option to use files tab for calendar files
+
 ## 1.13.6 (2023-12-25)
 * (mcm1957) Incorrect jsonConfig has been fixed [#602]
 * (mcm1957) Dependencies have been updated

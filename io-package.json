@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.15.0",
+    "version": "1.16.0",
     "news": {
+      "1.16.0": {
+        "en": "add checkbox to allow to exactly match a calender event.\nupdate node-ical to latest 0.20.0\nBreaking change: Removed trigger state (subscribe is deprecated in js-controller 6.x)\nResponsive design added",
+        "de": "fügen sie checkbox hinzu, um ein kalenderereignis genau zu vereinbaren.\nupdate node-ical bis neueste 0.20.0\nBruchänderung: Entfernter Triggerzustand (Abonnent wird in js-Controller 6.x abgeschrieben)\nResponsive Design hinzugefügt",
+        "ru": "добавьте флажок, чтобы позволить точно соответствовать событиям календера.\nобновление узла к последнему 0.20.0\nПерерыв: Удаленное состояние триггера (подписано в js-controller 6.x)\nДобавлен ответный дизайн",
+        "pt": "adicionar caixa de seleção para permitir exatamente combinar um evento de calandragem.\natualizar node-ical para o mais recente 0.20.0\nMudança de ruptura: Estado do gatilho removido (a assinatura é deprecated no js-controller 6.x)\nDesign responsivo adicionado",
+        "nl": "voeg het selectievakje toe om een agenda-evenement exact te laten overeenkomen.\nupdate node-ical naar de laatste 0.20.0\nVerandering: Verwijderde trigger status (abonneren wordt verouderd in js-controller 6.x)\nResponsief ontwerp toegevoegd",
+        "fr": "ajouter une case à cocher pour permettre de correspondre exactement à un événement de calandre.\nmettre à jour node-ical au dernier 0.20.0\nBriser le changement : État de déclenchement supprimé (subscription est obsolète dans js-controller 6.x)\nConception sensible ajoutée",
+        "it": "aggiungere la casella di controllo per consentire di abbinare esattamente un evento di calender.\naggiornamento nodo-ical al più recente 0.20.0\nCambiamento di rottura: Stato di attivazione rimosso (l'iscrizione è deprecata in js-controller 6.x)\nDesign reattivo aggiunto",
+        "es": "agregue la casilla de verificación para permitir exactamente igualar un evento calender.\nactualización nodo-ical a más tardar 0.20.0\nCambio de ruptura: Estado de activación eliminado (suscripción se deprecata en js-controller 6.x)\nDiseño responsable añadido",
+        "pl": "dodaj pole wyboru, aby umożliwić dokładne dopasowanie zdarzenia kalendarza.\naktualizacja node- ical do najnowszej wersji 0.20.0\nŁamanie zmian: Usunięty stan wyzwalania (prenumerata w sterowniku js- 6.x)\nDodano projekt odpowiadający",
+        "uk": "додайте прапорець, щоб точно відповідати події.\nоновлення вершини-ical до останньої 0.20.0\nЗміна розривів: Вилучений пусковий стан (приписується в js-controller 6.x)\nДодано адаптивний дизайн",
+        "zh-cn": "添加复选框,以便精确匹配一个计数器事件.\n将节点更新为最近0.2.0\n中断更改 : 删除触发状态( 订阅在 js- controller 6. x 中已贬值)\n增加了反应设计"
+      },
       "1.15.0": {
         "en": "Adapter requires node.js >= 18 and js-controller >= 5 now\nDependencies have been updated",
         "de": "Adapter benötigt node.js >= 18 und js-controller >= 5 jetzt\nAbhängigkeiten wurden aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Incorrect jsonConfig został ustalony jako #602\nZależności zostały zaktualizowane",
         "uk": "[#602]\nОновлено залежність",
         "zh-cn": "错误的 json Config已确定[第602号]\n已更新了属地"
-      },
-      "1.13.5": {
-        "en": "updated node-ical to latest 0.17.1",
-        "de": "aktualisiert kinematisch auf neuste 0,17.1",
-        "ru": "обновленный node-ical до последней 0.17.1",
-        "pt": "atualizado node-ical para mais recente 0.17.1",
-        "nl": "vertaling: 0.17.1",
-        "fr": "mise à jour node-ical to latest 0.17.1",
-        "it": "aggiornato nodo-ical al più recente 0,15",
-        "es": "actualizado nodo-ical a último 0.17.1",
-        "pl": "uaktualnianie węzła 0,17.1",
-        "uk": "оновлений вузол-ical в останні роки 0 товар(ов) - 0.00 р",
-        "zh-cn": "最新资料 0.17.1"
       }
     },
     "titleLang": {
