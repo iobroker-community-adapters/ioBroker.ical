@@ -31,7 +31,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.16.1 (2024-11-01)
 * (jens-maus) fix issue with handling rrule timezones incorrect with latest node-ical (#708).
 * (jens-maus) update node-ical to latest 0.20.1
 * (jens-maus) save cached files to os tmpdir instead.
@@ -51,10 +51,6 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 
 ### 1.14.2 (2024-01-29)
 * (jens-maus) update node-ical to latest 0.17.2
-
-### 1.14.1 (2024-01-29)
-* (klein0r) Create dummy file in files tab
-* (klein0r) Fixed recurring events
 
 ## License
 

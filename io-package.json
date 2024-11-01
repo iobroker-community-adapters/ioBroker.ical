@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.16.0",
+    "version": "1.16.1",
     "news": {
+      "1.16.1": {
+        "en": "fix issue with handling rrule timezones incorrect with latest node-ical (#708).\nupdate node-ical to latest 0.20.1\nsave cached files to os tmpdir instead.",
+        "de": "problem mit dem umgang mit rrule zeitzonen falsch mit neusten node-ical (#708).\nupdate node-ical bis neueste 0.20.1\nspeichern sie cache-dateien auf os tmpdir statt.",
+        "ru": "исправить проблему с обработкой часовых поясов правила некорректно с последними узлами (#708).\nобновление узла к последним 0.20.1\nвместо этого сохранить кэшированные файлы в os tmpdir.",
+        "pt": "corrigir problema com manipulação rrule fusos horários incorreta com o mais recente node-ical (#708).\natualização node-ical para mais recente 0.20.1\nsalvar arquivos em cache para os tmpdir em vez disso.",
+        "nl": "fix probleem met de behandeling rrule tijdzones incorrect met de laatste node-ical (#708).\nnode-ical updaten naar de laatste 0.20.1\nbewaar gecachede bestanden in plaats daarvan in os tmpdir.",
+        "fr": "corriger le problème avec la manipulation des fuseaux horaires rrule incorrecte avec le dernier nœud (#708).\nmettre à jour node-ical au dernier 0.20.1\nenregistrer les fichiers mis en cache dans os tmpdir à la place.",
+        "it": "risolvere il problema con la gestione di fusi orari non corretto con ultimo nodo-ical (#708).\naggiornamento nodo-ical al più recente 0.20.1\nsalvare i file memorizzati in cache a os tmpdir invece.",
+        "es": "solucionar problema con el manejo rrule timezones incorrecto con el último node-ical (#708).\nactualización node-ical al último 0.20.1\nguardar archivos en caché a os tmpdir en su lugar.",
+        "pl": "problem z obsługą rrule strefy czasu nieprawidłowy z najnowszym nodeical (# 708).\nupdate node- ical do najnowszej wersji 0.20.1\nzapisać pliki cached do os tmpdir zamiast.",
+        "uk": "виправлено проблему з використанням rrule timezones, некоректних з найновішою вершиною (#708).\nоновлення вершини-ical до останньої 0.20.1\nзберегти кешовані файли на os tmpdir замість.",
+        "zh-cn": "将处理rrule时区的问题与最新节点错误(# 708).\n将节点更新为最新的0.20.1\n将缓存的文件保存到 os tmpdir ."
+      },
       "1.16.0": {
         "en": "add checkbox to allow to exactly match a calender event.\nupdate node-ical to latest 0.20.0\nBreaking change: Removed trigger state (subscribe is deprecated in js-controller 6.x)\nResponsive design added",
         "de": "fügen sie checkbox hinzu, um ein kalenderereignis genau zu vereinbaren.\nupdate node-ical bis neueste 0.20.0\nBruchänderung: Entfernter Triggerzustand (Abonnent wird in js-Controller 6.x abgeschrieben)\nResponsive Design hinzugefügt",
@@ -80,19 +93,6 @@
         "pl": "Zezwalaj na ustawianie niestandardowych użytkowników http\nDodano opcję użycia zakładki plików do plików kalendarza",
         "uk": "Дозвольте встановити користувальницький агент\nДодана можливість використовувати вкладку файлів для календарних файлів",
         "zh-cn": "允许设置自定义 http 用户代理\n为日历文件使用文件标签添加了选项"
-      },
-      "1.13.6": {
-        "en": "Incorrect jsonConfig has been fixed [#602]\nDependencies have been updated",
-        "de": "Fehler in jsonConfig wurde behoben [#602]\nAbhängigkeiten wurden aktualisiert",
-        "ru": "Неправильный jsonConfig был исправлен [#602]\nВ зависимости были обновлены",
-        "pt": "JsonConfig incorreto foi corrigido [#602]\nAs dependências foram atualizadas",
-        "nl": "Incorrect JsonConfig is gerepareerd\nAfhankelijkheid",
-        "fr": "Incorrect jsonConfig a été corrigé [#602]\nLes dépendances ont été mises à jour",
-        "it": "JsonConfig non corretto è stato fissato [#602]\nLe dipendenze sono state aggiornate",
-        "es": "JsonConfig incorrecto ha sido fijado [#602]\nSe han actualizado las dependencias",
-        "pl": "Incorrect jsonConfig został ustalony jako #602\nZależności zostały zaktualizowane",
-        "uk": "[#602]\nОновлено залежність",
-        "zh-cn": "错误的 json Config已确定[第602号]\n已更新了属地"
       }
     },
     "titleLang": {

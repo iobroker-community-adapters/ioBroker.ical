@@ -1,4 +1,8 @@
 # Older changes
+## 1.14.1 (2024-01-29)
+* (klein0r) Create dummy file in files tab
+* (klein0r) Fixed recurring events
+
 ## 1.14.0 (2024-01-07)
 * (klein0r) Allow to set custom http user agent
 * (klein0r) Added option to use files tab for calendar files
