@@ -364,11 +364,11 @@ options: ${JSON.stringify(options)}`
                             // this event will be recognized as a date event
                             ev2.start.setHours(0,0,0,0);
                         } else if (ev.datetype === 'date-time') {
-                            // add a time offset which is relative between
-                            // ev2 and ev because rrule seems to return dates in
-                            // local time only. And if not correctly the exdate
-                            // check later will not work correctly.
-                            ev2.start = addOffset(ev2.start, ev2.start.getTimezoneOffset() - ev.start.getTimezoneOffset());
+                            // rrule only knows about local time but stores the
+                            // datetime in zulu (Z) UTC time strings. Thus we need
+                            // to convert it to local time carrying objects, thus
+                            // add the ev2.start tz offset
+                            ev2.start = addOffset(ev2.start, ev2.start.getTimezoneOffset());
                         }
 
                         // Set end date based on length in ms
