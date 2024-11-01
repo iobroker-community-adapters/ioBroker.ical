@@ -283,7 +283,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
 
         // only events with summary and a start date are interesting
         if ((ev.summary !== undefined) && (ev.type === 'VEVENT') && ev.start && ev.start instanceof Date) {
-            adapter.log.debug(`ev: ${JSON.stringify(ev)}`);
+            adapter.log.debug(`ev[${k}]: ${JSON.stringify(ev)}`);
             if (!ev.end || !(ev.end instanceof Date)) {
                 ev.end = new Date(ev.start.getTime());
                 if (ev.start.getHours() === 0 && ev.start.getMinutes() === 0 && ev.start.getSeconds() === 0) {
