@@ -5,6 +5,7 @@ const crypto      = require('node:crypto');
 const fs          = require('node:fs');
 const path        = require('node:path');
 const https       = require('node:https');
+const os          = require('node:os');
 
 const utils       = require('@iobroker/adapter-core');
 const adapterName = require('./package.json').name.split('.').pop();
