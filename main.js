@@ -157,7 +157,7 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
         }
 
         const calHash = crypto.createHash('md5').update(user + pass + urlOrFile).digest('hex');
-        const cachedFilename = path.join(__dirname, calHash);
+        const cachedFilename = path.join(os.tmpdir(), 'iob-' + calHash + '.ics');
 
         axios(options).then(function (response) {
             if (response.data) {
