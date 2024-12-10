@@ -13,11 +13,16 @@
     "Ignore Certificate errors": "Игнорировать ошибки сертификата",
     "Ignore case for event-search": "Ignore case for event-search",
     "Language": "Язык",
+    "Options": "Опции",
     "Padding date with '0'": "Дополнять даты c '0'",
     "Past days": "Прошедшие дни",
     "Preview days": "На сколько дней",
     "Replace dates with words": "Заменять даты на слова",
+    "Set Ack": "Установить подтверждение",
+    "Set ID": "Установить идентификатор",
     "Use by full day": "Заменять 00:00 на",
+    "Use custom user agent": "Использовать собственный пользовательский агент",
+    "User agent HTTP header": "HTTP-заголовок пользовательского агента",
     "color": "Цвет",
     "display": "показать в списке",
     "enabled": "активно",
@@ -28,10 +33,5 @@
     "pass": "Пароль",
     "sslignore": "Игнор ошибок SSL",
     "url": "URL календаря или имя файла",
-    "user": "Имя пользователя",
-    "Options": "Опции",
-    "Set ID": "Установить идентификатор",
-    "Set Ack": "Установить подтверждение",
-    "Use custom user agent": "Использовать собственный пользовательский агент",
-    "User agent HTTP header": "HTTP-заголовок пользовательского агента"
+    "user": "Имя пользователя"
 }

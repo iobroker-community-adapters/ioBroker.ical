@@ -13,11 +13,16 @@
     "Ignore Certificate errors": "忽略证书错误",
     "Ignore case for event-search": "忽略事件搜索的大小写",
     "Language": "语",
+    "Options": "选项",
     "Padding date with '0'": "用“0”填充日期",
     "Past days": "过去的日子",
     "Preview days": "预览天数",
     "Replace dates with words": "用单词替换日期",
+    "Set Ack": "设置确认",
+    "Set ID": "设置名称",
     "Use by full day": "将 00:00 替换为",
+    "Use custom user agent": "使用自定义用户代理",
+    "User agent HTTP header": "用户代理 HTTP 标头",
     "color": "颜色",
     "display": "展示",
     "enabled": "启用",
@@ -28,10 +33,5 @@
     "pass": "密码",
     "sslignore": "忽略 SSL 错误",
     "url": "日历 URL 或文件名",
-    "user": "用户名",
-    "Options": "选项",
-    "Set ID": "设置名称",
-    "Set Ack": "设置确认",
-    "Use custom user agent": "使用自定义用户代理",
-    "User agent HTTP header": "用户代理 HTTP 标头"
+    "user": "用户名"
 }

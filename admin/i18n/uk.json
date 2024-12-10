@@ -13,11 +13,16 @@
     "Ignore Certificate errors": "Ігнорувати помилки сертифіката",
     "Ignore case for event-search": "Ігнорувати регістр для пошуку подій",
     "Language": "Мова",
+    "Options": "Опції",
     "Padding date with '0'": "Заповнення дати \"0\"",
     "Past days": "Минулих днів",
     "Preview days": "Дні попереднього перегляду",
     "Replace dates with words": "Замініть дати словами",
+    "Set Ack": "Установити Ack",
+    "Set ID": "Встановити ID",
     "Use by full day": "Замінити 00:00 на",
+    "Use custom user agent": "Використовуйте спеціальний агент користувача",
+    "User agent HTTP header": "HTTP-заголовок агента користувача",
     "color": "колір",
     "display": "дисплей",
     "enabled": "включено",
@@ -28,10 +33,5 @@
     "pass": "Пароль",
     "sslignore": "Ігноруйте помилки SSL",
     "url": "URL-адреса календаря або ім’я файлу",
-    "user": "Ім'я користувача",
-    "Options": "Опції",
-    "Set ID": "Встановити ID",
-    "Set Ack": "Установити Ack",
-    "Use custom user agent": "Використовуйте спеціальний агент користувача",
-    "User agent HTTP header": "HTTP-заголовок агента користувача"
+    "user": "Ім'я користувача"
 }

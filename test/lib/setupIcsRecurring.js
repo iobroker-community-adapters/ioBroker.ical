@@ -5,7 +5,7 @@ const { DateTime } = require('luxon');
 
 const fileName = __dirname + '/../data/recurring.ics';
 
-module.exports.getInstanceConfig = function() {
+module.exports.getInstanceConfig = function () {
     return {
         native: {
             daysPreview: 364,
@@ -20,11 +20,11 @@ module.exports.getInstanceConfig = function() {
                     user: '',
                     pass: '',
                     sslignore: 'ignore',
-                    color: 'orange'
-                }
+                    color: 'orange',
+                },
             ],
-            events: []
-        }
+            events: [],
+        },
     };
 };
 

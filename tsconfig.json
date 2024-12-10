@@ -26,13 +26,8 @@
         // "noUnusedParameters": true,
         "useUnknownInCatchVariables": false,
 
-        "target": "es2021",
+        "target": "es2021"
     },
-    "include": [
-        "**/*.js",
-        "**/*.d.ts"
-    ],
-    "exclude": [
-        "node_modules/**"
-    ]
+    "include": ["**/*.js", "**/*.d.ts"],
+    "exclude": ["node_modules/**"]
 }

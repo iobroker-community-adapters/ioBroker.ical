@@ -13,11 +13,16 @@
     "Ignore Certificate errors": "Certificaat fout negeren",
     "Ignore case for event-search": "Ignore case for event-search",
     "Language": "Taal",
+    "Options": "Opties",
     "Padding date with '0'": "Datum opvullen met '0'",
     "Past days": "Vorige dagen",
     "Preview days": "Vooruitzicht",
     "Replace dates with words": "Vervang datum met woorden",
+    "Set Ack": "Set Ack",
+    "Set ID": "ID instellen",
     "Use by full day": "Vervang 00:00 met",
+    "Use custom user agent": "Gebruik een aangepaste user-agent",
+    "User agent HTTP header": "HTTP-header van gebruikersagent",
     "color": "Kleur",
     "display": "weergeven",
     "enabled": "actief",
@@ -28,10 +33,5 @@
     "pass": "Wachtwoord",
     "sslignore": "SSL fout negeren",
     "url": "Agend URL of bestandsnaam",
-    "user": "Gebruikersnaam",
-    "Options": "Opties",
-    "Set ID": "ID instellen",
-    "Set Ack": "Set Ack",
-    "Use custom user agent": "Gebruik een aangepaste user-agent",
-    "User agent HTTP header": "HTTP-header van gebruikersagent"
+    "user": "Gebruikersnaam"
 }
