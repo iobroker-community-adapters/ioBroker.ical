@@ -311,7 +311,7 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
             .createHash('md5')
             .update(user + pass + urlOrFile)
             .digest('hex');
-        const cachedFilename = path.join(os.tmpdir(), 'iob-' + calHash + '.ics');
+        const cachedFilename = path.join(os.tmpdir(), `iob-${calHash}.ics`);
 
         axios(options)
             .then(function (response) {
@@ -321,7 +321,7 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
                         adapter.log.debug(
                             `Successfully cached content for calendar "${urlOrFile}" as ${cachedFilename}`,
                         );
-                    } catch (err) {
+                    } catch {
                         // Ignore
                     }
 
@@ -778,7 +778,7 @@ LOCATION:${location}`;
 function colorizeDates(date, today, tomorrow, dayafter, col, calName) {
     const result = {
         prefix: normal,
-        suffix: '</span>' + (adapter.config.colorize ? '</span>' : ''),
+        suffix: `</span>${adapter.config.colorize ? '</span>' : ''}`,
     };
     const cmpDate = new Date(date.getTime());
     cmpDate.setHours(0, 0, 0, 0);
@@ -1215,7 +1215,7 @@ function buildFilter(filter, filterregex) {
         try {
             const s = prep.split('/');
             ret = new RegExp(s[1], s[2]);
-        } catch (e) {
+        } catch {
             adapter.log.error(`invalid filter: ${prep}`);
         }
     }
