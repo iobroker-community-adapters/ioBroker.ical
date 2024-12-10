@@ -9,11 +9,9 @@ Basierend auf iCal Adapter für (CCU.IO) [https://github.com/hobbyquaker/ccu.io/
 Der iCal-Adapter für ioBroker liest Kalenderdateien im ".ics" -Format von der angegebenen URL und schreibt Ereignisse, die sich im vordefinierten Zeitintervall befinden, in die ioBroker-Variable. Alternativ ist es möglich, eine lokale .ics-Datei zu verwenden (verwenden Sie den absoluten Pfad zur Datei anstelle der URL).
 Sie können in VIS mit dem Widget `basic html - String (unescaped)` angezeigt werden.
 
-Es werden 2 Variablen angelegt:
-- `iCalReadTrigger`
-- `iCalEvents`
+Es werden die Strukturen angelegt:
+- `events`
 
-Die Variable `iCalReadTrigger` dient zum Triggern des Einlesevorgangs. 
 In den Settings können mehrere URLs hinterlegt werden, von welchen der Kalender eingelesen wird. 
 Die Kalender werden dann nacheinander eingelesen und das Ergebnis zusammengefasst. 
 Alternativ kann dem Lesebefehl auch eine URL mitgegeben werden, um z.B. zeitweilig einen anderen Kalender einzulesen.
@@ -29,7 +27,7 @@ Durch schreiben von `check` in `iCalReadTrigger` wird der Check-Vorgang auf Even
 Alternativ kann der Adapter auch automatisch in einem definierbaren Intervall die Kalender abfragen (nur mit der `defaultURL`). 
 Dazu in den Settings mit der Variablen runEveryMinutes das Abfrageintervall (in Minuten) einstellen.
 
-Bedeutung der Optionen im Konfigfile:
+Bedeutung der Optionen im Konfig-Datei:
 
 - `preview`: 7 heisst, dass Termine 7 Tage im voraus angezeigt werden
 - `runEveryMinutes`: 30 bedeutet dass der Adapter automatisch alle 30min den Kalender neu einliesst. Bei 0 wird nicht automatisch eingelesen
@@ -105,7 +103,7 @@ In dem generierten HTML sind zwei Arten von CSS-Klassen enthalten, um Gestaltung
 Die erste CSS-Klasse (z. B. iCalNormal) wird für Datum und Uhrzeit des HTML-Codes verwendet, und die zweite CSS-Klasse (z. B. iCalNormal2) wird für den Ereignisnamen verwendet.
 
 CSS-Beispiel für diese CSS-Klassen, um die Ausgabe etwas anders zu formatieren (z. B. Datum / Uhrzeit links + fett und Ereignisname rechts ...):
-```
+```css
 .icalWarn{
     color:red;
     float:left;
@@ -163,7 +161,7 @@ Jeder Bereich hat auch eine CSS-Klasse, die auf dem Namen des Kalenders basiert,
 * _iCal-> calendername2> _: Diese Klasse wird für den Ereignisnamen verwendet
 
 Um diese CSS-Klassen festzulegen, müssen Sie auch die zeitbasierte CSS-Klasse verwenden, z. _.icalNormal2.iCal- <Kalendername> 2_:
-```
+```css
 .icalNormal2.iCal-Google2{
     color:white;
     float:right;
@@ -174,7 +172,7 @@ Um diese CSS-Klassen festzulegen, müssen Sie auch die zeitbasierte CSS-Klasse v
 
 #### Beispiel für generiertes HTML
 
-```
+```html
 <span style="font-weight: bold; color:white"><span class="icalNormal iCal-calendar-today">&#8594; 3.1.2018 2:00</span></span><span style="font-weight: normal; color:white"><span class='icalNormal2 iCal-calendar-today2'> TestEvent</span></span><br/>
 <span style="font-weight: bold; color: red"><span class="icalWarn iCal-calendar-today">1.1.2018  ganzer Tag</span></span><span style="font-weight:normal;color:red"><span class='icalWarn2 iCal-calendar-today2'> Today Event</span></span><br/>
 ```

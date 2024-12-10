@@ -13,11 +13,16 @@
     "Ignore Certificate errors": "Ignora errori del certificato",
     "Ignore case for event-search": "Ignore case for event-search",
     "Language": "linguaggio",
+    "Options": "Opzioni",
     "Padding date with '0'": "Data di riempimento con '0'",
     "Past days": "Giorni passati",
     "Preview days": "Giorni di anteprima",
     "Replace dates with words": "Sostituisci le date con le parole",
+    "Set Ack": "Imposta Rispondi",
+    "Set ID": "Imposta l'ID",
     "Use by full day": "Sostituisci 00:00 con",
+    "Use custom user agent": "Utilizza l'agente utente personalizzato",
+    "User agent HTTP header": "Intestazione HTTP dell'agente utente",
     "color": "Colore",
     "display": "display",
     "enabled": "abilitato",
@@ -28,10 +33,5 @@
     "pass": "Parola d'ordine",
     "sslignore": "Ignora errori SSL",
     "url": "URL del calendario o nome del file",
-    "user": "Nome utente",
-    "Options": "Opzioni",
-    "Set ID": "Imposta l'ID",
-    "Set Ack": "Imposta Rispondi",
-    "Use custom user agent": "Utilizza l'agente utente personalizzato",
-    "User agent HTTP header": "Intestazione HTTP dell'agente utente"
+    "user": "Nome utente"
 }

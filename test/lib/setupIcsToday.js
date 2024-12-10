@@ -5,7 +5,7 @@ const { newDate } = require('./setupDate');
 
 const fileName = __dirname + '/../data/today.ics';
 
-module.exports.getInstanceConfig = function() {
+module.exports.getInstanceConfig = function () {
     return {
         native: {
             daysPreview: 7,
@@ -20,32 +20,32 @@ module.exports.getInstanceConfig = function() {
                     user: '',
                     pass: '',
                     sslignore: 'ignore',
-                    color: 'orange'
-                }
+                    color: 'orange',
+                },
             ],
             events: [
                 {
                     name: 'Vacation',
                     enabled: true,
-                    display: false
+                    display: false,
                 },
                 {
                     name: 'MyEvent',
                     enabled: true,
-                    display: true
+                    display: true,
                 },
                 {
                     name: 'TestEvent',
                     enabled: true,
-                    display: true
+                    display: true,
                 },
                 {
                     name: 'InDayEvent',
                     enabled: true,
-                    display: false
-                }
-            ]
-        }
+                    display: false,
+                },
+            ],
+        },
     };
 };
 
@@ -55,7 +55,7 @@ module.exports.setup = function () {
     }
 
     // yesterday
-    const d0 = newDate().minus({day: 1});
+    const d0 = newDate().minus({ day: 1 });
     const m0 = d0.toFormat('MM');
     const day0 = d0.toFormat('dd');
 
@@ -65,12 +65,12 @@ module.exports.setup = function () {
     const day1 = d1.toFormat('dd');
 
     // tomorrow
-    const d2 = newDate().plus({day: 1});
+    const d2 = newDate().plus({ day: 1 });
     const m2 = d2.toFormat('MM');
     const day2 = d2.toFormat('dd');
 
     // after tomorrow
-    const d3 = newDate().plus({day: 2});
+    const d3 = newDate().plus({ day: 2 });
     const m3 = d3.toFormat('MM');
     const day3 = d3.toFormat('dd');
 

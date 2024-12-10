@@ -13,11 +13,16 @@
     "Ignore Certificate errors": "Ignorar erros de certificado",
     "Ignore case for event-search": "Ignorar maiúsculas e minúsculas para procura de eventos",
     "Language": "Língua",
+    "Options": "Opções",
     "Padding date with '0'": "Datas com '0' à esquerda",
     "Past days": "Dias passados",
     "Preview days": "Antevisão Diária",
     "Replace dates with words": "Substitua datas por palavras",
+    "Set Ack": "Definir confirmação",
+    "Set ID": "Definir ID",
     "Use by full day": "Substitua 00:00 com",
+    "Use custom user agent": "Use agente de usuário personalizado",
+    "User agent HTTP header": "Cabeçalho HTTP do agente do usuário",
     "color": "Cor",
     "display": "mostrar",
     "enabled": "ativado",
@@ -28,10 +33,5 @@
     "pass": "Senha",
     "sslignore": "Ignorar erros de SSL",
     "url": "URL do calendário ou nome do arquivo",
-    "user": "Nome de usuário",
-    "Options": "Opções",
-    "Set ID": "Definir ID",
-    "Set Ack": "Definir confirmação",
-    "Use custom user agent": "Use agente de usuário personalizado",
-    "User agent HTTP header": "Cabeçalho HTTP do agente do usuário"
+    "user": "Nome de usuário"
 }
