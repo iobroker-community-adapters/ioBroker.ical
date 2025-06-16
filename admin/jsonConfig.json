@@ -59,6 +59,7 @@
                     "sm": 12,
                     "md": 4,
                     "lg": 4,
+                    "noTranslation": true,
                     "options": [
                         {
                             "label": "English",
@@ -69,11 +70,11 @@
                             "value": "de"
                         },
                         {
-                            "label": "русский",
+                            "label": "Русский",
                             "value": "ru"
                         },
                         {
-                            "label": "Portugues",
+                            "label": "Português",
                             "value": "pt"
                         },
                         {
@@ -81,7 +82,7 @@
                             "value": "nl"
                         },
                         {
-                            "label": "français",
+                            "label": "Français",
                             "value": "fr"
                         },
                         {
@@ -89,7 +90,7 @@
                             "value": "it"
                         },
                         {
-                            "label": "Espanol",
+                            "label": "Español",
                             "value": "es"
                         }
                     ],
