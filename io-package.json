@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.16.1",
+    "version": "1.16.2",
     "news": {
+      "1.16.2": {
+        "en": "Small fix in the configuration dialog",
+        "de": "Kleine Fixierung im Konfigurationsdialog",
+        "ru": "Небольшое исправление в диалоге конфигурации",
+        "pt": "Pequena correção na janela de configuração",
+        "nl": "Kleine correctie in het configuratievenster",
+        "fr": "Petite correction dans la boîte de dialogue de configuration",
+        "it": "Piccola correzione nella finestra di dialogo di configurazione",
+        "es": "Ajuste pequeño en el diálogo de configuración",
+        "pl": "Małe poprawki w oknie konfiguracji",
+        "uk": "Невелика фіксація в діалоговому вікні конфігурації",
+        "zh-cn": "配置对话框中的小修补"
+      },
       "1.16.1": {
         "en": "fix issue with handling rrule timezones incorrect with latest node-ical (#708).\nupdate node-ical to latest 0.20.1\nsave cached files to os tmpdir instead.",
         "de": "problem mit dem umgang mit rrule zeitzonen falsch mit neusten node-ical (#708).\nupdate node-ical bis neueste 0.20.1\nspeichern sie cache-dateien auf os tmpdir statt.",
@@ -80,19 +93,6 @@
         "pl": "Utwórz plik atrapy w zakładce pliki\nNaprawiono powtarzające się zdarzenia",
         "uk": "Створіть файл dummy у вкладці файлів\nВиправлено повторювані події",
         "zh-cn": "在文件标签中创建模拟文件\n固定经常性活动"
-      },
-      "1.14.0": {
-        "en": "Allow to set custom http user agent\nAdded option to use files tab for calendar files",
-        "de": "Erlauben Sie, benutzerdefinierte http-Benutzer-Agent\nOption hinzugefügt, um Dateien Tab für Kalenderdateien zu verwenden",
-        "ru": "Разрешить настроить пользовательский\nДобавлена возможность использования вкладки файлов для календарных файлов",
-        "pt": "Permitir definir agente de usuário http personalizado\nOpção adicionada para usar a guia de arquivos para arquivos de calendário",
-        "nl": "Aangepaste http-gebruikeragent instellen\nToegevoegd optie om bestanden te gebruiken tabblad voor agendabestanden",
-        "fr": "Permettre de définir un agent utilisateur http personnalisé\nAjout d'une option pour utiliser l'onglet fichiers pour les fichiers calendrier",
-        "it": "Consentire di impostare personalizzato http user agent\nAggiunta opzione per utilizzare scheda file per i file del calendario",
-        "es": "Permitir establecer un agente de usuario http personalizado\nOpción adicional para usar la pestaña de archivos para archivos de calendario",
-        "pl": "Zezwalaj na ustawianie niestandardowych użytkowników http\nDodano opcję użycia zakładki plików do plików kalendarza",
-        "uk": "Дозвольте встановити користувальницький агент\nДодана можливість використовувати вкладку файлів для календарних файлів",
-        "zh-cn": "允许设置自定义 http 用户代理\n为日历文件使用文件标签添加了选项"
       }
     },
     "titleLang": {

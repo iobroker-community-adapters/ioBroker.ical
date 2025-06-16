@@ -1,4 +1,7 @@
 # Older changes
+## 1.14.2 (2024-01-29)
+* (jens-maus) update node-ical to latest 0.17.2
+
 ## 1.14.1 (2024-01-29)
 * (klein0r) Create dummy file in files tab
 * (klein0r) Fixed recurring events
