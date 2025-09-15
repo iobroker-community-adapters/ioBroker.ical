@@ -1,4 +1,7 @@
 # Older changes
+## 1.14.3 (2024-02-28)
+* (jens-maus) update node-ical to latest 0.18.0
+
 ## 1.14.2 (2024-01-29)
 * (jens-maus) update node-ical to latest 0.17.2
 

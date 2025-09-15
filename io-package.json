@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.16.2",
+    "version": "1.17.0",
     "news": {
+      "1.17.0": {
+        "en": "fixed adapter warnings and responsive design suggestions.\nupdated dependencies.\nupdate node-ical to latest 0.21.0.",
+        "de": "Behobene Adapter-Warnungen und Vorschläge für responsives Design.\nAbhängigkeiten aktualisiert.\nAktualisiere node-ical auf die neueste Version 0.21.0.",
+        "ru": "исправлены предупреждения адаптера и учтены рекомендации по адаптивному дизайну.\nобновлены зависимости.\nОбновить библиотеку node-ical до последней версии 0.21.0.",
+        "pt": "corrigidas advertências do adaptador e sugestões de design responsivo.\natualizadas dependências.\nAtualize node-ical para a versão mais recente 0.21.0.",
+        "nl": "adapterwaarschuwingen opgelost en suggesties voor responsief ontwerp.\nbijgewerkte afhankelijkheden.\nUpdate node-ical naar de nieuwste versie 0.21.0.",
+        "fr": "correction des avertissements de l'adaptateur et des suggestions de design réactif.\nMise à jour des dépendances.\nMettre à jour node-ical à la dernière version 0.21.0.",
+        "it": "Corretti avvisi dell'adattatore e suggerimenti per il design responsive.\nAggiornate le dipendenze.\nAggiornare node-ical alla versione più recente 0.21.0.",
+        "es": "Se corrigieron advertencias del adaptador y sugerencias de diseño receptivo.\nactualizadas las dependencias.\nActualizar node-ical a la última versión 0.21.0.",
+        "pl": "naprawione ostrzeżenia adaptera i sugestie dotyczące responsywnej szaty graficznej.\nZaktualizowano zależności.\nZaktualizuj node-ical do najnowszej wersji 0.21.0.",
+        "uk": "виправлені попередження адаптера та рекомендації щодо адаптивного дизайну.\nоновлено залежності.\nОновлення node-ical до останньої версії 0.21.0.",
+        "zh-cn": "修复了适配器的警告和响应式设计建议。\n更新了依赖项。\n更新node-ical到最新的版本0.21.0。"
+      },
       "1.16.2": {
         "en": "Small fix in the configuration dialog",
         "de": "Kleine Fixierung im Konfigurationsdialog",
@@ -80,19 +93,6 @@
         "pl": "aktualizacja node- ical do najnowszej 0, 17, 2",
         "uk": "оновлення вершини-ical до останнього 0.17.2 км",
         "zh-cn": "将节点更新为最新的 0.17.2 (中文(简体) )"
-      },
-      "1.14.1": {
-        "en": "Create dummy file in files tab\nFixed recurring events",
-        "de": "Erstellen Sie Dummy-Datei in Dateien Tab\nFeste wiederkehrende Ereignisse",
-        "ru": "Создать файл dummy в вкладке\nИсправленные повторяющиеся события",
-        "pt": "Criar arquivo fictício na guia de arquivos\nCorrigido eventos recorrentes",
-        "nl": "Pummelbestand aanmaken in tabblad bestanden\nVaste terugkerende gebeurtenissen",
-        "fr": "Créer un fichier fictif dans l'onglet fichiers\nÉvénements récurrents fixes",
-        "it": "Crea file fittizio nella scheda file\nEventi ricorrenti fissi",
-        "es": "Crear archivo dummy en la pestaña archivos\nActos recurrentes fijos",
-        "pl": "Utwórz plik atrapy w zakładce pliki\nNaprawiono powtarzające się zdarzenia",
-        "uk": "Створіть файл dummy у вкладці файлів\nВиправлено повторювані події",
-        "zh-cn": "在文件标签中创建模拟文件\n固定经常性活动"
       }
     },
     "titleLang": {
