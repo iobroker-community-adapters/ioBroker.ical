@@ -390,8 +390,9 @@
                     "newLine": true,
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Use custom user agent"
                 },
                 "customUserAgent": {
@@ -399,8 +400,9 @@
                     "type": "text",
                     "xs": 12,
                     "sm": 12,
-                    "md": 8,
-                    "lg": 8,
+                    "md": 6,
+                    "lg": 4,
+                    "xl": 4,
                     "label": "User agent HTTP header"
                 }
             }
@@ -415,6 +417,7 @@
                     "sm": 12,
                     "md": 12,
                     "lg": 12,
+                    "xl": 12,
                     "label": "Events",
                     "items": [
                         {
