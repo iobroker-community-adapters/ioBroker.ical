@@ -43,7 +43,7 @@
     "axios": "^1.10.0",
     "cloneextend": "^0.0.3",
     "json-schema": "^0.4.0",
-    "node-ical": "^0.20.1",
+    "node-ical": "^0.21.0",
     "rrule": "2.8.1"
   },
   "devDependencies": {
