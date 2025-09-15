@@ -16,8 +16,9 @@
                     "step": 1,
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Preview days"
                 },
                 "daysPast": {
@@ -26,8 +27,9 @@
                     "step": 1,
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Past days"
                 },
                 "ignoreCaseInEventname": {
@@ -35,16 +37,19 @@
                     "newLine": true,
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Ignore case for event-search"
                 },
                 "exactMatchInEventname": {
                     "type": "checkbox",
                     "newLine": true,
+                    "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Exact Match for event-search"
                 }
             }
@@ -57,8 +62,9 @@
                     "type": "select",
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "noTranslation": true,
                     "options": [
                         {
@@ -102,16 +108,18 @@
                     "newLine": true,
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Use by full day"
                 },
                 "defColor": {
                     "type": "color",
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Default color for HTML"
                 },
                 "dataPaddingWithZeros": {
@@ -119,16 +127,18 @@
                     "newLine": true,
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Padding date with '0'"
                 },
                 "replaceDates": {
                     "type": "checkbox",
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Replace dates with words"
                 },
                 "everyCalOneColor": {
@@ -136,16 +146,18 @@
                     "newLine": true,
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Every calendar has own color"
                 },
                 "colorize": {
                     "type": "checkbox",
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Colorize HTML"
                 },
                 "forceFullday": {
@@ -153,16 +165,18 @@
                     "newLine": true,
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Hide Start-End of events"
                 },
                 "hideYear": {
                     "type": "checkbox",
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Hide Year"
                 },
                 "arrowAlreadyStarted": {
@@ -170,16 +184,18 @@
                     "newLine": true,
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Add arrow for started events"
                 },
                 "addColorBox": {
                     "type": "checkbox",
                     "xs": 12,
                     "sm": 12,
-                    "md": 4,
+                    "md": 6,
                     "lg": 4,
+                    "xl": 4,
                     "label": "Add event color if available"
                 }
             }
@@ -194,6 +210,7 @@
                     "sm": 12,
                     "md": 12,
                     "lg": 12,
+                    "xl": 12,
                     "label": "Calendars",
                     "items": [
                         {
