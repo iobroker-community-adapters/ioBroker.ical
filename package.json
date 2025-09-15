@@ -39,7 +39,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.2.3",
+    "@iobroker/adapter-core": "^3.3.2",
     "axios": "^1.12.2",
     "cloneextend": "^0.0.3",
     "json-schema": "^0.4.0",
