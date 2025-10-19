@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.17.0",
+    "version": "1.18.0",
     "news": {
+      "1.18.0": {
+        "en": "update node-ical to latest 0.22.0 which reduces dependency load.",
+        "de": "update node-ical auf neueste 0.22.0, was die abhängigkeitslast reduziert.",
+        "ru": "обновить узел до последнего 0.22.0, что снижает нагрузку на зависимость.",
+        "pt": "atualizar nó-ical para o último 0.22.0 o que reduz a carga de dependência.",
+        "nl": "update node-ical naar de laatste 0,22.0 die de afhankelijkheid belasting vermindert.",
+        "fr": "mettre à jour noeud-ical à la dernière 0.22, ce qui réduit la charge de dépendance.",
+        "it": "aggiornamento nodo-ical al più recente 0.22.0 che riduce il carico di dipendenza.",
+        "es": "actualizar node-ical a la última 0.22.0 que reduce la carga de dependencia.",
+        "pl": "aktualizacja nodeical do najnowszej wersji 0.22.0, która zmniejsza obciążenie zależne.",
+        "uk": "update node-ical to last 0.22.0 який зменшує навантаження залежностей.",
+        "zh-cn": "将节点更新到最新的0.220,以减少依赖性负载."
+      },
       "1.17.0": {
         "en": "fixed adapter warnings and responsive design suggestions.\nupdated dependencies.\nupdate node-ical to latest 0.21.0.",
         "de": "Behobene Adapter-Warnungen und Vorschläge für responsives Design.\nAbhängigkeiten aktualisiert.\nAktualisiere node-ical auf die neueste Version 0.21.0.",
@@ -80,19 +93,6 @@
         "pl": "aktualizacja nodeical do najnowszej wersji 0.18.0",
         "uk": "оновлення вершини-ical до останньої 0.18.0",
         "zh-cn": "将节点更新为最新0.1.8"
-      },
-      "1.14.2": {
-        "en": "update node-ical to latest 0.17.2",
-        "de": "update node-ical bis neueste 0,17.2",
-        "ru": "обновление узла к последней 0.17.2",
-        "pt": "atualizar node-ical para mais recente 0,17.2",
-        "nl": "update node-ical naar nieuwste 0,17,2",
-        "fr": "mettre à jour noeud-ical à la dernière 0.17.2",
-        "it": "aggiornamento nodo-ical a più tardi 0.17.2",
-        "es": "actualización node-ical a última 0.17.2",
-        "pl": "aktualizacja node- ical do najnowszej 0, 17, 2",
-        "uk": "оновлення вершини-ical до останнього 0.17.2 км",
-        "zh-cn": "将节点更新为最新的 0.17.2 (中文(简体) )"
       }
     },
     "titleLang": {
