@@ -31,7 +31,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.18.1 (2025-10-24)
 * (jens-maus) update node-ical to latest 0.22.1 fixing UTC tz issues.
 
 ### 1.18.0 (2025-10-19)
@@ -50,12 +50,6 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 * (jens-maus) fix issue with handling rrule timezones incorrect with the latest node-ical (#708).
 * (jens-maus) update node-ical to latest 0.20.1
 * (jens-maus) save cached files to os tmpdir instead.
-
-### 1.16.0 (2024-10-29)
-* (cvoelkel76) added checkbox to allow exactly matching of a calendar event.
-* (jens-maus) update node-ical to latest 0.20.0
-* (klein0r) Breaking change: Removed trigger state (subscribe is deprecated in js-controller 6.x)
-* (simatec) Responsive design added
 
 ## License
 

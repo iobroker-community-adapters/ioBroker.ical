@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.18.0",
+    "version": "1.18.1",
     "news": {
+      "1.18.1": {
+        "en": "update node-ical to latest 0.22.1 fixing UTC tz issues.",
+        "de": "update node-ical auf neueste 0.22.1 beheben UTC tz Probleme.",
+        "ru": "обновить узел-каль до последнего 0.22.1, исправляя проблемы UTC tz.",
+        "pt": "atualizar nó-ical para mais recente 0.22.1 fixando problemas UTC tz.",
+        "nl": "update node-ical naar de laatste 0.22.1 vaststelling UTC tz problemen.",
+        "fr": "mettre à jour noeud-ical à la dernière 0.22.1 Correction des problèmes UTC tz.",
+        "it": "aggiornamento nodo-ical al più recente 0.22.1 risolvere problemi UTC tz.",
+        "es": "actualizar node-ical a los últimos 0.22.1 solucionar problemas de UTC tz.",
+        "pl": "aktualizuj node-ical do najnowszej wersji 0.22.1 naprawiania problemów UTC tz.",
+        "uk": "update node-ical to last 0.22.1 Fixing UTC tz проблеми.",
+        "zh-cn": "将节点更新到最新的0.22.1 修复 UTC 的 tz 问题."
+      },
       "1.18.0": {
         "en": "update node-ical to latest 0.22.0 which reduces dependency load.",
         "de": "update node-ical auf neueste 0.22.0, was die abhängigkeitslast reduziert.",
@@ -80,19 +93,6 @@
         "pl": "Adapter wymaga node.js > = 18 i kontroler js- > = 5 teraz\nZaktualizowano zależności",
         "uk": "Адаптер вимагає node.js >= 18 і js-controller >= 5 тепер\nЗалежність було оновлено",
         "zh-cn": "适配器需要节点.js QQ18和js控制器 QQ 现在5号\n依赖关系已更新"
-      },
-      "1.14.3": {
-        "en": "update node-ical to latest 0.18.0",
-        "de": "update node-ical auf neueste 0.18.0",
-        "ru": "обновление узла к последнему 0.18.0",
-        "pt": "atualização node-ical para mais recente 0.18.0",
-        "nl": "node-ical updaten naar de laatste 0.18.0",
-        "fr": "mettre à jour noeud-ical à la dernière 0.18.0",
-        "it": "aggiornamento nodo-ical al più recente 0.18.0",
-        "es": "actualización node-ical al último 0.18.0",
-        "pl": "aktualizacja nodeical do najnowszej wersji 0.18.0",
-        "uk": "оновлення вершини-ical до останньої 0.18.0",
-        "zh-cn": "将节点更新为最新0.1.8"
       }
     },
     "titleLang": {
