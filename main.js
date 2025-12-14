@@ -14,9 +14,12 @@ const RRule = require('rrule').RRule;
 const ce = require('cloneextend');
 const axios = require('axios');
 
+const EventScheduler = require('./lib/scheduler');
+
 let adapter;
 let stopped = false;
 let killTimeout = null;
+let eventScheduler = null;
 
 function startAdapter(options) {
     options = options || {};
@@ -25,6 +28,11 @@ function startAdapter(options) {
         name: adapterName,
         unload: function (callback) {
             stopped = true;
+            // Stop the real-time scheduler
+            if (eventScheduler) {
+                eventScheduler.stop();
+                eventScheduler = null;
+            }
             callback();
         },
         ready: function () {
@@ -1652,10 +1660,85 @@ async function setState(id, val, ack, cb) {
     cb && cb();
 }
 
+/**
+ * Handle real-time event state updates from the scheduler
+ * This is called when an event starts or ends
+ *
+ * @param {object} event - The calendar event
+ * @param {boolean} active - Whether the event is starting (true) or ending (false)
+ */
+async function handleEventStateChange(event, active) {
+    if (!event || !event.event) {
+        return;
+    }
+
+    // Find configured events that match this calendar event
+    for (const configEvent of adapter.config.events || []) {
+        if (!configEvent.enabled) {
+            continue;
+        }
+
+        // Check if event name matches
+        const eventName = shrinkStateName(configEvent.name);
+        const calendarEventName = shrinkStateName(event.event);
+
+        if (eventName !== calendarEventName) {
+            continue;
+        }
+
+        // Update the configured event trigger state
+        if (configEvent.id) {
+            const value = active ? configEvent.on : configEvent.off;
+            const ack = !!configEvent.ack;
+
+            adapter.log.info(
+                `Real-time event trigger: "${event.event}" ${active ? 'started' : 'ended'} - setting ${configEvent.id} to ${value}`,
+            );
+
+            try {
+                await setState(configEvent.id, value, ack);
+            } catch (error) {
+                adapter.log.error(`Failed to set state for event "${event.event}": ${error.message}`);
+            }
+        }
+
+        // Update the event indicator states
+        try {
+            // For 'now' events (real-time tracking)
+            const nowStateName = `events.0.now.${eventName}`;
+            await adapter.setStateAsync(nowStateName, { val: active, ack: true });
+
+            // For 'today' events (today's events)
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (
+                event._date.getTime() >= today.getTime() &&
+                event._date < new Date(today.getTime() + 24 * 60 * 60 * 1000)
+            ) {
+                const todayStateName = `events.0.today.${eventName}`;
+                await adapter.setStateAsync(todayStateName, { val: active, ack: true });
+            }
+
+            // For 'later' events (not today but upcoming)
+            if (event._date >= new Date(today.getTime() + 24 * 60 * 60 * 1000)) {
+                const laterStateName = `events.0.later.${eventName}`;
+                await adapter.setStateAsync(laterStateName, { val: active, ack: true });
+            }
+        } catch (error) {
+            adapter.log.error(`Failed to update event indicator states: ${error.message}`);
+        }
+    }
+}
+
 // Show event as text
 async function displayDates() {
     if (stopped) {
         return;
+    }
+
+    // Update the real-time scheduler cache with latest events
+    if (eventScheduler) {
+        eventScheduler.updateCache(datesArray);
     }
 
     let todayEventCounter = 0;
@@ -1850,6 +1933,14 @@ function main() {
     });
 
     adapter.delObjectAsync('trigger'); // removed deprecated subscribe state (created in previous versions)
+
+    // Initialize the real-time event scheduler
+    eventScheduler = new EventScheduler(adapter);
+
+    // Connect the scheduler callback to handle real-time event state changes
+    eventScheduler.setStateCallbackFn(handleEventStateChange);
+
+    eventScheduler.start();
 
     syncUserEvents(readAll);
 }

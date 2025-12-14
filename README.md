@@ -31,6 +31,9 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (copilot) **ENHANCED**: Implemented real-time daemon for calendar event automation - events now trigger at exact times rather than only during sync cycles (#830)
+
 ### 1.18.1 (2025-10-24)
 * (jens-maus) update node-ical to latest 0.22.1 fixing UTC tz issues.
 
