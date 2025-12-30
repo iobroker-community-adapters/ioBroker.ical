@@ -2,27 +2,13 @@
   "name": "iobroker.ical",
   "version": "1.18.1",
   "description": "Allows read information from google calender and from iCal.",
-  "author": {
-    "name": "bluefox",
-    "email": "dogafox@gmail.com"
-  },
+  "author": "bluefox <dogafox@gmail.com>",
   "contributors": [
-    {
-      "name": "Apollon77",
-      "email": "ingo@fischer-ka.de"
-    },
-    {
-      "name": "twonky4",
-      "email": "twonky4@gmx.de"
-    },
-    {
-      "name": "jens-maus",
-      "email": "mail@jens-maus.de"
-    },
-    {
-      "name": "Matthias Kleine",
-      "email": "info@haus-automatisierung.com"
-    }
+    "Apollon77 <ingo@fischer-ka.de>",
+    "twonky4 <twonky4@gmx.de>",
+    "jens-maus <mail@jens-maus.de>",
+    "Matthias Kleine <info@haus-automatisierung.com>",
+    "iobroker-community-adapters <iobroker-community-adapters@gmx.de>"
   ],
   "homepage": "https://github.com/iobroker-community-adapters/ioBroker.ical",
   "keywords": [
