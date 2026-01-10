@@ -10,7 +10,6 @@ const os = require('node:os');
 const utils = require('@iobroker/adapter-core');
 const adapterName = require('./package.json').name.split('.').pop();
 
-const RRule = require('rrule').RRule;
 const ce = require('cloneextend');
 const axios = require('axios');
 
@@ -477,23 +476,7 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                     );
                 }
 
-                const options = RRule.parseString(ev.rrule.toString());
-
-                // the following workaround an issue in rule.between() later on where
-                // the time comparison between dtstart and until does not seem to work
-                // if both are not in the same DST zone (e.g. dtstart=2021-09-21T15:00:00.000Z
-                // until=2021-11-09T15:59:59.000Z) so that an event is still considered as TODAY
-                // even thought it ends one second before the next scheduled one.
-                if (options.until !== undefined && options.dtstart !== undefined) {
-                    options.until = addOffset(
-                        options.until,
-                        options.dtstart.getTimezoneOffset() - options.until.getTimezoneOffset(),
-                    );
-                }
-                adapter.log.debug(`options: ${JSON.stringify(options)}`);
-
-                const rule = new RRule(options);
-
+                // node-ical already provides a ready-to-use rrule object
                 let now3 = new Date(now2.getTime() - eventLength);
                 if (now2 < now3) {
                     now3 = now2;
@@ -502,20 +485,18 @@ async function processData(data, realnow, startpreview, endpreview, now2, calNam
                     now3 = startpreview;
                 }
                 adapter.log.debug(
-                    `RRule event:${ev.summary}; start:${ev.start.toString()}; endpreview:${endpreview.toString()}; startpreview:${startpreview.toString()}; now2:${now2.toString()}; now3:${now3.toString()}; rule:${JSON.stringify(rule)}`,
+                    `RRule event:${ev.summary}; start:${ev.start.toString()}; endpreview:${endpreview.toString()}; startpreview:${startpreview.toString()}; now2:${now2.toString()}; now3:${now3.toString()}`,
                 );
 
                 let dates = [];
                 try {
-                    dates = rule.between(now3, endpreview, true);
+                    dates = ev.rrule.between(now3, endpreview, true);
                 } catch (e) {
                     adapter.log
                         .error(`Issue detected in RRule, event ignored; Please forward debug information to iobroker.ical developer: ${e.stack}
-RRule object: ${JSON.stringify(rule)}
+RRule: ${ev.rrule.toString()}
 now3: ${now3}
-endpreview: ${endpreview}
-string: ${ev.rrule.toString()}
-options: ${JSON.stringify(options)}`);
+endpreview: ${endpreview}`);
                 }
 
                 adapter.log.debug(`dates: ${JSON.stringify(dates)}`);
