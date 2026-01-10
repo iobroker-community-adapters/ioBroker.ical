@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.18.1",
+    "version": "1.19.0",
     "news": {
+      "1.19.0": {
+        "en": "updated dependencies.\nremove rrule dependency, use node-ical's built-in rrule support\nUpdate node-ical from 0.22.1 to 0.23.0",
+        "de": "aktualisierte abhängigkeiten.\nrrule abhängigkeit entfernen, node-ical's integrierte rrule support verwenden\nAktualisieren Sie node-ical von 0.22.1 bis 0.23.0",
+        "ru": "обновленные зависимости.\nудалите зависимость от rrule, используйте встроенную поддержку rrule\nОбновление node-ical от 0.22.1 до 0.23.0",
+        "pt": "dependências atualizadas.\nremover a dependência rrule, usar o suporte rrule incorporado do nó-ical\nAtualizar o nó-ical de 0.22.1 a 0.23.0",
+        "nl": "bijgewerkte afhankelijkheden.\nregelafhankelijkheid verwijderen, node-ical's ingebouwde regelondersteuning gebruiken\nBijwerken node-ical van 0,22.1 tot 0,23.0",
+        "fr": "des dépendances actualisées.\nsupprimer la dépendance rrule, utiliser le support rrule intégré de node-ical\nMettre à jour le nœud de 0,22.1 à 0,23.0",
+        "it": "dipendenze aggiornate.\nrimuovere la dipendenza rrule, utilizzare il supporto rrule integrato di node-ical\nNodo di aggiornamento da 0.22.1 a 0.23.0",
+        "es": "dependencias actualizadas.\neliminar la dependencia rrule, utilizar el soporte rrule integrado de node-ical\nActualizar nodo-ical de 0.22.1 a 0.23.0",
+        "pl": "zaktualizowane zależności.\nusunąć zależności rrule, używać node- built- w obsłudze rrule\nAktualizuj nodeical od 0.22.1 do 0.23.0",
+        "uk": "оновлені залежності.\nвидалення залежності rrule, використання вбудованої системи вузла\nUpdate node-ical від 0.22.1 до 0.23.0",
+        "zh-cn": "更新的依赖关系.\n删除 rrule 依赖性, 使用 node- ical 的内置 rrule 支持\n将节点从0.22.1更新为0.23.0"
+      },
       "1.18.1": {
         "en": "update node-ical to latest 0.22.1 fixing UTC tz issues.",
         "de": "update node-ical auf neueste 0.22.1 beheben UTC tz Probleme.",
@@ -80,19 +93,6 @@
         "pl": "dodaj pole wyboru, aby umożliwić dokładne dopasowanie zdarzenia kalendarza.\naktualizacja node- ical do najnowszej wersji 0.20.0\nŁamanie zmian: Usunięty stan wyzwalania (prenumerata w sterowniku js- 6.x)\nDodano projekt odpowiadający",
         "uk": "додайте прапорець, щоб точно відповідати події.\nоновлення вершини-ical до останньої 0.20.0\nЗміна розривів: Вилучений пусковий стан (приписується в js-controller 6.x)\nДодано адаптивний дизайн",
         "zh-cn": "添加复选框,以便精确匹配一个计数器事件.\n将节点更新为最近0.2.0\n中断更改 : 删除触发状态( 订阅在 js- controller 6. x 中已贬值)\n增加了反应设计"
-      },
-      "1.15.0": {
-        "en": "Adapter requires node.js >= 18 and js-controller >= 5 now\nDependencies have been updated",
-        "de": "Adapter benötigt node.js >= 18 und js-controller >= 5 jetzt\nAbhängigkeiten wurden aktualisiert",
-        "ru": "Адаптер требует node.js >= 18 и js-контроллер >= 5 сейчас\nЗависимость обновлена",
-        "pt": "Adapter requer node.js >= 18 e js-controller >= 5 agora\nAs dependências foram atualizadas",
-        "nl": "Voor adaptor zijn node.js < 18 en js-controller > Nu 5\nAfhankelijkheden zijn bijgewerkt",
-        "fr": "L'adaptateur nécessite node.js >= 18 et js-controller >= 5 maintenant\nLes dépendances ont été actualisées",
-        "it": "Adattatore richiede node.js >= 18 e js-controller >= 5 ora\nLe dipendenze sono state aggiornate",
-        "es": "Adaptador requiere node.js √≥= 18 y js-controller 5 ahora\nSe han actualizado las dependencias",
-        "pl": "Adapter wymaga node.js > = 18 i kontroler js- > = 5 teraz\nZaktualizowano zależności",
-        "uk": "Адаптер вимагає node.js >= 18 і js-controller >= 5 тепер\nЗалежність було оновлено",
-        "zh-cn": "适配器需要节点.js QQ18和js控制器 QQ 现在5号\n依赖关系已更新"
       }
     },
     "titleLang": {

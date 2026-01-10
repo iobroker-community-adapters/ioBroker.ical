@@ -1,4 +1,9 @@
 # Older changes
+## 1.16.1 (2024-11-01)
+* (jens-maus) fix issue with handling rrule timezones incorrect with the latest node-ical (#708).
+* (jens-maus) update node-ical to latest 0.20.1
+* (jens-maus) save cached files to os tmpdir instead.
+
 ## 1.16.0 (2024-10-29)
 * (cvoelkel76) added checkbox to allow exactly matching of a calendar event.
 * (jens-maus) update node-ical to latest 0.20.0
