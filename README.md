@@ -31,6 +31,9 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (jens-maus> Update node-ical from 0.23.0 to 0.23.1
+
 ### 1.19.0 (2026-01-10)
 * (jens-maus) updated dependencies.
 * (Kristjan ESPERANTO) remove rrule dependency, use node-ical's built-in rrule support
