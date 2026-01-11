@@ -1,4 +1,8 @@
 # Older changes
+## 1.16.2 (2025-06-16)
+
+* (@GermanBluefox) Small fix in the configuration dialog
+
 ## 1.16.1 (2024-11-01)
 * (jens-maus) fix issue with handling rrule timezones incorrect with the latest node-ical (#708).
 * (jens-maus) update node-ical to latest 0.20.1

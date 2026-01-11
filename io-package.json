@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.19.0",
+    "version": "1.19.1",
     "news": {
+      "1.19.1": {
+        "en": "Update node-ical from 0.23.0 to 0.23.1",
+        "de": "Aktualisieren Sie node-ical von 0.23.0 bis 0.23.1",
+        "ru": "Обновление node-ical от 0.23.0 до 0.23.1",
+        "pt": "Atualizar o nó-ical de 0.23.0 a 0.23.1",
+        "nl": "Bijwerken node-ical van 0,23.0 tot 0,23.1",
+        "fr": "Mettre à jour le noeud de 0,23,0 à 0,23,1",
+        "it": "Nodo di aggiornamento da 0.23.0 a 0.23.1",
+        "es": "Actualizar nodo-ical de 0.23.0 a 0.23.1",
+        "pl": "Aktualizuj nodeical od 0.23.0 do 0.23.1",
+        "uk": "Update node-ical від 0.23.0 до 0.23.1",
+        "zh-cn": "将节点从0.23.0更新为0.23.1"
+      },
       "1.19.0": {
         "en": "updated dependencies.\nremove rrule dependency, use node-ical's built-in rrule support\nUpdate node-ical from 0.22.1 to 0.23.0",
         "de": "aktualisierte abhängigkeiten.\nrrule abhängigkeit entfernen, node-ical's integrierte rrule support verwenden\nAktualisieren Sie node-ical von 0.22.1 bis 0.23.0",
@@ -80,19 +93,6 @@
         "pl": "problem z obsługą rrule strefy czasu nieprawidłowy z najnowszym nodeical (# 708).\nupdate node- ical do najnowszej wersji 0.20.1\nzapisać pliki cached do os tmpdir zamiast.",
         "uk": "виправлено проблему з використанням rrule timezones, некоректних з найновішою вершиною (#708).\nоновлення вершини-ical до останньої 0.20.1\nзберегти кешовані файли на os tmpdir замість.",
         "zh-cn": "将处理rrule时区的问题与最新节点错误(# 708).\n将节点更新为最新的0.20.1\n将缓存的文件保存到 os tmpdir ."
-      },
-      "1.16.0": {
-        "en": "add checkbox to allow to exactly match a calender event.\nupdate node-ical to latest 0.20.0\nBreaking change: Removed trigger state (subscribe is deprecated in js-controller 6.x)\nResponsive design added",
-        "de": "fügen sie checkbox hinzu, um ein kalenderereignis genau zu vereinbaren.\nupdate node-ical bis neueste 0.20.0\nBruchänderung: Entfernter Triggerzustand (Abonnent wird in js-Controller 6.x abgeschrieben)\nResponsive Design hinzugefügt",
-        "ru": "добавьте флажок, чтобы позволить точно соответствовать событиям календера.\nобновление узла к последнему 0.20.0\nПерерыв: Удаленное состояние триггера (подписано в js-controller 6.x)\nДобавлен ответный дизайн",
-        "pt": "adicionar caixa de seleção para permitir exatamente combinar um evento de calandragem.\natualizar node-ical para o mais recente 0.20.0\nMudança de ruptura: Estado do gatilho removido (a assinatura é deprecated no js-controller 6.x)\nDesign responsivo adicionado",
-        "nl": "voeg het selectievakje toe om een agenda-evenement exact te laten overeenkomen.\nupdate node-ical naar de laatste 0.20.0\nVerandering: Verwijderde trigger status (abonneren wordt verouderd in js-controller 6.x)\nResponsief ontwerp toegevoegd",
-        "fr": "ajouter une case à cocher pour permettre de correspondre exactement à un événement de calandre.\nmettre à jour node-ical au dernier 0.20.0\nBriser le changement : État de déclenchement supprimé (subscription est obsolète dans js-controller 6.x)\nConception sensible ajoutée",
-        "it": "aggiungere la casella di controllo per consentire di abbinare esattamente un evento di calender.\naggiornamento nodo-ical al più recente 0.20.0\nCambiamento di rottura: Stato di attivazione rimosso (l'iscrizione è deprecata in js-controller 6.x)\nDesign reattivo aggiunto",
-        "es": "agregue la casilla de verificación para permitir exactamente igualar un evento calender.\nactualización nodo-ical a más tardar 0.20.0\nCambio de ruptura: Estado de activación eliminado (suscripción se deprecata en js-controller 6.x)\nDiseño responsable añadido",
-        "pl": "dodaj pole wyboru, aby umożliwić dokładne dopasowanie zdarzenia kalendarza.\naktualizacja node- ical do najnowszej wersji 0.20.0\nŁamanie zmian: Usunięty stan wyzwalania (prenumerata w sterowniku js- 6.x)\nDodano projekt odpowiadający",
-        "uk": "додайте прапорець, щоб точно відповідати події.\nоновлення вершини-ical до останньої 0.20.0\nЗміна розривів: Вилучений пусковий стан (приписується в js-controller 6.x)\nДодано адаптивний дизайн",
-        "zh-cn": "添加复选框,以便精确匹配一个计数器事件.\n将节点更新为最近0.2.0\n中断更改 : 删除触发状态( 订阅在 js- controller 6. x 中已贬值)\n增加了反应设计"
       }
     },
     "titleLang": {
