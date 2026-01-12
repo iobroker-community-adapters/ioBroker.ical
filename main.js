@@ -515,12 +515,6 @@ endpreview: ${endpreview}`);
                             // make sure to set the time to 00:00:00 so that
                             // this event will be recognized as a date event
                             ev2.start.setHours(0, 0, 0, 0);
-                        } else if (ev.datetype === 'date-time') {
-                            // rrule only knows about local time but stores the
-                            // datetime in zulu (Z) UTC time strings. Thus we need
-                            // to convert it to local time carrying objects, thus
-                            // add the ev2.start tz offset
-                            ev2.start = addOffset(ev2.start, ev2.start.getTimezoneOffset());
                         }
 
                         // Set end date based on length in ms
