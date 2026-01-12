@@ -1,4 +1,9 @@
 # Older changes
+## 1.17.0 (2025-09-15)
+* (jens-maus) fixed adapter warnings and responsive design suggestions.
+* (jens-maus) updated dependencies.
+* (jens-maus) update node-ical to latest 0.21.0.
+
 ## 1.16.2 (2025-06-16)
 
 * (@GermanBluefox) Small fix in the configuration dialog
