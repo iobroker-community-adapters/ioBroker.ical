@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.19.2",
+    "version": "1.19.3",
     "news": {
+      "1.19.3": {
+        "en": "Update node-ical from 0.23.1 to 0.24.1 (fixes #842)",
+        "de": "Aktualisieren von 0.23.1 bis 0.24.1 (fixes #842)",
+        "ru": "Обновление node-ical от 0.23.1 до 0.24.1 (фиксы #842)",
+        "pt": "Atualizar o nó-ical de 0.23.1 a 0.24.1 (fixos #842)",
+        "nl": "Bijwerken node-ical van 0,23.1 tot 0,24.1 (fixes #842)",
+        "fr": "Mettre à jour le nœud de 0.23.1 à 0.24.1 (fixes #842)",
+        "it": "Nodo di aggiornamento da 0.23.1 a 0.24.1 (fissi #842)",
+        "es": "Actualización node-ical de 0.23.1 a 0.24.1 (fixes #842)",
+        "pl": "Aktualizuj node- ical od 0.23.1 do 0.24.1 (poprawki # 842)",
+        "uk": "Update node-ical від 0.23.1 до 0.24.1 (фікси #842)",
+        "zh-cn": "将节点从0.23.1更新到0.24.1(附件842)"
+      },
       "1.19.2": {
         "en": "fix broken exdate calculation",
         "de": "defekte exdate-berechnung",
@@ -80,19 +93,6 @@
         "pl": "naprawione ostrzeżenia adaptera i sugestie dotyczące responsywnej szaty graficznej.\nZaktualizowano zależności.\nZaktualizuj node-ical do najnowszej wersji 0.21.0.",
         "uk": "виправлені попередження адаптера та рекомендації щодо адаптивного дизайну.\nоновлено залежності.\nОновлення node-ical до останньої версії 0.21.0.",
         "zh-cn": "修复了适配器的警告和响应式设计建议。\n更新了依赖项。\n更新node-ical到最新的版本0.21.0。"
-      },
-      "1.16.2": {
-        "en": "Small fix in the configuration dialog",
-        "de": "Kleine Fixierung im Konfigurationsdialog",
-        "ru": "Небольшое исправление в диалоге конфигурации",
-        "pt": "Pequena correção na janela de configuração",
-        "nl": "Kleine correctie in het configuratievenster",
-        "fr": "Petite correction dans la boîte de dialogue de configuration",
-        "it": "Piccola correzione nella finestra di dialogo di configurazione",
-        "es": "Ajuste pequeño en el diálogo de configuración",
-        "pl": "Małe poprawki w oknie konfiguracji",
-        "uk": "Невелика фіксація в діалоговому вікні конфігурації",
-        "zh-cn": "配置对话框中的小修补"
       }
     },
     "titleLang": {

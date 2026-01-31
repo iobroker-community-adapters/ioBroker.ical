@@ -1,4 +1,7 @@
 # Older changes
+## 1.18.0 (2025-10-19)
+* (jens-maus) update node-ical to latest 0.22.0 which reduces dependency load.
+
 ## 1.17.0 (2025-09-15)
 * (jens-maus) fixed adapter warnings and responsive design suggestions.
 * (jens-maus) updated dependencies.
