@@ -1,4 +1,7 @@
 # Older changes
+## 1.18.1 (2025-10-24)
+* (jens-maus) update node-ical to latest 0.22.1 fixing UTC tz issues.
+
 ## 1.18.0 (2025-10-19)
 * (jens-maus) update node-ical to latest 0.22.0 which reduces dependency load.
 

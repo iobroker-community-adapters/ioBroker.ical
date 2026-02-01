@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.19.3",
+    "version": "1.19.4",
     "news": {
+      "1.19.4": {
+        "en": "Update node-ical from 0.24.1 to 0.24.2",
+        "de": "Nodeal aktualisieren von 0,24.1 bis 0,24.2",
+        "ru": "Обновление node-ical от 0.24.1 до 0.24.2",
+        "pt": "Atualizar o nó-ical de 0.24.1 a 0.24.2",
+        "nl": "Bijwerken node-ical van 0,24.1 tot 0,24.2",
+        "fr": "Mettre à jour le nœud de 0.24.1 à 0.24.2",
+        "it": "Nodo di aggiornamento da 0.24.1 a 0.24.2",
+        "es": "Actualización node-ical de 0.24.1 a 0.24.2",
+        "pl": "Aktualizuj nodeical od 0.24.1 do 0.24.2",
+        "uk": "Update node-ical від 0.24.1 до 0.24.2",
+        "zh-cn": "将节点从0.24.1更新到0.24.2"
+      },
       "1.19.3": {
         "en": "Update node-ical from 0.23.1 to 0.24.1 (fixes #842)",
         "de": "Aktualisieren von 0.23.1 bis 0.24.1 (fixes #842)",
@@ -80,19 +93,6 @@
         "pl": "aktualizacja nodeical do najnowszej wersji 0.22.0, która zmniejsza obciążenie zależne.",
         "uk": "update node-ical to last 0.22.0 який зменшує навантаження залежностей.",
         "zh-cn": "将节点更新到最新的0.220,以减少依赖性负载."
-      },
-      "1.17.0": {
-        "en": "fixed adapter warnings and responsive design suggestions.\nupdated dependencies.\nupdate node-ical to latest 0.21.0.",
-        "de": "Behobene Adapter-Warnungen und Vorschläge für responsives Design.\nAbhängigkeiten aktualisiert.\nAktualisiere node-ical auf die neueste Version 0.21.0.",
-        "ru": "исправлены предупреждения адаптера и учтены рекомендации по адаптивному дизайну.\nобновлены зависимости.\nОбновить библиотеку node-ical до последней версии 0.21.0.",
-        "pt": "corrigidas advertências do adaptador e sugestões de design responsivo.\natualizadas dependências.\nAtualize node-ical para a versão mais recente 0.21.0.",
-        "nl": "adapterwaarschuwingen opgelost en suggesties voor responsief ontwerp.\nbijgewerkte afhankelijkheden.\nUpdate node-ical naar de nieuwste versie 0.21.0.",
-        "fr": "correction des avertissements de l'adaptateur et des suggestions de design réactif.\nMise à jour des dépendances.\nMettre à jour node-ical à la dernière version 0.21.0.",
-        "it": "Corretti avvisi dell'adattatore e suggerimenti per il design responsive.\nAggiornate le dipendenze.\nAggiornare node-ical alla versione più recente 0.21.0.",
-        "es": "Se corrigieron advertencias del adaptador y sugerencias de diseño receptivo.\nactualizadas las dependencias.\nActualizar node-ical a la última versión 0.21.0.",
-        "pl": "naprawione ostrzeżenia adaptera i sugestie dotyczące responsywnej szaty graficznej.\nZaktualizowano zależności.\nZaktualizuj node-ical do najnowszej wersji 0.21.0.",
-        "uk": "виправлені попередження адаптера та рекомендації щодо адаптивного дизайну.\nоновлено залежності.\nОновлення node-ical до останньої версії 0.21.0.",
-        "zh-cn": "修复了适配器的警告和响应式设计建议。\n更新了依赖项。\n更新node-ical到最新的版本0.21.0。"
       }
     },
     "titleLang": {
