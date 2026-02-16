@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.19.4",
+    "version": "1.19.5",
     "news": {
+      "1.19.5": {
+        "en": "Update node-ical from 0.24.2 to 0.25.2",
+        "de": "Aktualisieren knotenförmig von 0,24.2 bis 0,25.2",
+        "ru": "Обновление node-ical от 0.24.2 до 0.25.2",
+        "pt": "Atualizar o nó-ical de 0.24.2 a 0,25.2",
+        "nl": "Bijwerken node-ical van 0,24.2 tot 0,25.2",
+        "fr": "Mettre à jour le nœud de 0.24.2 à 0.25.2",
+        "it": "Nodo di aggiornamento da 0.24.2 a 0.25.2",
+        "es": "Actualización node-ical de 0.24.2 a 0.25.2",
+        "pl": "Aktualizuj nodeical od 0.24.2 do 0.25.2",
+        "uk": "Update node-ical від 0.24.2 до 0.25.2",
+        "zh-cn": "将节点从0.24.2更新到0.25.2"
+      },
       "1.19.4": {
         "en": "Update node-ical from 0.24.1 to 0.24.2",
         "de": "Nodeal aktualisieren von 0,24.1 bis 0,24.2",
@@ -80,19 +93,6 @@
         "pl": "aktualizuj node-ical do najnowszej wersji 0.22.1 naprawiania problemów UTC tz.",
         "uk": "update node-ical to last 0.22.1 Fixing UTC tz проблеми.",
         "zh-cn": "将节点更新到最新的0.22.1 修复 UTC 的 tz 问题."
-      },
-      "1.18.0": {
-        "en": "update node-ical to latest 0.22.0 which reduces dependency load.",
-        "de": "update node-ical auf neueste 0.22.0, was die abhängigkeitslast reduziert.",
-        "ru": "обновить узел до последнего 0.22.0, что снижает нагрузку на зависимость.",
-        "pt": "atualizar nó-ical para o último 0.22.0 o que reduz a carga de dependência.",
-        "nl": "update node-ical naar de laatste 0,22.0 die de afhankelijkheid belasting vermindert.",
-        "fr": "mettre à jour noeud-ical à la dernière 0.22, ce qui réduit la charge de dépendance.",
-        "it": "aggiornamento nodo-ical al più recente 0.22.0 che riduce il carico di dipendenza.",
-        "es": "actualizar node-ical a la última 0.22.0 que reduce la carga de dependencia.",
-        "pl": "aktualizacja nodeical do najnowszej wersji 0.22.0, która zmniejsza obciążenie zależne.",
-        "uk": "update node-ical to last 0.22.0 який зменшує навантаження залежностей.",
-        "zh-cn": "将节点更新到最新的0.220,以减少依赖性负载."
       }
     },
     "titleLang": {
