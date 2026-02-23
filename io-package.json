@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.19.5",
+    "version": "1.19.6",
     "news": {
+      "1.19.6": {
+        "en": "Update node-ical from 0.25.2 to 0.25.4\nAdapter requires admin >= 7.7.22 now",
+        "de": "Nodeal aktualisieren von 0,25,2 bis 0,25.4\nAdapter benötigt admin >= 7.7.22 jetzt",
+        "ru": "Обновление node-ical от 0.25.2 до 0.25.4\nАдаптер требует администратора >= 7.7.22",
+        "pt": "Atualizar o nó-ical de 0,25.2 a 0,25.4\nAdaptador requer admin >= 7.7.22 agora",
+        "nl": "Bijwerken node-ical van 0,25.2 tot 0,25.4\nAdapter vereist admin < 7.7.22 nu",
+        "fr": "Mettre à jour le nœud de 0.25.2 à 0.25.4\nAdaptateur nécessite admin >= 7.7.22 maintenant",
+        "it": "Nodo di aggiornamento da 0.25.2 a 0.25.4\nAdattatore richiede admin >= 7.7.22 ora",
+        "es": "Actualización node-ical de 0.25.2 a 0.25.4\nEl adaptador requiere admin= 7.7.22 ahora",
+        "pl": "Aktualizuj nodeical od 0.25.2 do 0.25.4\nAdapter wymaga admin > = 7.7.22",
+        "uk": "Update node-ical від 0.25.2 до 0.25.4\nАдаптер вимагає адмін >= 7.7.22 тепер",
+        "zh-cn": "将节点从0.25.2更新到0.25.4\n适任者需要管理员 \\ 7.7.22 现在"
+      },
       "1.19.5": {
         "en": "Update node-ical from 0.24.2 to 0.25.2",
         "de": "Aktualisieren knotenförmig von 0,24.2 bis 0,25.2",
@@ -80,19 +93,6 @@
         "pl": "zaktualizowane zależności.\nusunąć zależności rrule, używać node- built- w obsłudze rrule\nAktualizuj nodeical od 0.22.1 do 0.23.0",
         "uk": "оновлені залежності.\nвидалення залежності rrule, використання вбудованої системи вузла\nUpdate node-ical від 0.22.1 до 0.23.0",
         "zh-cn": "更新的依赖关系.\n删除 rrule 依赖性, 使用 node- ical 的内置 rrule 支持\n将节点从0.22.1更新为0.23.0"
-      },
-      "1.18.1": {
-        "en": "update node-ical to latest 0.22.1 fixing UTC tz issues.",
-        "de": "update node-ical auf neueste 0.22.1 beheben UTC tz Probleme.",
-        "ru": "обновить узел-каль до последнего 0.22.1, исправляя проблемы UTC tz.",
-        "pt": "atualizar nó-ical para mais recente 0.22.1 fixando problemas UTC tz.",
-        "nl": "update node-ical naar de laatste 0.22.1 vaststelling UTC tz problemen.",
-        "fr": "mettre à jour noeud-ical à la dernière 0.22.1 Correction des problèmes UTC tz.",
-        "it": "aggiornamento nodo-ical al più recente 0.22.1 risolvere problemi UTC tz.",
-        "es": "actualizar node-ical a los últimos 0.22.1 solucionar problemas de UTC tz.",
-        "pl": "aktualizuj node-ical do najnowszej wersji 0.22.1 naprawiania problemów UTC tz.",
-        "uk": "update node-ical to last 0.22.1 Fixing UTC tz проблеми.",
-        "zh-cn": "将节点更新到最新的0.22.1 修复 UTC 的 tz 问题."
       }
     },
     "titleLang": {

@@ -1,4 +1,7 @@
 # Older changes
+## 1.19.1 (2026-01-11)
+* (jens-maus) Update node-ical from 0.23.0 to 0.23.1
+
 ## 1.19.0 (2026-01-10)
 * (jens-maus) updated dependencies.
 * (Kristjan ESPERANTO) remove rrule dependency, use node-ical's built-in rrule support
