@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.19.6",
+    "version": "1.19.7",
     "news": {
+      "1.19.7": {
+        "en": "Update node-ical from 0.25.4 to 0.25.5\nUpdate more general dependencies",
+        "de": "Nodeal aktualisieren von 0,25.4 bis 0,25.5\nAllgemeine Abhängigkeiten aktualisieren",
+        "ru": "Обновление узлового элемента от 0.25.4 до 0.25.5\nОбновление более общих зависимостей",
+        "pt": "Atualizar o nó-ical de 0,25,4 a 0,25,5\nAtualizar dependências mais gerais",
+        "nl": "Bijwerken node-ical van 0,25.4 tot 0,25,5\nMeer algemene afhankelijkheden bijwerken",
+        "fr": "Mettre à jour le nœud de 0,25,4 à 0,25,5\nMettre à jour les dépendances plus générales",
+        "it": "Nodo di aggiornamento da 0.25.4 a 0.25.5\nAggiornare più dipendenze generali",
+        "es": "Actualización de nódulos de 0,25.4 a 0,25.5\nActualizar las dependencias generales",
+        "pl": "Aktualizuj nozdrza od 0.25.4 do 0.25.5\nAktualizacja bardziej ogólnych zależności",
+        "uk": "Update node-ical від 0.25.4 до 0.25.5\nОновити більш загальні залежності",
+        "zh-cn": "将节点从0.25.4更新到0.25.5\n更新更一般的依赖关系"
+      },
       "1.19.6": {
         "en": "Update node-ical from 0.25.2 to 0.25.4\nAdapter requires admin >= 7.7.22 now",
         "de": "Nodeal aktualisieren von 0,25,2 bis 0,25.4\nAdapter benötigt admin >= 7.7.22 jetzt",
@@ -80,19 +93,6 @@
         "pl": "Aktualizuj nodeical od 0.23.0 do 0.23.1",
         "uk": "Update node-ical від 0.23.0 до 0.23.1",
         "zh-cn": "将节点从0.23.0更新为0.23.1"
-      },
-      "1.19.0": {
-        "en": "updated dependencies.\nremove rrule dependency, use node-ical's built-in rrule support\nUpdate node-ical from 0.22.1 to 0.23.0",
-        "de": "aktualisierte abhängigkeiten.\nrrule abhängigkeit entfernen, node-ical's integrierte rrule support verwenden\nAktualisieren Sie node-ical von 0.22.1 bis 0.23.0",
-        "ru": "обновленные зависимости.\nудалите зависимость от rrule, используйте встроенную поддержку rrule\nОбновление node-ical от 0.22.1 до 0.23.0",
-        "pt": "dependências atualizadas.\nremover a dependência rrule, usar o suporte rrule incorporado do nó-ical\nAtualizar o nó-ical de 0.22.1 a 0.23.0",
-        "nl": "bijgewerkte afhankelijkheden.\nregelafhankelijkheid verwijderen, node-ical's ingebouwde regelondersteuning gebruiken\nBijwerken node-ical van 0,22.1 tot 0,23.0",
-        "fr": "des dépendances actualisées.\nsupprimer la dépendance rrule, utiliser le support rrule intégré de node-ical\nMettre à jour le nœud de 0,22.1 à 0,23.0",
-        "it": "dipendenze aggiornate.\nrimuovere la dipendenza rrule, utilizzare il supporto rrule integrato di node-ical\nNodo di aggiornamento da 0.22.1 a 0.23.0",
-        "es": "dependencias actualizadas.\neliminar la dependencia rrule, utilizar el soporte rrule integrado de node-ical\nActualizar nodo-ical de 0.22.1 a 0.23.0",
-        "pl": "zaktualizowane zależności.\nusunąć zależności rrule, używać node- built- w obsłudze rrule\nAktualizuj nodeical od 0.22.1 do 0.23.0",
-        "uk": "оновлені залежності.\nвидалення залежності rrule, використання вбудованої системи вузла\nUpdate node-ical від 0.22.1 до 0.23.0",
-        "zh-cn": "更新的依赖关系.\n删除 rrule 依赖性, 使用 node- ical 的内置 rrule 支持\n将节点从0.22.1更新为0.23.0"
       }
     },
     "titleLang": {
