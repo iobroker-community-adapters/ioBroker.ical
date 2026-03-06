@@ -35,6 +35,7 @@ jobs:
 
   # Runs adapter tests on all supported node versions and OSes
   adapter-tests:
+    needs: [check-and-lint]
     if: contains(github.event.head_commit.message, '[skip ci]') == false
 
     runs-on: ${{ matrix.os }}
@@ -70,7 +71,7 @@ jobs:
     steps:
       - uses: ioBroker/testing-action-deploy@v1
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           # npm-token: ${{ secrets.NPM_TOKEN }}  # Commented out for migration to Trusted Publishing
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
