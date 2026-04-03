@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.19.7",
+    "version": "1.19.8",
     "news": {
+      "1.19.8": {
+        "en": "Update node-ical from 0.25.5 to 0.26.0",
+        "de": "Nodeal aktualisieren von 0,25,5 bis 0,26.0",
+        "ru": "Обновление node-ical от 0.25.5 до 0.26.0",
+        "pt": "Atualizar o nó-ical de 0,25,5 a 0,26,0",
+        "nl": "Bijwerken node-ical van 0,25,5 tot 0,26.0",
+        "fr": "Mettre à jour le noeud de 0,25,5 à 0,26,0",
+        "it": "Nodo di aggiornamento da 0.25.5 a 0.26.0",
+        "es": "Actualización node-ical de 0.25.5 a 0.26.0",
+        "pl": "Aktualizuj nozdrza od 0.25.5 do 0.26.0",
+        "uk": "Update node-ical від 0.25.5 до 0.26.0",
+        "zh-cn": "将节点从0.25.5更新到0.26.0"
+      },
       "1.19.7": {
         "en": "Update node-ical from 0.25.4 to 0.25.5\nUpdate more general dependencies",
         "de": "Nodeal aktualisieren von 0,25.4 bis 0,25.5\nAllgemeine Abhängigkeiten aktualisieren",
@@ -80,19 +93,6 @@
         "pl": "fix zerwane obliczenia exdate",
         "uk": "виправити розбитий розрахунок",
         "zh-cn": "修复破损的超时计算"
-      },
-      "1.19.1": {
-        "en": "Update node-ical from 0.23.0 to 0.23.1",
-        "de": "Aktualisieren Sie node-ical von 0.23.0 bis 0.23.1",
-        "ru": "Обновление node-ical от 0.23.0 до 0.23.1",
-        "pt": "Atualizar o nó-ical de 0.23.0 a 0.23.1",
-        "nl": "Bijwerken node-ical van 0,23.0 tot 0,23.1",
-        "fr": "Mettre à jour le noeud de 0,23,0 à 0,23,1",
-        "it": "Nodo di aggiornamento da 0.23.0 a 0.23.1",
-        "es": "Actualizar nodo-ical de 0.23.0 a 0.23.1",
-        "pl": "Aktualizuj nodeical od 0.23.0 do 0.23.1",
-        "uk": "Update node-ical від 0.23.0 до 0.23.1",
-        "zh-cn": "将节点从0.23.0更新为0.23.1"
       }
     },
     "titleLang": {
