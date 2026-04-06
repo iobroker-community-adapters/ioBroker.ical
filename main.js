@@ -33,8 +33,24 @@ function shouldIgnoreSSL(sslignore) {
  */
 function requestUrl(url, headers, sslignore, redirectsLeft = 10) {
     return new Promise((resolve, reject) => {
+        let settled = false;
+        const rejectOnce = error => {
+            if (settled) {
+                return;
+            }
+            settled = true;
+            reject(error);
+        };
+        const resolveOnce = value => {
+            if (settled) {
+                return;
+            }
+            settled = true;
+            resolve(value);
+        };
+
         if (redirectsLeft <= 0) {
-            return reject(new Error('Too many redirects'));
+            return rejectOnce(new Error(`Too many redirects while fetching calendar from ${url}`));
         }
         const requester = url.startsWith('https://') ? https : http;
 
@@ -55,26 +71,29 @@ function requestUrl(url, headers, sslignore, redirectsLeft = 10) {
                         try {
                             const redirectUrl = new URL(response.headers.location, url).toString();
                             const redirectBody = await requestUrl(redirectUrl, headers, sslignore, redirectsLeft - 1);
-                            return resolve(redirectBody);
+                            return resolveOnce(redirectBody);
                         } catch (error) {
-                            return reject(error);
+                            return rejectOnce(error);
                         }
                     }
 
                     const body = Buffer.concat(chunks).toString('utf-8');
                     if (response.statusCode < 200 || response.statusCode >= 300) {
-                        const error = new Error(`HTTP ${response.statusCode}`);
+                        const error = new Error(`HTTP ${response.statusCode} when fetching calendar from ${url}`);
                         error.status = response.statusCode;
-                        return reject(error);
+                        return rejectOnce(error);
                     }
-                    resolve(body);
+                    resolveOnce(body);
                 });
-                response.on('error', reject);
+                response.on('error', rejectOnce);
             },
         );
 
-        request.on('error', reject);
-        request.on('timeout', () => request.destroy(new Error(`Request timeout after ${REQUEST_TIMEOUT_MS}ms`)));
+        request.on('error', rejectOnce);
+        request.on('timeout', () => {
+            rejectOnce(new Error(`Request timeout after ${REQUEST_TIMEOUT_MS}ms when fetching calendar from ${url}`));
+            request.destroy();
+        });
         request.end();
     });
 }
@@ -351,11 +370,15 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
 
         const headers = {};
         if (adapter.config.customUserAgentEnabled && adapter.config.customUserAgent) {
+            if (/[\r\n]/.test(adapter.config.customUserAgent)) {
+                cb && cb('Invalid custom user agent: contains line breaks');
+                return;
+            }
             headers['User-Agent'] = adapter.config.customUserAgent;
         }
         if (user) {
             if (/[\r\n]/.test(user) || /[\r\n]/.test(pass || '')) {
-                cb && cb(`Cannot read URL: "${urlOrFile}"`);
+                cb && cb('Invalid authentication credentials: contains line breaks');
                 return;
             }
             headers.Authorization = `Basic ${Buffer.from(`${user}:${pass || ''}`).toString('base64')}`;
@@ -369,23 +392,33 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
                 } else {
                     const abortController = new AbortController();
                     const timeout = setTimeout(
-                        () => abortController.abort(new Error(`Request timeout after ${REQUEST_TIMEOUT_MS}ms`)),
+                        () =>
+                            abortController.abort(
+                                new Error(
+                                    `Request timeout after ${REQUEST_TIMEOUT_MS}ms when fetching calendar from ${urlOrFile}`,
+                                ),
+                            ),
                         REQUEST_TIMEOUT_MS,
                     );
-                    const response = await fetch(urlOrFile, {
-                        method: 'GET',
-                        headers,
-                        signal: abortController.signal,
-                    });
-                    clearTimeout(timeout);
+                    try {
+                        const response = await fetch(urlOrFile, {
+                            method: 'GET',
+                            headers,
+                            signal: abortController.signal,
+                        });
 
-                    if (!response.ok) {
-                        const error = new Error(`HTTP ${response.status}`);
-                        error.status = response.status;
-                        throw error;
+                        if (!response.ok) {
+                            const error = new Error(
+                                `HTTP ${response.status} (${response.statusText}) when fetching calendar from ${urlOrFile}`,
+                            );
+                            error.status = response.status;
+                            throw error;
+                        }
+
+                        data = await response.text();
+                    } finally {
+                        clearTimeout(timeout);
                     }
-
-                    data = await response.text();
                 }
 
                 if (data) {
