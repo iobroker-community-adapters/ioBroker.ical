@@ -4,6 +4,7 @@ const ical = require('node-ical');
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
+const http = require('node:http');
 const https = require('node:https');
 const os = require('node:os');
 
@@ -11,11 +12,38 @@ const utils = require('@iobroker/adapter-core');
 const adapterName = require('./package.json').name.split('.').pop();
 
 const ce = require('cloneextend');
-const axios = require('axios');
 
 let adapter;
 let stopped = false;
 let killTimeout = null;
+
+function requestUrl(url, headers, sslignore) {
+    return new Promise((resolve, reject) => {
+        const requester = url.startsWith('https://') ? https : http;
+        const request = requester.get(
+            url,
+            {
+                headers,
+                rejectUnauthorized: !(sslignore === 'ignore' || sslignore === 'true' || sslignore === true),
+            },
+            response => {
+                const chunks = [];
+                response.on('data', chunk => chunks.push(chunk));
+                response.on('end', () => {
+                    const body = Buffer.concat(chunks).toString('utf-8');
+                    if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
+                        const error = new Error(`HTTP ${response.statusCode}`);
+                        error.status = response.statusCode;
+                        return reject(error);
+                    }
+                    resolve(body);
+                });
+            },
+        );
+
+        request.on('error', reject);
+    });
+}
 
 function startAdapter(options) {
     options = options || {};
@@ -281,42 +309,43 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
             }
         }
     } else {
-        // Find out whether SSL certificate errors shall be ignored
-        const options = {
-            method: 'get',
-            url: urlOrFile,
-        };
-
-        if (adapter.config.customUserAgentEnabled && adapter.config.customUserAgent) {
-            options.headers = {
-                'User-Agent': adapter.config.customUserAgent,
-            };
-        }
-
-        if (sslignore === 'ignore' || sslignore === 'true' || sslignore === true) {
-            options.httpsAgent = new https.Agent({
-                rejectUnauthorized: false,
-            });
-        }
-
-        if (user) {
-            options.auth = {
-                username: user,
-                password: pass,
-            };
-        }
-
         const calHash = crypto
             .createHash('md5')
             .update(user + pass + urlOrFile)
             .digest('hex');
         const cachedFilename = path.join(os.tmpdir(), `iob-${calHash}.ics`);
 
-        axios(options)
-            .then(function (response) {
-                if (response.data) {
+        const headers = {};
+        if (adapter.config.customUserAgentEnabled && adapter.config.customUserAgent) {
+            headers['User-Agent'] = adapter.config.customUserAgent;
+        }
+        if (user) {
+            headers.Authorization = `Basic ${Buffer.from(`${user}:${pass || ''}`).toString('base64')}`;
+        }
+
+        (async () => {
+            try {
+                let data;
+                if (sslignore === 'ignore' || sslignore === 'true' || sslignore === true) {
+                    data = await requestUrl(urlOrFile, headers, sslignore);
+                } else {
+                    const response = await fetch(urlOrFile, {
+                        method: 'GET',
+                        headers,
+                    });
+
+                    if (!response.ok) {
+                        const error = new Error(`HTTP ${response.status}`);
+                        error.status = response.status;
+                        throw error;
+                    }
+
+                    data = await response.text();
+                }
+
+                if (data) {
                     try {
-                        fs.writeFileSync(cachedFilename, response.data, 'utf-8');
+                        fs.writeFileSync(cachedFilename, data, 'utf-8');
                         adapter.log.debug(
                             `Successfully cached content for calendar "${urlOrFile}" as ${cachedFilename}`,
                         );
@@ -324,26 +353,17 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
                         adapter.log.error(`Cannot write cached file: ${err}`);
                     }
 
-                    cb && cb(null, response.data);
+                    cb && cb(null, data);
                 } else {
                     cb && cb(`Error reading from URL "${urlOrFile}": Received no data`);
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 let cachedContent;
                 let cachedDate;
 
-                if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    adapter.log.warn(`Error reading from URL "${urlOrFile}": ${error.response.status}`);
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    adapter.log.warn(`Error reading from URL "${urlOrFile}"`);
+                if (error.status) {
+                    adapter.log.warn(`Error reading from URL "${urlOrFile}": ${error.status}`);
                 } else {
-                    // Something happened in setting up the request that triggered an Error
                     adapter.log.warn(`Error reading from URL "${urlOrFile}": ${error.message}`);
                 }
 
@@ -363,7 +383,8 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
 
                 adapter.log.info(`Use cached File content for "${urlOrFile}" from ${cachedDate}`);
                 cb && cb(null, cachedContent);
-            });
+            }
+        })();
     }
 }
 

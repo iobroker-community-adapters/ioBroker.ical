@@ -31,6 +31,9 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (copilot) **ENHANCED**: Replaced runtime axios usage with Node.js built-in fetch/HTTP requests and removed direct axios dependency.
+
 ### 1.19.8 (2026-04-03)
 * (jens-maus) Update node-ical from 0.25.5 to 0.26.0
 
