@@ -17,6 +17,17 @@ let adapter;
 let stopped = false;
 let killTimeout = null;
 const REQUEST_TIMEOUT_MS = 30000;
+const MAX_REDIRECTS = 10;
+
+function hasControlChars(value) {
+    for (let i = 0; i < value.length; i++) {
+        const charCode = value.charCodeAt(i);
+        if (charCode <= 31 || charCode === 127) {
+            return true;
+        }
+    }
+    return false;
+}
 
 function shouldIgnoreSSL(sslignore) {
     return sslignore === 'ignore' || sslignore === 'true' || sslignore === true;
@@ -31,7 +42,7 @@ function shouldIgnoreSSL(sslignore) {
  * @param {number} redirectsLeft how many redirects are still allowed
  * @returns {Promise<string>} response body as UTF-8 text
  */
-function requestUrl(url, headers, sslignore, redirectsLeft = 10) {
+function requestUrl(url, headers, sslignore, redirectsLeft = MAX_REDIRECTS) {
     return new Promise((resolve, reject) => {
         let settled = false;
         const rejectOnce = error => {
@@ -70,6 +81,18 @@ function requestUrl(url, headers, sslignore, redirectsLeft = 10) {
                         adapter.log.debug(`Follow redirect for "${url}" to "${response.headers.location}"`);
                         try {
                             const redirectUrl = new URL(response.headers.location, url).toString();
+                            const originalProtocol = new URL(url).protocol;
+                            const redirectProtocol = new URL(redirectUrl).protocol;
+                            if (!['http:', 'https:'].includes(redirectProtocol)) {
+                                return rejectOnce(
+                                    new Error(`Invalid redirect protocol "${redirectProtocol}" for calendar "${url}"`),
+                                );
+                            }
+                            if (originalProtocol === 'https:' && redirectProtocol === 'http:') {
+                                return rejectOnce(
+                                    new Error(`Refuse HTTPS to HTTP redirect while fetching calendar from ${url}`),
+                                );
+                            }
                             const redirectBody = await requestUrl(redirectUrl, headers, sslignore, redirectsLeft - 1);
                             return resolveOnce(redirectBody);
                         } catch (error) {
@@ -370,14 +393,14 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
 
         const headers = {};
         if (adapter.config.customUserAgentEnabled && adapter.config.customUserAgent) {
-            if (/[\r\n]/.test(adapter.config.customUserAgent)) {
+            if (hasControlChars(adapter.config.customUserAgent)) {
                 cb && cb('Invalid custom user agent: contains line breaks');
                 return;
             }
             headers['User-Agent'] = adapter.config.customUserAgent;
         }
         if (user) {
-            if (/[\r\n]/.test(user) || /[\r\n]/.test(pass || '')) {
+            if (hasControlChars(user) || hasControlChars(pass || '')) {
                 cb && cb('Invalid authentication credentials: contains line breaks');
                 return;
             }
@@ -442,7 +465,7 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
                 if (error.status) {
                     adapter.log.warn(`Error reading from URL "${urlOrFile}": ${error.status}`);
                 } else {
-                    adapter.log.warn(`Error reading from URL "${urlOrFile}": ${error.message}`);
+                    adapter.log.warn(`Error reading from URL "${urlOrFile}": ${error.cause?.message || error.message}`);
                 }
 
                 try {
