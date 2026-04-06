@@ -16,6 +16,7 @@ const ce = require('cloneextend');
 let adapter;
 let stopped = false;
 let killTimeout = null;
+const REQUEST_TIMEOUT_MS = 30000;
 
 function shouldIgnoreSSL(sslignore) {
     return sslignore === 'ignore' || sslignore === 'true' || sslignore === true;
@@ -32,6 +33,9 @@ function shouldIgnoreSSL(sslignore) {
  */
 function requestUrl(url, headers, sslignore, redirectsLeft = 10) {
     return new Promise((resolve, reject) => {
+        if (redirectsLeft <= 0) {
+            return reject(new Error('Too many redirects'));
+        }
         const requester = url.startsWith('https://') ? https : http;
 
         const request = requester.request(
@@ -40,17 +44,14 @@ function requestUrl(url, headers, sslignore, redirectsLeft = 10) {
                 method: 'GET',
                 headers,
                 rejectUnauthorized: !shouldIgnoreSSL(sslignore),
+                timeout: REQUEST_TIMEOUT_MS,
             },
             response => {
                 const chunks = [];
                 response.on('data', chunk => chunks.push(chunk));
                 response.on('end', async () => {
-                    if (
-                        response.statusCode >= 300 &&
-                        response.statusCode < 400 &&
-                        response.headers.location &&
-                        redirectsLeft > 0
-                    ) {
+                    if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+                        adapter.log.debug(`Follow redirect for "${url}" to "${response.headers.location}"`);
                         try {
                             const redirectUrl = new URL(response.headers.location, url).toString();
                             const redirectBody = await requestUrl(redirectUrl, headers, sslignore, redirectsLeft - 1);
@@ -68,10 +69,12 @@ function requestUrl(url, headers, sslignore, redirectsLeft = 10) {
                     }
                     resolve(body);
                 });
+                response.on('error', reject);
             },
         );
 
         request.on('error', reject);
+        request.on('timeout', () => request.destroy(new Error(`Request timeout after ${REQUEST_TIMEOUT_MS}ms`)));
         request.end();
     });
 }
@@ -351,6 +354,10 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
             headers['User-Agent'] = adapter.config.customUserAgent;
         }
         if (user) {
+            if (/[\r\n]/.test(user) || /[\r\n]/.test(pass || '')) {
+                cb && cb(`Cannot read URL: "${urlOrFile}"`);
+                return;
+            }
             headers.Authorization = `Basic ${Buffer.from(`${user}:${pass || ''}`).toString('base64')}`;
         }
 
@@ -360,10 +367,17 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
                 if (shouldIgnoreSSL(sslignore)) {
                     data = await requestUrl(urlOrFile, headers, sslignore);
                 } else {
+                    const abortController = new AbortController();
+                    const timeout = setTimeout(
+                        () => abortController.abort(new Error(`Request timeout after ${REQUEST_TIMEOUT_MS}ms`)),
+                        REQUEST_TIMEOUT_MS,
+                    );
                     const response = await fetch(urlOrFile, {
                         method: 'GET',
                         headers,
+                        signal: abortController.signal,
                     });
+                    clearTimeout(timeout);
 
                     if (!response.ok) {
                         const error = new Error(`HTTP ${response.status}`);
