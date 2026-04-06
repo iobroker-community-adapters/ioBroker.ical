@@ -17,21 +17,51 @@ let adapter;
 let stopped = false;
 let killTimeout = null;
 
-function requestUrl(url, headers, sslignore) {
+function shouldIgnoreSSL(sslignore) {
+    return sslignore === 'ignore' || sslignore === 'true' || sslignore === true;
+}
+
+/**
+ * Request calendar data over HTTP(S) while optionally ignoring TLS verification.
+ *
+ * @param {string} url URL to request
+ * @param {Record<string, string>} headers request headers
+ * @param {string|boolean} sslignore adapter SSL ignore flag
+ * @param {number} redirectsLeft how many redirects are still allowed
+ * @returns {Promise<string>} response body as UTF-8 text
+ */
+function requestUrl(url, headers, sslignore, redirectsLeft = 10) {
     return new Promise((resolve, reject) => {
         const requester = url.startsWith('https://') ? https : http;
-        const request = requester.get(
+
+        const request = requester.request(
             url,
             {
+                method: 'GET',
                 headers,
-                rejectUnauthorized: !(sslignore === 'ignore' || sslignore === 'true' || sslignore === true),
+                rejectUnauthorized: !shouldIgnoreSSL(sslignore),
             },
             response => {
                 const chunks = [];
                 response.on('data', chunk => chunks.push(chunk));
-                response.on('end', () => {
+                response.on('end', async () => {
+                    if (
+                        response.statusCode >= 300 &&
+                        response.statusCode < 400 &&
+                        response.headers.location &&
+                        redirectsLeft > 0
+                    ) {
+                        try {
+                            const redirectUrl = new URL(response.headers.location, url).toString();
+                            const redirectBody = await requestUrl(redirectUrl, headers, sslignore, redirectsLeft - 1);
+                            return resolve(redirectBody);
+                        } catch (error) {
+                            return reject(error);
+                        }
+                    }
+
                     const body = Buffer.concat(chunks).toString('utf-8');
-                    if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
+                    if (response.statusCode < 200 || response.statusCode >= 300) {
                         const error = new Error(`HTTP ${response.statusCode}`);
                         error.status = response.statusCode;
                         return reject(error);
@@ -42,6 +72,7 @@ function requestUrl(url, headers, sslignore) {
         );
 
         request.on('error', reject);
+        request.end();
     });
 }
 
@@ -326,7 +357,7 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
         (async () => {
             try {
                 let data;
-                if (sslignore === 'ignore' || sslignore === 'true' || sslignore === true) {
+                if (shouldIgnoreSSL(sslignore)) {
                     data = await requestUrl(urlOrFile, headers, sslignore);
                 } else {
                     const response = await fetch(urlOrFile, {
