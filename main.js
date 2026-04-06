@@ -4,6 +4,7 @@ const ical = require('node-ical');
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
+const http = require('node:http');
 const https = require('node:https');
 const os = require('node:os');
 
@@ -11,11 +12,114 @@ const utils = require('@iobroker/adapter-core');
 const adapterName = require('./package.json').name.split('.').pop();
 
 const ce = require('cloneextend');
-const axios = require('axios');
 
 let adapter;
 let stopped = false;
 let killTimeout = null;
+const REQUEST_TIMEOUT_MS = 30000;
+const MAX_REDIRECTS = 10;
+
+function hasControlChars(value) {
+    for (let i = 0; i < value.length; i++) {
+        const charCode = value.charCodeAt(i);
+        if (charCode <= 31 || charCode === 127) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function shouldIgnoreSSL(sslignore) {
+    return sslignore === 'ignore' || sslignore === 'true' || sslignore === true;
+}
+
+/**
+ * Request calendar data over HTTP(S) while optionally ignoring TLS verification.
+ *
+ * @param {string} url URL to request
+ * @param {Record<string, string>} headers request headers
+ * @param {string|boolean} sslignore adapter SSL ignore flag
+ * @param {number} redirectsLeft how many redirects are still allowed
+ * @returns {Promise<string>} response body as UTF-8 text
+ */
+function requestUrl(url, headers, sslignore, redirectsLeft = MAX_REDIRECTS) {
+    return new Promise((resolve, reject) => {
+        let settled = false;
+        const rejectOnce = error => {
+            if (settled) {
+                return;
+            }
+            settled = true;
+            reject(error);
+        };
+        const resolveOnce = value => {
+            if (settled) {
+                return;
+            }
+            settled = true;
+            resolve(value);
+        };
+
+        if (redirectsLeft <= 0) {
+            return rejectOnce(new Error(`Too many redirects while fetching calendar from ${url}`));
+        }
+        const requester = url.startsWith('https://') ? https : http;
+
+        const request = requester.request(
+            url,
+            {
+                method: 'GET',
+                headers,
+                rejectUnauthorized: !shouldIgnoreSSL(sslignore),
+                timeout: REQUEST_TIMEOUT_MS,
+            },
+            response => {
+                const chunks = [];
+                response.on('data', chunk => chunks.push(chunk));
+                response.on('end', async () => {
+                    if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+                        adapter.log.debug(`Follow redirect for "${url}" to "${response.headers.location}"`);
+                        try {
+                            const redirectUrl = new URL(response.headers.location, url).toString();
+                            const originalProtocol = new URL(url).protocol;
+                            const redirectProtocol = new URL(redirectUrl).protocol;
+                            if (!['http:', 'https:'].includes(redirectProtocol)) {
+                                return rejectOnce(
+                                    new Error(`Invalid redirect protocol "${redirectProtocol}" for calendar "${url}"`),
+                                );
+                            }
+                            if (originalProtocol === 'https:' && redirectProtocol === 'http:') {
+                                return rejectOnce(
+                                    new Error(`Refuse HTTPS to HTTP redirect while fetching calendar from ${url}`),
+                                );
+                            }
+                            const redirectBody = await requestUrl(redirectUrl, headers, sslignore, redirectsLeft - 1);
+                            return resolveOnce(redirectBody);
+                        } catch (error) {
+                            return rejectOnce(error);
+                        }
+                    }
+
+                    const body = Buffer.concat(chunks).toString('utf-8');
+                    if (response.statusCode < 200 || response.statusCode >= 300) {
+                        const error = new Error(`HTTP ${response.statusCode} when fetching calendar from ${url}`);
+                        error.status = response.statusCode;
+                        return rejectOnce(error);
+                    }
+                    resolveOnce(body);
+                });
+                response.on('error', rejectOnce);
+            },
+        );
+
+        request.on('error', rejectOnce);
+        request.on('timeout', () => {
+            rejectOnce(new Error(`Request timeout after ${REQUEST_TIMEOUT_MS}ms when fetching calendar from ${url}`));
+            request.destroy();
+        });
+        request.end();
+    });
+}
 
 function startAdapter(options) {
     options = options || {};
@@ -281,42 +385,68 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
             }
         }
     } else {
-        // Find out whether SSL certificate errors shall be ignored
-        const options = {
-            method: 'get',
-            url: urlOrFile,
-        };
-
-        if (adapter.config.customUserAgentEnabled && adapter.config.customUserAgent) {
-            options.headers = {
-                'User-Agent': adapter.config.customUserAgent,
-            };
-        }
-
-        if (sslignore === 'ignore' || sslignore === 'true' || sslignore === true) {
-            options.httpsAgent = new https.Agent({
-                rejectUnauthorized: false,
-            });
-        }
-
-        if (user) {
-            options.auth = {
-                username: user,
-                password: pass,
-            };
-        }
-
         const calHash = crypto
             .createHash('md5')
             .update(user + pass + urlOrFile)
             .digest('hex');
         const cachedFilename = path.join(os.tmpdir(), `iob-${calHash}.ics`);
 
-        axios(options)
-            .then(function (response) {
-                if (response.data) {
+        const headers = {};
+        if (adapter.config.customUserAgentEnabled && adapter.config.customUserAgent) {
+            if (hasControlChars(adapter.config.customUserAgent)) {
+                cb && cb('Invalid custom user agent: contains line breaks');
+                return;
+            }
+            headers['User-Agent'] = adapter.config.customUserAgent;
+        }
+        if (user) {
+            if (hasControlChars(user) || hasControlChars(pass || '')) {
+                cb && cb('Invalid authentication credentials: contains line breaks');
+                return;
+            }
+            headers.Authorization = `Basic ${Buffer.from(`${user}:${pass || ''}`).toString('base64')}`;
+        }
+
+        (async () => {
+            try {
+                let data;
+                if (shouldIgnoreSSL(sslignore)) {
+                    data = await requestUrl(urlOrFile, headers, sslignore);
+                } else {
+                    const abortController = new AbortController();
+                    const timeout = setTimeout(
+                        () =>
+                            abortController.abort(
+                                new Error(
+                                    `Request timeout after ${REQUEST_TIMEOUT_MS}ms when fetching calendar from ${urlOrFile}`,
+                                ),
+                            ),
+                        REQUEST_TIMEOUT_MS,
+                    );
                     try {
-                        fs.writeFileSync(cachedFilename, response.data, 'utf-8');
+                        const response = await fetch(urlOrFile, {
+                            method: 'GET',
+                            headers,
+                            signal: abortController.signal,
+                        });
+
+                        if (!response.ok) {
+                            const error = new Error(
+                                `HTTP ${response.status} (${response.statusText}) when fetching calendar from ${urlOrFile}`,
+                            );
+                            error.status = response.status;
+                            throw error;
+                        }
+
+                        data = await response.text();
+                    } finally {
+                        clearTimeout(timeout);
+                    }
+                }
+
+                if (data) {
+                    try {
+                        fs.writeFileSync(cachedFilename, data, 'utf-8');
                         adapter.log.debug(
                             `Successfully cached content for calendar "${urlOrFile}" as ${cachedFilename}`,
                         );
@@ -324,27 +454,18 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
                         adapter.log.error(`Cannot write cached file: ${err}`);
                     }
 
-                    cb && cb(null, response.data);
+                    cb && cb(null, data);
                 } else {
                     cb && cb(`Error reading from URL "${urlOrFile}": Received no data`);
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 let cachedContent;
                 let cachedDate;
 
-                if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    adapter.log.warn(`Error reading from URL "${urlOrFile}": ${error.response.status}`);
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    adapter.log.warn(`Error reading from URL "${urlOrFile}"`);
+                if (error.status) {
+                    adapter.log.warn(`Error reading from URL "${urlOrFile}": ${error.status}`);
                 } else {
-                    // Something happened in setting up the request that triggered an Error
-                    adapter.log.warn(`Error reading from URL "${urlOrFile}": ${error.message}`);
+                    adapter.log.warn(`Error reading from URL "${urlOrFile}": ${error.cause?.message || error.message}`);
                 }
 
                 try {
@@ -363,7 +484,8 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
 
                 adapter.log.info(`Use cached File content for "${urlOrFile}" from ${cachedDate}`);
                 cb && cb(null, cachedContent);
-            });
+            }
+        })();
     }
 }
 
