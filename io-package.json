@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.19.8",
+    "version": "1.20.0",
     "news": {
+      "1.20.0": {
+        "en": "Replaced axios usage with node.js built-in fetch",
+        "de": "Ersetzte Axios-Nutzung mit node.js integriertem Fetch",
+        "ru": "Заменить использование axios на node.js",
+        "pt": "Uso de axios substituído por node.js built-in fetch",
+        "nl": "Vervangt axio's gebruik door node.js ingebouwde fetch",
+        "fr": "Remplacé l'utilisation d'axios avec noeud.js intégré fetch",
+        "it": "Uso assio sostituito con node.js fetch incorporato",
+        "es": "Uso de ejes reemplazados con node.js fetch incorporado",
+        "pl": "Zastąpione użycie axios z node.js built- in fetch",
+        "uk": "Замінити використання axios з node.js вбудований fetch",
+        "zh-cn": "用节点.js内置获取替换了轴使用"
+      },
       "1.19.8": {
         "en": "Update node-ical from 0.25.5 to 0.26.0",
         "de": "Nodeal aktualisieren von 0,25,5 bis 0,26.0",
@@ -80,19 +93,6 @@
         "pl": "Aktualizuj node- ical od 0.23.1 do 0.24.1 (poprawki # 842)",
         "uk": "Update node-ical від 0.23.1 до 0.24.1 (фікси #842)",
         "zh-cn": "将节点从0.23.1更新到0.24.1(附件842)"
-      },
-      "1.19.2": {
-        "en": "fix broken exdate calculation",
-        "de": "defekte exdate-berechnung",
-        "ru": "исправление неисправного расчета эксдата",
-        "pt": "corrigir o cálculo de exdate quebrado",
-        "nl": "vast te stellen foute exdate berekening",
-        "fr": "correction du calcul de l'exdate",
-        "it": "correzione del calcolo dell'aggiornamento rotto",
-        "es": "arreglar el cálculo de exdate roto",
-        "pl": "fix zerwane obliczenia exdate",
-        "uk": "виправити розбитий розрахунок",
-        "zh-cn": "修复破损的超时计算"
       }
     },
     "titleLang": {
