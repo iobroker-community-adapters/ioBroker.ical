@@ -16,19 +16,6 @@
         "uk": "Замінити використання axios з node.js вбудований fetch",
         "zh-cn": "用节点.js内置获取替换了轴使用"
       },
-      "1.19.8": {
-        "en": "Update node-ical from 0.25.5 to 0.26.0",
-        "de": "Nodeal aktualisieren von 0,25,5 bis 0,26.0",
-        "ru": "Обновление node-ical от 0.25.5 до 0.26.0",
-        "pt": "Atualizar o nó-ical de 0,25,5 a 0,26,0",
-        "nl": "Bijwerken node-ical van 0,25,5 tot 0,26.0",
-        "fr": "Mettre à jour le noeud de 0,25,5 à 0,26,0",
-        "it": "Nodo di aggiornamento da 0.25.5 a 0.26.0",
-        "es": "Actualización node-ical de 0.25.5 a 0.26.0",
-        "pl": "Aktualizuj nozdrza od 0.25.5 do 0.26.0",
-        "uk": "Update node-ical від 0.25.5 до 0.26.0",
-        "zh-cn": "将节点从0.25.5更新到0.26.0"
-      },
       "1.19.7": {
         "en": "Update node-ical from 0.25.4 to 0.25.5\nUpdate more general dependencies",
         "de": "Nodeal aktualisieren von 0,25.4 bis 0,25.5\nAllgemeine Abhängigkeiten aktualisieren",
