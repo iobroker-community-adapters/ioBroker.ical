@@ -51,6 +51,8 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 ### 1.19.5 (2026-02-16)
 * (jens-maus) Update node-ical from 0.24.2 to 0.25.2
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 The MIT License (MIT)
