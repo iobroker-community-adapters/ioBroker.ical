@@ -1,4 +1,9 @@
 # Older changes
+## 1.19.5 (2026-02-16)
+* (jens-maus) Update node-ical from 0.24.2 to 0.25.2
+
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## 1.19.4 (2026-02-01)
 * (jens-maus) Update node-ical from 0.24.1 to 0.24.2
 

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.20.0",
+    "version": "1.20.1",
     "news": {
+      "1.20.1": {
+        "en": "Update node-ical from 0.26.0 to 0.26.1\nAdapter requires node.js >= 22 now",
+        "de": "Aktualisieren von 0.26.0 bis 0.26.1\nAdapter benötigt node.js >= 22 jetzt",
+        "ru": "Обновление node-ical от 0.26.0 до 0.26.1\nАдаптер требует node.js >= 22 сейчас",
+        "pt": "Atualizar o nó-ical de 0.26.0 a 0.26.1\nAdaptador requer nod.js >= 22 agora",
+        "nl": "Bijwerken node-ical van 0,26,0 tot 0,26,1\nVoor de adapter zijn node.js < 22 nu nodig",
+        "fr": "Mettre à jour le nœud de 0.26 à 0.26.1\nAdaptateur nécessite node.js >= 22 maintenant",
+        "it": "Nodo di aggiornamento da 0.26.0 a 0.26.1\nAdattatore richiede node.js >= 22 ora",
+        "es": "Actualizar nodo-ical de 0.26.0 a 0.26.1\nAdaptador requiere node.js ю= 22 ahora",
+        "pl": "Aktualizuj nozdrza od 0.26.0 do 0.26.1\nAdapter wymaga node.js > = 22",
+        "uk": "Update node-ical від 0.26.0 до 0.26.1\nАдаптер вимагає node.js >= 22 тепер",
+        "zh-cn": "将节点从0.2.6.0更新为0.26.1\n适配器需要节点.js 现在22"
+      },
       "1.20.0": {
         "en": "Replaced axios usage with node.js built-in fetch",
         "de": "Ersetzte Axios-Nutzung mit node.js integriertem Fetch",
