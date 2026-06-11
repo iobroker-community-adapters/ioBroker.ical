@@ -20,7 +20,7 @@
     "Use by full day": "Reemplace 00:00 con",
     "color": "Color",
     "display": "monitor",
-    "enabled": "habilitado",
+    "enabled": "activado",
     "filter": "Filtrar",
     "filterregex": "Filtrar como expresión regular.",
     "iCal adapter settings": "Configuración del adaptador iCal",
