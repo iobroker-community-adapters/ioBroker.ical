@@ -1,6 +1,5 @@
 'use strict';
 
-const ical = require('node-ical');
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -18,6 +17,7 @@ let stopped = false;
 let killTimeout = null;
 const REQUEST_TIMEOUT_MS = 30000;
 const MAX_REDIRECTS = 10;
+let nodeIcalPromise;
 
 function hasControlChars(value) {
     for (let i = 0; i < value.length; i++) {
@@ -497,7 +497,7 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
         cb = user;
         user = undefined;
     }
-    getICal(urlOrFile, user, pass, sslignore, calName, (err, _data) => {
+    getICal(urlOrFile, user, pass, sslignore, calName, async (err, _data) => {
         if (stopped) {
             return;
         }
@@ -508,6 +508,23 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
         }
 
         adapter.log.debug(`File read successfully ${urlOrFile}`);
+
+        // node-ical is loaded lazily via dynamic import and cached for reuse.
+        // TODO: Once node-ical exposes a stable pure ESM export shape, this
+        // fallback handling can be simplified.
+        if (nodeIcalPromise === undefined) {
+            nodeIcalPromise = import('node-ical');
+        }
+
+        let ical;
+        try {
+            const moduleExports = await nodeIcalPromise;
+            ical = moduleExports.default || moduleExports;
+        } catch (error) {
+            adapter.log.error(`Cannot load node-ical module: ${error.message || error}`);
+            cb(error, calName);
+            return;
+        }
 
         try {
             ical.parseICS(_data, (err, data) => {
