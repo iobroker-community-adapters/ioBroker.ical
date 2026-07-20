@@ -1,30 +1,29 @@
 'use strict';
 
-/**
- * This is a dummy TypeScript test file using chai and mocha
- *
- * It's automatically excluded from npm and its build output is excluded from both git and npm.
- * It is advised to test all your modules with accompanying *.test.js-files
- */
+const assert = require('node:assert/strict');
+const cloneEvent = require('./lib/cloneEvent');
 
-// tslint:disable:no-unused-expression
+describe('cloneEvent', () => {
+    it('copies top-level event properties without cloning parser-owned values', () => {
+        const parserDictionary = Object.assign(Object.create(null), { language: 'en' });
+        const rrule = { between: () => [] };
+        const event = {
+            summary: { val: 'Test event', params: parserDictionary },
+            start: new Date('2026-07-20T08:00:00.000Z'),
+            end: new Date('2026-07-20T09:00:00.000Z'),
+            rrule,
+        };
 
-const { expect } = require('chai');
-// import { functionToTest } from "./moduleToTest";
+        const copy = cloneEvent(event);
 
-describe('module to test => function to test', () => {
-    // initializing logic
-    const expected = 5;
+        assert.notStrictEqual(copy, event);
+        assert.strictEqual(copy.summary, event.summary);
+        assert.strictEqual(copy.rrule, rrule);
 
-    it(`should return ${expected}`, () => {
-        const result = 5;
-        // assign result a value from functionToTest
-        expect(result).to.equal(expected);
-        // or using the should() syntax
-        result.should.equal(expected);
+        copy.start = new Date('2026-07-27T08:00:00.000Z');
+        copy.end = new Date('2026-07-27T09:00:00.000Z');
+
+        assert.equal(event.start.toISOString(), '2026-07-20T08:00:00.000Z');
+        assert.equal(event.end.toISOString(), '2026-07-20T09:00:00.000Z');
     });
-    // ... more tests => it
-
 });
-
-// ... more test suites => describe
