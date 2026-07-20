@@ -10,8 +10,7 @@ const os = require('node:os');
 
 const utils = require('@iobroker/adapter-core');
 const adapterName = require('./package.json').name.split('.').pop();
-
-const ce = require('cloneextend');
+const cloneEvent = require('./lib/cloneEvent');
 
 let adapter;
 let stopped = false;
@@ -625,8 +624,9 @@ endpreview: ${endpreview}`);
                 // event within the time window
                 if (dates.length > 0) {
                     for (let i = 0; i < dates.length; i++) {
-                        // use deep-copy otherwise setDate etc. overwrites data from different events
-                        let ev2 = ce.clone(ev);
+                        // Copy the event before changing occurrence-specific top-level properties.
+                        // Keep parser-owned values such as RRule instances intact.
+                        let ev2 = cloneEvent(ev);
 
                         // we have to move the start time of our clone
                         // to a time relative to the timezone of the start time
@@ -672,7 +672,7 @@ endpreview: ${endpreview}`);
                             for (const dOri in ev.recurrences) {
                                 const recurEvent = ev.recurrences[dOri];
                                 if (recurEvent.recurrenceid.getTime() === ev2.start.getTime()) {
-                                    ev2 = ce.clone(recurEvent);
+                                    ev2 = cloneEvent(recurEvent);
                                     adapter.log.debug(
                                         `   ${i}: different recurring found replaced with Event:${ev2.start} ${ev2.end}`,
                                     );
