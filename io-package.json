@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.20.1",
+    "version": "1.21.0",
     "news": {
+      "1.21.0": {
+        "en": "Update node-ical from 0.26.1 to 0.27.1",
+        "de": "Node-ical von 0.26.1 auf 0.27.1 aktualisieren",
+        "ru": "Обновление node-ical от 0.26.1 до 0.27.1",
+        "pt": "Atualizar o nó-ical de 0.26.1 a 0.27.1",
+        "nl": "Update node-ical van 0,26,1 tot 0,27.1",
+        "fr": "Mettre à jour le nœud entre 0,26.1 et 0,27.1",
+        "it": "Node-ical aggiornamento da 0.26.1 a 0.27.1",
+        "es": "Actualización node-ical de 0.26.1 a 0.27.1",
+        "pl": "Aktualizuj node-ical od 0.26.1 do 0.27.1",
+        "uk": "Update node-ical від 0.26.1 до 0.27.1",
+        "zh-cn": "将节点从0.26.1更新到0.27.1"
+      },
       "1.20.1": {
         "en": "Update node-ical from 0.26.0 to 0.26.1\nAdapter requires node.js >= 22 now",
         "de": "Aktualisieren von 0.26.0 bis 0.26.1\nAdapter benötigt node.js >= 22 jetzt",
@@ -80,19 +93,6 @@
         "pl": "Aktualizuj nodeical od 0.24.1 do 0.24.2",
         "uk": "Update node-ical від 0.24.1 до 0.24.2",
         "zh-cn": "将节点从0.24.1更新到0.24.2"
-      },
-      "1.19.3": {
-        "en": "Update node-ical from 0.23.1 to 0.24.1 (fixes #842)",
-        "de": "Aktualisieren von 0.23.1 bis 0.24.1 (fixes #842)",
-        "ru": "Обновление node-ical от 0.23.1 до 0.24.1 (фиксы #842)",
-        "pt": "Atualizar o nó-ical de 0.23.1 a 0.24.1 (fixos #842)",
-        "nl": "Bijwerken node-ical van 0,23.1 tot 0,24.1 (fixes #842)",
-        "fr": "Mettre à jour le nœud de 0.23.1 à 0.24.1 (fixes #842)",
-        "it": "Nodo di aggiornamento da 0.23.1 a 0.24.1 (fissi #842)",
-        "es": "Actualización node-ical de 0.23.1 a 0.24.1 (fixes #842)",
-        "pl": "Aktualizuj node- ical od 0.23.1 do 0.24.1 (poprawki # 842)",
-        "uk": "Update node-ical від 0.23.1 до 0.24.1 (фікси #842)",
-        "zh-cn": "将节点从0.23.1更新到0.24.1(附件842)"
       }
     },
     "titleLang": {

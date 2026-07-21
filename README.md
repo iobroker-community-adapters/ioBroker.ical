@@ -31,7 +31,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.21.0 (2026-07-21)
 * (jens-maus) Update node-ical from 0.26.1 to 0.27.1
 
 ### 1.20.1 (2026-05-07)
@@ -47,10 +47,6 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 ### 1.19.7 (2026-03-06)
 * (jens-maus) Update node-ical from 0.25.4 to 0.25.5
 * (jens-maus) Update more general dependencies
-
-### 1.19.6 (2026-02-23)
-* (jens-maus) Update node-ical from 0.25.2 to 0.25.4
-* (copilot) Adapter requires admin >= 7.7.22 now
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
