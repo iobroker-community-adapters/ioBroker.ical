@@ -12,6 +12,7 @@ const setupIcsFilter = require(__dirname + '/lib/setupIcsFilter');
 const setupIcsFilterRegex = require(__dirname + '/lib/setupIcsFilterRegex');
 const setupIcsForceFullDay = require(__dirname + '/lib/setupIcsForceFullDay');
 const setupIcsRecurring = require(__dirname + '/lib/setupIcsRecurring');
+const setupIcsPast = require(__dirname + '/lib/setupIcsPast');
 
 async function startAdapterAndWaitForStop(harness) {
     return new Promise(resolve => {
@@ -420,6 +421,49 @@ tests.integration(path.join(__dirname, '..'), {
 
                 expect(eventTable).to.be.an('array');
                 expect(eventTable).to.have.lengthOf.at.least(25); // 364 days preview, every 2 weeks
+
+            });
+        });
+
+        suite('Test Past', getHarness => {
+            /**
+             * @type {IntegrationTestHarness}
+             */
+            let harness;
+            before(async function () {
+                this.timeout(60000);
+
+                setupIcsPast.setup();
+
+                harness = getHarness();
+                harness.changeAdapterConfig(harness.adapterName, setupIcsPast.getInstanceConfig());
+
+                return startAdapterAndWaitForStop(harness);
+            });
+
+            it('Check event table', async function () {
+
+                /*
+                    * PastFulldayEvent (yesterday, full day)
+                    * PastTimedEvent (yesterday, with time, already over)
+                    * FutureTimedEvent (tomorrow, with time)
+                    * TooOldEvent is five days old and out of daysPast = 2
+                */
+                const stateDataTable = await harness.states.getStateAsync(`${harness.adapterName}.0.data.table`);
+                const eventTable = JSON.parse(stateDataTable.val);
+
+                expect(eventTable).to.be.an('array');
+                expect(eventTable.map(entry => entry.event)).to.be.deep.equal([
+                    'PastFulldayEvent',
+                    'PastTimedEvent',
+                    'FutureTimedEvent',
+                ]);
+
+                expect(eventTable[1]._allDay).to.be.false;
+                expect(eventTable[1].date).to.endsWith('. 10:00-11:00');
+
+                const stateDataCountYesterday = await harness.states.getStateAsync(`${harness.adapterName}.0.data.countYesterday`);
+                expect(stateDataCountYesterday.val).to.be.equal(2);
 
             });
         });

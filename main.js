@@ -833,10 +833,14 @@ LOCATION:${location}`;
         adapter.log.debug(`Event (time) processing. Start: ${ev.start} End: ${ev.end}`);
 
         // Event with time
-        // Start time >= startpreview && Start time < preview time && End time >= now
+        // Start time >= startpreview && Start time < preview time && End time >= pastLimit
+        // Without configured past days an event that already ended is not shown (pastLimit = now).
+        // With daysPast > 0 the past window applies to events with a time as well, so they stay
+        // visible until startpreview, exactly like full day events do.
+        const pastLimit = adapter.config.daysPast > 0 ? startpreview : realnow;
         if (
-            (ev.start >= startpreview && ev.start < endpreview && ev.end >= realnow) ||
-            (ev.end >= realnow && ev.end <= endpreview) ||
+            (ev.start >= startpreview && ev.start < endpreview && ev.end >= pastLimit) ||
+            (ev.end >= pastLimit && ev.end <= endpreview) ||
             (ev.start < realnow && ev.end > realnow)
         ) {
             // Add to list only if not hidden
