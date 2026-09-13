@@ -31,6 +31,9 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (typhosj) Events with a time are kept for the configured past days as well (daysPast)
+
 ### 1.21.0 (2026-07-21)
 * (jens-maus) Update node-ical from 0.26.1 to 0.27.1
 
