@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.21.0",
+    "version": "1.21.1",
     "news": {
+      "1.21.1": {
+        "en": "Update node-ical from 0.27.1 to 0.27.2\nEvents with a time are kept for the configured past days as well (daysPast)",
+        "de": "Update Node-Ical von 0.27.1 auf 0.27.2\nTermine mit Uhrzeit gelten auch für die letzten Tage (DaysPast)",
+        "ru": "Обновите node-ical с 0.27.1 до 0.27.2\nСобытия со временем также сохраняются за настроенные последние дни (DaysPast)",
+        "pt": "Atualize node-ical de 0.27.1 a 0.27.2\nEventos com hora também são mantidos nos últimos dias (daysPast)",
+        "nl": "Node-ical updaten van 0.27.1 naar 0.27.2\nGebeurtenissen met een tijdstip worden ook bewaard voor de geconfigureerde dagen in het verleden (DaysPast)",
+        "fr": "Mise à jour de node-ical de 0.27.1 à 0.27.2\nLes événements chronométrés sont également conservés (DaysPast)",
+        "it": "Aggiorna node-ical da 0.27.1 a 0.27.2\nGli eventi con orario si conservano anche per i giorni passati (DaysPast)",
+        "es": "Actualice node-ical de 0.27.1 a 0.27.2\nLos eventos con hora también guardan los últimos días configurados (DaysPast)",
+        "pl": "Zaktualizuj node-ical z 0.27.1 do 0.27.2\nZdarzenia z czasem są przechowywane również dla skonfigurowanych minionych dni (DaysPast)",
+        "uk": "Оновлення нод-ical з 0.27.1 до 0.27.2\nПодії з часом зберігаються і протягом налаштованих минулих днів (DaysLast)",
+        "zh-cn": "将 node-ical 从 0.27.1 更新到 0.27.2\n带有时间的事件也会保留过去几天的配置 (DaysPast)"
+      },
       "1.21.0": {
         "en": "Update node-ical from 0.26.1 to 0.27.1",
         "de": "Node-ical von 0.26.1 auf 0.27.1 aktualisieren",
@@ -80,19 +93,6 @@
         "pl": "Aktualizuj nodeical od 0.24.2 do 0.25.2",
         "uk": "Update node-ical від 0.24.2 до 0.25.2",
         "zh-cn": "将节点从0.24.2更新到0.25.2"
-      },
-      "1.19.4": {
-        "en": "Update node-ical from 0.24.1 to 0.24.2",
-        "de": "Nodeal aktualisieren von 0,24.1 bis 0,24.2",
-        "ru": "Обновление node-ical от 0.24.1 до 0.24.2",
-        "pt": "Atualizar o nó-ical de 0.24.1 a 0.24.2",
-        "nl": "Bijwerken node-ical van 0,24.1 tot 0,24.2",
-        "fr": "Mettre à jour le nœud de 0.24.1 à 0.24.2",
-        "it": "Nodo di aggiornamento da 0.24.1 a 0.24.2",
-        "es": "Actualización node-ical de 0.24.1 a 0.24.2",
-        "pl": "Aktualizuj nodeical od 0.24.1 do 0.24.2",
-        "uk": "Update node-ical від 0.24.1 до 0.24.2",
-        "zh-cn": "将节点从0.24.1更新到0.24.2"
       }
     },
     "titleLang": {

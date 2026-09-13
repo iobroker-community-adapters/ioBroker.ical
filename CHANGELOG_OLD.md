@@ -1,4 +1,8 @@
 # Older changes
+## 1.19.7 (2026-03-06)
+* (jens-maus) Update node-ical from 0.25.4 to 0.25.5
+* (jens-maus) Update more general dependencies
+
 ## 1.19.6 (2026-02-23)
 * (jens-maus) Update node-ical from 0.25.2 to 0.25.4
 * (copilot) Adapter requires admin >= 7.7.22 now
