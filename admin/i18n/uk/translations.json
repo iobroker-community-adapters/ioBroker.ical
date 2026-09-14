@@ -20,7 +20,7 @@
     "Use by full day": "Замінити 00:00 на",
     "color": "колір",
     "display": "дисплей",
-    "enabled": "включено",
+    "enabled": "увімкнено",
     "filter": "фільтр",
     "filterregex": "Фільтр як регулярний вираз",
     "iCal adapter settings": "Налаштування адаптера iCal",
