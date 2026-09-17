@@ -20,7 +20,7 @@
     "Use by full day": "Vervang 00:00 met",
     "color": "Kleur",
     "display": "weergeven",
-    "enabled": "actief",
+    "enabled": "ingeschakeld",
     "filter": "Filter",
     "filterregex": "Filter als reguliere expressie",
     "iCal adapter settings": "iCal Instellingen",
