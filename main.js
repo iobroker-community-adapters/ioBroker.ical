@@ -7,6 +7,8 @@ const path = require('node:path');
 const http = require('node:http');
 const https = require('node:https');
 const os = require('node:os');
+const net = require('node:net');
+const dns = require('node:dns');
 
 const utils = require('@iobroker/adapter-core');
 const adapterName = require('./package.json').name.split('.').pop();
@@ -41,6 +43,24 @@ function shouldIgnoreSSL(sslignore) {
  * @param {number} redirectsLeft how many redirects are still allowed
  * @returns {Promise<string>} response body as UTF-8 text
  */
+async function isBlockedAddress(hostname) {
+    const ip = net.isIP(hostname) ? hostname : (await dns.promises.lookup(hostname)).address;
+    if (!net.isIP(ip)) {
+        return true;
+    }
+    return (
+        ip === '127.0.0.1' ||
+        ip === '::1' ||
+        ip === '0.0.0.0' ||
+        /^10\./.test(ip) ||
+        /^192\.168\./.test(ip) ||
+        /^172\.(1[6-9]|2\d|3[01])\./.test(ip) ||
+        /^169\.254\./.test(ip) ||
+        /^f[cd][0-9a-f]{0,2}:/i.test(ip) ||
+        /^fe80:/i.test(ip)
+    );
+}
+
 function requestUrl(url, headers, sslignore, redirectsLeft = MAX_REDIRECTS) {
     return new Promise((resolve, reject) => {
         let settled = false;
@@ -409,6 +429,17 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
         (async () => {
             try {
                 let data;
+                let targetHostname;
+                try {
+                    targetHostname = new URL(urlOrFile).hostname;
+                } catch {
+                    targetHostname = null;
+                }
+                if (targetHostname && (await isBlockedAddress(targetHostname))) {
+                    throw new Error(
+                        `Refusing to fetch calendar from "${urlOrFile}": resolves to a private/internal address`,
+                    );
+                }
                 if (shouldIgnoreSSL(sslignore)) {
                     data = await requestUrl(urlOrFile, headers, sslignore);
                 } else {
