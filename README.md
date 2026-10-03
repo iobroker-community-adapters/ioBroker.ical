@@ -32,6 +32,8 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+* (jens-maus) Convert translations to short i18n format
+* (jens-maus) Bump iobroker/testing to 6.3.0
 * (jens-maus) Update node-ical from 0.27.2 to 0.27.3
 
 ### 1.21.1 (2026-09-13)
