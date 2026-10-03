@@ -1,4 +1,7 @@
 # Older changes
+## 1.19.8 (2026-04-03)
+* (jens-maus) Update node-ical from 0.25.5 to 0.26.0
+
 ## 1.19.7 (2026-03-06)
 * (jens-maus) Update node-ical from 0.25.4 to 0.25.5
 * (jens-maus) Update more general dependencies

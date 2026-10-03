@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "ical",
-    "version": "1.21.1",
+    "version": "1.21.2",
     "news": {
+      "1.21.2": {
+        "en": "Change common.role to value for count data points\nRemove obsolete json-schema dependency\nConvert translations to short i18n format\nBump iobroker/testing to 6.3.0\nUpdate node-ical from 0.27.2 to 0.27.3",
+        "de": "Ändern Sie common.role in Zähldatenpunkte\nVeraltete JSON-Schemaabhängigkeit entfernen\nÜbersetzungen ins Kurzformat i18n umwandeln\nIobroker/Testing auf 6.3.0\nUpdate Node-Ical von 0.27.2 auf 0.27.3",
+        "ru": "Измените common.role на значение для количества точек данных\nУдалить устаревшую зависимость json-схемы\nКонвертируйте переводы в короткий формат i18n\nПеревести биоброкер/тестирование на 6.3.0\nОбновите node-ical с 0.27.2 до 0.27.3",
+        "pt": "Mude common.role para valor de pontos de dados\nRemova a dependência obsoleta do json\nConverta traduções em formato i18n curto\nBump iobroker/testing à 6.3.0\nAtualize node-ical de 0.27.2 a 0.27.3",
+        "nl": "Common.role wijzigen in een waarde voor het aantal datapunten\nVerouderde json-schema-afhankelijkheid verwijderen\nVertalingen converteren naar een kort i18n-formaat\nVerhoog iobroker/testing naar 6.3.0\nNode-ical updaten van 0.27.2 naar 0.27.3",
+        "fr": "Remplacez common.role par la valeur Count Data Points\nSupprimer une dépendance JSON-Schema obsolète\nConvertir les traductions au format i18n\nBump Iobroker/Testing en 6.3.0\nMise à jour de node-ical de 0.27.2 à 0.27.3",
+        "it": "Cambia common.role in valore per il conteggio\nRimuovi la dipendenza obsoleta da JSON\nConverte le traduzioni in breve i18n\nPorta iobroker/test a 6.3.0\nAggiorna node-ical da 0.27.2 a 0.27.3",
+        "es": "Cambie common.role a value for count data points\nEliminar la obsoleta dependencia del esquema JSON\nConvertir traducciones a formato i18n corto\nBump iobroker/testing a 6.3.0\nActualice node-ical de 0.27.2 a 0.27.3",
+        "pl": "Zmień wartość common.role dla liczby punktów danych\nUsuń przestarzałą zależność schematu json-\nKonwertuj tłumaczenia na krótki format i18n\nBump Iobroker/test do 6.3.0\nZaktualizuj node-ical z 0.27.2 do 0.27.3",
+        "uk": "Змініть common.role на значення для точок даних підрахунку\nВидаліть застарілу залежність json-схеми\nПеретворення перекладів у короткий формат i18n\nБамп-іоброкер/тестування до 6.3.0\nОновлення нод-ical з 0.27.2 до 0.27.3",
+        "zh-cn": "将 common.role 更改为计数数据点的值\n移除过时的 json 架构依赖关系\n将翻译转换为简短的 i18n 格式\n将 iobroker/testing 升级到 6.3.0\n将 node-ical 从 0.27.2 更新到 0.27.3"
+      },
       "1.21.1": {
         "en": "Update node-ical from 0.27.1 to 0.27.2\nEvents with a time are kept for the configured past days as well (daysPast)",
         "de": "Update Node-Ical von 0.27.1 auf 0.27.2\nTermine mit Uhrzeit gelten auch für die letzten Tage (DaysPast)",
@@ -80,19 +93,6 @@
         "pl": "Aktualizuj nodeical od 0.25.2 do 0.25.4\nAdapter wymaga admin > = 7.7.22",
         "uk": "Update node-ical від 0.25.2 до 0.25.4\nАдаптер вимагає адмін >= 7.7.22 тепер",
         "zh-cn": "将节点从0.25.2更新到0.25.4\n适任者需要管理员 \\ 7.7.22 现在"
-      },
-      "1.19.5": {
-        "en": "Update node-ical from 0.24.2 to 0.25.2",
-        "de": "Aktualisieren knotenförmig von 0,24.2 bis 0,25.2",
-        "ru": "Обновление node-ical от 0.24.2 до 0.25.2",
-        "pt": "Atualizar o nó-ical de 0.24.2 a 0,25.2",
-        "nl": "Bijwerken node-ical van 0,24.2 tot 0,25.2",
-        "fr": "Mettre à jour le nœud de 0.24.2 à 0.25.2",
-        "it": "Nodo di aggiornamento da 0.24.2 a 0.25.2",
-        "es": "Actualización node-ical de 0.24.2 a 0.25.2",
-        "pl": "Aktualizuj nodeical od 0.24.2 do 0.25.2",
-        "uk": "Update node-ical від 0.24.2 до 0.25.2",
-        "zh-cn": "将节点从0.24.2更新到0.25.2"
       }
     },
     "titleLang": {

@@ -33,7 +33,7 @@ With ioBroker.ical, you can perform various actions based on calendar events, su
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.21.2 (2026-10-03)
 * (jens-maus) Change common.role to value for count data points
 * (jens-maus) Remove obsolete json-schema dependency
 * (jens-maus) Convert translations to short i18n format
@@ -53,9 +53,6 @@ With ioBroker.ical, you can perform various actions based on calendar events, su
 
 ### 1.20.0 (2026-04-07)
 * (jens-maus) Replaced axios usage with node.js built-in fetch
-
-### 1.19.8 (2026-04-03)
-* (jens-maus) Update node-ical from 0.25.5 to 0.26.0
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
