@@ -32,6 +32,7 @@ Sentry reporting, starting with js-controller 3.0, means that this adapter can u
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+* (jens-maus) Change common.role to value for count data points
 * (jens-maus) Remove obsolete json-schema dependency
 * (jens-maus) Convert translations to short i18n format
 * (jens-maus) Bump iobroker/testing to 6.3.0

@@ -356,7 +356,7 @@
           "zh-cn": "今天活动次数"
         },
         "type": "number",
-        "role": "indicator",
+        "role": "value",
         "read": true,
         "write": false
       },
@@ -380,7 +380,7 @@
           "zh-cn": "明天事件数目"
         },
         "type": "number",
-        "role": "indicator",
+        "role": "value",
         "read": true,
         "write": false
       },
@@ -404,7 +404,7 @@
           "zh-cn": "昨天活动次数"
         },
         "type": "number",
-        "role": "indicator",
+        "role": "value",
         "read": true,
         "write": false
       },
