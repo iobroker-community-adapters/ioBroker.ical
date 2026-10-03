@@ -413,7 +413,7 @@ async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
                     data = await requestUrl(urlOrFile, headers, sslignore);
                 } else {
                     const abortController = new AbortController();
-                    const timeout = setTimeout(
+                    const timeout = this.setTimeout(
                         () =>
                             abortController.abort(
                                 new Error(
@@ -1362,7 +1362,7 @@ function readAll() {
                             if (errCnt === adapter.config.calendars.length) {
                                 adapter.log.info('All calenders could not be processed, Do not clean up events');
                                 killTimeout && clearTimeout(killTimeout);
-                                killTimeout = setTimeout(() => {
+                                killTimeout = this.setTimeout(() => {
                                     killTimeout = null;
                                     adapter.stop();
                                 }, 5000);
@@ -1392,7 +1392,7 @@ function readOne(url) {
         if (err) {
             adapter.log.info('Calender could not be processed, Do not clean up events.');
             killTimeout && clearTimeout(killTimeout);
-            killTimeout = setTimeout(() => {
+            killTimeout = this.setTimeout(() => {
                 killTimeout = null;
                 adapter.stop();
             }, 5000);
@@ -1827,7 +1827,7 @@ async function displayDates() {
     }
 
     killTimeout && clearTimeout(killTimeout);
-    killTimeout = setTimeout(() => {
+    killTimeout = this.setTimeout(() => {
         killTimeout = null;
         adapter.stop();
     }, 5000);
