@@ -323,7 +323,6 @@
                         {
                             "type": "color",
                             "attr": "color",
-                            "width": "10%",
                             "title": {
                                 "en": "Color",
                                 "de": "Farbe",
