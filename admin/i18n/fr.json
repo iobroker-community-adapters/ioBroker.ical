@@ -29,7 +29,7 @@
     "filter": "Filtre",
     "filterregex": "Filtrer en tant qu'expression régulière",
     "iCal adapter settings": "Paramètres de l'adaptateur iCal",
-    "name": "prénom",
+    "name": "Nom",
     "pass": "Mot de passe",
     "sslignore": "Ignorer les erreurs SSL",
     "url": "URL du calendrier ou nom de fichier",
