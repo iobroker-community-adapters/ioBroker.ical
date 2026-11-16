@@ -15,6 +15,8 @@ const cloneEvent = require('./lib/cloneEvent');
 let adapter;
 let stopped = false;
 let killTimeout = null;
+// pending state operations, which must be finished before the adapter terminates
+const pending = new Set();
 const REQUEST_TIMEOUT_MS = 30000;
 const MAX_REDIRECTS = 10;
 
@@ -127,6 +129,8 @@ function startAdapter(options) {
         name: adapterName,
         unload: function (callback) {
             stopped = true;
+            killTimeout && clearTimeout(killTimeout);
+            killTimeout = null;
             callback();
         },
         ready: function () {
@@ -137,6 +141,26 @@ function startAdapter(options) {
     adapter = new utils.Adapter(options);
 
     return adapter;
+}
+
+function trackPending(promise) {
+    pending.add(promise);
+    promise
+        .catch(err => adapter.log.debug(`State operation failed: ${err}`))
+        .finally(() => pending.delete(promise));
+    return promise;
+}
+
+// terminate adapter after all pending state operations are finished
+function scheduleStop() {
+    killTimeout && clearTimeout(killTimeout);
+    killTimeout = adapter.setTimeout(async () => {
+        killTimeout = null;
+        await Promise.allSettled([...pending]);
+        if (!stopped) {
+            adapter.stop();
+        }
+    }, 5000);
 }
 
 // set when ready
@@ -1022,7 +1046,7 @@ async function checkForEvents(reason, event, realnow) {
     return result;
 }
 
-function initEvent(name, display, day, type, id, on, off, ack, callback) {
+async function initEvent(name, display, day, type, id, on, off, ack, callback) {
     const obj = {
         name,
         processed: false,
@@ -1051,17 +1075,41 @@ function initEvent(name, display, day, type, id, on, off, ack, callback) {
 
     const stateName = `events.${day}.${type ? `${type}.` : ''}${shrinkStateName(name)}`;
 
-    adapter.getState(stateName, async (err, state) => {
-        if (err || !state) {
-            obj.state = false;
+    if (stopped) {
+        return;
+    }
+
+    let state;
+    try {
+        state = await adapter.getStateAsync(stateName);
+    } catch (err) {
+        if (stopped) {
+            adapter.log.debug(`Cannot read state "${stateName}" while stopping: ${err}`);
+            return;
+        }
+        adapter.log.warn(`Cannot read state "${stateName}": ${err}`);
+    }
+
+    if (stopped) {
+        return;
+    }
+
+    if (!state) {
+        obj.state = false;
+        try {
             await adapter.setStateAsync(stateName, { val: false, ack: true });
             await setState(id, off, ack);
-            callback && callback(name);
-        } else {
-            obj.state = state.val;
-            callback && callback(name);
+        } catch (err) {
+            if (stopped) {
+                adapter.log.debug(`Cannot write state "${stateName}" while stopping: ${err}`);
+                return;
+            }
+            adapter.log.warn(`Cannot write state "${stateName}": ${err}`);
         }
-    });
+    } else {
+        obj.state = state.val;
+    }
+    callback && callback(name);
 }
 
 function removeNameSpace(id) {
@@ -1361,15 +1409,11 @@ function readAll() {
                         if (!--count) {
                             if (errCnt === adapter.config.calendars.length) {
                                 adapter.log.info('All calenders could not be processed, Do not clean up events');
-                                killTimeout && clearTimeout(killTimeout);
-                                killTimeout = adapter.setTimeout(() => {
-                                    killTimeout = null;
-                                    adapter.stop();
-                                }, 5000);
+                                scheduleStop();
                                 return;
                             }
                             adapter.log.debug('displaying dates because of callback');
-                            displayDates();
+                            showDates();
                         }
                     },
                 );
@@ -1380,7 +1424,7 @@ function readAll() {
     // If nothing to process => show it
     if (!count) {
         adapter.log.debug('displaying dates');
-        displayDates();
+        showDates();
     }
 }
 
@@ -1826,11 +1870,21 @@ async function displayDates() {
         }
     }
 
-    killTimeout && clearTimeout(killTimeout);
-    killTimeout = adapter.setTimeout(() => {
-        killTimeout = null;
-        adapter.stop();
-    }, 5000);
+    scheduleStop();
+}
+
+// Show dates and terminate the adapter afterwards, even if writing of states failed
+function showDates() {
+    return trackPending(
+        displayDates().catch(err => {
+            if (stopped) {
+                adapter.log.debug(`Cannot update states while stopping: ${err}`);
+                return;
+            }
+            adapter.log.warn(`Cannot update states: ${err}`);
+            scheduleStop();
+        }),
+    );
 }
 
 function insertSorted(arr, element) {
@@ -1944,13 +1998,19 @@ function main() {
     adapter.config.daysPast = parseInt(adapter.config.daysPast) || 0;
 
     const helpFilePath = '/UPLOAD_FILES_HERE.txt';
-    adapter.fileExistsAsync(adapter.namespace, helpFilePath).then(fileExists => {
-        if (!fileExists) {
-            adapter.writeFileAsync(adapter.namespace, helpFilePath, 'Place your *.ics files in this directory');
-        }
-    });
+    trackPending(
+        adapter.fileExistsAsync(adapter.namespace, helpFilePath).then(fileExists => {
+            if (!fileExists) {
+                return adapter.writeFileAsync(
+                    adapter.namespace,
+                    helpFilePath,
+                    'Place your *.ics files in this directory',
+                );
+            }
+        }),
+    );
 
-    adapter.delObjectAsync('trigger'); // removed deprecated subscribe state (created in previous versions)
+    trackPending(adapter.delObjectAsync('trigger')); // removed deprecated subscribe state (created in previous versions)
 
     syncUserEvents(readAll);
 }
