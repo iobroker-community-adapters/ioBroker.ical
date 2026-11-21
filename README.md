@@ -33,6 +33,8 @@ With ioBroker.ical, you can perform various actions based on calendar events, su
 ### **WORK IN PROGRESS**
 - (copilot) Adapter requires node.js >= 22.19.0 now
 * (GermanBluefox) Fixed 'get state error: Connection is closed' warning on scheduled runs (#630)
+* (Schimi1983) Events later on the last preview day are recognized now, "later" also works with 0 preview days (#754)
+* (Schimi1983) Calendar links starting with webcal:// (e.g. Apple iCloud) are supported now (#604)
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
