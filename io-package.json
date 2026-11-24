@@ -155,7 +155,7 @@
     "allowInit": true,
     "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.ical/master/admin/ical.png",
     "type": "date-and-time",
-    "connectionType": "local",
+    "connectionType": "cloud",
     "dataSource": "poll",
     "tier": 2,
     "plugins": {
