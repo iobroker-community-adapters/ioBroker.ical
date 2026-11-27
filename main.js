@@ -11,6 +11,7 @@ const os = require('node:os');
 const utils = require('@iobroker/adapter-core');
 const adapterName = require('./package.json').name.split('.').pop();
 const cloneEvent = require('./lib/cloneEvent');
+const { getPreviewEnd, normalizeCalendarUrl, isRemoteUrl } = require('./lib/calendarUtils');
 
 let adapter;
 let stopped = false;
@@ -64,7 +65,7 @@ function requestUrl(url, headers, sslignore, redirectsLeft = MAX_REDIRECTS) {
         if (redirectsLeft <= 0) {
             return rejectOnce(new Error(`Too many redirects while fetching calendar from ${url}`));
         }
-        const requester = url.startsWith('https://') ? https : http;
+        const requester = /^https:/i.test(url) ? https : http;
 
         const request = requester.request(
             url,
@@ -145,9 +146,7 @@ function startAdapter(options) {
 
 function trackPending(promise) {
     pending.add(promise);
-    promise
-        .catch(err => adapter.log.debug(`State operation failed: ${err}`))
-        .finally(() => pending.delete(promise));
+    promise.catch(err => adapter.log.debug(`State operation failed: ${err}`)).finally(() => pending.delete(promise));
     return promise;
 }
 
@@ -387,8 +386,11 @@ Date.prototype.compare = function (b) {
 };
 
 async function getICal(urlOrFile, user, pass, sslignore, calName, cb) {
+    // webcal:// links (e.g. Apple iCloud) are plain HTTPS downloads
+    urlOrFile = normalizeCalendarUrl(urlOrFile);
+
     // Is it file or URL
-    if (!urlOrFile.match(/^https?:\/\//)) {
+    if (!isRemoteUrl(urlOrFile)) {
         const ioFileExists = await adapter.fileExistsAsync(adapter.namespace, urlOrFile);
         if (ioFileExists) {
             try {
@@ -548,8 +550,8 @@ function checkICal(urlOrFile, user, pass, sslignore, calName, filter, cb) {
 
                     adapter.log.debug(`checkICal: startpreview - ${startpreview}`);
 
-                    const endpreview = new Date();
-                    endpreview.setDate(endpreview.getDate() + parseInt(adapter.config.daysPreview, 10));
+                    // end of the last preview day, so events later on that day are included (#754)
+                    const endpreview = getPreviewEnd(realnow, adapter.config.daysPreview);
 
                     adapter.log.debug(`checkICal: endpreview - ${endpreview}`);
 
