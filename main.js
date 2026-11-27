@@ -145,9 +145,7 @@ function startAdapter(options) {
 
 function trackPending(promise) {
     pending.add(promise);
-    promise
-        .catch(err => adapter.log.debug(`State operation failed: ${err}`))
-        .finally(() => pending.delete(promise));
+    promise.catch(err => adapter.log.debug(`State operation failed: ${err}`)).finally(() => pending.delete(promise));
     return promise;
 }
 
